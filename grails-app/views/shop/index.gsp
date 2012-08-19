@@ -2,27 +2,11 @@
     <tpl:useTemplate template="/template">
 
         <tpl:block name="header">
-
+          <g:include view="common/shopHeader.gsp"/>
         </tpl:block>
 
         <tpl:block name="menu">
-            <ul id="nav">
-                <g:each in="${mainCategoties}" var="parent">
-                    <li>
-                        ${parent.name}
-                        <ul>
-                            <g:each in="${DomainUtils.getChildCategories(parent.name)}" var="child">
-                                <li><a href="#">${child.name}</a></li>
-                            </g:each>
-                        </ul>
-
-                        <div class="clear"></div>
-                    </li>
-                </g:each>
-            </ul>
-
-            <div class="clear"></div>
-
+          <g:include view="common/menu.gsp"/>
         </tpl:block>
 
         <tpl:block name="wrap_content">
@@ -50,10 +34,6 @@
                     $('#slider').nivoSlider();
                 });
             </script>
-
-            <div id="carousel">
-
-            </div>
 
             <div id="manufacturers">
                 <a class="buttons prev" href="#">left</a>
