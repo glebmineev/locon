@@ -17,12 +17,12 @@ class CategoryEntity {
             parentCategory column: 'category_parentcategory_id'
         }
 
-        listProduct cascade: 'all-delete-orphan'
+        listCategoryProduct cascade: 'all-delete-orphan'
         listCategory cascade: 'all-delete-orphan'
     }
 
     static hasMany = [
-        listProduct: ProductEntity,
+        listCategoryProduct: CategoryProductEntity,
         listCategory: CategoryEntity
     ]
 
