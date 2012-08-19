@@ -1,11 +1,11 @@
+import locon.CategoryEntity
 
-/**
- * Created by IntelliJ IDEA.
- * User: Gleb
- * Date: 14.08.12
- * Time: 0:14
- * To change this template use File | Settings | File Templates.
- */
 class DomainUtils {
+    
+    public static List<CategoryEntity> getChildCategories(String parentName) {
+        CategoryEntity parent = CategoryEntity.findByName(parentName)
+        List<CategoryEntity> result = CategoryEntity.findAllByParentCategory(parent)
+        return result
+    }
 
 }

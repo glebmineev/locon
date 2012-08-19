@@ -1,17 +1,21 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Gleb
-  Date: 12.08.12
-  Time: 23:39
-  To change this template use File | Settings | File Templates.
---%>
+<g:applyLayout name="main">
+    <tpl:useTemplate template="/template">
 
-<%@ page contentType="text/html;charset=UTF-8" %>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+        <tpl:block name="header">
+            <h1>Администрирование магазина</h1>
+        </tpl:block>
 
-</body>
-</html>
+        <tpl:block name="menu">
+
+        </tpl:block>
+
+        <tpl:block name="wrap_content">
+            <tpl:zkBody zul="/zul/admin/import.zul"/>
+        </tpl:block>
+
+        <tpl:block name="footer">
+
+        </tpl:block>
+
+    </tpl:useTemplate>
+</g:applyLayout>

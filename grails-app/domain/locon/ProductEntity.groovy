@@ -5,7 +5,8 @@ class ProductEntity {
     String article
     String name
     String description
-    Long price
+    String volume
+    Float price
     
     ProductPropertyEntity productProperty    
     CategoryEntity category
@@ -20,6 +21,7 @@ class ProductEntity {
             article column: 'product_article'
             name column: 'product_name'
             description column:  'product_description'
+            volume column: 'product_volume'
             productProperty column: 'product_productproperty_id'
             price column: 'product_price'
             category column: 'product_category_id'
@@ -32,6 +34,7 @@ class ProductEntity {
         article nullable: true
         name nullable: true
         description nullable: true
+        volume nullable: true
         price nullable: true
         productProperty nullable: true
         category nullable: true

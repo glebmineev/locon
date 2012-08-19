@@ -10,7 +10,7 @@ class ShopController {
     def index() {
         //cookieService.set(response,"username","cookieUser123",604800)
 
-        List<CategoryEntity> categories = CategoryEntity.list()
+        List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
         List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
 
         return [mainCategoties: categories,

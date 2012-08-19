@@ -21,6 +21,7 @@ class BootStrap {
             ManufacturerEntity.findOrSaveWhere(name: "Индола")
             ManufacturerEntity.findOrSaveWhere(name: "Periche")
             ManufacturerEntity.findOrSaveWhere(name: "Hair light")
+            ManufacturerEntity.findOrSaveWhere(name: "OLLIN Professional")
             ManufacturerEntity.findOrSaveWhere(name: "Schwarzkopf professional")
             ManufacturerEntity.findOrSaveWhere(name: "Screen")
         }

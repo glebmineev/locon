@@ -2,6 +2,11 @@
 <html>
 
 <head>
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <!-- Common js -->
+    <g:javascript library="application"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'content.css')}" type="text/css">
 
     <!-- slider stylesheet -->

@@ -7,13 +7,13 @@
 
         <tpl:block name="menu">
             <ul id="nav">
-                <g:each in="${mainCategoties}" var="mainCategory">
+                <g:each in="${mainCategoties}" var="parent">
                     <li>
-                        ${mainCategory}
+                        ${parent.name}
                         <ul>
-                            <li><a href="#">Item 01</a></li>
-                            <li><a href="#" class="selected">Item 02</a></li>
-                            <li><a href="#">Item 03</a></li>
+                            <g:each in="${DomainUtils.getChildCategories(parent.name)}" var="child">
+                                <li><a href="#">${child.name}</a></li>
+                            </g:each>
                         </ul>
 
                         <div class="clear"></div>
@@ -22,24 +22,6 @@
             </ul>
 
             <div class="clear"></div>
-
-            <g:javascript>
-                $(document).ready(function () {
-
-                    $('#nav li').hover(
-                            function () {
-                                //show its submenu
-                                $('ul', this).slideDown(100);
-
-                            },
-                            function () {
-                                //hide its submenu
-                                $('ul', this).slideUp(100);
-                            }
-                    );
-
-                });
-            </g:javascript>
 
         </tpl:block>
 
@@ -75,6 +57,7 @@
 
             <div id="manufacturers">
                 <a class="buttons prev" href="#">left</a>
+
                 <div class="viewport">
                     <ul class="overview">
                         <g:each in="${manufacturers}" var="manufacturer">
@@ -85,8 +68,8 @@
                 <a class="buttons next" href="#">right</a>
             </div>
             <script type="text/javascript">
-                $(document).ready(function(){
-                    $('#manufacturers').tinycarousel({ display: 2 });
+                $(document).ready(function () {
+                    $('#manufacturers').tinycarousel({ display:2 });
                 });
             </script>
         </tpl:block>
