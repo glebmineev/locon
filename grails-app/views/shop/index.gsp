@@ -3,10 +3,12 @@
 
         <tpl:block name="header">
           <g:include view="common/shopHeader.gsp"/>
+
         </tpl:block>
 
         <tpl:block name="menu">
           <g:include view="common/menu.gsp"/>
+
         </tpl:block>
 
         <tpl:block name="wrap_content">

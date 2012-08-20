@@ -18,7 +18,7 @@ class ShopController {
     }
 
     def catalog() {
-        //TODO: сама витрина.
+
     }
 
     def register() {
