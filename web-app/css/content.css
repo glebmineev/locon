@@ -8,3 +8,7 @@ body {
     height: 100%;
     margin: 0 auto;
 }
+
+.z-tree-body {
+  text-align: left;
+}

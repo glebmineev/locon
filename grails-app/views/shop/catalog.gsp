@@ -2,7 +2,7 @@
   <tpl:useTemplate template="/template">
 
     <tpl:block name="header">
-
+      <g:include view="common/shopHeader.gsp"/>
     </tpl:block>
 
     <div id="menu" class="menu">

@@ -13,12 +13,30 @@ import locon.CategoryEntity
 import org.zkoss.zul.Treeitem
 import org.zkoss.zul.Treerow
 import org.zkoss.zul.Treecell
+import org.zkoss.zul.Listbox
+import org.zkoss.zul.Listheader
+import org.zkoss.zul.ListModelList
+import locon.ProductEntity
+import org.zkoss.zul.Listhead
 
 class CatalogComposer extends GrailsComposer {
 
     Tree categoryTree
 
+    Listbox products
+
+    String categoryId
+  
     def afterCompose = {Window window ->
+
+      //заполняем listbox.
+      products.appendChild(new Listhead())
+      products.listhead.appendChild(new Listheader("Наименование"))
+      products.setMold("paging")
+      products.setPageSize(20)
+      ListModelList<ProductEntity> model = ProductEntity.findAll()
+      products.setModel(model)
+
 
       //Заголовок дерева.
       Treecols header = new Treecols()
@@ -28,6 +46,7 @@ class CatalogComposer extends GrailsComposer {
 
       categoryTree.appendChild(header)
       Treechildren start = new Treechildren()
+
       //берем все категории без парента.
       List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
       createNode(start, categories)
@@ -38,7 +57,7 @@ class CatalogComposer extends GrailsComposer {
       categories.each {CategoryEntity category ->
         //строим ноду дерева.
         Treeitem treeitem = new Treeitem()
-
+        
         Treerow treerow = new Treerow()
         Treecell treecell = new Treecell(category.name)
         treerow.appendChild(treecell)
