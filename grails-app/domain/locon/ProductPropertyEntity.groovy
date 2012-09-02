@@ -5,12 +5,16 @@ class ProductPropertyEntity {
   String name
 
   static mapping = {
+
+    datasource 'ALL'
+
     table: 'productproperty'
-    version: false
     columns {
       id column: 'productproperty_id'
       name column: 'productproperty_name'
     }
+
+    version: false
 
     productList cascade: 'all-delete-orphan'
 

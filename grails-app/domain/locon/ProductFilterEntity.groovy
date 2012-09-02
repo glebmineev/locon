@@ -5,6 +5,9 @@ class ProductFilterEntity {
   String name
 
   static mapping = {
+
+    datasource 'ALL'
+
     table: 'productfilter'
     columns {
       id column: 'productfilter_id'

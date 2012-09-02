@@ -13,8 +13,9 @@ class ProductEntity {
   ProductFilterEntity productFilter
 
   static mapping = {
+
+
     table: 'product'
-    version: false
     columns {
       id column: 'product_id'
       article column: 'product_article'
@@ -27,7 +28,10 @@ class ProductEntity {
       productFilter column: 'product_productfilter'
     }
 
-    listCategoryProductList cascade: 'all-delete-orphan'
+    sort name:"desc"
+    version: false
+
+    listCategoryProductList lazy: false,  cascade: 'all-delete-orphan'
   }
 
   static hasMany = [

@@ -29,7 +29,7 @@ class ImporterExcel {
   }
 
   private void initEntities(String categoryName, String manufacturerName) {
-    //категория из шапки меню.
+    //категория из шапки меню Для волос, Депиляция и т.д.
     menuCategory = getCategory(categoryName)
     manufacturer = getManufacturer(manufacturerName)
   }
@@ -46,7 +46,7 @@ class ImporterExcel {
 
         int rows = sheet.getRows()
         //перебираем строки страницы.
-        CategoryEntity temp
+        CategoryEntity temp = null
         for (int i = 0; i < rows; i++) {
           Cell[] row = sheet.getRow(i)
           if (row.length != 0) {
@@ -54,7 +54,10 @@ class ImporterExcel {
               //Создаем продукт.
               ProductEntity product = createProduct(row)
               //связываем со всеми категорими в которые он входит для дальнейшей фильтрации.
-              linkToCategories(rootCategory, temp, product)
+              linkToCategories(rootCategory, product)
+              linkToCategories(temp, product)
+              linkToCategories(menuCategory, product)
+
               product.setManufacturer(manufacturer)
               product.save()
             }
@@ -123,17 +126,8 @@ class ImporterExcel {
     return filterEntity
   }
 
-  private void linkToCategories(CategoryEntity root, CategoryEntity temp, ProductEntity product) {
-
-    CategoryProductEntity categoryProduct_1 = new CategoryProductEntity()
-    categoryProduct_1.setCategory(root)
-    categoryProduct_1.setProduct(product)
+  private void linkToCategories(CategoryEntity category, ProductEntity product) {
+    CategoryProductEntity categoryProduct_1 = new CategoryProductEntity(product: product, category: category)
     categoryProduct_1.save()
-
-    CategoryProductEntity categoryProduct_2 = new CategoryProductEntity()
-    categoryProduct_2.setCategory(temp)
-    categoryProduct_2.setProduct(product)
-    categoryProduct_2.save()
-
   }
 }

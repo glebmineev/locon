@@ -1,78 +1,139 @@
 package ru.spb.locon
 
 import org.zkoss.zk.grails.composer.*
-
-import org.zkoss.zk.ui.select.annotation.Wire
-import org.zkoss.zk.ui.select.annotation.Listen
 import org.zkoss.zul.Window
 import org.zkoss.zul.Tree
-import org.zkoss.zul.Treecols
-import org.zkoss.zul.Treecol
-import org.zkoss.zul.Treechildren
+
 import locon.CategoryEntity
 import org.zkoss.zul.Treeitem
-import org.zkoss.zul.Treerow
-import org.zkoss.zul.Treecell
+
 import org.zkoss.zul.Listbox
 import org.zkoss.zul.Listheader
-import org.zkoss.zul.ListModelList
+
 import locon.ProductEntity
-import org.zkoss.zul.Listhead
+import org.springframework.context.MessageSource
+import org.zkoss.zkplus.spring.SpringUtil
+import ru.spb.locon.renderers.ProductRenderer
+import domain.DomainUtils
+import org.zkoss.zk.ui.event.EventListener
+import org.zkoss.zk.ui.event.Event
+
+import org.zkoss.zk.ui.event.Events
+import org.zkoss.zk.ui.Executions
+
+import org.zkoss.zul.DefaultTreeModel
+import org.zkoss.zul.TreeModel
+import ru.spb.locon.renderers.TreeCategoryRenderer
+import org.zkoss.zkplus.databind.BindingListModelList
+import org.zkoss.zul.Listitem
+import ru.spb.locon.tree.node.CategoryTreeNode
 
 class CatalogComposer extends GrailsComposer {
 
-    Tree categoryTree
+  Tree categoryTree
+  TreeModel treeModel
 
-    Listbox products
+  Listbox products
+  BindingListModelList<ProductEntity> productsModel
 
-    String categoryId
-  
-    def afterCompose = {Window window ->
+  Long categoryId
 
-      //заполняем listbox.
-      products.appendChild(new Listhead())
-      products.listhead.appendChild(new Listheader("Наименование"))
-      products.setMold("paging")
-      products.setPageSize(20)
-      ListModelList<ProductEntity> model = ProductEntity.findAll()
-      products.setModel(model)
+  MessageSource messageSource = (MessageSource) SpringUtil.getApplicationContext().getBean("messageSource")
 
+  def afterCompose = {Window window ->
+    categoryId = Long.parseLong(execution.getParameter("category"))
+    initializeListBox()
+    initializeTree()
 
-      //Заголовок дерева.
-      Treecols header = new Treecols()
-      header.setSizable(true)
-      Treecol name = new Treecol("Наименование")
-      header.appendChild(name)
+  }
 
-      categoryTree.appendChild(header)
-      Treechildren start = new Treechildren()
+  /*
+   * метод инициализирует дерево категорий.
+   */
+  private void initializeTree(){
+    categoryTree.addEventListener(Events.ON_CLICK, treeListener)
+    //берем все категории без парента.
+    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+    CategoryTreeNode root = new CategoryTreeNode(null, new ArrayList<CategoryTreeNode>())
+    createTreeModel(root, categories)
+    treeModel = new DefaultTreeModel<CategoryEntity>(root)
+    categoryTree.setTreeitemRenderer(new TreeCategoryRenderer())
+    categoryTree.setModel(treeModel)
+  }
 
-      //берем все категории без парента.
-      List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-      createNode(start, categories)
-      categoryTree.appendChild(start)
+  /*
+  * метод инициализирует listbox товаров.
+  */
+  private void initializeListBox(){
+    products.addEventListener(Events.ON_CLICK, productsLister)
+    //заполняем listbox.
+    List<String> info = DomainUtils.fieldInfo(ProductEntity)
+    info.each {String name ->
+      products.listhead.appendChild(new Listheader(messageSource.getMessage("domains.ProductEntity.properties.${name}", null, new Locale("ru"))))
     }
 
-    private void createNode(Treechildren parent, Collection<CategoryEntity> categories) {
-      categories.each {CategoryEntity category ->
-        //строим ноду дерева.
-        Treeitem treeitem = new Treeitem()
-        
-        Treerow treerow = new Treerow()
-        Treecell treecell = new Treecell(category.name)
-        treerow.appendChild(treecell)
-        treeitem.appendChild(treerow)
+    if (productsModel == null){
+      productsModel = new BindingListModelList<ProductEntity>(listProducts(CategoryEntity.get(categoryId)), true)
+    }
+    products.setModel(productsModel)
+    products.setItemRenderer(new ProductRenderer())
+  }
 
-        //берем все дочерние категории.
-        Set<CategoryEntity> childs = category.getListCategory()
-        if (childs != null && childs.size() > 0) {
-          Treechildren treechildren = new Treechildren()
-          treeitem.appendChild(treechildren)
-          createNode(treechildren, childs)
-        }
-
-        parent.appendChild(treeitem)
+  /*
+  * метод формирует мдель дерева категорий.
+  */
+  private void createTreeModel(CategoryTreeNode parent, List<CategoryEntity> children) {
+    List<CategoryTreeNode> nodes = new ArrayList<CategoryTreeNode>()
+    children.each {CategoryEntity category ->
+      CategoryTreeNode node = new CategoryTreeNode(category, new ArrayList<CategoryTreeNode>())
+      if(category.id == categoryId) {
+        parent.setOpen(true)
+        node.setOpen(true)
+        node.setSelected(true)
       }
-
+      if (category.listCategory != null &&
+          category.listCategory.size() > 0) {
+        createTreeModel(node, category.listCategory.asList())
+      }
+      nodes.add(node)
     }
+    parent.children.addAll(nodes)
+  }
+
+  EventListener productsLister = new EventListener() {
+    @Override
+    void onEvent(Event t) {
+      int index = products.getSelectedIndex()
+      final Listitem listitem = products.getItemAtIndex(index)
+      final Treeitem category = categoryTree.getSelectedItem()
+      ProductEntity product = (ProductEntity) listitem.getValue()
+      Executions.sendRedirect("/shop/product?product=${product.id}")
+    }
+  }
+
+  EventListener treeListener = new EventListener() {
+    @Override
+    void onEvent(Event t) {
+      rebuildListboxModel()
+    }
+  }
+
+  /*
+  * метод переформирует модель listbox при первоначальной загрузке и выборе в дереве категорий.
+  */
+  private void rebuildListboxModel(){
+    final Treeitem selectedTreeItem = categoryTree.getSelectedItem()
+    if (selectedTreeItem != null){
+      CategoryEntity category = (CategoryEntity) selectedTreeItem.getValue()
+      productsModel.clear()
+      productsModel.addAll(listProducts(category))
+    }
+  }
+
+  private List<ProductEntity> listProducts(CategoryEntity category) {
+    Collection<ProductEntity> products = null
+    products = category.listCategoryProduct.product
+    return products.asList()
+  }
+
 }

@@ -1,3 +1,4 @@
+<%@ page import="domain.DomainUtils" %>
 <ul id="nav">
   <g:each in="${mainCategoties}" var="parent">
     <li>

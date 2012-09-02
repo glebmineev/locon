@@ -6,6 +6,9 @@ class ManufacturerEntity {
   String description
 
   static mapping = {
+
+    datasource 'ALL'
+
     table: 'manufacturer'
     columns {
       id column: 'manufacturer_id'

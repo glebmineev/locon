@@ -21,6 +21,10 @@ class ShopController {
 
     }
 
+    def product(){
+
+    }
+
     def register() {
         //TODO: Форма регисрации.
     }

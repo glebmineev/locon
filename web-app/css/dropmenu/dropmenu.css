@@ -12,7 +12,7 @@
 #nav li {
     float:left;
     display:block;
-    width:100px;
+
     background:#ccc;
     position:relative;
     z-index:500;
@@ -51,7 +51,7 @@
 }
 
 #nav ul li {
-    width:100px;
+    width:150px;
     float:left;
     border-top:1px solid #fff;
 }

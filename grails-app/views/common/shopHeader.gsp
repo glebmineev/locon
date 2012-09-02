@@ -46,11 +46,7 @@
           </td>
         </tr>
         <tr>
-          <td/>
-          <td/>
-          <td/>
-          <td/>
-          <td>
+          <td colspan="5">
             Корзина
           </td>
           <td>
