@@ -1,59 +1,65 @@
-.clear {clear:both}
+.clear {
+  clear: both
+}
+
 /* remove the list style */
 #nav {
-    margin:0;
-    padding:0;
-    list-style:none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* make the LI display inline */
 /* it's position relative so that position absolute */
 /* can be used in submenu */
 #nav li {
-    float:left;
-    display:block;
+  float: left;
+  display: block;
 
-    background:#ccc;
-    position:relative;
-    z-index:500;
-    margin:0 1px;
+  position: relative;
+  z-index: 500;
+  margin: 0 1px;
 }
 
 /* this is the parent menu */
 #nav li a {
-    display:block;
-    padding:8px 5px 0 5px;
-    font-weight:700;
-    height:23px;
-    text-decoration:none;
-    color:#fff;
-    text-align:center;
-    color:#333;
+  display: block;
+  padding: 8px 5px 0 5px;
+  font-weight: 700;
+  height: 23px;
+  text-decoration: none;
+  color: #fff;
+  text-align: center;
+  color: #333;
 }
 
 #nav li a:hover {
-    color:#fff;
+  color: #fff;
 }
 
 /* you can make a different style for default selected value */
 #nav a.selected {
-    color:#f00;
+  color: #f00;
 }
 
 /* submenu, it's hidden by default */
 #nav ul {
-    position:absolute;
-    left:0;
-    display:none;
-    margin:0 0 0 -1px;
-    padding:0;
-    list-style:none;
+  position: absolute;
+  left: 0;
+  display: none;
+  margin: 0 0 0 -1px;
+  padding: 0;
+  list-style: none;
 }
 
 #nav ul li {
-    width:150px;
-    float:left;
-    border-top:1px solid #fff;
+  width: 217px;
+  float: left;
+  border-top: 1px solid #fff;
+}
+
+#nav ul li:first-child {
+  margin-top: 5px;
 }
 
 /* display block will make the link fill the whole area of LI */
@@ -72,5 +78,15 @@
 /* we should always avoid using hack like this */
 /* should put it into separate file : ) */
 *html #nav ul {
-    margin:0 0 0 -2px;
+  margin: 0 0 0 -2px;
+}
+
+.main {
+  width: 217px;
+  height: 38px;
+  background: url("../../images/menu_button.png") no-repeat;
+}
+.submenu{
+  width: 217px;
+  background: #cccccc;
 }

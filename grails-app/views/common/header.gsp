@@ -1,19 +1,21 @@
-<table>
+<table width="100%">
   <tr>
     <td>
-      <g:link>
+      <g:link controller="shop" action="cabinet">
         Авторизация
       </g:link>
     </td>
     <td>
-      <g:link>
+      <g:link controller="shop" action="register">
         Регистрация
       </g:link>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <g:img dir="images" file="logo.png"/>
+      <g:link controller="shop" action="index">
+        <g:img dir="images" file="logo.png"/>
+      </g:link>
     </td>
     <td>
       <table>

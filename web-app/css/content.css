@@ -1,14 +1,22 @@
 body {
     text-align: center;
-    text-align: center;
 }
 
 .content {
-    width: 800px;
+    width: 880px;
     height: 100%;
     margin: 0 auto;
 }
 
 .z-tree-body {
   text-align: left;
+}
+
+.menu {
+  width: 880px;
+  height: 43px;
+  margin: 0 auto;
+}
+
+#manufacturers {
 }

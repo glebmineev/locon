@@ -106,8 +106,10 @@ class CatalogComposer extends GrailsComposer {
       int index = products.getSelectedIndex()
       final Listitem listitem = products.getItemAtIndex(index)
       final Treeitem category = categoryTree.getSelectedItem()
-      ProductEntity product = (ProductEntity) listitem.getValue()
-      Executions.sendRedirect("/shop/product?product=${product.id}")
+      if (listitem != null) {
+        ProductEntity product = (ProductEntity) listitem.getValue()
+        Executions.sendRedirect("/shop/product?product=${product.id}")
+      }
     }
   }
 
@@ -131,8 +133,7 @@ class CatalogComposer extends GrailsComposer {
   }
 
   private List<ProductEntity> listProducts(CategoryEntity category) {
-    Collection<ProductEntity> products = null
-    products = category.listCategoryProduct.product
+    Collection<ProductEntity> products = category.listCategoryProduct.product
     return products.asList()
   }
 
