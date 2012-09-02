@@ -2,7 +2,7 @@
   <tpl:useTemplate template="/template">
 
     <tpl:block name="header">
-      <g:include view="common/shopHeader.gsp"/>
+      <g:include view="common/header.gsp"/>
     </tpl:block>
 
     <tpl:block name="menu">
@@ -14,13 +14,7 @@
     </tpl:block>
 
     <tpl:block name="footer">
-      <table>
-        <tr>
-          <td>
-            <h1>Информация</h1>
-          </td>
-        </tr>
-      </table>
+      <g:include view="common/footer.gsp"/>
     </tpl:block>
 
   </tpl:useTemplate>

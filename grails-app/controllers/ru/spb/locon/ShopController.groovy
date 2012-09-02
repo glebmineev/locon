@@ -18,11 +18,19 @@ class ShopController {
     }
 
     def catalog() {
+      List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+      List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
 
+      return [mainCategoties: categories,
+          manufacturers: manufacturers]
     }
 
     def product(){
+      List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+      List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
 
+      return [mainCategoties: categories,
+          manufacturers: manufacturers]
     }
 
     def register() {
