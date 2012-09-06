@@ -4,13 +4,11 @@ import org.zkoss.zk.grails.composer.*
 import org.zkoss.zul.Window
 import org.zkoss.zul.Tree
 
-import locon.CategoryEntity
 import org.zkoss.zul.Treeitem
 
 import org.zkoss.zul.Listbox
 import org.zkoss.zul.Listheader
 
-import locon.ProductEntity
 import org.springframework.context.MessageSource
 import org.zkoss.zkplus.spring.SpringUtil
 import ru.spb.locon.renderers.ProductRenderer
@@ -108,7 +106,7 @@ class CatalogComposer extends GrailsComposer {
       final Treeitem category = categoryTree.getSelectedItem()
       if (listitem != null) {
         ProductEntity product = (ProductEntity) listitem.getValue()
-        Executions.sendRedirect("/shop/product?product=${product.id}")
+        Executions.sendRedirect("/shop/product?category=${categoryId}&product=${product.id}")
       }
     }
   }

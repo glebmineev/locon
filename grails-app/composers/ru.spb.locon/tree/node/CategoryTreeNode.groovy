@@ -1,8 +1,7 @@
 package ru.spb.locon.tree.node
 
 import org.zkoss.zul.DefaultTreeNode
-import locon.CategoryEntity
-import org.zkoss.zul.TreeNode
+import ru.spb.locon.CategoryEntity
 
 /**
  * User: Gleb

@@ -1,19 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-    <window apply="ru.spb.locon.ProductComposer" width="900px">
-        <hbox>
-            <image id="productImg" src="../images/empty.png" height="10px" width="10px"/>
-            <label value="Наименование товара"/>
-            <label id="name"/>
-        </hbox>
+  <window apply="ru.spb.locon.ProductComposer" width="880px">
+    <groupbox closable="false">
+      <!-- Основные сведения -->
+      <caption>
+        Основные данные
+      </caption>
+      <h:table width="100%" cellspacing="5" align="center">
+        <h:tr>
+          <h:td width="300px">
+            <h:img id="productImg" src="../images/empty.png" alt="картинка товара"/>
+          </h:td>
+          <h:td width="580px">
+            <h:table width="100%" cellspacing="5">
+              <h:tr>
+                <h:td width="150px" align="right">
+                  <label value="Наименование:"/>
+                </h:td>
+                <h:td align="left">
+                  <label id="name"/>
+                </h:td>
+              </h:tr>
+              <h:tr>
+                <h:td width="150px" align="right">
+                  <label value="Описание:"/>
+                </h:td>
+                <h:td align="left">
+                  <label id="description"/>
+                </h:td>
+              </h:tr>
+              <h:tr>
+                <h:td width="150px" align="right">
+                  <label value="Цена:"/>
+                </h:td>
+                <h:td align="left">
+                  <label id="price"/>
+                </h:td>
+              </h:tr>
+              <h:tr>
+                <h:td width="150px" align="right">
+                  <label value="Объем:" />
+                </h:td>
+                <h:td align="left">
+                  <label id="volume"/>
+                </h:td>
+              </h:tr>
+              <h:tr>
+                <h:td colspan="2" align="center">
+                  <button id="cartButton" label="В корзину"/>
+                  <button id="backButton" label="Назад"/>
+                </h:td>
+              </h:tr>
+            </h:table>
+          </h:td>
+        </h:tr>
+      </h:table>
+    </groupbox>
 
-    </window>
+  </window>
 
 </zk>

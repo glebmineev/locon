@@ -86,6 +86,11 @@
   height: 38px;
   background: url("../../images/menu_button.png") no-repeat;
 }
+
+.main:hover{
+  background: url("../../images/menu_button_Over.png") no-repeat;
+}
+
 .submenu{
   width: 217px;
   background: #cccccc;

@@ -1,6 +1,6 @@
-import locon.ProductPropertyEntity
-import locon.CategoryEntity
-import locon.ManufacturerEntity
+import ru.spb.locon.ProductPropertyEntity
+import ru.spb.locon.CategoryEntity
+import ru.spb.locon.ManufacturerEntity
 
 class BootStrap {
 

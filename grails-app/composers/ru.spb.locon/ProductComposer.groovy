@@ -1,26 +1,76 @@
 package ru.spb.locon
 
-import org.zkoss.zk.grails.composer.*
-
 import org.zkoss.zk.ui.select.annotation.Wire
-import org.zkoss.zk.ui.select.annotation.Listen
 import org.zkoss.zul.Window
 import org.zkoss.zul.Label
-import locon.ProductEntity
-import org.zkoss.zk.ui.sys.ExecutionsCtrl
+
 import org.zkoss.zk.ui.Executions
-import org.zkoss.zul.Image
+import org.zkoss.zk.ui.select.SelectorComposer
+import org.zkoss.zul.impl.XulElement
+import org.zkoss.zul.Button
+import org.zkoss.zk.ui.event.Events
+import org.zkoss.zk.ui.event.EventListener
+import org.zkoss.zk.ui.event.Event
+import domain.DomainUtils
+import org.zkoss.zkplus.spring.SpringUtil
+import com.studentuniverse.grails.plugins.cookie.services.CookieService
 
-class ProductComposer extends GrailsComposer {
+class ProductComposer extends SelectorComposer<Window> {
 
-  Label name
-  Image productImg
+  @Wire("label")
+  List<XulElement> outputs
 
-  def afterCompose = {Window window ->
+  @Wire("#cartButton")
+  Button cartButton
 
-    Long productId = Long.parseLong(execution.getParameter("product"))
-    ProductEntity product = ProductEntity.get(productId)
-    name.setValue(product.name)
+  @Wire("#backButton")
+  Button backButton
 
+  Long productId
+
+  CookieService cookieService = (CookieService) SpringUtil.getApplicationContext().getBean("cookieService")
+
+  @Override
+  public void doAfterCompose(Window window) {
+    super.doAfterCompose(window)
+    productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
+    Long categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
+    
+    cartButton.addEventListener(Events.ON_CLICK, new EventListener() {
+      @Override
+      void onEvent(Event t) {
+        Object response = Executions.current.nativeResponse
+        //значения выбранных товаров храняться в cookie.
+        cookieService.set(response,"","cookieUser123",604800)
+      }
+    })
+
+    backButton.addEventListener(Events.ON_CLICK, new EventListener() {
+      @Override
+      void onEvent(Event t) {
+        Executions.sendRedirect("/shop/catalog?category=${categoryId}")
+      }
+    })
+
+    initializeFields()
   }
+
+  /*
+   * метод проставляет занчения товара.
+   */
+  private void initializeFields() {
+    ProductEntity product = ProductEntity.get(productId)
+    if (product != null) {
+      outputs.each {XulElement element ->
+        String fieldName = element.id
+        if (element instanceof Label &&
+            !fieldName.isEmpty()) {
+          Label label = (Label) element
+          Object value = product."${fieldName}"
+          label.setValue(DomainUtils.parseTo(value))
+        }
+      }
+    }
+  }
+
 }

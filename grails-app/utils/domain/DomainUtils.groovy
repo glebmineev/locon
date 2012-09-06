@@ -1,6 +1,6 @@
 package domain
 
-import locon.CategoryEntity
+import ru.spb.locon.CategoryEntity
 import org.codehaus.groovy.grails.validation.ConstrainedProperty
 import java.lang.reflect.Type
 

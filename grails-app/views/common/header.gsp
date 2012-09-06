@@ -1,14 +1,23 @@
 <table width="100%">
   <tr>
     <td>
-      <g:link controller="shop" action="cabinet">
-        Авторизация
-      </g:link>
-    </td>
-    <td>
-      <g:link controller="shop" action="register">
-        Регистрация
-      </g:link>
+      <table width="100%">
+        <tr>
+          <td>
+            <g:img dir="images" file="unlock.png"/>
+          </td>
+          <td>
+            <g:link controller="shop" action="register">
+              Регистрация
+            </g:link>
+          </td>
+          <td>
+            <g:link controller="shop" action="cabinet">
+              Авторизация
+            </g:link>
+          </td>
+        </tr>
+      </table>
     </td>
   </tr>
   <tr>
@@ -18,27 +27,81 @@
       </g:link>
     </td>
     <td>
-      <table>
+      <table width="100%">
         <tr>
           <td colspan="4">
-            8 (812) 448 77 55
+            <table width="100%">
+              <tr>
+                <td align="right">
+                  <g:img dir="images" file="phone.png"/>
+                </td>
+                <td align="left">
+                  8 (812) 448 77 55
+                </td>
+              </tr>
+            </table>
           </td>
           <td colspan="2">
-            мы работаем с 9 до 21
+            <table width="100%">
+              <tr>
+                <td align="right">
+                  <g:img dir="images" file="clock.png"/>
+                </td>
+                <td align="left">
+                  мы работаем с 9 до 21
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
         <tr>
           <td>
-            <g:link>Контакты</g:link>
+            <table width="100%">
+              <tr>
+                <td align="right">
+                  <g:img dir="images" file="contacts.png"/>
+                </td>
+                <td align="left">
+                  <g:link controller="shop" action="about" params="[type: 'contacts']">Контакты</g:link>
+                </td>
+              </tr>
+            </table>
           </td>
           <td>
-            <g:link>О нас</g:link>
+            <table width="100%">
+              <tr>
+                <td align="right">
+                  <g:img dir="images" file="about_us.png"/>
+                </td>
+                <td align="left">
+                  <g:link controller="shop" action="about" params="[type: 'about']">О нас</g:link>
+                </td>
+              </tr>
+            </table>
           </td>
           <td>
-            <g:link>О доставке</g:link>
+            <table width="100%">
+              <tr>
+                <td align="right">
+                  <g:img dir="images" file="transport.png"/>
+                </td>
+                <td align="left">
+                  <g:link controller="shop" action="about" params="[type: 'transport']" style="font-size: 10pt">О доставке</g:link>
+                </td>
+              </tr>
+            </table>
           </td>
           <td>
-            <g:link>Как покупать</g:link>
+            <table width="100%">
+              <tr>
+                <td align="right">
+                  <g:img dir="images" file="how_buy.png"/>
+                </td>
+                <td align="left">
+                  <g:link controller="shop" action="about" params="[type: 'transport']">Как покупать</g:link>
+                </td>
+              </tr>
+            </table>
           </td>
           <td>
             <g:textField name="search"/>
@@ -48,11 +111,20 @@
           </td>
         </tr>
         <tr>
-          <td colspan="5">
-            Корзина
-          </td>
-          <td>
-            <g:img dir="images" file="cart.png"/>
+          <td colspan="6" align="right">
+            <table width="50%">
+              <tr>
+                <td width="100px" align="right">
+                  товаров:
+                </td>
+                <td width="100px" align="right">
+                  руб.
+                </td>
+                <td width="48px" align="right">
+                  <g:img dir="images" file="cart_red.png"/>
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
       </table>

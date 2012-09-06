@@ -32,7 +32,7 @@
 <body>
 <div class="content">
 
-    <div id="header">
+    <div id="header" class="header">
         ${header}
     </div>
 

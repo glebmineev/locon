@@ -4,11 +4,11 @@ import jxl.read.biff.BiffException
 import jxl.Workbook
 import jxl.Sheet
 import jxl.Cell
-import locon.CategoryEntity
-import locon.ManufacturerEntity
-import locon.ProductEntity
-import locon.ProductFilterEntity
-import locon.CategoryProductEntity
+import ru.spb.locon.CategoryEntity
+import ru.spb.locon.ManufacturerEntity
+import ru.spb.locon.ProductEntity
+import ru.spb.locon.ProductFilterEntity
+import ru.spb.locon.CategoryProductEntity
 
 
 class ImporterExcel {

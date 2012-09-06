@@ -1,4 +1,4 @@
-package locon
+package ru.spb.locon
 
 class ManufacturerEntity {
 

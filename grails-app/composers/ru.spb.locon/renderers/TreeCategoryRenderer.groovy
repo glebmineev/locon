@@ -1,15 +1,11 @@
 package ru.spb.locon.renderers
 
-import locon.CategoryEntity
-import org.zkoss.zul.DefaultTreeNode
+import ru.spb.locon.CategoryEntity
+
 import org.zkoss.zul.TreeitemRenderer
 import org.zkoss.zul.Treerow
 import org.zkoss.zul.Treecell
 import ru.spb.locon.tree.node.CategoryTreeNode
-import org.zkoss.zul.Treeitem
-import org.zkoss.zk.ui.Component
-import org.zkoss.zul.Treechildren
-import org.zkoss.zul.TreeNode
 
 /**
  * User: Gleb

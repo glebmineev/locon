@@ -1,8 +1,5 @@
 package ru.spb.locon
 
-import locon.CategoryEntity
-import locon.ManufacturerEntity
-
 class ShopController {
 
     def cookieService
@@ -39,5 +36,9 @@ class ShopController {
 
     def cabinet() {
         //TODO: Личный кабинет.
+    }
+
+    def about() {
+      //TODO: О нас.
     }
 }

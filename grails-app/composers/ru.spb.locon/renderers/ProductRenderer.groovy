@@ -1,6 +1,6 @@
 package ru.spb.locon.renderers
 
-import locon.ProductEntity
+import ru.spb.locon.ProductEntity
 import org.zkoss.zul.ListitemRenderer
 import org.zkoss.zul.Listcell
 import domain.DomainUtils
