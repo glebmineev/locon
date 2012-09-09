@@ -115,10 +115,28 @@
             <table width="50%">
               <tr>
                 <td width="100px" align="right">
-                  товаров:
+                  <table>
+                    <tr>
+                      <td>
+                        товаров:
+                      </td>
+                      <td>
+                        <div id="countProducts"></div>
+                      </td>
+                    </tr>
+                  </table>
                 </td>
                 <td width="100px" align="right">
-                  руб.
+                  <table>
+                    <tr>
+                      <td>
+                        <div id="priceProducts"></div>
+                      </td>
+                      <td>
+                        руб.
+                      </td>
+                    </tr>
+                  </table>
                 </td>
                 <td width="48px" align="right">
                   <g:img dir="images" file="cart_red.png"/>

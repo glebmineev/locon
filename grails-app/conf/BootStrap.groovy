@@ -1,6 +1,8 @@
 import ru.spb.locon.ProductPropertyEntity
 import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ManufacturerEntity
+import ru.spb.locon.UserEntity
+import ru.spb.locon.UserGroupEntity
 
 class BootStrap {
 
@@ -24,6 +26,14 @@ class BootStrap {
             ManufacturerEntity.findOrSaveWhere(name: "OLLIN Professional")
             ManufacturerEntity.findOrSaveWhere(name: "Schwarzkopf professional")
             ManufacturerEntity.findOrSaveWhere(name: "Screen")
+        }
+
+        UserGroupEntity.withTransaction {
+          UserGroupEntity.findOrSaveWhere(name: "admins")
+        }
+
+        UserEntity.withTransaction{
+          UserEntity.findOrSaveWhere(firstName: "admin", lastName: "admin", userGroup: UserGroupEntity.findByName("admins"))
         }
     }
 

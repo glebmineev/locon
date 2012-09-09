@@ -21,8 +21,8 @@ class UserEntity {
   }
 
   static constraints = {
-    firstName maxSize: 64860, nullable: true
-    lastName maxSize: 64860, nullable: true
+    firstName nullable: true
+    lastName nullable: true
     userGroup nullable: true
   }
   

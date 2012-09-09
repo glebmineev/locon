@@ -14,6 +14,9 @@ import org.zkoss.zk.ui.event.Event
 import domain.DomainUtils
 import org.zkoss.zkplus.spring.SpringUtil
 import com.studentuniverse.grails.plugins.cookie.services.CookieService
+import org.zkoss.html.JavaScript
+import org.zkoss.zk.ui.util.Clients
+import xml.CartXML
 
 class ProductComposer extends SelectorComposer<Window> {
 
@@ -35,13 +38,18 @@ class ProductComposer extends SelectorComposer<Window> {
     super.doAfterCompose(window)
     productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
     Long categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
-    
     cartButton.addEventListener(Events.ON_CLICK, new EventListener() {
       @Override
       void onEvent(Event t) {
-        Object response = Executions.current.nativeResponse
         //значения выбранных товаров храняться в cookie.
-        cookieService.set(response,"","cookieUser123",604800)
+        CartXML cartXML = new CartXML(cookieService.get("cart"))
+        cartXML.addProduct(productId)
+        cookieService.set(Executions.current.nativeResponse,"cart", cartXML.getXml(), 604800)
+        Integer allCounts = cartXML.getAllCountProducts()
+        Float allPrices = cartXML.getAllPricesProducts()
+        //обновление дива корзины через ajax.
+        Clients.evalJavaScript("\$('#countProducts').html('" + Integer.toString(allCounts) + "')")
+        Clients.evalJavaScript("\$('#priceProducts').html('" + allPrices + "')")
       }
     })
 
