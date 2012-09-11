@@ -11,6 +11,7 @@ class ProductEntity {
   ProductPropertyEntity productProperty
   ManufacturerEntity manufacturer
   ProductFilterEntity productFilter
+  CartEntity cart
 
   static mapping = {
 
@@ -26,16 +27,19 @@ class ProductEntity {
       price column: 'product_price'
       manufacturer column: 'product_manufacturer_id'
       productFilter column: 'product_productfilter'
+      cart column: 'product_cart'
     }
 
     sort name:"desc"
     version: false
 
     listCategoryProductList lazy: false,  cascade: 'all-delete-orphan'
+    listCartProduct lazy: false,  cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
-      listCategoryProductList: CategoryProductEntity
+      listCategoryProductList: CategoryProductEntity,
+      listCartProduct: CartProductEntity
   ]
 
   static constraints = {
@@ -47,6 +51,7 @@ class ProductEntity {
     productProperty nullable: true
     manufacturer nullable: true
     productFilter nullable: true
+    cart nullable: true
   }
 
   public String toString() {

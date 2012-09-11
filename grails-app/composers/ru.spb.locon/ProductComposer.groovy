@@ -17,6 +17,7 @@ import com.studentuniverse.grails.plugins.cookie.services.CookieService
 import org.zkoss.html.JavaScript
 import org.zkoss.zk.ui.util.Clients
 import xml.CartXML
+import org.zkoss.zk.ui.Session
 
 class ProductComposer extends SelectorComposer<Window> {
 
@@ -39,17 +40,55 @@ class ProductComposer extends SelectorComposer<Window> {
     productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
     Long categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
     cartButton.addEventListener(Events.ON_CLICK, new EventListener() {
+
       @Override
       void onEvent(Event t) {
         //значения выбранных товаров храняться в cookie.
-        CartXML cartXML = new CartXML(cookieService.get("cart"))
-        cartXML.addProduct(productId)
-        cookieService.set(Executions.current.nativeResponse,"cart", cartXML.getXml(), 604800)
-        Integer allCounts = cartXML.getAllCountProducts()
-        Float allPrices = cartXML.getAllPricesProducts()
-        //обновление дива корзины через ajax.
-        Clients.evalJavaScript("\$('#countProducts').html('" + Integer.toString(allCounts) + "')")
+        //CartXML cartXML = new CartXML(cookieService.get("cart"))
+        String uuid = cookieService.get("cart_uuid")
+        CartEntity cart = null
+        if (uuid != null && !uuid.isEmpty()) {
+          cart = CartEntity.findByUuid(uuid)
+          refreshCart(uuid)
+        } else {
+          cart = saveNewCart()
+        }
+
+        Clients.evalJavaScript("\$('#countProducts').html('" + cart.listCartProduct.size() + "')")
+        float allPrices = 0.0
+        cart.listCartProduct.product.each {ProductEntity product ->
+          allPrices = allPrices + product.price
+        }
         Clients.evalJavaScript("\$('#priceProducts').html('" + allPrices + "')")
+      }
+
+      private CartEntity saveNewCart() {
+        CartEntity cart = null
+        CartProductEntity.withTransaction {
+          cart = new CartEntity()
+          cart.setDateCreate(new Date())
+          String uuid = UUID.randomUUID().toString().replaceAll("-", "_")
+          cart.setUuid(uuid)
+
+          CartProductEntity link = new CartProductEntity(cart: cart, product: ProductEntity.get(productId))
+          if (link.validate())
+            link.save(flush: true)
+          else
+            throw new Exception("Ошибка сохранения связки корзины с продуктом.")
+          //задам id корзины.
+          cookieService.set(Executions.current.nativeResponse, "cart_uuid", uuid, 604800)
+        }
+        return cart
+      }
+
+      private void refreshCart(String uuid) {
+        CartProductEntity.withTransaction {
+          CartProductEntity link = new CartProductEntity(cart: CartEntity.findByUuid(uuid), product: ProductEntity.get(productId))
+          if (link.validate())
+            link.save(flush: true)
+          else
+            throw new Exception("Ошибка сохранения связки корзины с продуктом.")
+        }
       }
     })
 
@@ -66,6 +105,7 @@ class ProductComposer extends SelectorComposer<Window> {
   /*
    * метод проставляет занчения товара.
    */
+
   private void initializeFields() {
     ProductEntity product = ProductEntity.get(productId)
     if (product != null) {
