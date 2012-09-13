@@ -48,18 +48,22 @@ class ProductComposer extends SelectorComposer<Window> {
         String uuid = cookieService.get("cart_uuid")
         CartEntity cart = null
         if (uuid != null && !uuid.isEmpty()) {
-          cart = CartEntity.findByUuid(uuid)
           refreshCart(uuid)
+          cart =  CartEntity.findByUuid(uuid)
         } else {
           cart = saveNewCart()
         }
 
-        Clients.evalJavaScript("\$('#countProducts').html('" + cart.listCartProduct.size() + "')")
+        Collection<CartProductEntity> result = cart.listCartProduct
+
+        Clients.evalJavaScript("\$('#countProducts').html('" + result.size() + "')")
         float allPrices = 0.0
-        cart.listCartProduct.product.each {ProductEntity product ->
-          allPrices = allPrices + product.price
+        result.product.each {ProductEntity product ->
+          float price = product.price == null ? 0.0 : product.price
+          allPrices = allPrices + price
         }
         Clients.evalJavaScript("\$('#priceProducts').html('" + allPrices + "')")
+
       }
 
       private CartEntity saveNewCart() {

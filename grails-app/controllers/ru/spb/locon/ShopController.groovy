@@ -1,44 +1,45 @@
 package ru.spb.locon
 
+import cart.CartUtils
+
 class ShopController {
 
-    def cookieService
+  def cookieService
 
-    def index() {
-        //cookieService.set(response,"username","cookieUser123",604800)
+  def index() {
 
-        List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-        List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
+    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
 
-        return [mainCategoties: categories,
-                manufacturers: manufacturers]
-    }
+    return [mainCategoties: categories,
+        manufacturers: manufacturers]
+  }
 
-    def catalog() {
-      List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-      List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
+  def catalog() {
+    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
 
-      return [mainCategoties: categories,
-          manufacturers: manufacturers]
-    }
+    return [mainCategoties: categories,
+        manufacturers: manufacturers]
+  }
 
-    def product(){
-      List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-      List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
+  def product() {
+    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
 
-      return [mainCategoties: categories,
-          manufacturers: manufacturers]
-    }
+    return [mainCategoties: categories,
+        manufacturers: manufacturers]
+  }
 
-    def register() {
-        //TODO: Форма регисрации.
-    }
+  def register() {
+    //TODO: Форма регисрации.
+  }
 
-    def cabinet() {
-        //TODO: Личный кабинет.
-    }
+  def cabinet() {
+    //TODO: Личный кабинет.
+  }
 
-    def about() {
-      //TODO: О нас.
-    }
+  def about() {
+    //TODO: О нас.
+  }
 }

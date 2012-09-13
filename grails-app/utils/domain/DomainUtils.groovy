@@ -4,8 +4,11 @@ import ru.spb.locon.CategoryEntity
 import org.codehaus.groovy.grails.validation.ConstrainedProperty
 import java.lang.reflect.Type
 import ru.spb.locon.CartEntity
+import ru.spb.locon.ProductEntity
 
 class DomainUtils {
+
+  def cookieService
 
   public static List<CategoryEntity> getChildCategories(String parentName) {
     CategoryEntity parent = CategoryEntity.findByName(parentName)

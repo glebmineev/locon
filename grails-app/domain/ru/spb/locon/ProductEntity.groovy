@@ -33,12 +33,12 @@ class ProductEntity {
     sort name:"desc"
     version: false
 
-    listCategoryProductList lazy: false,  cascade: 'all-delete-orphan'
+    listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
     listCartProduct lazy: false,  cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
-      listCategoryProductList: CategoryProductEntity,
+      listCategoryProduct: CategoryProductEntity,
       listCartProduct: CartProductEntity
   ]
 
