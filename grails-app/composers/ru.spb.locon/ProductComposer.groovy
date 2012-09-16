@@ -14,10 +14,7 @@ import org.zkoss.zk.ui.event.Event
 import domain.DomainUtils
 import org.zkoss.zkplus.spring.SpringUtil
 import com.studentuniverse.grails.plugins.cookie.services.CookieService
-import org.zkoss.html.JavaScript
 import org.zkoss.zk.ui.util.Clients
-import xml.CartXML
-import org.zkoss.zk.ui.Session
 
 class ProductComposer extends SelectorComposer<Window> {
 
