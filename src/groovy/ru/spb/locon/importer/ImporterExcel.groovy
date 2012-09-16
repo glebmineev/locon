@@ -9,6 +9,9 @@ import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductEntity
 import ru.spb.locon.ProductFilterEntity
 import ru.spb.locon.CategoryProductEntity
+import importer.ConverterRU_EN
+import importer.DirUtils
+import importer.ConvertUtils
 
 
 class ImporterExcel {
@@ -17,10 +20,12 @@ class ImporterExcel {
   private ManufacturerEntity manufacturer
   private CategoryEntity menuCategory
 
-  ImporterExcel(InputStream is, String category, String manufacturer) {
+  ImporterExcel(){ }
+
+  ImporterExcel(Workbook wrkbook, String category, String manufacturer) {
     initEntities(category, manufacturer)
     try {
-      wrkbook = Workbook.getWorkbook(is)
+      this.wrkbook = wrkbook
     } catch (IOException e) {
       e.printStackTrace()
     } catch (BiffException e) {
@@ -36,13 +41,12 @@ class ImporterExcel {
 
   public void doImport() {
     CategoryEntity.withTransaction {
-
       Sheet[] sheets = wrkbook.getSheets()
       sheets.each {Sheet sheet ->
 
         //получаем корневую категорию.
-        CategoryEntity rootCategory = getCategory(sheet.getName())
-        rootCategory.setParentCategory(menuCategory)
+        CategoryEntity submenuCategory = getCategory(sheet.getName())
+        submenuCategory.setParentCategory(menuCategory)
 
         int rows = sheet.getRows()
         //перебираем строки страницы.
@@ -54,17 +58,16 @@ class ImporterExcel {
               //Создаем продукт.
               ProductEntity product = createProduct(row)
               //связываем со всеми категорими в которые он входит для дальнейшей фильтрации.
-              linkToCategories(rootCategory, product)
+              linkToCategories(submenuCategory, product)
               linkToCategories(temp, product)
               linkToCategories(menuCategory, product)
-
               product.setManufacturer(manufacturer)
               product.save()
             }
-            else if (row[0] != null) {
+            else if (row[0] != null && !row[0].getContents().isEmpty()) {
               String cName = row[0].getContents()
-              temp = getCategory(cName)
-              temp.setParentCategory(rootCategory)
+              temp = getCategory(ConvertUtils.formatString(cName))
+              temp.setParentCategory(submenuCategory)
             }
 
           }
@@ -95,7 +98,6 @@ class ImporterExcel {
   }
 
   private ProductEntity createProduct(Cell[] row) {
-
     ProductEntity product = new ProductEntity()
     for (int i = 0; i < row.length; i++) {
       String value = row[i].getContents()
@@ -127,7 +129,38 @@ class ImporterExcel {
   }
 
   private void linkToCategories(CategoryEntity category, ProductEntity product) {
-    CategoryProductEntity categoryProduct_1 = new CategoryProductEntity(product: product, category: category)
-    categoryProduct_1.save()
+    CategoryProductEntity categoryProduct = new CategoryProductEntity(product: product, category: category)
+    categoryProduct.save()
   }
+
+  public createImageDirs(String applicationPath) {
+    ProductEntity.withTransaction {
+      ProductEntity.list().each {ProductEntity product ->
+        List<CategoryEntity> categoryList = product.listCategoryProduct.category as List<CategoryEntity>
+        categoryList.each {CategoryEntity category ->
+          if (category != null &&
+              (category.listCategory == null || category.listCategory.size() == 0)) {
+            String dir = createImageDir(category, "")
+            DirUtils.createDir(
+                ConverterRU_EN.translit(applicationPath + "images\\catalog\\" + dir + "\\" + product.article + " " + product.name))
+            product.setImagePath(ConverterRU_EN.translit(dir))
+            product.save()
+          }
+        }
+      }
+    }
+  }
+
+  private String createImageDir(CategoryEntity category, String childrenPath) {
+    String parentPath = "\\" + category.name
+
+    CategoryEntity parent = category.parentCategory
+    if (parent != null &&
+        !parent.name.equals(menuCategory.name)) {
+      createImageDir(parent, parentPath + childrenPath)
+    }
+    else
+      return menuCategory.name + "\\" + parentPath + "\\" + manufacturer.name + childrenPath
+  }
+
 }

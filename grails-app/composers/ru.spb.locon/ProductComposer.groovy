@@ -49,7 +49,7 @@ class ProductComposer extends SelectorComposer<Window> {
         CartEntity cart = null
         if (uuid != null && !uuid.isEmpty()) {
           refreshCart(uuid)
-          cart =  CartEntity.findByUuid(uuid)
+          cart = CartEntity.findByUuid(uuid)
         } else {
           cart = saveNewCart()
         }
@@ -69,11 +69,9 @@ class ProductComposer extends SelectorComposer<Window> {
       private CartEntity saveNewCart() {
         CartEntity cart = null
         CartProductEntity.withTransaction {
-          cart = new CartEntity()
-          cart.setDateCreate(new Date())
           String uuid = UUID.randomUUID().toString().replaceAll("-", "_")
-          cart.setUuid(uuid)
-
+          cart = new CartEntity(dateCreate: new Date(), uuid: uuid)
+          cart.save()
           CartProductEntity link = new CartProductEntity(cart: cart, product: ProductEntity.get(productId))
           if (link.validate())
             link.save(flush: true)
@@ -87,7 +85,11 @@ class ProductComposer extends SelectorComposer<Window> {
 
       private void refreshCart(String uuid) {
         CartProductEntity.withTransaction {
-          CartProductEntity link = new CartProductEntity(cart: CartEntity.findByUuid(uuid), product: ProductEntity.get(productId))
+          CartEntity cart = CartEntity.findByUuid(uuid)
+          if (cart == null)
+            cart = new CartEntity(uuid: uuid, dateCreate: new Date())
+          cart.save()
+          CartProductEntity link = new CartProductEntity(cart: cart, product: ProductEntity.get(productId))
           if (link.validate())
             link.save(flush: true)
           else

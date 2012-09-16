@@ -65,10 +65,6 @@ class CatalogComposer extends GrailsComposer {
   private void initializeListBox(){
     products.addEventListener(Events.ON_CLICK, productsLister)
     //заполняем listbox.
-    List<String> info = DomainUtils.fieldInfo(ProductEntity)
-    info.each {String name ->
-      products.listhead.appendChild(new Listheader(messageSource.getMessage("domains.ProductEntity.properties.${name}", null, new Locale("ru"))))
-    }
 
     if (productsModel == null){
       productsModel = new BindingListModelList<ProductEntity>(listProducts(CategoryEntity.get(categoryId)), true)
@@ -103,7 +99,6 @@ class CatalogComposer extends GrailsComposer {
     void onEvent(Event t) {
       int index = products.getSelectedIndex()
       final Listitem listitem = products.getItemAtIndex(index)
-      final Treeitem category = categoryTree.getSelectedItem()
       if (listitem != null) {
         ProductEntity product = (ProductEntity) listitem.getValue()
         Executions.sendRedirect("/shop/product?category=${categoryId}&product=${product.id}")
@@ -132,7 +127,7 @@ class CatalogComposer extends GrailsComposer {
 
   private List<ProductEntity> listProducts(CategoryEntity category) {
     Collection<ProductEntity> products = category.listCategoryProduct.product
-    return products.asList()
+    return products
   }
 
 }

@@ -2,6 +2,7 @@ package ru.spb.locon
 
 class ProductEntity {
 
+  String imagePath
   String article
   String name
   String description
@@ -19,6 +20,7 @@ class ProductEntity {
     table: 'product'
     columns {
       id column: 'product_id'
+      imagePath column: 'product_imagepath', type: 'text'
       article column: 'product_article'
       name column: 'product_name'
       description column: 'product_description'
@@ -43,6 +45,7 @@ class ProductEntity {
   ]
 
   static constraints = {
+    imagePath maxSize: 65535, nullable: true
     article nullable: true
     name nullable: true
     description nullable: true

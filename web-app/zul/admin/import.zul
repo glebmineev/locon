@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
-<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?variable-resolver class="window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
     xmlns:h="http://www.w3.org/1999/xhtml"
@@ -13,7 +14,7 @@
         <button id="uploadButton" upload="true" label="Обзор"/>
         <combobox id="category"/>
         <button id="startButton" disabled="true" label="Начать импорт"/>
-
+        <button id="createDirsButton" disabled="false" label="Создать директории"/>
     </window>
 
 </zk>

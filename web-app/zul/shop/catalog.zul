@@ -10,11 +10,14 @@
 
     <window apply="ru.spb.locon.CatalogComposer" width="880px">
         <hbox>
-            <tree id="categoryTree"  width="300px">
+            <tree id="categoryTree" width="250px">
                 <treechildren/>
             </tree>
-            <listbox id="products" mold="paging" pageSize="20" width="570px">
-                <listhead/>
+            <listbox id="products"  mold="paging" pageSize="5" width="570px">
+                <listhead>
+                  <listheader width="120px"/>
+                  <listheader width="510px"/>
+                </listhead>
             </listbox>
         </hbox>
     </window>
