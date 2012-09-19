@@ -30,18 +30,7 @@
         </tr>
         <tr>
           <td align="center">
-            <div id="manufacturers">
-              <a class="buttons prev" href="#">left</a>
-
-              <div class="viewport">
-                <ul class="overview">
-                  <g:each in="${manufacturers}" var="manufacturer">
-                    <li><g:img dir="images/slider" file="toystory.jpg"/> ${manufacturer}</li>
-                  </g:each>
-                </ul>
-              </div>
-              <a class="buttons next" href="#">right</a>
-            </div>
+            <g:include view="common/carousel.gsp"/>
           </td>
         </tr>
       </table>
@@ -52,12 +41,6 @@
         });
       </script>
 
-
-      <script type="text/javascript">
-        $(document).ready(function () {
-          $('#manufacturers').tinycarousel({ display:2 });
-        });
-      </script>
     </tpl:block>
 
     <tpl:block name="footer">

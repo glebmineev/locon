@@ -25,7 +25,7 @@
 
     <!-- Carousel -->
     <link rel="stylesheet" href="${resource(dir: 'css/carousel', file: 'carousel.css')}" />
-    <script type="text/javascript" src="${resource(dir: 'js/carousel', file: 'jquery.tinycarousel.min.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'js/carousel', file: 'jquery.jcarousel.min.js')}"></script>
     ${head}
 </head>
 
