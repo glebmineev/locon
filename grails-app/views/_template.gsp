@@ -5,8 +5,11 @@
 
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 
-    <!-- Common js -->
     <g:javascript library="application"/>
+    <g:javascript library="jquery" src="jquery-1.7.1.min.js"/>
+    <g:javascript library="nivo" src="slider/jquery.nivo.slider.js"/>
+    <g:javascript library="carousel" src="carousel/jquery.jcarousel.min.js"/>
+
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'content.css')}" type="text/css">
 
     <!-- slider stylesheet -->
@@ -19,13 +22,8 @@
     <!-- drop menu -->
     <link rel="stylesheet" href="${resource(dir: 'css/dropmenu', file: 'dropmenu.css')}" />
 
-    <!-- slider java scripts -->
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery-1.7.1.min.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js/slider', file: 'jquery.nivo.slider.js')}"></script>
-
     <!-- Carousel -->
     <link rel="stylesheet" href="${resource(dir: 'css/carousel', file: 'carousel.css')}" />
-    <script type="text/javascript" src="${resource(dir: 'js/carousel', file: 'jquery.jcarousel.min.js')}"></script>
     ${head}
 </head>
 
