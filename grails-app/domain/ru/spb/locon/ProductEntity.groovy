@@ -1,6 +1,6 @@
 package ru.spb.locon
 
-class ProductEntity {
+class ProductEntity implements Comparable{
 
   String imagePath
   String article
@@ -15,7 +15,6 @@ class ProductEntity {
   CartEntity cart
 
   static mapping = {
-
 
     table: 'product'
     columns {
@@ -59,5 +58,10 @@ class ProductEntity {
 
   public String toString() {
     return name
+  }
+
+  @Override
+  int compareTo(Object o) {
+    name <=> o?.name
   }
 }

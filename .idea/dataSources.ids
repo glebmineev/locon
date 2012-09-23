@@ -1831,9 +1831,10 @@
       <column name="version" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" />
       <column name="cartproduct_cart_id" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5" />
       <column name="cartproduct_product_id" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5" />
+      <column name="cartproduct_productscount" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
       <primary-key name="PRIMARY" columns="cartproduct_id" />
-      <foreign-key name="FK672FC8323F9B616A" columns="cartproduct_product_id" ref-table="product_entity" ref-schema="" ref-catalog="market" ref-columns="product_id" />
       <foreign-key name="FK672FC8322E26B790" columns="cartproduct_cart_id" ref-table="cart_entity" ref-schema="" ref-catalog="market" ref-columns="cart_id" />
+      <foreign-key name="FK672FC8323F9B616A" columns="cartproduct_product_id" ref-table="product_entity" ref-schema="" ref-catalog="market" ref-columns="product_id" />
     </table>
     <table name="category_entity" schema="" catalog="market" type="TABLE">
       <column name="category_id" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true" />

@@ -19,7 +19,7 @@ class CategoryEntity {
       parentCategory column: 'category_parentcategory_id'
     }
 
-    sort name:"desc"
+    sort "name"
 
     version: false
 

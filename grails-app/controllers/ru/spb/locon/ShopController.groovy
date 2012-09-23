@@ -39,6 +39,14 @@ class ShopController {
     //TODO: Личный кабинет.
   }
 
+  def cart(){
+    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
+
+    return [mainCategoties: categories,
+        manufacturers: manufacturers]
+  }
+
   def about() {
     //TODO: О нас.
   }

@@ -7,6 +7,14 @@ import domain.DomainUtils
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zul.Image
 import org.zkoss.zul.Div
+import org.zkoss.zul.Button
+import org.zkoss.zk.ui.event.EventListener
+import org.zkoss.zk.ui.event.Event
+import org.zkoss.zk.ui.Component
+import org.zkoss.zul.Listitem
+import ru.spb.locon.CartProductEntity
+import cart.CartUtils
+import org.zkoss.zk.ui.event.Events
 
 class ProductRenderer implements ListitemRenderer {
 
@@ -16,10 +24,14 @@ class ProductRenderer implements ListitemRenderer {
     listitem.setValue(entity)
 
     Listcell imageCell = new Listcell()
+    imageCell.setStyle("width:120px;")
     imageCell.appendChild(getImage(entity))
     imageCell.setParent(listitem)
 
     Listcell descCell = new Listcell(entity.name)
+    Button addToCart = new Button("Добавить в корзину")
+    addToCart.addEventListener(Events.ON_CLICK, addToCartListener)
+    descCell.appendChild(addToCart)
     descCell.setParent(listitem)
   }
 
@@ -28,6 +40,17 @@ class ProductRenderer implements ListitemRenderer {
     image.setSrc("/images/empty.png")
     image.setWidth("120px")
     return image
+  }
+
+  EventListener addToCartListener = new EventListener() {
+    @Override
+    void onEvent(Event t) {
+      Component button = t.target
+      Listitem parent = (Listitem) button.parent.parent
+      ProductEntity value = (ProductEntity) parent.getValue()
+      CartUtils utils = new CartUtils()
+      utils.addToCart(value.id)
+    }
   }
 
   //TODO: сделать контейнер содержания.

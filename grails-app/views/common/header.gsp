@@ -122,7 +122,7 @@
                         товаров:
                       </td>
                       <td>
-                        <div id="countProducts">${CartUtils.initProductCount(g.cookie(name: "cart_uuid")?.toString())}</div>
+                        <div id="countProducts">${CartUtils.getProductCount(g.cookie(name: "cart_uuid")?.toString())}</div>
                       </td>
                     </tr>
                   </table>
@@ -131,7 +131,7 @@
                   <table>
                     <tr>
                       <td>
-                        <div id="priceProducts">${CartUtils.initTotalPrice(g.cookie(name: "cart_uuid")?.toString())}</div>
+                        <div id="priceProducts">${CartUtils.getTotalPrice(g.cookie(name: "cart_uuid")?.toString())}</div>
                       </td>
                       <td>
                         руб.
@@ -140,7 +140,9 @@
                   </table>
                 </td>
                 <td width="48px" align="right">
-                  <g:img dir="images" file="cart_red.png"/>
+                  <g:link controller="shop" action="cart">
+                    <g:img dir="images" file="cart_red.png"/>
+                  </g:link>
                 </td>
               </tr>
             </table>
