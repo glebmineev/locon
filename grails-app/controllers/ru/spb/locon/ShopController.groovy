@@ -31,6 +31,23 @@ class ShopController {
         manufacturers: manufacturers]
   }
 
+  def checkout() {
+    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
+
+    return [mainCategoties: categories,
+        manufacturers: manufacturers]
+  }
+
+  def success() {
+    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
+
+    return [mainCategoties: categories,
+        manufacturers: manufacturers]
+  }
+
+
   def register() {
     //TODO: Форма регисрации.
   }
@@ -39,7 +56,7 @@ class ShopController {
     //TODO: Личный кабинет.
   }
 
-  def cart(){
+  def cart() {
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
     List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
 

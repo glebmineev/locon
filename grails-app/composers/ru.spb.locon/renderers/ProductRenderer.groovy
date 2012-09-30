@@ -3,8 +3,7 @@ package ru.spb.locon.renderers
 import ru.spb.locon.ProductEntity
 import org.zkoss.zul.ListitemRenderer
 import org.zkoss.zul.Listcell
-import domain.DomainUtils
-import org.zkoss.zk.ui.Executions
+
 import org.zkoss.zul.Image
 import org.zkoss.zul.Div
 import org.zkoss.zul.Button
@@ -12,7 +11,7 @@ import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.Listitem
-import ru.spb.locon.CartProductEntity
+
 import cart.CartUtils
 import org.zkoss.zk.ui.event.Events
 
@@ -24,7 +23,7 @@ class ProductRenderer implements ListitemRenderer {
     listitem.setValue(entity)
 
     Listcell imageCell = new Listcell()
-    imageCell.setStyle("width:120px;")
+    imageCell.setStyle("width:130px;")
     imageCell.appendChild(getImage(entity))
     imageCell.setParent(listitem)
 
@@ -38,7 +37,6 @@ class ProductRenderer implements ListitemRenderer {
   private Image getImage(ProductEntity entity){
     Image image = new Image()
     image.setSrc("/images/empty.png")
-    image.setWidth("120px")
     return image
   }
 
@@ -50,6 +48,7 @@ class ProductRenderer implements ListitemRenderer {
       ProductEntity value = (ProductEntity) parent.getValue()
       CartUtils utils = new CartUtils()
       utils.addToCart(value.id)
+      utils.recalculateCart()
     }
   }
 

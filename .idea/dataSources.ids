@@ -1822,7 +1822,7 @@
     <table name="cart_entity" schema="" catalog="market" type="TABLE">
       <column name="cart_id" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true" />
       <column name="version" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" />
-      <column name="date_create" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93" />
+      <column name="date_create" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93" />
       <column name="cart_uuid" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
       <primary-key name="PRIMARY" columns="cart_id" />
     </table>
@@ -1833,8 +1833,8 @@
       <column name="cartproduct_product_id" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5" />
       <column name="cartproduct_productscount" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
       <primary-key name="PRIMARY" columns="cartproduct_id" />
-      <foreign-key name="FK672FC8322E26B790" columns="cartproduct_cart_id" ref-table="cart_entity" ref-schema="" ref-catalog="market" ref-columns="cart_id" />
       <foreign-key name="FK672FC8323F9B616A" columns="cartproduct_product_id" ref-table="product_entity" ref-schema="" ref-catalog="market" ref-columns="product_id" />
+      <foreign-key name="FK672FC8322E26B790" columns="cartproduct_cart_id" ref-table="cart_entity" ref-schema="" ref-catalog="market" ref-columns="cart_id" />
     </table>
     <table name="category_entity" schema="" catalog="market" type="TABLE">
       <column name="category_id" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true" />
@@ -1861,6 +1861,21 @@
       <column name="manufacturer_name" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
       <primary-key name="PRIMARY" columns="manufacturer_id" />
     </table>
+    <table name="order_entity" schema="" catalog="market" type="TABLE">
+      <column name="order_id" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true" />
+      <column name="version" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" />
+      <column name="order_address" sqlType="VARCHAR" length="1000" precision="0" nullable="false" jdbcType="12" />
+      <column name="order_courier" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="order_email" sqlType="VARCHAR" length="1000" precision="0" nullable="false" jdbcType="12" />
+      <column name="order_emoney" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="fio" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12" />
+      <column name="order_notes" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="order_number" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="order_phone" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="order_user_id" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5" />
+      <primary-key name="PRIMARY" columns="order_id" />
+      <foreign-key name="FK25E225F42BFB11EF" columns="order_user_id" ref-table="user_entity" ref-schema="" ref-catalog="market" ref-columns="user_id" />
+    </table>
     <table name="product_entity" schema="" catalog="market" type="TABLE">
       <column name="product_id" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true" />
       <column name="version" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" />
@@ -1870,11 +1885,13 @@
       <column name="product_imagepath" sqlType="LONGTEXT" length="2147483647" precision="0" nullable="true" jdbcType="-1" />
       <column name="product_manufacturer_id" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5" />
       <column name="product_name" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="product_order_id" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5" />
       <column name="product_price" sqlType="FLOAT" length="12" precision="0" nullable="true" jdbcType="7" />
       <column name="product_productfilter" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5" />
       <column name="product_productproperty_id" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5" />
       <column name="product_volume" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
       <primary-key name="PRIMARY" columns="product_id" />
+      <foreign-key name="FKE8DB793350A081EA" columns="product_order_id" ref-table="order_entity" ref-schema="" ref-catalog="market" ref-columns="order_id" />
       <foreign-key name="FKE8DB79331394A150" columns="product_manufacturer_id" ref-table="manufacturer_entity" ref-schema="" ref-catalog="market" ref-columns="manufacturer_id" />
       <foreign-key name="FKE8DB793325629D8A" columns="product_productproperty_id" ref-table="product_property_entity" ref-schema="" ref-catalog="market" ref-columns="productproperty_id" />
       <foreign-key name="FKE8DB7933922F43D6" columns="product_cart" ref-table="cart_entity" ref-schema="" ref-catalog="market" ref-columns="cart_id" />

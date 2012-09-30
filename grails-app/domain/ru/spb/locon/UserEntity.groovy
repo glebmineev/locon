@@ -16,9 +16,15 @@ class UserEntity {
       userGroup column: 'user_usergroup_id'
     }
 
+    orderList /*lazy: false, */cascade: 'all-delete-orphan'
+
     version: false
 
   }
+
+  static hasMany = [
+      orderList: OrderEntity
+  ]
 
   static constraints = {
     firstName nullable: true

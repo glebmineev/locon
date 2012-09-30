@@ -12,14 +12,12 @@ class CategoryProductEntity {
     table: 'categoryproduct'
     columns {
       id column: 'categoryproduct_id'
-      category column: 'categoryproduct_category_id'
-      product column: 'categoryproduct_product_id'
+      category fetch: "join", column: 'categoryproduct_category_id'
+      product fetch: "join", column: 'categoryproduct_product_id'
     }
 
-    sort category:"desc"
-
-    product fetch: "join"
-    category fetch: "join"
+    //product fetch: "join"
+    //category fetch: "join"
 
     version: false
   }

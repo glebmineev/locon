@@ -1,6 +1,6 @@
 package ru.spb.locon
 
-class ProductEntity implements Comparable{
+class ProductEntity {
 
   String imagePath
   String article
@@ -31,16 +31,17 @@ class ProductEntity implements Comparable{
       cart column: 'product_cart'
     }
 
-    sort name:"desc"
     version: false
 
     listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
-    listCartProduct lazy: false,  cascade: 'all-delete-orphan'
+    listOrderProduct lazy: false,  cascade: 'all-delete-orphan'
+    listCartProduct /*lazy: false,*/  cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
       listCategoryProduct: CategoryProductEntity,
-      listCartProduct: CartProductEntity
+      listCartProduct: CartProductEntity,
+      listOrderProduct: OrderProductEntity
   ]
 
   static constraints = {
@@ -60,8 +61,4 @@ class ProductEntity implements Comparable{
     return name
   }
 
-  @Override
-  int compareTo(Object o) {
-    name <=> o?.name
-  }
 }

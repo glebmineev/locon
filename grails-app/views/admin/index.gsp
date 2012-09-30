@@ -6,22 +6,8 @@
         </tpl:block>
 
         <tpl:block name="menu">
-%{--            <ul id="nav">
-
-                <li>
-                    Admin1
-                    <ul>
-                        <li><a href="#">Item 01</a></li>
-                        <li><a href="#" class="selected">Item 02</a></li>
-                        <li><a href="#">Item 03</a></li>
-                    </ul>
-
-                    <div class="clear"></div>
-                </li>
-            </ul>
-
-            <div class="clear"></div>--}%
-            <g:link controller="admin" action="importCatalog">Импортировать каталог</g:link>
+          <g:link controller="admin" action="importCatalog">Импортировать каталог</g:link>
+          <g:link controller="admin" action="orders">Заказы</g:link>
         </tpl:block>
 
         <tpl:block name="wrap_content">

@@ -23,7 +23,7 @@
     <h:table width="100%" cellpadding="5px">
       <h:tr>
         <h:td>
-          <button id="createOrder"/>
+          <button id="createOrder" label="Оформить заказ"/>
         </h:td>
       </h:tr>
     </h:table>

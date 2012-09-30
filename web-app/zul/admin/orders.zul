@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <window apply="ru.spb.locon.OrderComposer" width="880px">
+    <h:h1>Заказы</h:h1>
+    <listbox id="orders" mold="paging" pageSize="10" height="500px" width="800px">
+      <listhead>
+        <listheader label="Номер" width="230px"/>
+        <listheader label="ФИО" width="100px"/>
+        <listheader label="Телефон" width="100px"/>
+        <listheader label="E-mail" width="100px"/>
+      </listhead>
+    </listbox>
+
+  </window>
+
+</zk>

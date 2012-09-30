@@ -9,33 +9,33 @@ environments {
         dataSource {
             pooled = true
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:mysql://localhost:3306/market?characterEncoding=UTF-8"
-            username = "root"
-            password = "root"
-            driverClassName = "com.mysql.jdbc.Driver"
-            dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
+            url = "jdbc:postgresql://localhost:5432/locon"
+            username = "locon"
+            password = "locon"
+            driverClassName = "org.postgresql.Driver"
+            dialect = "org.hibernate.dialect.PostgreSQLDialect"
         }
     }
     test {
         dataSource {
           pooled = true
           dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-          url = "jdbc:mysql://localhost:3306/market?characterEncoding=UTF-8"
-          username = "root"
-          password = "root"
-          driverClassName = "com.mysql.jdbc.Driver"
-          dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
+          url = "jdbc:postgresql://localhost:5432/locon"
+          username = "locon"
+          password = "locon"
+          driverClassName = "org.postgresql.Driver"
+          dialect = "org.hibernate.dialect.PostgreSQLDialect"
         }
     }
     production {
         dataSource {
           pooled = true
           dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-          url = "jdbc:mysql://localhost:3306/market?characterEncoding=UTF-8"
-          username = "root"
-          password = "root"
-          driverClassName = "com.mysql.jdbc.Driver"
-          dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
+          url = "jdbc:postgresql://localhost:5432/locon"
+          username = "locon"
+          password = "locon"
+          driverClassName = "org.postgresql.Driver"
+          dialect = "org.hibernate.dialect.PostgreSQLDialect"
         }
     }
 }

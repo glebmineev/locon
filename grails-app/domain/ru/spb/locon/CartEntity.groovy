@@ -17,7 +17,7 @@ class CartEntity {
 
     version: false
 
-    listCartProduct lazy: false,  cascade: 'all-delete-orphan'
+    listCartProduct sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
@@ -26,5 +26,6 @@ class CartEntity {
 
   static constraints = {
     uuid nullable: true
+    dateCreate nullable: true
   }
 }

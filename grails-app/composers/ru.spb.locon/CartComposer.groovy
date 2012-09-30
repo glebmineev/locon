@@ -1,14 +1,16 @@
 package ru.spb.locon
 
 import org.zkoss.zul.Listbox
-import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.Window
-import com.studentuniverse.grails.plugins.cookie.services.CookieService
-import org.zkoss.zkplus.spring.SpringUtil
-import ru.spb.locon.renderers.ProductRenderer
 import ru.spb.locon.renderers.CartRenderer
 import org.zkoss.zul.ListModelList
+import cart.CartUtils
+import org.zkoss.zul.Button
+import org.zkoss.zk.ui.event.EventListener
+import org.zkoss.zk.ui.event.Event
+import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.event.Events
 
 /**
  * User: Gleb
@@ -20,29 +22,36 @@ class CartComposer extends GrailsComposer {
   Listbox products
   ListModelList<CartProductEntity> productsModel
 
-  CookieService cookieService = (CookieService) SpringUtil.getApplicationContext().getBean("cookieService")
+  Button createOrder
+
+  CartUtils utils = new CartUtils()
 
   def afterCompose = {Window window ->
     setModel()
     initializeListBox()
+    createOrder.addEventListener(Events.ON_CLICK, createOrderLister)
   }
 
-  private void setModel(){
-
-    Collection<CartProductEntity> modelList = getCart().listCartProduct as List<CartProductEntity>
-    if (modelList != null){
-      productsModel = new ListModelList<CartProductEntity>(modelList)
-    }
+  private void setModel() {
+    CartEntity cart = utils.getCart()
+    if (cart != null && cart.listCartProduct != null)
+      productsModel = new ListModelList<CartProductEntity>(cart.listCartProduct as List<CartProductEntity>)
   }
 
-  private CartEntity getCart() {
-    String uuid = cookieService.get("cart_uuid")
-    return CartEntity.findByUuid(uuid)
-  }
 
   private void initializeListBox() {
     products.setModel(productsModel)
     products.setItemRenderer(new CartRenderer(productsModel))
   }
 
+  EventListener createOrderLister = new EventListener() {
+    @Override
+    void onEvent(Event t) {
+      CartEntity cart = utils.getCart()
+      if (cart != null && cart.listCartProduct != null)
+        Executions.sendRedirect("/shop/checkout")
+    }
+  }
 }
+
+

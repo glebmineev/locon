@@ -3,7 +3,7 @@ package ru.spb.locon.renderers
 import org.zkoss.zul.ListitemRenderer
 import org.zkoss.zul.Listcell
 import org.zkoss.zul.Textbox
-import ru.spb.locon.CartProductEntity
+
 import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.event.EventListener
@@ -14,6 +14,8 @@ import cart.CartUtils
 import org.zkoss.zk.ui.event.InputEvent
 import org.zkoss.zul.ListModelList
 import ru.spb.locon.CartEntity
+
+import ru.spb.locon.CartProductEntity
 
 /**
  * User: Gleb
@@ -74,7 +76,6 @@ class CartRenderer implements ListitemRenderer {
       CartProductEntity value = (CartProductEntity) parent.getValue()
       value.delete()
       removeFromModel(value)
-
       utils.recalculateCart()
 
     }

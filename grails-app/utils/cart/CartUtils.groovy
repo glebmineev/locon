@@ -2,11 +2,13 @@ package cart
 
 import ru.spb.locon.CartEntity
 import ru.spb.locon.ProductEntity
-import ru.spb.locon.CartProductEntity
+
 import org.zkoss.zk.ui.Executions
 import com.studentuniverse.grails.plugins.cookie.services.CookieService
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zk.ui.util.Clients
+
+import ru.spb.locon.CartProductEntity
 
 /**
  * User: Gleb
@@ -41,31 +43,43 @@ class CartUtils {
     return productCount
   }
 
-  public void addToCart(Long productID){
+  public void addToCart(Long productID) {
     String uuid = cookieService.get("cart_uuid")
     CartEntity cart = (uuid != null && !uuid.isEmpty()) ? CartEntity.findByUuid(uuid) : null
     if (cart == null)
       createCart(ProductEntity.get(productID))
     else
       refreshCart(cart, ProductEntity.get(productID))
-
-    recalculateCart()
   }
 
-  public void recalculateCart(){
+  public void recalculateCart() {
     String uuid = cookieService.get("cart_uuid")
-    Clients.evalJavaScript("\$('#countProducts').html('" + getProductCount(uuid) + "')")
-    Clients.evalJavaScript("\$('#priceProducts').html('" + getTotalPrice(uuid) + "')")
+    if (checkUUID(uuid)) {
+      Clients.evalJavaScript("\$('#countProducts').html('" + getProductCount(uuid) + "')")
+      Clients.evalJavaScript("\$('#priceProducts').html('" + getTotalPrice(uuid) + "')")
+    }
+    else
+    {
+      nullCart()
+    }
+  }
+
+  public void nullCart(){
+    Clients.evalJavaScript("\$('#countProducts').html('0')")
+    Clients.evalJavaScript("\$('#priceProducts').html('0')")
   }
 
   private void createCart(ProductEntity product) {
-    CartProductEntity.withTransaction {
-      String uuid = UUID.randomUUID().toString().replaceAll("-", "_")
-      cart = new CartEntity(dateCreate: new Date(), uuid: uuid)
-      cart.save()
-      saveCartProduct(cart, product)
-      updateCookies(uuid)
+    String uuid = UUID.randomUUID().toString().replaceAll("-", "_")
+    CartEntity cart = null
+    CartEntity.withTransaction{
+      cart = new CartEntity(dateCreate: new Date(), uuid: uuid, isOrder: false)
+      cart.save(flush: true)
     }
+    CartProductEntity.withTransaction {
+      saveCartProduct(cart, product)
+    }
+    updateCookies(uuid)
   }
 
   private void refreshCart(CartEntity cart, ProductEntity product) {
@@ -78,7 +92,7 @@ class CartUtils {
     }
   }
 
-  private void updateCartProduct(CartProductEntity cartProduct){
+  private void updateCartProduct(CartProductEntity cartProduct) {
     cartProduct.productsCount = cartProduct.productsCount + 1
     if (cartProduct.validate())
       cartProduct.merge()
@@ -86,7 +100,7 @@ class CartUtils {
       throw new Exception("Ошибка мерже связки корзины с продуктом.")
   }
 
-  private void saveCartProduct(CartEntity cart, ProductEntity product){
+  private void saveCartProduct(CartEntity cart, ProductEntity product) {
     CartProductEntity link = new CartProductEntity(cart: cart, product: product, productsCount: 1)
     if (link.validate())
       link.save(flush: true)
@@ -94,7 +108,7 @@ class CartUtils {
       throw new Exception("Ошибка сохранения связки корзины с продуктом.")
   }
 
-  private void updateCookies(String uuid){
+  private void updateCookies(String uuid) {
     //если уже была така кука то удаляем.
     cookieService.delete(Executions.current.nativeResponse, "cart_uuid")
     //задам id корзины.
@@ -103,7 +117,26 @@ class CartUtils {
 
   public CartEntity getCart() {
     String uuid = cookieService.get("cart_uuid")
-    return CartEntity.findByUuid(uuid)
+    CartEntity cart = null
+    if (uuid != null && !uuid.isEmpty())
+      cart = CartEntity.findByUuid(uuid)
+    return cart
+  }
+
+  public void deleteCart() {
+    CartEntity.withTransaction {
+      CartEntity cart = getCart()
+      cart.delete(flush: true)
+    }
+    cookieService.delete(Executions.current.nativeResponse, "cart_uuid")
+  }
+
+  public void clearCookie(){
+    cookieService.delete(Executions.current.nativeResponse, "cart_uuid")
+  }
+
+  public boolean checkUUID(String uuid) {
+    return (uuid != null && !uuid.isEmpty())
   }
 
 }

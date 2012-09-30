@@ -19,11 +19,9 @@ class CategoryEntity {
       parentCategory column: 'category_parentcategory_id'
     }
 
-    sort "name"
-
     version: false
 
-    listCategoryProduct lazy: false, cascade: 'all-delete-orphan'
+    listCategoryProduct sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
     listCategory lazy: false, cascade: 'all-delete-orphan'
   }
 

@@ -13,14 +13,11 @@ class CartProductEntity {
     table: 'cartproduct'
     columns {
       id column: 'cartproduct_id'
-      cart column: 'cartproduct_cart_id'
-      product column: 'cartproduct_product_id'
+      cart fetch: "join", column: 'cartproduct_cart_id'
+      product fetch: "join", column: 'cartproduct_product_id'
       productsCount column:  'cartproduct_productscount'
     }
 
-    product fetch: "join"
-    cart fetch: "join"
-    sort produc: "desc"
     version: false
   }
   

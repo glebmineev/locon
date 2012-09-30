@@ -42,6 +42,7 @@ class ProductComposer extends SelectorComposer<Window> {
         //значения выбранных товаров храняться в cookie.
         CartUtils utils = new CartUtils()
         utils.addToCart(productId)
+        utils.recalculateCart()
       }
     })
 
