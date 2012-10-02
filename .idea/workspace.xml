@@ -1,26 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="# - доразобрлся с корзиной=))).&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/locon/InitService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/locon/ZulService.groovy" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\grails-app\views\index.gsp" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\locon\CategoryEntityTests.groovy" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\locon\ManufacturerEntityTests.groovy" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\locon\ProductEntityTests.groovy" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\locon\ProductFilterEntityTests.groovy" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\locon\ProductPropertyEntityTests.groovy" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\maket\LokonTagLibTests.groovy" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\maket\TemplatesTagLibTests.groovy" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\ru\spb\locon\AdminControllerTests.groovy" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\test\unit\ru\spb\locon\ShopControllerTests.groovy" afterPath="" />
+    <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/ru/spb/locon/OrderEntity.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/ru/spb/locon/OrderProductEntity.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/ShopController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/ShopController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/utils/cart/CartUtils.groovy" afterPath="$PROJECT_DIR$/grails-app/utils/cart/CartUtils.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/_template.gsp" afterPath="$PROJECT_DIR$/grails-app/views/_template.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/shop/index.gsp" afterPath="$PROJECT_DIR$/grails-app/views/shop/index.gsp" />
     </list>
     <ignored path="locon.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -386,24 +370,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grails-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="conf" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -777,7 +743,7 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="# - доразобрлся с корзиной=))).&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="# - вынес инициализацию меню в сервис.&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -812,6 +778,7 @@
     <MESSAGE value="# - переделал карусель.&#10;" />
     <MESSAGE value="# - исправления.&#10;" />
     <MESSAGE value="# - доразобрлся с корзиной=))).&#10;" />
+    <MESSAGE value="# - вынес инициализацию меню в сервис.&#10;" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
