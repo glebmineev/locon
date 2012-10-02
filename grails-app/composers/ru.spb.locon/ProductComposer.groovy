@@ -49,8 +49,7 @@ class ProductComposer extends SelectorComposer<Window> {
         }
         else
           session.setAttribute("cart", productId.toString())
-        session.
-        int y = 0
+
 
         //CartUtilsOld utils = new CartUtilsOld()
         //utils.addToCart(productId)
