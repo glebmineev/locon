@@ -12,7 +12,7 @@ import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.Listitem
 
-import cart.CartUtils
+import cart.CartUtilsOld
 import org.zkoss.zk.ui.event.Events
 
 class ProductRenderer implements ListitemRenderer {
@@ -46,9 +46,12 @@ class ProductRenderer implements ListitemRenderer {
       Component button = t.target
       Listitem parent = (Listitem) button.parent.parent
       ProductEntity value = (ProductEntity) parent.getValue()
-      CartUtils utils = new CartUtils()
-      utils.addToCart(value.id)
-      utils.recalculateCart()
+
+
+
+      //CartUtilsOld utils = new CartUtilsOld()
+      //utils.addToCart(value.id)
+      //utils.recalculateCart()
     }
   }
 

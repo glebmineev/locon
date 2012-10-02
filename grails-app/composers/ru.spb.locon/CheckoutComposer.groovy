@@ -5,7 +5,7 @@ import org.zkoss.zul.Window
 import org.zkoss.zul.Textbox
 
 import org.zkoss.zul.Radio
-import cart.CartUtils
+
 import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
@@ -14,6 +14,7 @@ import org.zkoss.zk.ui.event.Events
 
 import locon.ZulService
 import org.zkoss.zkplus.spring.SpringUtil
+import cart.CartUtilsOld
 
 /**
  * User: Gleb
@@ -32,7 +33,7 @@ class CheckoutComposer extends GrailsComposer {
 
   Button checkout
 
-  CartUtils utils = new CartUtils()
+  CartUtilsOld utils = new CartUtilsOld()
   ZulService zulService = (ZulService) SpringUtil.getApplicationContext().getBean("zulService")
 
   def afterCompose = {Window window ->

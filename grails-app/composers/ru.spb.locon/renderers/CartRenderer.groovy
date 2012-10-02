@@ -10,12 +10,13 @@ import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Events
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.Listitem
-import cart.CartUtils
+
 import org.zkoss.zk.ui.event.InputEvent
 import org.zkoss.zul.ListModelList
 import ru.spb.locon.CartEntity
 
 import ru.spb.locon.CartProductEntity
+import cart.CartUtilsOld
 
 /**
  * User: Gleb
@@ -25,7 +26,7 @@ import ru.spb.locon.CartProductEntity
 class CartRenderer implements ListitemRenderer {
 
   ListModelList<CartProductEntity> productsModel
-  CartUtils utils = new CartUtils()
+  CartUtilsOld utils = new CartUtilsOld()
 
   CartRenderer(ListModelList<CartProductEntity> productsModel) {
     this.productsModel = productsModel

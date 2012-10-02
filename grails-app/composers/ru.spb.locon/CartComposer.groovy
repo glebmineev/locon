@@ -5,7 +5,7 @@ import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.Window
 import ru.spb.locon.renderers.CartRenderer
 import org.zkoss.zul.ListModelList
-import cart.CartUtils
+import cart.CartUtilsOld
 import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
@@ -24,7 +24,7 @@ class CartComposer extends GrailsComposer {
 
   Button createOrder
 
-  CartUtils utils = new CartUtils()
+  CartUtilsOld utils = new CartUtilsOld()
 
   def afterCompose = {Window window ->
     setModel()

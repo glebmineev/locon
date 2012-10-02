@@ -1,4 +1,4 @@
-<%@ page import="cart.CartUtils" %>
+<%@ page import="cart.CartUtilsOld; cart.CartUtils" %>
 <table width="100%">
   <tr>
     <td>
@@ -122,7 +122,7 @@
                         товаров:
                       </td>
                       <td>
-                        <div id="countProducts">${CartUtils.getProductCount(g.cookie(name: "cart_uuid")?.toString())}</div>
+                        <div id="countProducts">${CartUtilsOld.getProductCount(g.cookie(name: "cart_uuid")?.toString())}</div>
                       </td>
                     </tr>
                   </table>
@@ -131,7 +131,7 @@
                   <table>
                     <tr>
                       <td>
-                        <div id="priceProducts">${CartUtils.getTotalPrice(g.cookie(name: "cart_uuid")?.toString())}</div>
+                        <div id="priceProducts">${CartUtilsOld.getTotalPrice(g.cookie(name: "cart_uuid")?.toString())}</div>
                       </td>
                       <td>
                         руб.

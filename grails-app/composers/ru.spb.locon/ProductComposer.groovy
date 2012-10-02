@@ -12,10 +12,9 @@ import org.zkoss.zk.ui.event.Events
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
 import domain.DomainUtils
-import org.zkoss.zkplus.spring.SpringUtil
-import com.studentuniverse.grails.plugins.cookie.services.CookieService
-import org.zkoss.zk.ui.util.Clients
-import cart.CartUtils
+
+import cart.CartUtilsOld
+import org.zkoss.zk.ui.Session
 
 class ProductComposer extends SelectorComposer<Window> {
 
@@ -40,9 +39,22 @@ class ProductComposer extends SelectorComposer<Window> {
       @Override
       void onEvent(Event t) {
         //значения выбранных товаров храняться в cookie.
-        CartUtils utils = new CartUtils()
-        utils.addToCart(productId)
-        utils.recalculateCart()
+
+        Session session = Executions.current.session
+        session.setMaxInactiveInterval(15 * 60)
+        Object attribute = session.getAttribute("cart")
+        if (attribute != null){
+          session.setAttribute("cart", "${attribute.toString()};${productId.toString()}")
+          attribute = "${attribute};${productId.toString()}"
+        }
+        else
+          session.setAttribute("cart", productId.toString())
+        session.
+        int y = 0
+
+        //CartUtilsOld utils = new CartUtilsOld()
+        //utils.addToCart(productId)
+        //utils.recalculateCart()
       }
     })
 

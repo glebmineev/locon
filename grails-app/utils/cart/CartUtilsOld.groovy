@@ -15,7 +15,7 @@ import ru.spb.locon.CartProductEntity
  * Date: 09.09.12
  * Time: 13:42
  */
-class CartUtils {
+class CartUtilsOld {
 
   CookieService cookieService = (CookieService) SpringUtil.getApplicationContext().getBean("cookieService")
 
