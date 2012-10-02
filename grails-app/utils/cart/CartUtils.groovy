@@ -19,6 +19,7 @@ class CartUtils {
 
   CookieService cookieService = (CookieService) SpringUtil.getApplicationContext().getBean("cookieService")
 
+  @Deprecated
   public static float getTotalPrice(String uuid) {
     CartEntity cart = CartEntity.findByUuid(uuid)
     float allPrices = 0.0
@@ -31,6 +32,7 @@ class CartUtils {
     return allPrices
   }
 
+  @Deprecated
   public static int getProductCount(String uuid) {
     int productCount = 0
     CartEntity cart = CartEntity.findByUuid(uuid)
@@ -55,8 +57,23 @@ class CartUtils {
   public void recalculateCart() {
     String uuid = cookieService.get("cart_uuid")
     if (checkUUID(uuid)) {
-      Clients.evalJavaScript("\$('#countProducts').html('" + getProductCount(uuid) + "')")
-      Clients.evalJavaScript("\$('#priceProducts').html('" + getTotalPrice(uuid) + "')")
+
+      CartEntity cart = CartEntity.findByUuid(uuid)
+      if (cart != null) {
+        int productCount = 0
+        float allPrices = 0.0
+        Set<CartProductEntity> cartProductsList = cart.listCartProduct
+        if (cartProductsList != null){
+          cartProductsList.each {CartProductEntity cartProduct ->
+            float price = cartProduct.product.price == null ? 0.0 : cartProduct.product.price
+            allPrices = allPrices + (cartProduct.productsCount * price)
+            productCount = productCount + cartProduct.productsCount
+          }
+
+        }
+        Clients.evalJavaScript("\$('#countProducts').html('" + productCount + "')")
+        Clients.evalJavaScript("\$('#priceProducts').html('" + allPrices + "')")
+      }
     }
     else
     {

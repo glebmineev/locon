@@ -1,52 +1,33 @@
 package ru.spb.locon
 
-import cart.CartUtils
-
 class ShopController {
 
-  def cookieService
+  def initService
 
   def index() {
-
-    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
-
-    return [mainCategoties: categories,
-        manufacturers: manufacturers]
+    return [mainCategoties: initService.categories,
+        manufacturers: initService.manufacturers]
   }
 
   def catalog() {
-    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
-
-    return [mainCategoties: categories,
-        manufacturers: manufacturers]
+    return [mainCategoties: initService.categories,
+        manufacturers: initService.manufacturers]
   }
 
   def product() {
-    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
-
-    return [mainCategoties: categories,
-        manufacturers: manufacturers]
+    return [mainCategoties: initService.categories,
+        manufacturers: initService.manufacturers]
   }
 
   def checkout() {
-    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
-
-    return [mainCategoties: categories,
-        manufacturers: manufacturers]
+    return [mainCategoties: initService.categories,
+        manufacturers: initService.manufacturers]
   }
 
   def success() {
-    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
-
-    return [mainCategoties: categories,
-        manufacturers: manufacturers]
+    return [mainCategoties: initService.categories,
+        manufacturers: initService.manufacturers]
   }
-
 
   def register() {
     //TODO: Форма регисрации.
@@ -57,11 +38,8 @@ class ShopController {
   }
 
   def cart() {
-    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    List<ManufacturerEntity> manufacturers = ManufacturerEntity.list()
-
-    return [mainCategoties: categories,
-        manufacturers: manufacturers]
+    return [mainCategoties: initService.categories,
+        manufacturers: initService.manufacturers]
   }
 
   def about() {

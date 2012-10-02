@@ -6,6 +6,8 @@ import ru.spb.locon.UserGroupEntity
 
 class BootStrap {
 
+    def initService
+
     def init = { servletContext ->
 
         ProductPropertyEntity.withTransaction {
