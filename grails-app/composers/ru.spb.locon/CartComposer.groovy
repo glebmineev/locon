@@ -5,12 +5,13 @@ import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.Window
 import ru.spb.locon.renderers.CartRenderer
 import org.zkoss.zul.ListModelList
-import cart.CartUtilsOld
 import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.Events
+import cart.SessionUtils
+import cart.CartItem
 
 /**
  * User: Gleb
@@ -19,12 +20,10 @@ import org.zkoss.zk.ui.event.Events
  */
 class CartComposer extends GrailsComposer {
 
-  Listbox products
-  ListModelList<CartProductEntity> productsModel
+  Listbox cartItems
+  ListModelList<CartItem> cartModel
 
   Button createOrder
-
-  CartUtilsOld utils = new CartUtilsOld()
 
   def afterCompose = {Window window ->
     setModel()
@@ -33,22 +32,21 @@ class CartComposer extends GrailsComposer {
   }
 
   private void setModel() {
-    CartEntity cart = utils.getCart()
-    if (cart != null && cart.listCartProduct != null)
-      productsModel = new ListModelList<CartProductEntity>(cart.listCartProduct as List<CartProductEntity>)
+    List<CartItem> cartItems = SessionUtils.getCartProducts()
+    if (cartItems.size() > 0)
+      cartModel = new ListModelList<CartItem>(cartItems)
   }
 
-
   private void initializeListBox() {
-    products.setModel(productsModel)
-    products.setItemRenderer(new CartRenderer(productsModel))
+    cartItems.setModel(cartModel)
+    cartItems.setItemRenderer(new CartRenderer(cartModel))
   }
 
   EventListener createOrderLister = new EventListener() {
     @Override
     void onEvent(Event t) {
-      CartEntity cart = utils.getCart()
-      if (cart != null && cart.listCartProduct != null)
+      List<CartItem> cartItems = SessionUtils.getCartProducts()
+      if (cartItems.size() > 0)
         Executions.sendRedirect("/shop/checkout")
     }
   }

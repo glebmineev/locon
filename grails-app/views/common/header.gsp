@@ -1,4 +1,4 @@
-<%@ page import="cart.CartUtilsOld; cart.CartUtils" %>
+<%@ page import="importer.ConvertUtils" %>
 <table width="100%">
   <tr>
     <td>
@@ -122,7 +122,7 @@
                         товаров:
                       </td>
                       <td>
-                        <div id="countProducts">${CartUtilsOld.getProductCount(g.cookie(name: "cart_uuid")?.toString())}</div>
+                        <div id="totalCount">${session.getAttribute("totalCount") != null ? session.getAttribute("totalCount") : 0}</div>
                       </td>
                     </tr>
                   </table>
@@ -131,7 +131,8 @@
                   <table>
                     <tr>
                       <td>
-                        <div id="priceProducts">${CartUtilsOld.getTotalPrice(g.cookie(name: "cart_uuid")?.toString())}</div>
+                        <div id="totalPrice">${session.getAttribute("totalPrice") != null ? ConvertUtils.roundFloat((Float) session.getAttribute("totalPrice")) : 0.0F}</div>
+                        <div id="sessionCart"></div>
                       </td>
                       <td>
                         руб.

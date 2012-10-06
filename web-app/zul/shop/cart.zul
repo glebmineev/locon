@@ -10,7 +10,7 @@
 
   <window apply="ru.spb.locon.CartComposer" width="880px">
     <h:h1>Корзина</h:h1>
-    <listbox id="products" mold="paging" pageSize="10" height="500px" width="800px">
+    <listbox id="cartItems" mold="paging" pageSize="10" height="500px" width="800px">
       <listhead>
         <listheader label="Товар" width="230px"/>
         <listheader label="Цена" width="100px"/>

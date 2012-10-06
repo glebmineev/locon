@@ -13,8 +13,7 @@ import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
 import domain.DomainUtils
 
-import cart.CartUtilsOld
-import org.zkoss.zk.ui.Session
+import cart.SessionUtils
 
 class ProductComposer extends SelectorComposer<Window> {
 
@@ -40,20 +39,8 @@ class ProductComposer extends SelectorComposer<Window> {
       void onEvent(Event t) {
         //значения выбранных товаров храняться в cookie.
 
-        Session session = Executions.current.session
-        session.setMaxInactiveInterval(15 * 60)
-        Object attribute = session.getAttribute("cart")
-        if (attribute != null){
-          session.setAttribute("cart", "${attribute.toString()};${productId.toString()}")
-          attribute = "${attribute};${productId.toString()}"
-        }
-        else
-          session.setAttribute("cart", productId.toString())
+        SessionUtils.addToCart(ProductEntity.get(productId))
 
-
-        //CartUtilsOld utils = new CartUtilsOld()
-        //utils.addToCart(productId)
-        //utils.recalculateCart()
       }
     })
 

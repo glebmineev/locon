@@ -22,7 +22,7 @@ class CategoryEntity {
     version: false
 
     listCategoryProduct sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
-    listCategory lazy: false, cascade: 'all-delete-orphan'
+    listCategory sort: "name", order: "desc", lazy: false, cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
