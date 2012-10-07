@@ -6,8 +6,22 @@
         </tpl:block>
 
         <tpl:block name="menu">
-          <g:link controller="admin" action="importCatalog">Импортировать каталог</g:link>
-          <g:link controller="admin" action="orders">Заказы</g:link>
+          <table width="100%">
+            <tr>
+              <td>
+                <h2>
+                  <g:link controller="admin" action="importCatalog" style="color: #B8D335;">Импортировать каталог</g:link>
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  <g:link controller="admin" action="orders" style="color: #B8D335;">Заказы</g:link>
+                </h2>
+              </td>
+            </tr>
+          </table>
         </tpl:block>
 
         <tpl:block name="wrap_content">

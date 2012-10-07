@@ -90,6 +90,8 @@ class CheckoutComposer extends GrailsComposer {
       order.setCourier(false)
     }
 
+    order.setIsProcessed(true)
+
     return order
   }
 

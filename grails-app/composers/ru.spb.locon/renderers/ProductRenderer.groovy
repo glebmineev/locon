@@ -15,27 +15,30 @@ import org.zkoss.zul.Listitem
 import org.zkoss.zk.ui.event.Events
 
 import cart.SessionUtils
+import org.zkoss.zul.Groupbox
+import org.zkoss.zul.Caption
+import org.zkoss.zhtml.H2
+import org.zkoss.zul.Label
+import org.zkoss.zul.Vbox
 
-class ProductRenderer implements ListitemRenderer {
+class ProductRenderer implements ListitemRenderer<ProductEntity> {
 
   @Override
-  void render(org.zkoss.zul.Listitem listitem, Object t, int i) {
-    ProductEntity entity = (ProductEntity) t
-    listitem.setValue(entity)
+  void render(org.zkoss.zul.Listitem listitem, ProductEntity t, int i) {
+    listitem.setValue(t)
 
+    //Ячейка с каритнкой
     Listcell imageCell = new Listcell()
-    imageCell.setStyle("width:130px;")
-    imageCell.appendChild(getImage(entity))
+    imageCell.appendChild(getImage(t))
     imageCell.setParent(listitem)
 
-    Listcell descCell = new Listcell(entity.name)
-    Button addToCart = new Button("Добавить в корзину")
-    addToCart.addEventListener(Events.ON_CLICK, addToCartListener)
-    descCell.appendChild(addToCart)
+    //Ячейка с товаром
+    Listcell descCell = new Listcell()
+    descCell.appendChild(getProductCell(t))
     descCell.setParent(listitem)
   }
 
-  private Image getImage(ProductEntity entity){
+  private Image getImage(ProductEntity entity) {
     Image image = new Image()
     image.setSrc("/images/empty.png")
     return image
@@ -45,14 +48,33 @@ class ProductRenderer implements ListitemRenderer {
     @Override
     void onEvent(Event t) {
       Component button = t.target
-      Listitem parent = (Listitem) button.parent.parent
+      Listitem parent = (Listitem) button.parent.parent.parent.parent
       ProductEntity value = (ProductEntity) parent.getValue()
       SessionUtils.addToCart(value)
     }
   }
 
-  //TODO: сделать контейнер содержания.
-  private Div getDescription(ProductEntity entity){
+  private Div getProductCell(ProductEntity entity){
+    
+    Div productCell = new Div()
+
+    Vbox vBox = new Vbox()
+
+    Label header = new Label(entity.name)
+    header.setStyle("font: 16pt")
+
+    Button addToCart = new Button("Добавить в корзину")
+    addToCart.addEventListener(Events.ON_CLICK, addToCartListener)
+
+    vBox.appendChild(header)
+    vBox.appendChild(addToCart)
+
+    productCell.appendChild(vBox)
+
+    return productCell
+  }
+
+  private Div getDescription(ProductEntity entity) {
     return new Div()
   }
 

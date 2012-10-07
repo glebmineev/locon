@@ -13,10 +13,10 @@
             <tree id="categoryTree" width="250px">
                 <treechildren/>
             </tree>
-            <listbox id="products" height="780px" width="610px" mold="paging" pageSize="5">
+            <listbox id="products" height="760px" width="100%" mold="paging" pageSize="5">
                 <listhead>
-                  <listheader width="130px"/>
-                  <listheader width="490px"/>
+                  <listheader width="180px"/>
+                  <listheader/>
                 </listhead>
             </listbox>
         </hbox>

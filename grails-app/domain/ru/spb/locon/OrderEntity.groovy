@@ -17,10 +17,17 @@ class OrderEntity {
   String address
   String notes
 
+  Date openDate = new Date()
+  Date closeDate
+  
+  Boolean isProcessed = false
+  Boolean isComplete = false
+  Boolean isCancel = false
+
   UserEntity user
 
-  Boolean courier
-  Boolean emoney
+  Boolean courier = false
+  Boolean emoney = false
 
   static mapping = {
 
@@ -37,6 +44,11 @@ class OrderEntity {
       user fetch: "join", column: 'order_user_id'
       courier column: 'order_courier'
       emoney column: 'order_emoney'
+      openDate column: 'order_startdate'
+      closeDate column: 'order_closedate'
+      isProcessed column: 'order_isprocessed'
+      isComplete column: 'order_iscomplete'
+      isCancel column: 'order_iscancel'
     }
 
     orderProductList sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
@@ -59,6 +71,11 @@ class OrderEntity {
     user nullable: true
     courier nullable: true
     emoney nullable: true
+    openDate nullable: false
+    closeDate nullable: true
+    isProcessed nullable: false
+    isComplete nullable: false
+    isCancel nullable: false
   }
 
   public String toString() {
