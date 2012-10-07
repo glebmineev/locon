@@ -30,7 +30,8 @@ class ShopController {
   }
 
   def register() {
-    //TODO: Форма регисрации.
+    return [mainCategoties: initService.categories,
+        manufacturers: initService.manufacturers]
   }
 
   def cabinet() {
@@ -43,6 +44,7 @@ class ShopController {
   }
 
   def about() {
-    //TODO: О нас.
+    return [mainCategoties: initService.categories,
+        manufacturers: initService.manufacturers]
   }
 }

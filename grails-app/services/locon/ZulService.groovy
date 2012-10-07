@@ -20,7 +20,6 @@ class ZulService {
       message += " - " + messageSource.getMessage(error, new Locale('ru')) + "\r\n"
     }
 
-    // ErrorWindow wnd = new ErrorWindow(message)
     ErrorWindow wnd = new ErrorWindow(message)
     wnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
 
