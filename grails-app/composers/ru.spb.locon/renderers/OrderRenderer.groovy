@@ -31,5 +31,16 @@ class OrderRenderer implements ListitemRenderer<OrderEntity> {
     Listcell emailCell = new Listcell(entity.email)
     emailCell.setParent(listitem)
 
+    //Статус
+    String status = "Проблемы с определением статуса"
+    if (entity.isProcessed) 
+      status = "В обработке"
+    if (entity.isCancel)
+      status = "Отменен"
+    if (entity.isComplete)
+      status = "Выполнен"
+    Listcell statusCell = new Listcell(status)
+    statusCell.setParent(listitem)
+
   }
 }

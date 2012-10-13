@@ -10,15 +10,22 @@
 
   <window apply="ru.spb.locon.CartComposer" width="880px">
     <h:h1>Корзина</h:h1>
-    <listbox id="products" mold="paging" pageSize="10" height="500px" width="800px">
-      <listhead>
-        <listheader label="Товар" width="230px"/>
-        <listheader label="Цена" width="100px"/>
-        <listheader label="Количество" width="100px"/>
-        <listheader label="Стоимость" width="100px"/>
-        <listheader label="Действия" width="300px"/>
-      </listhead>
-    </listbox>
+
+    <h:table width="100%" cellpadding="5px">
+      <h:tr>
+        <h:td>
+          <listbox id="cartItems" mold="paging" pageSize="10" height="500px" width="100%">
+            <listhead>
+              <listheader label="Товар"/>
+              <listheader label="Цена" width="100px"/>
+              <listheader label="Количество" width="100px"/>
+              <listheader label="Стоимость" width="100px"/>
+              <listheader label="Действия" width="300px"/>
+            </listhead>
+          </listbox>
+        </h:td>
+      </h:tr>
+    </h:table>
 
     <h:table width="100%" cellpadding="5px">
       <h:tr>

@@ -31,11 +31,19 @@ class BootStrap {
         }
 
         UserGroupEntity.withTransaction {
-          UserGroupEntity.findOrSaveWhere(name: "admins")
+          UserGroupEntity.findOrSaveWhere(name: "admin")
+          UserGroupEntity.findOrSaveWhere(name: "user")
         }
 
         UserEntity.withTransaction{
-          UserEntity.findOrSaveWhere(firstName: "admin", lastName: "admin", userGroup: UserGroupEntity.findByName("admins"))
+          UserEntity.findOrSaveWhere(
+              login: "admin",
+              password: "admin".encodeAsSHA1(),
+              email: "admin@admin.ru",
+              fio: "fio",
+              address: "SPb",
+              userGroup: UserGroupEntity.findByName("admin")
+          )
         }
     }
 

@@ -12,6 +12,7 @@ import ru.spb.locon.CategoryProductEntity
 import importer.ConverterRU_EN
 import importer.DirUtils
 import importer.ConvertUtils
+import java.math.RoundingMode
 
 
 class ImporterExcel {
@@ -20,7 +21,7 @@ class ImporterExcel {
   private ManufacturerEntity manufacturer
   private CategoryEntity menuCategory
 
-  ImporterExcel(){ }
+  ImporterExcel() { }
 
   ImporterExcel(Workbook wrkbook, String category, String manufacturer) {
     initEntities(category, manufacturer)
@@ -48,10 +49,9 @@ class ImporterExcel {
         CategoryEntity submenuCategory = getCategory(sheet.getName())
         submenuCategory.setParentCategory(menuCategory)
 
-        int rows = sheet.getRows()
         //перебираем строки страницы.
         CategoryEntity temp = null
-        for (int i = 0; i < rows; i++) {
+        (0..sheet.getRows() - 1).each { i ->
           Cell[] row = sheet.getRow(i)
           if (row.length != 0) {
             if (row != null && row.length > 1 && !row[1].getContents().isEmpty()) {
@@ -99,7 +99,7 @@ class ImporterExcel {
 
   private ProductEntity createProduct(Cell[] row) {
     ProductEntity product = new ProductEntity()
-    for (int i = 0; i < row.length; i++) {
+    (0..row.length - 1).each { i ->
       String value = row[i].getContents()
       if (!value.isEmpty()) {
         if (i == 0)
@@ -108,10 +108,16 @@ class ImporterExcel {
           product.setName(value)
         if (i == 2)
           product.setProductFilter(getProductFilter(value))
-        if (i == 3)
-          product.setVolume(value)
-        if (i == 4)
-          product.setPrice(Float.parseFloat(value.replace(",", ".")))
+        if (i == 3) {
+          if (value != null && !value.isEmpty())
+            product.setVolume(value)
+        }
+
+        if (i == 4) {
+          float price = Float.parseFloat(value.replace(",", "."))
+          float result = new BigDecimal(price).setScale(2, RoundingMode.UP).floatValue()
+          product.setPrice(result)
+        }
       }
     }
 

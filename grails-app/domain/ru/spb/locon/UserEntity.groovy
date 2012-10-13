@@ -1,9 +1,21 @@
 package ru.spb.locon
 
+import javax.xml.bind.annotation.XmlTransient
+import org.springframework.validation.Errors
+import org.grails.datastore.mapping.validation.ValidationErrors
+
 class UserEntity {
 
-  String firstName
-  String lastName
+  @XmlTransient
+  Errors errors = new ValidationErrors(this)
+
+  String login
+  String password
+
+  String fio
+  String phone
+  String email
+  String address
 
   UserGroupEntity userGroup
 
@@ -11,8 +23,12 @@ class UserEntity {
     table: 'user'
     columns {
       id column: 'user_id'
-      firstName column: 'user_firstName'
-      lastName column: 'user_lastName'
+      login column: 'user_login'
+      password column: 'user_password'
+      fio column: 'user_fio'
+      phone column: 'user_phone'
+      email column: 'user_email'
+      address column: 'user_address'
       userGroup column: 'user_usergroup_id'
     }
 
@@ -27,9 +43,25 @@ class UserEntity {
   ]
 
   static constraints = {
-    firstName nullable: true
-    lastName nullable: true
+    login nullable: false
+    password nullable: false
+    fio nullable: false
+    phone nullable: true
+    email nullable: false
+    address nullable: false
     userGroup nullable: true
   }
-  
+
+  public String toString() {
+    return fio
+  }
+
+  Errors getErrors() {
+    return errors
+  }
+
+  void setErrors(Errors errors) {
+    this.errors = errors
+  }
+
 }

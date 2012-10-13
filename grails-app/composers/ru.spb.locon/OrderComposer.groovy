@@ -7,6 +7,10 @@ import org.zkoss.zul.Listbox
 import org.zkoss.zk.ui.event.Events
 import ru.spb.locon.renderers.CartRenderer
 import ru.spb.locon.renderers.OrderRenderer
+import org.zkoss.zk.ui.event.EventListener
+import org.zkoss.zk.ui.event.Event
+import org.zkoss.zul.Listitem
+import org.zkoss.zk.ui.Executions
 
 /**
  * User: Gleb
@@ -30,8 +34,21 @@ class OrderComposer extends GrailsComposer {
   }
 
   private void initializeListBox() {
+    orders.addEventListener(Events.ON_CLICK, ordersLister)
     orders.setModel(ordersModel)
     orders.setItemRenderer(new OrderRenderer())
+  }
+
+  EventListener ordersLister = new EventListener() {
+    @Override
+    void onEvent(Event t) {
+      int index = orders.getSelectedIndex()
+      final Listitem listitem = orders.getItemAtIndex(index)
+      if (listitem != null) {
+        OrderEntity order = (OrderEntity) listitem.getValue()
+        Executions.sendRedirect("/admin/orderItem?order=${order.id}")
+      }
+    }
   }
 
 }

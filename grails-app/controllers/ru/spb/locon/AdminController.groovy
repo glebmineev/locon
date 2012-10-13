@@ -4,9 +4,9 @@ class AdminController {
 
     def index() { }
 
-    def orders() {
+    def orders() { }
 
-    }
+    def orderItem() { }
 
     def importCatalog(){ }
 }

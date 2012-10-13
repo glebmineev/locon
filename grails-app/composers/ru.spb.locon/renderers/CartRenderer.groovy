@@ -10,38 +10,41 @@ import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Events
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.Listitem
-import cart.CartUtils
+
 import org.zkoss.zk.ui.event.InputEvent
 import org.zkoss.zul.ListModelList
-import ru.spb.locon.CartEntity
 
-import ru.spb.locon.CartProductEntity
+import cart.CartItem
+import ru.spb.locon.ProductEntity
+import cart.SessionUtils
+import importer.ConvertUtils
 
 /**
  * User: Gleb
  * Date: 23.09.12
  * Time: 14:54
  */
-class CartRenderer implements ListitemRenderer {
+class CartRenderer implements ListitemRenderer<CartItem> {
 
-  ListModelList<CartProductEntity> productsModel
-  CartUtils utils = new CartUtils()
+  ListModelList<CartItem> cartModel
 
-  CartRenderer(ListModelList<CartProductEntity> productsModel) {
-    this.productsModel = productsModel
+  CartRenderer(ListModelList<CartItem> cartModel) {
+    this.cartModel = cartModel
   }
 
   @Override
-  void render(org.zkoss.zul.Listitem listitem, Object object, int i) {
-    CartProductEntity entity = (CartProductEntity) object
-    listitem.setValue(entity)
+  void render(Listitem listitem, CartItem object, int i) {
+    CartItem cartItem = (CartItem) object
+    listitem.setValue(cartItem)
 
+    ProductEntity product = cartItem.getProduct()
+    Long count = cartItem.getCount()
     //Товар
-    Listcell productCell = new Listcell(entity.product.name)
+    Listcell productCell = new Listcell(product.name)
     productCell.setParent(listitem)
 
     //Цена
-    Float price = entity.product.price != null ? entity.product.price : 0.0
+    Float price = product.price != null ? product.price : 0.0
     Listcell priceCell = new Listcell(price.toString())
     priceCell.setParent(listitem)
 
@@ -50,13 +53,13 @@ class CartRenderer implements ListitemRenderer {
     Textbox textbox = new Textbox()
     textbox.addEventListener(Events.ON_CHANGE, updateListener)
 
-    textbox.setValue(Integer.toString(entity.productsCount))
+    textbox.setValue(Long.toString(count))
     productsCount.appendChild(textbox)
     productsCount.setParent(listitem)
 
     //Стоимость
-    Integer counts = entity.productsCount != null ? entity.productsCount : 0
-    Listcell allPriceCell = new Listcell(Double.toString(price * counts))
+    Float roundPrice = (product.price * Float.parseFloat(count.toString()))
+    Listcell allPriceCell = new Listcell(roundPrice.toString())
     allPriceCell.setParent(listitem)
 
     //Дейсвия
@@ -73,11 +76,9 @@ class CartRenderer implements ListitemRenderer {
     void onEvent(Event t) {
       Component button = t.target
       Listitem parent = (Listitem) button.parent.parent
-      CartProductEntity value = (CartProductEntity) parent.getValue()
-      value.delete()
-      removeFromModel(value)
-      utils.recalculateCart()
-
+      CartItem value = (CartItem) parent.getValue()
+      cartModel.remove(value)
+      SessionUtils.removeFromCart(value)
     }
   }
 
@@ -85,30 +86,14 @@ class CartRenderer implements ListitemRenderer {
     @Override
     void onEvent(Event t) {
       InputEvent event = (InputEvent) t
-      CartProductEntity.withTransaction {
-        Component button = event.target
-        Listitem parent = (Listitem) button.parent.parent
-        CartProductEntity value = (CartProductEntity) parent.getValue()
-        String newValue = event.getValue()
 
-        CartProductEntity.withNewTransaction {
-          value.setProductsCount(Integer.parseInt(newValue))
-          value.merge(flush: true)
-        }
-        rebuildModel()
-        utils.recalculateCart()
-      }
+      Component button = event.target
+      Listitem parent = (Listitem) button.parent.parent
+      CartItem value = (CartItem) parent.getValue()
+
+      //TODO сдесь обновлять корзину
     }
   }
-
-  private void rebuildModel(){
-    CartEntity cart = utils.getCart()
-    productsModel.clear()
-    productsModel.addAll(cart.listCartProduct)
-  }
-
-  private void removeFromModel(CartProductEntity value) {
-    productsModel.remove(value)
-  }
-
 }
+
+

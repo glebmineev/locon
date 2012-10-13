@@ -5,7 +5,7 @@ import org.zkoss.zul.Window
 import org.zkoss.zul.Textbox
 
 import org.zkoss.zul.Radio
-import cart.CartUtils
+
 import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
@@ -14,6 +14,8 @@ import org.zkoss.zk.ui.event.Events
 
 import locon.ZulService
 import org.zkoss.zkplus.spring.SpringUtil
+import cart.SessionUtils
+import cart.CartItem
 
 /**
  * User: Gleb
@@ -32,13 +34,10 @@ class CheckoutComposer extends GrailsComposer {
 
   Button checkout
 
-  CartUtils utils = new CartUtils()
   ZulService zulService = (ZulService) SpringUtil.getApplicationContext().getBean("zulService")
 
   def afterCompose = {Window window ->
-
     checkout.addEventListener(Events.ON_CLICK, createOrderLister)
-
   }
 
   EventListener createOrderLister = new EventListener() {
@@ -57,9 +56,12 @@ class CheckoutComposer extends GrailsComposer {
         }
       }
 
-      if(order.errors.allErrors.size() == 0){
+      if (order.errors.allErrors.size() == 0) {
         saveCartData(order)
       }
+
+      SessionUtils.cleanCart()
+
     }
   }
 
@@ -78,7 +80,7 @@ class CheckoutComposer extends GrailsComposer {
     if (validTextBox(notes))
       order.setNotes(notes.getValue())
 
-    if (courier.checked){
+    if (courier.checked) {
       order.setCourier(true)
       order.setEmoney(false)
     }
@@ -88,6 +90,7 @@ class CheckoutComposer extends GrailsComposer {
       order.setCourier(false)
     }
 
+    order.setIsProcessed(true)
 
     return order
   }
@@ -102,19 +105,17 @@ class CheckoutComposer extends GrailsComposer {
   }
 
 
-  private void saveCartData(OrderEntity order){
-    utils.getCart().listCartProduct.each {CartProductEntity cartProduct ->
-      OrderProductEntity.withTransaction{
-        OrderProductEntity orderProduct = new OrderProductEntity()
-        orderProduct.setCountProduct(cartProduct.productsCount)
-        orderProduct.setProduct(cartProduct.product)
-        orderProduct.setOrder(order)
+  private void saveCartData(OrderEntity order) {
+    List<CartItem> cartItems = SessionUtils.getCartProducts()
+    OrderProductEntity.withTransaction {
+      cartItems.each {CartItem cartItem ->
+        OrderProductEntity orderProduct = new OrderProductEntity(
+            product: cartItem.getProduct(),
+            countProduct: cartItem.getCount(),
+            order: order
+        )
         orderProduct.save(flush: true)
       }
     }
-
-    utils.deleteCart()
-    utils.clearCookie()
-    utils.recalculateCart()
   }
 }

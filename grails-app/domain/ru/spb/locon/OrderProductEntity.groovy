@@ -3,7 +3,7 @@ package ru.spb.locon
 class OrderProductEntity {
 
   ProductEntity product
-  Integer countProduct
+  Long countProduct
   OrderEntity order
 
   static mapping = {
