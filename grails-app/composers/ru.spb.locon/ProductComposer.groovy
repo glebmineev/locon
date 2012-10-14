@@ -32,7 +32,7 @@ class ProductComposer extends SelectorComposer<Window> {
   public void doAfterCompose(Window window) {
     super.doAfterCompose(window)
     productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
-    Long categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
+
     cartButton.addEventListener(Events.ON_CLICK, new EventListener() {
 
       @Override
@@ -47,7 +47,9 @@ class ProductComposer extends SelectorComposer<Window> {
     backButton.addEventListener(Events.ON_CLICK, new EventListener() {
       @Override
       void onEvent(Event t) {
-        Executions.sendRedirect("/shop/catalog?category=${categoryId}")
+        String category = Executions.getCurrent().getParameter("category")
+        if (category != null)
+          Executions.sendRedirect("/shop/catalog?category=${Long.parseLong(category)}")
       }
     })
 

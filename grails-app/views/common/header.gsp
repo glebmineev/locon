@@ -125,14 +125,13 @@
               </tr>
             </table>
           </td>
-          <td>
+          <td colspan="2">
             <g:form controller="search" action="index">
-              <g:textField name="q" size="16"/>
-              <g:submitButton name="Найти"/>
+              <g:textField name="query" size="16"/>
+              <g:submitButton name="Найти">
+                <g:img dir="images" file="search.png"/>
+              </g:submitButton>
             </g:form>
-          </td>
-          <td>
-            <g:img dir="images" file="search.png"/>
           </td>
         </tr>
         <tr>

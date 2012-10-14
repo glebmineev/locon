@@ -8,8 +8,7 @@ class AuthController {
   def loginService
 
   def login(){
-    return [mainCategoties: initService.categories,
-        manufacturers: initService.manufacturers]
+    return [mainCategoties: initService.categories]
   }
 
   def logout() {

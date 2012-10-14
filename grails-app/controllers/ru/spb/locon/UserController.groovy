@@ -8,13 +8,11 @@ class UserController {
   def loginService
 
   def orders() {
-    return [mainCategoties: initService.categories,
-        manufacturers: initService.manufacturers]
+    return [mainCategoties: initService.categories]
   }
 
   def orderItem() {
-    return [mainCategoties: initService.categories,
-        manufacturers: initService.manufacturers]
+    return [mainCategoties: initService.categories]
   }
 
   def beforeInterceptor = {

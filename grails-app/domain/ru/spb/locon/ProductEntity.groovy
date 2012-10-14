@@ -2,6 +2,8 @@ package ru.spb.locon
 
 class ProductEntity {
 
+  static searchable = [except: '']
+
   String imagePath
   String article
   String name
