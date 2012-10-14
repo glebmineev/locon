@@ -72,7 +72,6 @@ class OrderItemComposer extends GrailsComposer {
         emoney.setSelected(true)
       }
     }
-
   }
 
   private void initializeListBox() {
