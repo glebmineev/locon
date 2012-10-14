@@ -16,9 +16,7 @@ class UserEntity {
   String phone
   String email
   String address
-
-  UserGroupEntity userGroup
-
+  
   static mapping = {
     table: 'user'
     columns {
@@ -29,17 +27,17 @@ class UserEntity {
       phone column: 'user_phone'
       email column: 'user_email'
       address column: 'user_address'
-      userGroup column: 'user_usergroup_id'
     }
 
-    orderList /*lazy: false, */cascade: 'all-delete-orphan'
-
-    version: false
+    orderList lazy: false, cascade: 'all-delete-orphan'
+    userGroupList lazy: false, cascade: 'all-delete-orphan'
+    version false
 
   }
 
   static hasMany = [
-      orderList: OrderEntity
+    orderList: OrderEntity,
+    userGroupList: UserGroupEntity
   ]
 
   static constraints = {
@@ -49,8 +47,9 @@ class UserEntity {
     phone nullable: true
     email nullable: false
     address nullable: false
-    userGroup nullable: true
   }
+
+  static transients = ['errors']
 
   public String toString() {
     return fio

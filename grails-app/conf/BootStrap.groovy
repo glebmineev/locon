@@ -3,50 +3,54 @@ import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.UserEntity
 import ru.spb.locon.UserGroupEntity
+import ru.spb.locon.GroupEntity
 
 class BootStrap {
 
-    def initService
+  def initService
 
-    def init = { servletContext ->
+  def init = { servletContext ->
 
-        ProductPropertyEntity.withTransaction {
-            ProductPropertyEntity.findOrSaveWhere(name: "Объем")
-        }
-
-        CategoryEntity.withTransaction {
-            CategoryEntity.findOrSaveWhere(name: "Для волос")
-            CategoryEntity.findOrSaveWhere(name: "Для тела")
-            CategoryEntity.findOrSaveWhere(name: "Для рук")
-            CategoryEntity.findOrSaveWhere(name: "Депиляция")
-        }
-
-        ManufacturerEntity.withTransaction {
-            ManufacturerEntity.findOrSaveWhere(name: "Индола")
-            ManufacturerEntity.findOrSaveWhere(name: "Periche")
-            ManufacturerEntity.findOrSaveWhere(name: "Hair light")
-            ManufacturerEntity.findOrSaveWhere(name: "OLLIN Professional")
-            ManufacturerEntity.findOrSaveWhere(name: "Schwarzkopf professional")
-            ManufacturerEntity.findOrSaveWhere(name: "Screen")
-        }
-
-        UserGroupEntity.withTransaction {
-          UserGroupEntity.findOrSaveWhere(name: "admin")
-          UserGroupEntity.findOrSaveWhere(name: "user")
-        }
-
-        UserEntity.withTransaction{
-          UserEntity.findOrSaveWhere(
-              login: "admin",
-              password: "admin".encodeAsSHA1(),
-              email: "admin@admin.ru",
-              fio: "fio",
-              address: "SPb",
-              userGroup: UserGroupEntity.findByName("admin")
-          )
-        }
+    ProductPropertyEntity.withTransaction {
+      ProductPropertyEntity.findOrSaveWhere(name: "Объем")
     }
 
-    def destroy = {
+    CategoryEntity.withTransaction {
+      CategoryEntity.findOrSaveWhere(name: "Для волос")
+      CategoryEntity.findOrSaveWhere(name: "Для тела")
+      CategoryEntity.findOrSaveWhere(name: "Для рук")
+      CategoryEntity.findOrSaveWhere(name: "Депиляция")
     }
+
+    ManufacturerEntity.withTransaction {
+      ManufacturerEntity.findOrSaveWhere(name: "Индола")
+      ManufacturerEntity.findOrSaveWhere(name: "Periche")
+      ManufacturerEntity.findOrSaveWhere(name: "Hair light")
+      ManufacturerEntity.findOrSaveWhere(name: "OLLIN Professional")
+      ManufacturerEntity.findOrSaveWhere(name: "Schwarzkopf professional")
+      ManufacturerEntity.findOrSaveWhere(name: "Screen")
+    }
+
+    GroupEntity.withTransaction {
+      GroupEntity.findOrSaveWhere(name: "MANAGER")
+      GroupEntity.findOrSaveWhere(name: "USER")
+    }
+
+    UserEntity.withTransaction {
+      UserEntity.findOrSaveWhere(
+          login: "admin",
+          password: "admin".encodeAsSHA1(),
+          email: "admin@admin.ru",
+          fio: "fio",
+          address: "SPb"
+      )
+    }
+
+    UserGroupEntity.withTransaction {
+      UserGroupEntity.findOrSaveWhere(user: UserEntity.findByLogin("admin"), group: GroupEntity.findByName("MANAGER"))
+    }
+  }
+
+  def destroy = {
+  }
 }

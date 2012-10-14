@@ -19,7 +19,7 @@ class CategoryProductEntity {
     //product fetch: "join"
     //category fetch: "join"
 
-    version: false
+    version false
   }
 
   static constraints = {

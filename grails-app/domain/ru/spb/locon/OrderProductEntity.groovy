@@ -18,7 +18,7 @@ class OrderProductEntity {
       order fetch: "join", column: 'orderproduct_order_id'
     }
 
-    version: false
+    version false
   }
   static constraints = {
     product nullable: true

@@ -53,7 +53,7 @@ class OrderEntity {
 
     orderProductList sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
 
-    version: false
+    version false
 
   }
 
@@ -77,6 +77,8 @@ class OrderEntity {
     isComplete nullable: false
     isCancel nullable: false
   }
+
+  static transients = ['errors']
 
   public String toString() {
     return fio

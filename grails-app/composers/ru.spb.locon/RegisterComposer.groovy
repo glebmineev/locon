@@ -41,6 +41,8 @@ class RegisterComposer extends GrailsComposer {
   private void saveUser(){
     if (findByLogin() != null) {
       zulService.showErrors("Пользователь с указанным логином уже существует")
+    } else if (findByEmail() != null){
+      zulService.showErrors("Пользователь с указанным e-mail уже существует")
     } else {
       createNewUser()
     }
@@ -54,13 +56,20 @@ class RegisterComposer extends GrailsComposer {
     return user
   }
 
+  private UserEntity findByEmail(){
+    UserEntity user = null
+    if (validateField(email))
+      user = UserEntity.findByEmail(email.getValue())
+    return user
+  }
+
   private createNewUser(){
     UserEntity.withTransaction {
       UserEntity user = new UserEntity()
       if (validateField(login))
         user.setLogin(login.getValue())
       if (validateField(password))
-        user.setPassword(password.encodeAsSHA1())
+        user.setPassword(password.getValue().encodeAsSHA1())
       if (validateField(fio))
         user.setFio(fio.getValue())
       if (validateField(phone))
@@ -70,11 +79,15 @@ class RegisterComposer extends GrailsComposer {
       if (validateField(address))
         user.setAddress(address.getValue())
 
-      UserGroupEntity userGroup = UserGroupEntity.findByName("user")
-      user.setUserGroup(userGroup)
-
       if (user.validate()) {
         user.save(flush: true)
+        UserGroupEntity.withTransaction {
+          GroupEntity group = GroupEntity.findByName("USER")
+          UserGroupEntity userGroupEntity = new UserGroupEntity()
+          userGroupEntity.setUser(user)
+          userGroupEntity.setGroup(group)
+          userGroupEntity.save(flush: true)
+        }
         Executions.sendRedirect("/shop")
       }
       else

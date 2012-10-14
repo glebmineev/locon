@@ -13,7 +13,7 @@ class ProductFilterEntity {
       id column: 'productfilter_id'
       name column: 'productfilter_name'
     }
-    version: false
+    version false
     productList cascade: 'all-delete-orphan'
   }
 

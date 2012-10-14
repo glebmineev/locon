@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <window apply="ru.spb.locon.LoginComposer" width="100%">
+    <label id="errors" visible="false"/>
+    <h:table width="100%" cellspacing="5" align="center">
+      <h:tr>
+        <h:td colspan="2">
+          <h:h2>Введите email и пароль</h:h2>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td align="right">
+          <label value="email: "/>
+        </h:td>
+        <h:td align="left">
+          <textbox id="login" type="text"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td align="right">
+          <label value="Пароль: "/>
+        </h:td>
+        <h:td align="left">
+          <textbox id="password" type="password"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td colspan="2" align="center">
+          <button id="loginButton" label="Войти"/>
+          <button id="cancelButton" label="Отмена"/>
+        </h:td>
+      </h:tr>
+    </h:table>
+  </window>
+
+</zk>

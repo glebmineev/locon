@@ -65,7 +65,6 @@
       <library name="Grails User Library (locon)">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
-          <root url="jar://$MODULE_DIR$/../../Locon/locon/lib/mysql-connector-java-5.1.18-bin.jar!/" />
           <root url="jar://$USER_HOME_GRAILS$/ivy-cache/net.java.dev.inflector/inflector/jars/inflector-0.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />

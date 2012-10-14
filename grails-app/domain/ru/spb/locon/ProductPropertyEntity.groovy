@@ -14,7 +14,7 @@ class ProductPropertyEntity {
       name column: 'productproperty_name'
     }
 
-    version: false
+    version false
 
     productList cascade: 'all-delete-orphan'
 

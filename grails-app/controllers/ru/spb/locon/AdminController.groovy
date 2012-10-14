@@ -1,12 +1,25 @@
 package ru.spb.locon
 
+import login.URLUtils
+
 class AdminController {
 
-    def index() { }
+  def loginService
 
-    def orders() { }
+  def index() { }
 
-    def orderItem() { }
+  def orders() { }
 
-    def importCatalog(){ }
+  def orderItem() { }
+
+  def importCatalog() { }
+
+  def beforeInterceptor = {
+    List<String> groups = loginService.getUserGroups()
+    if (!groups.contains("MANAGER")) {
+      loginService.setParams(params)
+      redirect(url: URLUtils.getHostUrl(request) + createLink(controller: "auth", action: "login"))
+      return
+    }
+  }
 }

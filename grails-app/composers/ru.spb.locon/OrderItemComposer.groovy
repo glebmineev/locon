@@ -2,17 +2,21 @@ package ru.spb.locon
 
 import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.*
-import ru.spb.locon.renderers.ProductRenderer
 import org.zkoss.zk.ui.event.*
 import org.zkoss.zk.ui.Executions
 import ru.spb.locon.renderers.OrderItemRenderer
+import org.zkoss.zhtml.Table
+import org.zkoss.zhtml.Tr
+import org.zkoss.zhtml.Td
+import locon.LoginService
+import org.zkoss.zkplus.spring.SpringUtil
 
 /**
  * User: Gleb
  * Date: 07.10.12
  * Time: 14:11
  */
-class AdminOrderItemComposer extends GrailsComposer {
+class OrderItemComposer extends GrailsComposer {
 
   Label fio
   Label phone
@@ -27,29 +31,39 @@ class AdminOrderItemComposer extends GrailsComposer {
   Listbox products
   ListModelList<OrderProductEntity> productsModel
 
-  Button orderComplete
-  Button backButton
-  Button orderCancel
-
   Long orderId
+
+  LoginService loginService = (LoginService) SpringUtil.getApplicationContext().getBean("loginService")
 
   def afterCompose = {Window window ->
     orderId = Long.parseLong(execution.getParameter("order"))
     initializeFields()
     initializeListBox()
-    initializeButton()
+
+    if (loginService.isLogged() && loginService.getUserGroups().contains("MANAGER"))
+      window.appendChild(createTableWithButtons())
   }
 
-  private void initializeFields(){
+  private void initializeFields() {
     OrderEntity order = OrderEntity.get(orderId)
-    if (order.user == null){
+    if (loginService.userGroups.contains("MANAGER")) {
+      if (order.user == null) {
+        fio.setValue(order.fio)
+        phone.setValue(order.phone)
+        email.setValue(order.email)
+        address.setValue(order.address)
+      }
+      else {
+        fio.setValue(order.user.fio)
+        phone.setValue(order.user.phone)
+        email.setValue(order.user.email)
+        address.setValue(order.user.address)
+      }
+
       number.setValue(order.number)
-      fio.setValue(order.fio)
-      phone.setValue(order.phone)
-      email.setValue(order.email)
-      address.setValue(order.address)
       notes.setValue(order.notes)
-      if (order.courier){
+
+      if (order.courier) {
         courier.setSelected(true)
         emoney.setSelected(false)
       }
@@ -58,9 +72,10 @@ class AdminOrderItemComposer extends GrailsComposer {
         emoney.setSelected(true)
       }
     }
+
   }
 
-  private void initializeListBox(){
+  private void initializeListBox() {
     OrderEntity order = OrderEntity.get(orderId)
     Collection<OrderProductEntity> productsList = order.orderProductList
     productsModel = new ListModelList<OrderProductEntity>(productsList)
@@ -68,10 +83,36 @@ class AdminOrderItemComposer extends GrailsComposer {
     products.setItemRenderer(new OrderItemRenderer())
   }
 
-  private void initializeButton() {
+  private Table createTableWithButtons() {
+
+    Table table = new Table()
+    table.setStyle("width:100%;align:center;")
+    Tr row = new Tr()
+    Td completeCell = new Td()
+    Td backCell = new Td()
+    Td cancelCell = new Td()
+
+    Button orderComplete = new Button("Заказ обработан")
     orderComplete.addEventListener(Events.ON_CLICK, orderCompleteLister)
+
+    Button backButton = new Button("Отменить заказ")
     backButton.addEventListener(Events.ON_CLICK, backButtonLister)
-    orderCancel.addEventListener(Events.ON_CLICK, orderCancelLister)
+
+    Button cancelButton = new Button("К списку заказов")
+    cancelButton.addEventListener(Events.ON_CLICK, orderCancelLister)
+
+    completeCell.appendChild(orderComplete)
+    row.appendChild(completeCell)
+
+    backCell.appendChild(backButton)
+    row.appendChild(backCell)
+
+    cancelCell.appendChild(cancelButton)
+    row.appendChild(cancelCell)
+
+    table.appendChild(row)
+    return table
+
   }
 
   EventListener orderCompleteLister = new EventListener() {

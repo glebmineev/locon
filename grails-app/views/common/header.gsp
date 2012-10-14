@@ -1,22 +1,42 @@
 <%@ page import="importer.ConvertUtils" %>
+<%
+  def loginService = grailsApplication.mainContext.getBean("loginService");
+%>
 <table width="100%">
   <tr>
     <td>
       <table width="100%">
         <tr>
-          <td>
-            <g:img dir="images" file="unlock.png"/>
-          </td>
-          <td>
-            <g:link controller="shop" action="register">
-              Регистрация
-            </g:link>
-          </td>
-          <td>
-            <g:link controller="shop" action="cabinet">
-              Авторизация
-            </g:link>
-          </td>
+          <g:if test="${loginService.isLogged()}">
+            <td>
+              <g:img dir="images" file="truck.png"/>
+            </td>
+            <td>
+              <g:link controller="user" action="orders">
+                Мои Заказы
+              </g:link>
+            </td>
+            <td>
+              <g:link controller="auth" action="logout">
+                Выйти
+              </g:link>
+            </td>
+          </g:if>
+          <g:else>
+            <td>
+              <g:img dir="images" file="unlock.png"/>
+            </td>
+            <td>
+              <g:link controller="shop" action="register">
+                Регистрация
+              </g:link>
+            </td>
+            <td>
+              <g:link controller="auth" action="login">
+                Войти
+              </g:link>
+            </td>
+          </g:else>
         </tr>
       </table>
     </td>
@@ -87,7 +107,8 @@
                   <g:img dir="images" file="transport.png"/>
                 </td>
                 <td align="left">
-                  <g:link controller="shop" action="about" params="[type: 'transport']" style="font-size: 10pt">О доставке</g:link>
+                  <g:link controller="shop" action="about" params="[type: 'transport']"
+                          style="font-size: 10pt">О доставке</g:link>
                 </td>
               </tr>
             </table>
@@ -122,7 +143,8 @@
                         товаров:
                       </td>
                       <td>
-                        <div id="totalCount">${session.getAttribute("totalCount") != null ? session.getAttribute("totalCount") : 0}</div>
+                        <div
+                            id="totalCount">${session.getAttribute("totalCount") != null ? session.getAttribute("totalCount") : 0}</div>
                       </td>
                     </tr>
                   </table>
@@ -131,7 +153,9 @@
                   <table>
                     <tr>
                       <td>
-                        <div id="totalPrice">${session.getAttribute("totalPrice") != null ? ConvertUtils.roundFloat((Float) session.getAttribute("totalPrice")) : 0.0F}</div>
+                        <div
+                            id="totalPrice">${session.getAttribute("totalPrice") != null ? ConvertUtils.roundFloat((Float) session.getAttribute("totalPrice")) : 0.0F}</div>
+
                         <div id="sessionCart"></div>
                       </td>
                       <td>

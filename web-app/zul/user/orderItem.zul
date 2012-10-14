@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <window apply="ru.spb.locon.OrderItemComposer" width="880px">
+
+    <groupbox closable="false">
+      <caption>
+        Список покупаемых товаров
+      </caption>
+      <h:table width="100%" cellspacing="5" align="center">
+        <h:tr>
+          <h:td>
+            <listbox id="products" mold="paging" pageSize="5" height="500px" width="100%">
+              <listhead>
+                <listheader/>
+                <listheader label="Товар" width="230px"/>
+                <listheader label="Цена" width="100px"/>
+                <listheader label="Количество" width="100px"/>
+                <listheader label="Стоимость" width="100px"/>
+              </listhead>
+            </listbox>
+          </h:td>
+        </h:tr>
+      </h:table>
+    </groupbox>
+
+  </window>
+
+</zk>

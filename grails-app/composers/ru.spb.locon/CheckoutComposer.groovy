@@ -16,6 +16,7 @@ import locon.ZulService
 import org.zkoss.zkplus.spring.SpringUtil
 import cart.SessionUtils
 import cart.CartItem
+import locon.LoginService
 
 /**
  * User: Gleb
@@ -35,9 +36,21 @@ class CheckoutComposer extends GrailsComposer {
   Button checkout
 
   ZulService zulService = (ZulService) SpringUtil.getApplicationContext().getBean("zulService")
+  LoginService loginService = (LoginService) SpringUtil.getApplicationContext().getBean("loginService")
 
   def afterCompose = {Window window ->
+    initializeFields()
     checkout.addEventListener(Events.ON_CLICK, createOrderLister)
+  }
+
+  private void initializeFields() {
+    UserEntity user = loginService.currentUser
+    if (user != null) {
+      fio.setValue(user.fio)
+      phone.setValue(user.phone)
+      email.setValue(user.email)
+      address.setValue(user.address)
+    }
   }
 
   EventListener createOrderLister = new EventListener() {
@@ -92,6 +105,10 @@ class CheckoutComposer extends GrailsComposer {
 
     order.setIsProcessed(true)
 
+    UserEntity user = loginService.currentUser
+    if (user != null)
+      order.setUser(user)
+    
     return order
   }
 
@@ -118,4 +135,5 @@ class CheckoutComposer extends GrailsComposer {
       }
     }
   }
+
 }

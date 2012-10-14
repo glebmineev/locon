@@ -29,7 +29,7 @@ class ProductEntity {
       productFilter column: 'product_productfilter'
     }
 
-    version: false
+    version false
 
     listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
     listOrderProduct lazy: false,  cascade: 'all-delete-orphan'
@@ -51,6 +51,7 @@ class ProductEntity {
     manufacturer nullable: true
     productFilter nullable: true
   }
+
 
   public String toString() {
     return name

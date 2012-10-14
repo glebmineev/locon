@@ -2,25 +2,23 @@ package ru.spb.locon
 
 class UserGroupEntity {
 
-  String name
-
+  GroupEntity group
+  UserEntity user
+  
   static mapping = {
     table: 'usergroup'
     columns {
       id column: 'usergroup_id'
-      name column: 'usergroup_name'
+      group fetch: "join", column: 'usergroup_group_id'
+      user fetch: "join", column: 'usergroup_user_id'
     }
 
-    listUsers cascade: 'all-delete-orphan'
-    version: false
+    version false
   }
 
-  static hasMany = [
-      listUsers: UserEntity
-  ]
-
   static constraints = {
-    name nullable: true
+    group nullable: true
+    user nullable: true
   }
 
 }

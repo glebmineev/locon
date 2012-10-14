@@ -15,7 +15,7 @@ class ManufacturerEntity {
       name column: 'manufacturer_name'
       description column: 'manufacturer_description'
     }
-    version: false
+    version false
     productList cascade: 'all-delete-orphan'
   }
 

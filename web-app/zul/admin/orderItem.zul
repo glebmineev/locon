@@ -8,7 +8,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.AdminOrderItemComposer" width="880px">
+  <window apply="ru.spb.locon.OrderItemComposer" width="880px">
 
     <groupbox closable="false">
       <caption>
@@ -97,20 +97,6 @@
         </h:tr>
       </h:table>
     </groupbox>
-
-    <h:table width="100%" cellspacing="5" align="center">
-      <h:tr>
-        <h:td align="center">
-          <button id="orderComplete" label="Заказ обработан"/>
-        </h:td>
-        <h:td align="center">
-          <button id="orderCancel" label="Отменить заказ"/>
-        </h:td>
-        <h:td align="center">
-          <button id="backButton" label="К списку заказов"/>
-        </h:td>
-      </h:tr>
-    </h:table>
 
   </window>
 
