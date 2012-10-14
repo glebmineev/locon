@@ -126,7 +126,10 @@
             </table>
           </td>
           <td>
-            <g:textField name="search"/>
+            <g:form controller="search" action="index">
+              <g:textField name="q" size="16"/>
+              <g:submitButton name="Найти"/>
+            </g:form>
           </td>
           <td>
             <g:img dir="images" file="search.png"/>
