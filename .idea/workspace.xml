@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="вынес корзину в сервис. Сделал рекомендуемые товары&#10;">
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\carousel\Indola-80x80.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\indola.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\ollin.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\periche.jpg" afterPath="" />
-      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\screen.jpg" afterPath="" />
+    <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="8343079c-7661-485b-b0a5-3ceba9f9e794" name="Failed commit: Default" comment="вынес корзину в сервис. Сделал рекомендуемые товары&#10;">
