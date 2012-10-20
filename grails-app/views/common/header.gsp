@@ -1,6 +1,7 @@
 <%@ page import="importer.ConvertUtils" %>
 <%
   def loginService = grailsApplication.mainContext.getBean("loginService");
+  def cartService = grailsApplication.mainContext.getBean("cartService");
 %>
 <table width="100%">
   <tr>
@@ -117,7 +118,7 @@
             <table width="100%">
               <tr>
                 <td align="right">
-                  <g:img dir="images" file="how_buy.png"/>
+                  <g:img dir="images" file="checkout32.png"/>
                 </td>
                 <td align="left">
                   <g:link controller="shop" action="about" params="[type: 'transport']">Как покупать</g:link>
@@ -146,7 +147,7 @@
                       </td>
                       <td>
                         <div
-                            id="totalCount">${session.getAttribute("totalCount") != null ? session.getAttribute("totalCount") : 0}</div>
+                            id="totalCount">${cartService.getTotalCount()}</div>
                       </td>
                     </tr>
                   </table>
@@ -155,8 +156,7 @@
                   <table>
                     <tr>
                       <td>
-                        <div
-                            id="totalPrice">${session.getAttribute("totalPrice") != null ? ConvertUtils.roundFloat((Float) session.getAttribute("totalPrice")) : 0.0F}</div>
+                        <div id="totalPrice">${ConvertUtils.roundFloat((Float) cartService.getTotalPrice())}</div>
 
                         <div id="sessionCart"></div>
                       </td>

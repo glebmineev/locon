@@ -18,6 +18,9 @@ import cart.CartItem
 import ru.spb.locon.ProductEntity
 import cart.SessionUtils
 import importer.ConvertUtils
+import org.zkoss.zkplus.databind.BindingListModelList
+import locon.CartService
+import org.zkoss.zkplus.spring.SpringUtil
 
 /**
  * User: Gleb
@@ -26,9 +29,11 @@ import importer.ConvertUtils
  */
 class CartRenderer implements ListitemRenderer<CartItem> {
 
-  ListModelList<CartItem> cartModel
+  BindingListModelList<CartItem> cartModel
 
-  CartRenderer(ListModelList<CartItem> cartModel) {
+  CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
+
+  CartRenderer(BindingListModelList<CartItem> cartModel) {
     this.cartModel = cartModel
   }
 
@@ -51,6 +56,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
     //Количество
     Listcell productsCount = new Listcell()
     Textbox textbox = new Textbox()
+    textbox.setInplace(true)
     textbox.addEventListener(Events.ON_CHANGE, updateListener)
 
     textbox.setValue(Long.toString(count))
@@ -78,7 +84,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
       Listitem parent = (Listitem) button.parent.parent
       CartItem value = (CartItem) parent.getValue()
       cartModel.remove(value)
-      SessionUtils.removeFromCart(value)
+      cartService.removeFromCart(value)
     }
   }
 
@@ -90,7 +96,8 @@ class CartRenderer implements ListitemRenderer<CartItem> {
       Component button = event.target
       Listitem parent = (Listitem) button.parent.parent
       CartItem value = (CartItem) parent.getValue()
-
+      int index = cartModel.indexOf(value)
+      CartItem get = cartModel.get(index)
       //TODO сдесь обновлять корзину
     }
   }

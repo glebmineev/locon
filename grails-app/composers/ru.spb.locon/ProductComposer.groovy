@@ -13,7 +13,8 @@ import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
 import domain.DomainUtils
 
-import cart.SessionUtils
+import locon.CartService
+import org.zkoss.zkplus.spring.SpringUtil
 
 class ProductComposer extends SelectorComposer<Window> {
 
@@ -28,18 +29,19 @@ class ProductComposer extends SelectorComposer<Window> {
 
   Long productId
 
+  CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
+
   @Override
   public void doAfterCompose(Window window) {
     super.doAfterCompose(window)
     productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
-
+    ProductEntity product = ProductEntity.get(productId)
     cartButton.addEventListener(Events.ON_CLICK, new EventListener() {
 
       @Override
       void onEvent(Event t) {
         //значения выбранных товаров храняться в cookie.
-
-        SessionUtils.addToCart(ProductEntity.get(productId))
+        cartService.addToCart(product)
 
       }
     })
@@ -59,7 +61,6 @@ class ProductComposer extends SelectorComposer<Window> {
   /*
    * метод проставляет занчения товара.
    */
-
   private void initializeFields() {
     ProductEntity product = ProductEntity.get(productId)
     if (product != null) {
@@ -74,7 +75,5 @@ class ProductComposer extends SelectorComposer<Window> {
       }
     }
   }
-
-
 
 }

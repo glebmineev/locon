@@ -2,7 +2,7 @@
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
-  background: #F0F6F9;
+  background: #FFFFFF;
   border: 1px solid #346F97;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .jcarousel-skin-tango .jcarousel-item {
-  width: 75px;
+  width: 120px;
   height: 75px;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .jcarousel-skin-tango .jcarousel-item-placeholder {
-  background: #fff;
+  background: #FFFFFF;
   color: #000;
 }
 

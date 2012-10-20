@@ -20,8 +20,13 @@ import org.zkoss.zul.Caption
 import org.zkoss.zhtml.H2
 import org.zkoss.zul.Label
 import org.zkoss.zul.Vbox
+import org.springframework.context.MessageSource
+import org.zkoss.zkplus.spring.SpringUtil
+import locon.CartService
 
 class ProductRenderer implements ListitemRenderer<ProductEntity> {
+
+  CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
 
   @Override
   void render(org.zkoss.zul.Listitem listitem, ProductEntity t, int i) {
@@ -50,7 +55,7 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
       Component button = t.target
       Listitem parent = (Listitem) button.parent.parent.parent.parent
       ProductEntity value = (ProductEntity) parent.getValue()
-      SessionUtils.addToCart(value)
+      cartService.addToCart(value)
     }
   }
 

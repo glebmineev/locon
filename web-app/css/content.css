@@ -1,5 +1,6 @@
 body {
     text-align: center;
+    background: url("../images/flowers.png") repeat;
 }
 
 .content {
@@ -19,4 +20,12 @@ body {
 }
 
 #manufacturers {
+}
+
+.recommended {
+  background: #FFFFFF;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #346F97;
 }

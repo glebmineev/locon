@@ -17,6 +17,11 @@
           </td>
         </tr>
         <tr>
+          <td>
+            <g:include view="common/recommended.gsp"/>
+          </td>
+        </tr>
+        <tr>
           <td align="center">
             <g:include view="common/carousel.gsp"/>
           </td>

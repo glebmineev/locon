@@ -23,12 +23,12 @@ class BootStrap {
     }
 
     ManufacturerEntity.withTransaction {
-      ManufacturerEntity.findOrSaveWhere(name: "Индола")
-      ManufacturerEntity.findOrSaveWhere(name: "Periche")
-      ManufacturerEntity.findOrSaveWhere(name: "Hair light")
-      ManufacturerEntity.findOrSaveWhere(name: "OLLIN Professional")
-      ManufacturerEntity.findOrSaveWhere(name: "Schwarzkopf professional")
-      ManufacturerEntity.findOrSaveWhere(name: "Screen")
+      ManufacturerEntity.findOrSaveWhere(name: "Indola", shortName: 'Indola')
+      ManufacturerEntity.findOrSaveWhere(name: "Periche", shortName: 'Periche')
+      ManufacturerEntity.findOrSaveWhere(name: "Hair light", shortName: 'Hair')
+      ManufacturerEntity.findOrSaveWhere(name: "OLLIN Professional", shortName: 'OLLIN')
+      ManufacturerEntity.findOrSaveWhere(name: "Schwarzkopf professional", shortName: 'Schwarzkopf')
+      ManufacturerEntity.findOrSaveWhere(name: "Screen", shortName: 'Screen')
     }
 
     GroupEntity.withTransaction {

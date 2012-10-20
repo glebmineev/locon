@@ -14,9 +14,9 @@ import org.zkoss.zk.ui.event.Events
 
 import locon.ZulService
 import org.zkoss.zkplus.spring.SpringUtil
-import cart.SessionUtils
 import cart.CartItem
 import locon.LoginService
+import locon.CartService
 
 /**
  * User: Gleb
@@ -37,6 +37,7 @@ class CheckoutComposer extends GrailsComposer {
 
   ZulService zulService = (ZulService) SpringUtil.getApplicationContext().getBean("zulService")
   LoginService loginService = (LoginService) SpringUtil.getApplicationContext().getBean("loginService")
+  CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
 
   def afterCompose = {Window window ->
     initializeFields()
@@ -73,7 +74,7 @@ class CheckoutComposer extends GrailsComposer {
         saveCartData(order)
       }
 
-      SessionUtils.cleanCart()
+      cartService.cleanCart()
 
     }
   }
@@ -123,7 +124,7 @@ class CheckoutComposer extends GrailsComposer {
 
 
   private void saveCartData(OrderEntity order) {
-    List<CartItem> cartItems = SessionUtils.getCartProducts()
+    List<CartItem> cartItems = cartService.getCartProducts()
     OrderProductEntity.withTransaction {
       cartItems.each {CartItem cartItem ->
         OrderProductEntity orderProduct = new OrderProductEntity(

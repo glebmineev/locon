@@ -1,6 +1,6 @@
 <ul id="manufacturers" class="jcarousel-skin-tango">
   <g:each in="${manufacturers}" var="manufacturer">
-    <li><g:img dir="images/carousel" file="Indola-80x80.png"/></li>
+    <li><g:img dir="images/manufacturers" file="${manufacturer.shortName}.jpg"/></li>
   </g:each>
 </ul>
 
