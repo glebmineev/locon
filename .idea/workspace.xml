@@ -1,44 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/background.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/checkout.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/checkout32.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/flowers.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/RecommendedComposer.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/common/recommended.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/zul/shop/recommended.zul" />
+    <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="вынес корзину в сервис. Сделал рекомендуемые товары&#10;">
+      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\carousel\Indola-80x80.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\indola.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\ollin.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\periche.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\screen.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/CartComposer.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/CartComposer.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/CheckoutComposer.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/CheckoutComposer.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/ProductComposer.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/ProductComposer.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/renderers/CartRenderer.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/renderers/CartRenderer.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/renderers/ProductRenderer.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/renderers/ProductRenderer.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/ru/spb/locon/ManufacturerEntity.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/ru/spb/locon/ManufacturerEntity.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/locon/InitService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/locon/InitService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/common/carousel.gsp" afterPath="$PROJECT_DIR$/grails-app/views/common/carousel.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/common/header.gsp" afterPath="$PROJECT_DIR$/grails-app/views/common/header.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/shop/index.gsp" afterPath="$PROJECT_DIR$/grails-app/views/shop/index.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/css/carousel/carousel.css" afterPath="$PROJECT_DIR$/web-app/css/carousel/carousel.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/css/content.css" afterPath="$PROJECT_DIR$/web-app/css/content.css" />
     </list>
     <list id="8343079c-7661-485b-b0a5-3ceba9f9e794" name="Failed commit: Default" comment="вынес корзину в сервис. Сделал рекомендуемые товары&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/Hair.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/Indola.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/OLLIN.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/Periche.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/Schwarzkopf.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/Screen.jpg" />
       <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\haircompany.jpg" afterPath="" />
       <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\keune.jpg" afterPath="" />
       <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\londa.jpg" afterPath="" />
       <change type="DELETED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\schwartzkopf.jpg" afterPath="" />
-      <change type="MOVED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\indola.jpg" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/Indola.jpg" />
-      <change type="MOVED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\ollin.jpg" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/OLLIN.jpg" />
-      <change type="MOVED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\periche.jpg" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/Periche.jpg" />
-      <change type="MOVED" beforePath="D:\PROJECTS\Grails\locon\web-app\images\manufacturers\screen.jpg" afterPath="$PROJECT_DIR$/web-app/images/manufacturers/Screen.jpg" />
     </list>
     <ignored path="locon.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -573,8 +548,8 @@
       <recent name="domain" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\PROJECTS\Grails\locon\web-app\images" />
       <recent name="D:\PROJECTS\Grails\locon\web-app\images\manufacturers" />
+      <recent name="D:\PROJECTS\Grails\locon\web-app\images" />
       <recent name="D:\PROJECTS\Grails\locon\grails-app\views\user" />
       <recent name="D:\PROJECTS\Grails\locon\web-app\zul\user" />
       <recent name="D:\PROJECTS\Grails\locon\lib" />
@@ -875,7 +850,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32981315" sideWeight="0.76012963" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28919578" sideWeight="0.6709887" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28919578" sideWeight="0.60940033" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24149108" sideWeight="0.49715677" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34359807" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1001,11 +976,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/zk-2.0.0.M5/lib/zul.jar!/org/zkoss/zul/Hbox.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="43" selection-start="181" selection-end="181" vertical-scroll-proportion="0.12523021" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/CatalogComposer.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="2" selection-start="1063" selection-end="1063" vertical-scroll-proportion="0.44894367" />
