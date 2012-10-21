@@ -23,11 +23,13 @@ class CategoryEntity {
 
     listCategoryProduct sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
     listCategory sort: "name", order: "desc", lazy: false, cascade: 'all-delete-orphan'
+    productFilterCategoryList lazy: false, cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
       listCategoryProduct: CategoryProductEntity,
-      listCategory: CategoryEntity
+      listCategory: CategoryEntity,
+      productFilterCategoryList: ProductFilterCategoryEntity
   ]
 
   static constraints = {

@@ -80,7 +80,6 @@ class RecommendedComposer extends GrailsComposer {
     void onEvent(Event t) {
       ProductEntity product = ((Button) t.target).getAttribute("entity")
       cartService.addToCart(product)
-      //SessionUtils.addToCart(product)
     }
   }
 

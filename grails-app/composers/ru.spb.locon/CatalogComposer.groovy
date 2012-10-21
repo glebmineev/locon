@@ -25,11 +25,16 @@ import ru.spb.locon.renderers.TreeCategoryRenderer
 import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zul.Listitem
 import ru.spb.locon.tree.node.CategoryTreeNode
+import ru.spb.locon.renderers.FilterRenderer
 
 class CatalogComposer extends GrailsComposer {
 
   Tree categoryTree
   TreeModel treeModel
+
+  Listbox productFilter
+  BindingListModelList<ProductFilterEntity> productFilterModel
+  FilterRenderer filterRenderer = new FilterRenderer()
 
   Listbox products
   BindingListModelList<ProductEntity> productsModel
@@ -40,7 +45,8 @@ class CatalogComposer extends GrailsComposer {
 
   def afterCompose = {Window window ->
     categoryId = Long.parseLong(execution.getParameter("category"))
-    initializeListBox()
+    initializeProductListBox()
+    initializeFilterListBox()
     initializeTree()
 
   }
@@ -48,7 +54,8 @@ class CatalogComposer extends GrailsComposer {
   /*
    * метод инициализирует дерево категорий.
    */
-  private void initializeTree(){
+
+  private void initializeTree() {
     categoryTree.addEventListener(Events.ON_CLICK, treeListener)
     //берем все категории без парента.
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
@@ -62,25 +69,39 @@ class CatalogComposer extends GrailsComposer {
   /*
   * метод инициализирует listbox товаров.
   */
-  private void initializeListBox(){
+
+  private void initializeProductListBox() {
     products.addEventListener(Events.ON_CLICK, productsLister)
     //заполняем listbox.
-
-    if (productsModel == null){
-      productsModel = new BindingListModelList<ProductEntity>(listProducts(CategoryEntity.get(categoryId)), true)
+    CategoryEntity category = CategoryEntity.get(categoryId)
+    if (productsModel == null) {
+      productsModel = new BindingListModelList<ProductEntity>(listProducts(category), true)
     }
     products.setModel(productsModel)
     products.setItemRenderer(new ProductRenderer())
   }
 
+  private void initializeFilterListBox() {
+    CategoryEntity category = CategoryEntity.get(categoryId)
+    if (productFilterModel == null) {
+      productFilterModel = new BindingListModelList<ProductFilterEntity>(listProductFilter(category), true)
+    }
+    productFilter.setMultiple(true)
+    productFilter.setModel(productFilterModel)
+    filterRenderer.setCategory(CategoryEntity.get(categoryId))
+    filterRenderer.setProductsModel(productsModel)
+    productFilter.setItemRenderer(filterRenderer)
+  }
+
   /*
   * метод формирует мдель дерева категорий.
   */
+
   private void createTreeModel(CategoryTreeNode parent, List<CategoryEntity> children) {
     List<CategoryTreeNode> nodes = new ArrayList<CategoryTreeNode>()
     children.each {CategoryEntity category ->
       CategoryTreeNode node = new CategoryTreeNode(category, new ArrayList<CategoryTreeNode>())
-      if(category.id == categoryId) {
+      if (category.id == categoryId) {
         parent.setOpen(true)
         node.setOpen(true)
         node.setSelected(true)
@@ -109,25 +130,42 @@ class CatalogComposer extends GrailsComposer {
   EventListener treeListener = new EventListener() {
     @Override
     void onEvent(Event t) {
-      rebuildListboxModel()
+      final Treeitem selectedTreeItem = categoryTree.getSelectedItem()
+      if (selectedTreeItem != null) {
+        CategoryEntity category = (CategoryEntity) selectedTreeItem.getValue()
+        rebuildListboxModel(category)
+        rebuildFilterModel(category)
+      }
+
     }
   }
 
   /*
   * метод переформирует модель listbox при первоначальной загрузке и выборе в дереве категорий.
   */
-  private void rebuildListboxModel(){
-    final Treeitem selectedTreeItem = categoryTree.getSelectedItem()
-    if (selectedTreeItem != null){
-      CategoryEntity category = (CategoryEntity) selectedTreeItem.getValue()
-      productsModel.clear()
-      productsModel.addAll(listProducts(category))
-    }
+
+  private void rebuildListboxModel(CategoryEntity category) {
+    productsModel.clear()
+    productsModel.addAll(listProducts(category))
   }
 
   private List<ProductEntity> listProducts(CategoryEntity category) {
     Collection<ProductEntity> products = category.listCategoryProduct.product
     return products
   }
+
+  public void rebuildFilterModel(CategoryEntity category) {
+    List<ProductFilterEntity> productFilter = listProductFilter(category)
+    filterRenderer.setCategory(category)
+    filterRenderer.checked.clear()
+    productFilterModel.clear()
+    productFilterModel.addAll(productFilter)
+  }
+
+  private List<ProductFilterEntity> listProductFilter(CategoryEntity category) {
+    List<ProductFilterEntity> result = category.productFilterCategoryList.productFilter as List<ProductFilterEntity>
+    return result
+  }
+
 
 }

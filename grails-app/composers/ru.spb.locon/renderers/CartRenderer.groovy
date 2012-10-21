@@ -2,7 +2,6 @@ package ru.spb.locon.renderers
 
 import org.zkoss.zul.ListitemRenderer
 import org.zkoss.zul.Listcell
-import org.zkoss.zul.Textbox
 
 import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.Event
@@ -11,16 +10,14 @@ import org.zkoss.zk.ui.event.Events
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.Listitem
 
-import org.zkoss.zk.ui.event.InputEvent
-import org.zkoss.zul.ListModelList
-
 import cart.CartItem
 import ru.spb.locon.ProductEntity
-import cart.SessionUtils
-import importer.ConvertUtils
 import org.zkoss.zkplus.databind.BindingListModelList
 import locon.CartService
 import org.zkoss.zkplus.spring.SpringUtil
+import org.zkoss.zul.Label
+import org.zkoss.zul.Hbox
+import org.zkoss.zul.Image
 
 /**
  * User: Gleb
@@ -55,12 +52,21 @@ class CartRenderer implements ListitemRenderer<CartItem> {
 
     //Количество
     Listcell productsCount = new Listcell()
-    Textbox textbox = new Textbox()
-    textbox.setInplace(true)
-    textbox.addEventListener(Events.ON_CHANGE, updateListener)
-
-    textbox.setValue(Long.toString(count))
-    productsCount.appendChild(textbox)
+    Hbox hbox = new Hbox()
+    Label label = new Label()
+    label.setValue(Long.toString(count))
+    Image plus = new Image("/images/plus.png")
+    plus.setAttribute("label", label)
+    plus.setAttribute("value", Long.toString(count))
+    plus.addEventListener(Events.ON_CLICK, plusListener)
+    Image minus = new Image("/images/minus.png")
+    minus.addEventListener(Events.ON_CLICK, minusListener)
+    minus.setAttribute("label", label)
+    minus.setAttribute("value", Long.toString(count))
+    hbox.appendChild(label)
+    hbox.appendChild(plus)
+    hbox.appendChild(minus)
+    productsCount.appendChild(hbox)
     productsCount.setParent(listitem)
 
     //Стоимость
@@ -88,19 +94,35 @@ class CartRenderer implements ListitemRenderer<CartItem> {
     }
   }
 
-  EventListener updateListener = new EventListener() {
+  EventListener plusListener = new EventListener() {
     @Override
     void onEvent(Event t) {
-      InputEvent event = (InputEvent) t
-
-      Component button = event.target
-      Listitem parent = (Listitem) button.parent.parent
+      Component image = t.target
+      Listitem parent = (Listitem) image.parent.parent.parent
       CartItem value = (CartItem) parent.getValue()
-      int index = cartModel.indexOf(value)
-      CartItem get = cartModel.get(index)
-      //TODO сдесь обновлять корзину
+      cartService.addToCart(value.product)
+      //updateCartModel()
     }
   }
+
+  EventListener minusListener = new EventListener() {
+    @Override
+    void onEvent(Event t) {
+      Component image = t.target
+      Listitem parent = (Listitem) image.parent.parent.parent
+      CartItem value = (CartItem) parent.getValue()
+      if (value.count != 0) {
+        cartService.decrementProduct(value)
+        updateCartModel()
+      }
+    }
+  }
+
+  private void updateCartModel(){
+    cartModel.clear()
+    cartModel.addAll(cartService.getCartProducts())
+  }
+
 }
 
 

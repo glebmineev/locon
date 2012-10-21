@@ -27,8 +27,8 @@ class ProductEntity {
       volume column: 'product_volume'
       productProperty column: 'product_productproperty_id'
       price column: 'product_price'
-      manufacturer column: 'product_manufacturer_id'
-      productFilter column: 'product_productfilter'
+      manufacturer fetch: "join", column: 'product_manufacturer_id'
+      productFilter fetch: "join", column: 'product_productfilter'
     }
 
     version false

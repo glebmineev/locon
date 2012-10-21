@@ -13,6 +13,7 @@ import importer.ConverterRU_EN
 import importer.DirUtils
 import importer.ConvertUtils
 import java.math.RoundingMode
+import ru.spb.locon.ProductFilterCategoryEntity
 
 
 class ImporterExcel {
@@ -43,12 +44,12 @@ class ImporterExcel {
   public void doImport() {
     CategoryEntity.withTransaction {
       Sheet[] sheets = wrkbook.getSheets()
+
       sheets.each {Sheet sheet ->
 
         //получаем корневую категорию.
         CategoryEntity submenuCategory = getCategory(sheet.getName())
         submenuCategory.setParentCategory(menuCategory)
-
         //перебираем строки страницы.
         CategoryEntity temp = null
         (0..sheet.getRows() - 1).each { i ->
@@ -63,6 +64,14 @@ class ImporterExcel {
               linkToCategories(menuCategory, product)
               product.setManufacturer(manufacturer)
               product.save()
+
+              if (product.productFilter != null) {
+                //saveFilterCategoryLink(menuCategory, product.productFilter)
+                saveFilterCategoryLink(submenuCategory, product.productFilter)
+                saveFilterCategoryLink(temp, product.productFilter)
+              }
+
+
             }
             else if (row[0] != null && !row[0].getContents().isEmpty()) {
               String cName = row[0].getContents()
@@ -74,6 +83,19 @@ class ImporterExcel {
         }
       }
     }
+
+  }
+
+  private saveFilterCategoryLink(CategoryEntity category, ProductFilterEntity productFilter){
+    ProductFilterCategoryEntity exist =
+      ProductFilterCategoryEntity.findWhere(category: category, productFilter: productFilter)
+    if (exist == null) {
+      ProductFilterCategoryEntity productFilterCategory = new ProductFilterCategoryEntity()
+      productFilterCategory.setCategory(category)
+      productFilterCategory.setProductFilter(productFilter)
+      productFilterCategory.save()
+    }
+
 
   }
 

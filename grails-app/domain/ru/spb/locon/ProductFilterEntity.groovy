@@ -3,7 +3,7 @@ package ru.spb.locon
 class ProductFilterEntity {
 
   String name
-
+  
   static mapping = {
 
     datasource 'ALL'
@@ -13,8 +13,10 @@ class ProductFilterEntity {
       id column: 'productfilter_id'
       name column: 'productfilter_name'
     }
+
     version false
-    productList cascade: 'all-delete-orphan'
+    productList lazy: false, cascade: 'all-delete-orphan'
+    productFilterCategoryList lazy: false, cascade: 'all-delete-orphan'
   }
 
   static constraints = {
@@ -22,7 +24,8 @@ class ProductFilterEntity {
   }
 
   static hasMany = [
-      productList: ProductEntity
+      productList: ProductEntity,
+      productFilterCategoryList: ProductFilterCategoryEntity
   ]
 
   public String toString(){
