@@ -16,9 +16,6 @@ class CategoryProductEntity {
       product fetch: "join", column: 'categoryproduct_product_id'
     }
 
-    //product fetch: "join"
-    //category fetch: "join"
-
     version false
   }
 
