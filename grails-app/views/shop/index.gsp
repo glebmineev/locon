@@ -30,7 +30,13 @@
     </tpl:block>
 
     <tpl:block name="footer">
-      <g:include view="common/footer.gsp"/>
+      <table width="100%">
+        <tr>
+          <td>
+            <g:include view="common/footer.gsp"/>
+          </td>
+        </tr>
+      </table>
     </tpl:block>
 
   </tpl:useTemplate>

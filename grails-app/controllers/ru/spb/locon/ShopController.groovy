@@ -46,4 +46,20 @@ class ShopController {
     loginService.setParams(params)
     return [mainCategoties: initService.categories]
   }
+
+  def details() {
+    loginService.setParams(params)
+    return [mainCategoties: initService.categories]
+  }
+
+  def contacts() {
+    loginService.setParams(params)
+    return [mainCategoties: initService.categories]
+  }
+
+  def delivery() {
+    loginService.setParams(params)
+    return [mainCategoties: initService.categories]
+  }
+
 }

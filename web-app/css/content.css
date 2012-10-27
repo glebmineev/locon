@@ -29,3 +29,14 @@ body {
   border-radius: 10px;
   border: 1px solid #346F97;
 }
+
+.info {
+  width: 880px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: #FFFFFF;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #346F97;
+}

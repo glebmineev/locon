@@ -15,12 +15,13 @@
       <g:if test="${haveResults}">
         <g:each in="${searchResult.results}" var="result" status="i">
           <g:set var="name" value="${result.name}"/>
+          <g:set var="description" value="${result.description}"/>
           <h3>
             <g:link controller="shop" action="product" params="[product: result.id]">
               ${name}
             </g:link>
             <br/>
-            <span>Здесь будет описание</span>
+            <span>${description}</span>
           </h3>
           <br/>
         </g:each>

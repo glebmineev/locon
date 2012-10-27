@@ -136,14 +136,14 @@ class ImporterExcel {
         }
 
         if (i == 4) {
-          float price = Float.parseFloat(value.replace(",", ".").replace("p", ""))
+          float price = Float.parseFloat(value.replace(",", "."))
           float result = new BigDecimal(price).setScale(2, RoundingMode.UP).floatValue()
           product.setPrice(result)
         }
 
-        if (i == 5)
+        //if (i == 5)
           //TODO: фото
-
+        int y = 0
         if (i == 6) {
           product.setDescription(value)
         }

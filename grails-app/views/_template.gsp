@@ -23,6 +23,9 @@
 
     <!-- Carousel -->
     <link rel="stylesheet" href="${resource(dir: 'css/carousel', file: 'carousel.css')}" />
+
+    <!-- ZK -->
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'ZK.css')}" />
     ${head}
 </head>
 

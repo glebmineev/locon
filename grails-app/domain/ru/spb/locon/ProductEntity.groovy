@@ -45,8 +45,8 @@ class ProductEntity {
   static constraints = {
     imagePath maxSize: 65535, nullable: true
     article nullable: true
-    name nullable: true
-    description nullable: true
+    name maxSize: 65535, nullable: true
+    description maxSize: 65535, nullable: true
     volume nullable: true
     price nullable: true
     productProperty nullable: true
