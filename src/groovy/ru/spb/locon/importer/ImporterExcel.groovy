@@ -50,6 +50,7 @@ class ImporterExcel {
         //получаем корневую категорию.
         CategoryEntity submenuCategory = getCategory(sheet.getName())
         submenuCategory.setParentCategory(menuCategory)
+
         //перебираем строки страницы.
         CategoryEntity temp = null
         (0..sheet.getRows() - 1).each { i ->
@@ -70,7 +71,6 @@ class ImporterExcel {
                 saveFilterCategoryLink(submenuCategory, product.productFilter)
                 saveFilterCategoryLink(temp, product.productFilter)
               }
-
 
             }
             else if (row[0] != null && !row[0].getContents().isEmpty()) {
@@ -136,10 +136,18 @@ class ImporterExcel {
         }
 
         if (i == 4) {
-          float price = Float.parseFloat(value.replace(",", "."))
+          float price = Float.parseFloat(value.replace(",", ".").replace("p", ""))
           float result = new BigDecimal(price).setScale(2, RoundingMode.UP).floatValue()
           product.setPrice(result)
         }
+
+        if (i == 5)
+          //TODO: фото
+
+        if (i == 6) {
+          product.setDescription(value)
+        }
+
       }
     }
 

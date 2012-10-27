@@ -18,6 +18,9 @@ import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.Label
 import org.zkoss.zul.Hbox
 import org.zkoss.zul.Image
+import org.zkoss.zk.ui.util.Clients
+import org.zkoss.zul.Window
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 /**
  * User: Gleb
@@ -28,7 +31,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
 
   BindingListModelList<CartItem> cartModel
 
-  CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
+  CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService")
 
   CartRenderer(BindingListModelList<CartItem> cartModel) {
     this.cartModel = cartModel
@@ -53,17 +56,14 @@ class CartRenderer implements ListitemRenderer<CartItem> {
     //Количество
     Listcell productsCount = new Listcell()
     Hbox hbox = new Hbox()
-    Label label = new Label()
-    label.setValue(Long.toString(count))
+    Label countLabel = new Label()
+    countLabel.setId("good_${cartItem.product}")
+    countLabel.setValue(Long.toString(count))
     Image plus = new Image("/images/plus.png")
-    plus.setAttribute("label", label)
-    plus.setAttribute("value", Long.toString(count))
     plus.addEventListener(Events.ON_CLICK, plusListener)
     Image minus = new Image("/images/minus.png")
     minus.addEventListener(Events.ON_CLICK, minusListener)
-    minus.setAttribute("label", label)
-    minus.setAttribute("value", Long.toString(count))
-    hbox.appendChild(label)
+    hbox.appendChild(countLabel)
     hbox.appendChild(plus)
     hbox.appendChild(minus)
     productsCount.appendChild(hbox)
@@ -97,11 +97,18 @@ class CartRenderer implements ListitemRenderer<CartItem> {
   EventListener plusListener = new EventListener() {
     @Override
     void onEvent(Event t) {
-      Component image = t.target
+      Image image = (Image) t.target
       Listitem parent = (Listitem) image.parent.parent.parent
       CartItem value = (CartItem) parent.getValue()
       cartService.addToCart(value.product)
-      //updateCartModel()
+
+      Window window = (Window) image.getPage().getFirstRoot()
+      Label countLabel = (Label) window.getFellow("good_${value.product}")
+      countLabel.setValue(Long.toString(value.count + 1))
+
+      CartItem changingItem = (CartItem) cartModel.get((cartModel.indexOf(value)))
+      changingItem.setCount(value.count + 1)
+
     }
   }
 
@@ -111,14 +118,22 @@ class CartRenderer implements ListitemRenderer<CartItem> {
       Component image = t.target
       Listitem parent = (Listitem) image.parent.parent.parent
       CartItem value = (CartItem) parent.getValue()
+      long count = value.count
       if (value.count != 0) {
         cartService.decrementProduct(value)
-        updateCartModel()
+        Window window = (Window) image.getPage().getFirstRoot()
+        Label countLabel = (Label) window.getFellow("good_${value.product}")
+        countLabel.setValue(Long.toString(count - 1))
+
+        CartItem changingItem = (CartItem) cartModel.get((cartModel.indexOf(value)))
+        changingItem.setCount(value.count - 1)
+
       }
     }
   }
 
   private void updateCartModel(){
+    Clients.showBusy("Подождите")
     cartModel.clear()
     cartModel.addAll(cartService.getCartProducts())
   }
