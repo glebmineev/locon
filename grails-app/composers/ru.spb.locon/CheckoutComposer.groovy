@@ -12,11 +12,8 @@ import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.Events
 
-import locon.ZulService
 import org.zkoss.zkplus.spring.SpringUtil
-import cart.CartItem
-import locon.LoginService
-import locon.CartService
+import ru.spb.locon.cart.CartItem
 
 /**
  * User: Gleb

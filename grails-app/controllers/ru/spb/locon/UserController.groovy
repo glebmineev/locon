@@ -1,6 +1,6 @@
 package ru.spb.locon
 
-import login.URLUtils
+import ru.spb.locon.login.URLUtils
 
 class UserController {
 

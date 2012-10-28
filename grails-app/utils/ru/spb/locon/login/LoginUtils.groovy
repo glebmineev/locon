@@ -1,4 +1,4 @@
-package login
+package ru.spb.locon.login
 
 import ru.spb.locon.UserEntity
 import ru.spb.locon.UserGroupEntity

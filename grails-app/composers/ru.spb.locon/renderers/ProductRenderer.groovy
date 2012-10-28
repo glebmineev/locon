@@ -16,7 +16,7 @@ import org.zkoss.zk.ui.event.Events
 import org.zkoss.zul.Label
 import org.zkoss.zul.Vbox
 import org.zkoss.zkplus.spring.SpringUtil
-import locon.CartService
+import ru.spb.locon.CartService
 
 class ProductRenderer implements ListitemRenderer<ProductEntity> {
 
@@ -58,23 +58,25 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
     Div productCell = new Div()
 
     Vbox vBox = new Vbox()
+    vBox.setAlign("left")
 
     Label header = new Label(entity.name)
-    header.setStyle("font: 16pt")
+    header.setStyle("font-size: 18px;margin-top: 5px;margin-bottom: 5px;")
+
+    Label price = new Label()
+    price.setStyle("font-size: 14px;margin-bottom: 5px;")
+    price.setValue("Цена: ${Float.toString(entity.price)}")
 
     Button addToCart = new Button("Добавить в корзину")
     addToCart.addEventListener(Events.ON_CLICK, addToCartListener)
 
     vBox.appendChild(header)
+    vBox.appendChild(price)
     vBox.appendChild(addToCart)
 
     productCell.appendChild(vBox)
 
     return productCell
-  }
-
-  private Div getDescription(ProductEntity entity) {
-    return new Div()
   }
 
 }

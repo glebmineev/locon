@@ -10,17 +10,18 @@ import org.zkoss.zk.ui.event.Events
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.Listitem
 
-import cart.CartItem
+import ru.spb.locon.cart.CartItem
 import ru.spb.locon.ProductEntity
 import org.zkoss.zkplus.databind.BindingListModelList
-import locon.CartService
-import org.zkoss.zkplus.spring.SpringUtil
+import ru.spb.locon.CartService
+
 import org.zkoss.zul.Label
 import org.zkoss.zul.Hbox
 import org.zkoss.zul.Image
 import org.zkoss.zk.ui.util.Clients
 import org.zkoss.zul.Window
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import java.math.RoundingMode
 
 /**
  * User: Gleb
@@ -71,7 +72,12 @@ class CartRenderer implements ListitemRenderer<CartItem> {
 
     //Стоимость
     Float roundPrice = (product.price * Float.parseFloat(count.toString()))
-    Listcell allPriceCell = new Listcell(roundPrice.toString())
+    BigDecimal rounded = new BigDecimal(roundPrice).setScale(1, RoundingMode.HALF_DOWN).floatValue()
+
+    Listcell allPriceCell = new Listcell()
+    Label allPriceLabel = new Label(roundPrice.toString())
+    allPriceLabel.setId("price_${cartItem.product}")
+    allPriceLabel.setParent(allPriceCell)
     allPriceCell.setParent(listitem)
 
     //Дейсвия
@@ -102,13 +108,22 @@ class CartRenderer implements ListitemRenderer<CartItem> {
       CartItem value = (CartItem) parent.getValue()
       cartService.addToCart(value.product)
 
+      //изменяем начение количества.
       Window window = (Window) image.getPage().getFirstRoot()
       Label countLabel = (Label) window.getFellow("good_${value.product}")
       countLabel.setValue(Long.toString(value.count + 1))
 
+      //изменяем item модели.
       CartItem changingItem = (CartItem) cartModel.get((cartModel.indexOf(value)))
       changingItem.setCount(value.count + 1)
 
+      float price = value.product.price
+      Float resultPrice = (price * value.count)
+      BigDecimal rounded = new BigDecimal(resultPrice).setScale(1, RoundingMode.HALF_DOWN).floatValue()
+
+      //изменяем начение цены.
+      Label allPriceLabel = (Label) window.getFellow("price_${value.product}")
+      allPriceLabel.setValue(rounded.toString())
     }
   }
 
@@ -127,6 +142,14 @@ class CartRenderer implements ListitemRenderer<CartItem> {
 
         CartItem changingItem = (CartItem) cartModel.get((cartModel.indexOf(value)))
         changingItem.setCount(value.count - 1)
+
+        float price = value.product.price
+        Float resultPrice = (price * value.count)
+        BigDecimal rounded = new BigDecimal(resultPrice).setScale(1, RoundingMode.HALF_DOWN).floatValue()
+
+        //изменяем начение цены.
+        Label allPriceLabel = (Label) window.getFellow("price_${value.product}")
+        allPriceLabel.setValue(rounded.toString())
 
       }
     }

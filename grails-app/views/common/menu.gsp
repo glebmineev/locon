@@ -1,4 +1,4 @@
-<%@ page import="domain.DomainUtils" %>
+<%@ page import="ru.spb.locon.domain.DomainUtils" %>
 <ul id="nav">
   <g:each in="${mainCategoties}" var="parent">
     <li class="main">

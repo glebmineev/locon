@@ -1,15 +1,15 @@
 <div class="info">
   <table width="100%">
     <tr>
-      <td align="center" width="50%">
+      <td align="center" width="50%" valign="top">
         <h2>О компании</h2>
       </td>
-      <td align="center" width="50%">
+      <td align="center" width="50%" valign="top">
         <h2>О магазине</h2>
       </td>
     </tr>
     <tr>
-      <td align="center" width="50%">
+      <td align="center" width="50%" valign="top">
         <table width="100%" style="margin-left: 120px">
           <tr>
             <td>
@@ -25,7 +25,7 @@
           </tr>
         </table>
       </td>
-      <td align="center" width="50%">
+      <td align="center" width="50%" valign="top">
         <table width="100%" style="margin-left: 125px">
           <tr>
             <td>

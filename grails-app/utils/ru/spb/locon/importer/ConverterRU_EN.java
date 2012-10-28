@@ -1,4 +1,4 @@
-package importer;
+package ru.spb.locon.importer;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -7,12 +7,11 @@ import org.zkoss.zul.Tree
 import org.zkoss.zul.Treeitem
 
 import org.zkoss.zul.Listbox
-import org.zkoss.zul.Listheader
 
 import org.springframework.context.MessageSource
 import org.zkoss.zkplus.spring.SpringUtil
 import ru.spb.locon.renderers.ProductRenderer
-import domain.DomainUtils
+
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
 

@@ -1,9 +1,6 @@
-package locon
+package ru.spb.locon
 
-import ru.spb.locon.CategoryEntity
-import ru.spb.locon.ManufacturerEntity
 import org.springframework.beans.factory.InitializingBean
-import ru.spb.locon.ProductEntity
 
 class InitService implements InitializingBean{
 

@@ -1,7 +1,6 @@
-package locon
+package ru.spb.locon
 
-import ru.spb.locon.ProductEntity
-import cart.CartItem
+import ru.spb.locon.cart.CartItem
 import java.math.RoundingMode
 import org.zkoss.zk.ui.util.Clients
 

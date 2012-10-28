@@ -1,4 +1,4 @@
-package locon
+package ru.spb.locon
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
-<?variable-resolver class="window.ProjectVariableResolver"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
@@ -9,8 +9,6 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window apply="ru.spb.locon.CartComposer" width="880px">
-    <h:h1>Корзина</h:h1>
-
     <h:table width="100%" cellpadding="5px">
       <h:tr>
         <h:td>

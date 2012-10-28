@@ -1,4 +1,4 @@
-locon
+ru.spb.locon
 =====
 
-create locon repository
+create ru.spb.locon repository

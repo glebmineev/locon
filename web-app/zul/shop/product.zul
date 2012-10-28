@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
-<?variable-resolver class="window.ProjectVariableResolver"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
@@ -12,9 +12,6 @@
 
     <groupbox closable="false">
       <!-- Основные сведения -->
-      <caption>
-        Основные данные
-      </caption>
       <h:table width="100%" cellspacing="5" align="center">
         <h:tr>
           <h:td width="300px">

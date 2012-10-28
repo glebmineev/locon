@@ -1,4 +1,4 @@
-package login
+package ru.spb.locon.login
 
 import javax.servlet.http.HttpServletRequest
 
@@ -25,9 +25,9 @@ class URLUtils {
 
     params.each {key, value ->
       if (!"controller".equals(key) &&
-          !"action".equals(key) &&
-          !"null".equals(value)){
-        result.append("${key}=${value}&")
+          !"action".equals(key)){
+        if (!"null".equals(value))
+          result.append("${key}=${value}&")
       }
 
     }

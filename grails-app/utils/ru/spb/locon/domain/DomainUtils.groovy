@@ -1,4 +1,4 @@
-package domain
+package ru.spb.locon.domain
 
 import ru.spb.locon.CategoryEntity
 import org.codehaus.groovy.grails.validation.ConstrainedProperty

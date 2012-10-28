@@ -8,7 +8,7 @@ import ru.spb.locon.renderers.OrderItemRenderer
 import org.zkoss.zhtml.Table
 import org.zkoss.zhtml.Tr
 import org.zkoss.zhtml.Td
-import locon.LoginService
+
 import org.zkoss.zkplus.spring.SpringUtil
 
 /**

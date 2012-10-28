@@ -3,7 +3,7 @@ package ru.spb.locon
 import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.Window
 import org.zkoss.zkplus.spring.SpringUtil
-import locon.InitService
+
 import org.zkoss.zul.Image
 import org.zkoss.zul.Label
 import org.zkoss.zul.Button
@@ -14,7 +14,6 @@ import org.zkoss.zhtml.Table
 import org.zkoss.zhtml.Tr
 import org.zkoss.zhtml.Td
 import org.zkoss.zul.Vbox
-import locon.CartService
 
 /**
  * User: Gleb
@@ -58,6 +57,7 @@ class RecommendedComposer extends GrailsComposer {
 
       //Кнопка купить.
       Button buy = new Button("В корзину")
+      buy.setStyle("margin: 5px;")
       buy.setAttribute("entity", product)
       buy.addEventListener(Events.ON_CLICK, buyListener)
 

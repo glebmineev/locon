@@ -11,9 +11,8 @@ import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.Events
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
-import domain.DomainUtils
+import ru.spb.locon.domain.DomainUtils
 
-import locon.CartService
 import org.zkoss.zkplus.spring.SpringUtil
 
 class ProductComposer extends SelectorComposer<Window> {

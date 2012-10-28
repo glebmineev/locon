@@ -3,12 +3,12 @@ package ru.spb.locon
 import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.*
 import org.zkoss.zkplus.spring.SpringUtil
-import locon.LoginService
+
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.Events
-import login.URLUtils
+import ru.spb.locon.login.URLUtils
 
 /**
  * User: Gleb

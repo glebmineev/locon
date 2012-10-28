@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
-<?variable-resolver class="window.ProjectVariableResolver"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
@@ -18,7 +18,7 @@
               </tree>
               <listbox id="productFilter" width="250px">
                 <listhead>
-                  <listheader width="80px"/>
+                  <listheader width="50px"/>
                   <listheader/>
                 </listhead>
               </listbox>

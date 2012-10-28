@@ -60,6 +60,15 @@
 
 #nav ul li:first-child {
   margin-top: 5px;
+  -moz-border-radius: 10px 0px 0px 10px;
+  -webkit-border-radius: 10px 0px 0px 10px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+#nav ul li:last-child {
+  -moz-border-radius: 0px 0px 10px 10px;
+  -webkit-border-radius: 0px 0px 10px 10px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 /* display block will make the link fill the whole area of LI */
@@ -93,5 +102,5 @@
 
 .submenu{
   width: 217px;
-  background: #cccccc;
+  background: #B8D335;
 }

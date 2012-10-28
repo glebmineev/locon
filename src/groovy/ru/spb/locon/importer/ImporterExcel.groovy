@@ -9,9 +9,7 @@ import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductEntity
 import ru.spb.locon.ProductFilterEntity
 import ru.spb.locon.CategoryProductEntity
-import importer.ConverterRU_EN
-import importer.DirUtils
-import importer.ConvertUtils
+
 import java.math.RoundingMode
 import ru.spb.locon.ProductFilterCategoryEntity
 

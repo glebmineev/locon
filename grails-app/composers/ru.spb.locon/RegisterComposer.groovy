@@ -1,7 +1,7 @@
 package ru.spb.locon
 
 import org.zkoss.zk.grails.composer.GrailsComposer
-import locon.ZulService
+
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.*
 import org.zkoss.zk.ui.event.EventListener

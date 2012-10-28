@@ -1,4 +1,4 @@
-package importer
+package ru.spb.locon.importer
 
 import java.math.RoundingMode
 

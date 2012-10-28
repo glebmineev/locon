@@ -1,4 +1,4 @@
-package cart
+package ru.spb.locon.cart
 
 import ru.spb.locon.ProductEntity
 

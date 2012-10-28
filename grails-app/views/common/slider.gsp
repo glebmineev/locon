@@ -1,9 +1,7 @@
 <div class="slider-wrapper theme-default">
   <div id="slider" class="nivoSlider">
-    <g:img dir="images/slider" file="toystory.jpg"/>
-    <g:img dir="images/slider" file="up.jpg"/>
-    <g:img dir="images/slider" file="walle.jpg"/>
-    <g:img dir="images/slider" file="nemo.jpg"/>
+    <g:img dir="images/slider" file="FON2.jpg"/>
+    <g:img dir="images/slider" file="FON3.jpg"/>
   </div>
 
   <div id="htmlcaption" class="nivo-html-caption">

@@ -9,20 +9,14 @@ body {
     margin: 0 auto;
 }
 
-.z-tree-body {
-  text-align: left;
-}
-
 .menu {
   width: 880px;
   height: 43px;
   margin: 0 auto;
 }
 
-#manufacturers {
-}
-
 .recommended {
+  width: 870px;
   background: #FFFFFF;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -31,7 +25,7 @@ body {
 }
 
 .info {
-  width: 880px;
+  width: 870px;
   margin-top: 10px;
   margin-bottom: 10px;
   background: #FFFFFF;

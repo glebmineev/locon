@@ -1,4 +1,4 @@
-package window;
+package ru.spb.locon.window;
 
 import org.zkoss.xel.XelException;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;

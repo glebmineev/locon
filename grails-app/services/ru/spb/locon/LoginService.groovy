@@ -1,7 +1,6 @@
-package locon
+package ru.spb.locon
 
-import login.LoginUtils
-import ru.spb.locon.UserEntity
+import ru.spb.locon.login.LoginUtils
 
 class LoginService {
 
