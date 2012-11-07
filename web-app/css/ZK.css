@@ -1,27 +1,42 @@
-.z-tree-body {
-  text-align: left;
+/*div.z-tree-body {
+  -webkit-border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
 }
 
-.z-tree {
-  background: #FFFFFF;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  border: 1px solid #346F97;
+div.z-tree {
+  -webkit-border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
 }
 
-.z-tree-ico z-tree-tee-close {
+td.z-treecell:first-child {
+  -webkit-border-radius: 10px 10px;
+  -moz-border-radius: 10px 10px;
+  border-radius: 10px 10px;
+}
+
+span.z-tree-ico z-tree-tee-close {
   background-image: url(../images/close_tree.png)
 }
 
-span.z-tree-root-open {
+span.z-tree-ico z-tree-tee-open {
   background-image: url(../images/open_tree.png);
-}
+}*/
 
-.z-listbox {
+/*div.z-listbox {
   background: #FFFFFF;
-  -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   border-radius: 10px;
   border: 1px solid #346F97;
+}*/
+
+/*
+span.z-dottree-tee-close {
+  background-image: url("../images/about.png")
 }
+
+span.z-dottree-tee-open {
+  background-image: url("../images/about.png");
+}*/

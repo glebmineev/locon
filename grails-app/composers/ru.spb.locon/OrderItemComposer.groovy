@@ -94,10 +94,10 @@ class OrderItemComposer extends GrailsComposer {
     Button orderComplete = new Button("Заказ обработан")
     orderComplete.addEventListener(Events.ON_CLICK, orderCompleteLister)
 
-    Button backButton = new Button("Отменить заказ")
+    Button backButton = new Button("К списку заказов")
     backButton.addEventListener(Events.ON_CLICK, backButtonLister)
 
-    Button cancelButton = new Button("К списку заказов")
+    Button cancelButton = new Button("Отменить заказ")
     cancelButton.addEventListener(Events.ON_CLICK, orderCancelLister)
 
     completeCell.appendChild(orderComplete)

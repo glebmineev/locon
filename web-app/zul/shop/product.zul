@@ -10,7 +10,7 @@
 
   <window apply="ru.spb.locon.ProductComposer" width="880px">
 
-    <groupbox closable="false">
+
       <!-- Основные сведения -->
       <h:table width="100%" cellspacing="5" align="center">
         <h:tr>
@@ -61,7 +61,7 @@
           </h:td>
         </h:tr>
       </h:table>
-    </groupbox>
+
 
   </window>
 

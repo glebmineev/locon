@@ -59,9 +59,9 @@
         </h:td>
       </h:tr>
     </h:table>
-    <h:table>
+    <h:table width="100%">
       <h:tr>
-        <h:td width="200px" align="right">
+        <h:td width="200px" align="center">
           <button id="registerButton" label="Зарегистрироваться"/>
         </h:td>
       </h:tr>

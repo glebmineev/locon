@@ -20,7 +20,7 @@ import ru.spb.locon.CategoryEntity
 class FilterRenderer implements ListitemRenderer<ProductFilterEntity> {
 
   List<ProductFilterEntity> checked = new ArrayList<ProductFilterEntity>()
-  BindingListModelList<ProductEntity> productsModel
+  //BindingListModelList<ProductEntity> productsModel
   CategoryEntity category
 
   @Override
@@ -28,8 +28,10 @@ class FilterRenderer implements ListitemRenderer<ProductFilterEntity> {
     listitem.setValue(t)
 
     Checkbox checkbox = new Checkbox()
-    checkbox.setAttribute("entity", t)
-    checkbox.addEventListener(Events.ON_CHECK, selectListener)
+    checkbox.setId("checkbox_${t.name}")
+    checkbox.setDisabled(true)
+    //checkbox.setAttribute("entity", t)
+    //checkbox.addEventListener(Events.ON_CHECK, selectListener)
     Listcell checkboxCell = new Listcell()
     checkboxCell.appendChild(checkbox)
     checkboxCell.setParent(listitem)
@@ -39,7 +41,7 @@ class FilterRenderer implements ListitemRenderer<ProductFilterEntity> {
 
   }
 
-  EventListener selectListener = new EventListener() {
+/*  EventListener selectListener = new EventListener() {
     @Override
     void onEvent(Event t) {
       CheckEvent event = (CheckEvent) t
@@ -61,10 +63,7 @@ class FilterRenderer implements ListitemRenderer<ProductFilterEntity> {
         }
       }
       else
-      {
         productsModel.addAll(retrieved)
-      }
-
 
     }
   }
@@ -75,7 +74,7 @@ class FilterRenderer implements ListitemRenderer<ProductFilterEntity> {
 
   void setProductsModel(BindingListModelList<ProductEntity> productsModel) {
     this.productsModel = productsModel
-  }
+  }*/
 
 
 }

@@ -43,6 +43,7 @@ class RecommendedComposer extends GrailsComposer {
     List<ProductEntity> recommended = initService.recommended
     recommended.each {ProductEntity product ->
       Td cell = new Td()
+      cell.setSclass("recommendedItem")
       Vbox vbox = new Vbox()
       vbox.setAlign("center")
       //картинка товара.
@@ -52,6 +53,7 @@ class RecommendedComposer extends GrailsComposer {
 
       //наименование.
       Label name = new Label(product.name)
+      name.setWidth("217px")
       //цена.
       Label price = new Label(Float.toString(product.price))
 

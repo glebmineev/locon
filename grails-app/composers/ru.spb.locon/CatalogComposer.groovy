@@ -25,6 +25,10 @@ import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zul.Listitem
 import ru.spb.locon.tree.node.CategoryTreeNode
 import ru.spb.locon.renderers.FilterRenderer
+import org.zkoss.zul.Image
+import org.zkoss.zk.ui.Component
+import org.zkoss.zul.Label
+import org.zkoss.zul.Checkbox
 
 class CatalogComposer extends GrailsComposer {
 
@@ -85,11 +89,49 @@ class CatalogComposer extends GrailsComposer {
     if (productFilterModel == null) {
       productFilterModel = new BindingListModelList<ProductFilterEntity>(listProductFilter(category), true)
     }
-    productFilter.setMultiple(true)
+    currentCategory = CategoryEntity.get(categoryId)
+    productFilter.addEventListener(Events.ON_CLICK, productFilterLister)
     productFilter.setModel(productFilterModel)
-    filterRenderer.setCategory(CategoryEntity.get(categoryId))
-    filterRenderer.setProductsModel(productsModel)
+    //filterRenderer.setCategory(CategoryEntity.get(categoryId))
+    //filterRenderer.setProductsModel(productsModel)
     productFilter.setItemRenderer(filterRenderer)
+  }
+
+  List<ProductFilterEntity> checked = new ArrayList<ProductFilterEntity>()
+  CategoryEntity currentCategory
+
+  EventListener productFilterLister = new EventListener() {
+    @Override
+    void onEvent(Event t) {
+      Component image = t.target
+      Window window = (Window) image.getPage().getFirstRoot()
+
+      int index = productFilter.getSelectedIndex()
+      Listitem listitem = productFilter.getItemAtIndex(index)
+      ProductFilterEntity value = (ProductFilterEntity) listitem.getValue()
+      Checkbox checkbox = (Checkbox) window.getFellow("checkbox_${value.name}")
+      checkbox.checked = !checkbox.checked
+
+      if (checkbox.checked) {
+        checked.add(value)
+      }
+      else
+        checked.remove(value)
+
+      productsModel.clear()
+
+      Collection<ProductEntity> retrieved = currentCategory.listCategoryProduct.product
+      if (checked.size() > 0) {
+        retrieved.each {ProductEntity product ->
+          if (checked.contains(product.productFilter))
+            productsModel.add(product)
+        }
+      }
+      else
+        productsModel.addAll(retrieved)
+
+
+    }
   }
 
   /*
@@ -130,6 +172,10 @@ class CatalogComposer extends GrailsComposer {
     @Override
     void onEvent(Event t) {
       final Treeitem selectedTreeItem = categoryTree.getSelectedItem()
+      if (selectedTreeItem.open)
+        selectedTreeItem.setOpen(false)
+      else
+        selectedTreeItem.setOpen(true)
       if (selectedTreeItem != null) {
         CategoryEntity category = (CategoryEntity) selectedTreeItem.getValue()
         rebuildListboxModel(category)
@@ -155,8 +201,10 @@ class CatalogComposer extends GrailsComposer {
 
   public void rebuildFilterModel(CategoryEntity category) {
     List<ProductFilterEntity> productFilter = listProductFilter(category)
-    filterRenderer.setCategory(category)
-    filterRenderer.checked.clear()
+    currentCategory = category
+    //filterRenderer.setCategory(category)
+    //filterRenderer.checked.clear()
+    checked.clear()
     productFilterModel.clear()
     productFilterModel.addAll(productFilter)
   }

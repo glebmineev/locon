@@ -9,6 +9,10 @@ body {
     margin: 0 auto;
 }
 
+.wrap_content {
+  width: 100%
+}
+
 .menu {
   width: 880px;
   height: 43px;
@@ -18,8 +22,8 @@ body {
 .recommended {
   width: 870px;
   background: #FFFFFF;
+  -webkit-border-radius: 10px 10px 10px 10px;
   -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
   border-radius: 10px;
   border: 1px solid #346F97;
 }
@@ -29,8 +33,25 @@ body {
   margin-top: 10px;
   margin-bottom: 10px;
   background: #FFFFFF;
-  -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   border-radius: 10px;
   border: 1px solid #346F97;
+}
+
+.categoryTree {
+  width: 250px;
+  background: #FFFFFF;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #346F97;
+}
+
+.productFilter {
+  width: 200px;
+}
+
+.products {
+  width: 700px;
 }

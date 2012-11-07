@@ -26,7 +26,7 @@ class URLUtils {
     params.each {key, value ->
       if (!"controller".equals(key) &&
           !"action".equals(key)){
-        if (!"null".equals(value))
+        if (value != null)
           result.append("${key}=${value}&")
       }
 

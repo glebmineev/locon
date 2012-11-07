@@ -84,7 +84,7 @@
                   <g:img dir="images" file="contacts.png"/>
                 </td>
                 <td align="left">
-                  <g:link controller="shop" action="about" params="[type: 'contacts']">Контакты</g:link>
+                  <g:link controller="shop" action="contacts" params="[type: 'contacts']">Контакты</g:link>
                 </td>
               </tr>
             </table>
@@ -93,7 +93,7 @@
             <table width="100%">
               <tr>
                 <td align="right">
-                  <g:img dir="images" file="about_us.png"/>
+                  <g:img dir="images" file="about.png"/>
                 </td>
                 <td align="left">
                   <g:link controller="shop" action="about" params="[type: 'about']">О нас</g:link>
@@ -108,7 +108,7 @@
                   <g:img dir="images" file="transport.png"/>
                 </td>
                 <td align="left">
-                  <g:link controller="shop" action="about" params="[type: 'transport']"
+                  <g:link controller="shop" action="delivery" params="[type: 'transport']"
                           style="font-size: 10pt">О доставке</g:link>
                 </td>
               </tr>

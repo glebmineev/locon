@@ -28,7 +28,9 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-      <tpl:zkBody zul="/zul/admin/orderItem.zul"/>
+      <div class="info">
+        <tpl:zkBody zul="/zul/admin/orderItem.zul"/>
+      </div>
     </tpl:block>
 
     <tpl:block name="footer"/>

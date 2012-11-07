@@ -10,7 +10,7 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-
+      <div class="info">
       Интернет-магазин «IBody.ru»
       г. Санкт-Петербург
       Телефон: 8 (812) 448-77-55
@@ -34,6 +34,7 @@
       Юридический адрес:
       197110, СПБ, Улица Пионерская, д. 22, пом. 45-Н
       <br>
+      </div>
     </tpl:block>
 
     <tpl:block name="footer">

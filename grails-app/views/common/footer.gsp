@@ -12,10 +12,10 @@
       <td align="center" width="50%" valign="top">
         <table width="100%" style="margin-left: 120px">
           <tr>
-            <td>
-              <ul>
+            <td align="left">
+              <ul style="margin-top: -20px">
                 <li>
-                  <g:link controller="shop" action="details">Реквизиты</g:link>  
+                  <g:link controller="shop" action="details">Реквизиты</g:link>
                 </li>
                 <li>
                   <g:link controller="shop" action="contacts">Контакты</g:link>
@@ -28,8 +28,8 @@
       <td align="center" width="50%" valign="top">
         <table width="100%" style="margin-left: 125px">
           <tr>
-            <td>
-              <ul>
+            <td align="left">
+              <ul style="margin-top: -20px">
                 <li>
                   <g:link controller="shop" action="about">О нашем магазине</g:link>
                 </li>
