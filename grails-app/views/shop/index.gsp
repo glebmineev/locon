@@ -10,7 +10,10 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-      <table width="100%">
+      <g:include view="common/slider.gsp"/>
+      <g:include view="common/recommended.gsp"/>
+      <g:include view="common/carousel.gsp"/>
+      %{--<table width="100%">
         <tr>
           <td>
             <g:include view="common/slider.gsp"/>
@@ -26,17 +29,11 @@
             <g:include view="common/carousel.gsp"/>
           </td>
         </tr>
-      </table>
+      </table>--}%
     </tpl:block>
 
     <tpl:block name="footer">
-      <table width="100%">
-        <tr>
-          <td>
-            <g:include view="common/footer.gsp"/>
-          </td>
-        </tr>
-      </table>
+      <g:include view="common/footer.gsp"/>
     </tpl:block>
 
   </tpl:useTemplate>

@@ -53,13 +53,13 @@
 }
 
 #nav ul li {
-  width: 217px;
+  width: 220px;
   float: left;
   border-top: 1px solid #fff;
 }
 
 #nav ul li:first-child {
-  margin-top: 5px;
+  margin-top: 6px;
   -moz-border-radius: 10px 0px 0px 10px;
   -webkit-border-radius: 10px 0px 0px 10px;
   border-radius: 10px 10px 0px 0px;
@@ -91,16 +91,19 @@
 }
 
 .main {
-  width: 217px;
-  height: 38px;
-  background: url("../../images/menu_button.png") no-repeat;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  width: 220px;
+  height: 37px;
+  background: url("../../images/menu_button_Hover_bg.png") repeat;
 }
 
 .main:hover{
-  background: url("../../images/menu_button_Over.png") no-repeat;
+  background: url("../../images/menu_button_Over_bg.png") repeat;
 }
 
 .submenu{
-  width: 217px;
+  width: 220px;
   background: #B8D335;
 }

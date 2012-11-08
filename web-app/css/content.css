@@ -3,55 +3,35 @@ body {
     background: url("../images/flowers.png") repeat;
 }
 
-.content {
-    width: 880px;
+#content {
+    width: 888px;
     height: 100%;
     margin: 0 auto;
 }
 
-.wrap_content {
-  width: 100%
+#wrap_content {
+  width: 100%;
 }
 
-.menu {
-  width: 880px;
-  height: 43px;
-  margin: 0 auto;
+#menu {
+  margin-bottom: 5px;
 }
 
 .recommended {
-  width: 870px;
   background: #FFFFFF;
   -webkit-border-radius: 10px 10px 10px 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
   border: 1px solid #346F97;
 }
 
 .info {
-  width: 870px;
   margin-top: 10px;
   margin-bottom: 10px;
   background: #FFFFFF;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
   border: 1px solid #346F97;
 }
 
-.categoryTree {
-  width: 250px;
-  background: #FFFFFF;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  border: 1px solid #346F97;
-}
-
-.productFilter {
-  width: 200px;
-}
-
-.products {
-  width: 700px;
-}

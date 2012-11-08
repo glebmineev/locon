@@ -14,6 +14,7 @@ import org.zkoss.zhtml.Table
 import org.zkoss.zhtml.Tr
 import org.zkoss.zhtml.Td
 import org.zkoss.zul.Vbox
+import org.zkoss.zhtml.Br
 
 /**
  * User: Gleb
@@ -21,23 +22,14 @@ import org.zkoss.zul.Vbox
  * Time: 0:13
  */
 class RecommendedComposer extends GrailsComposer {
-  
+
+  Table products
+
   InitService initService = (InitService) SpringUtil.getApplicationContext().getBean("initService")
   CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
 
   def afterCompose = {Window window ->
 
-    Vbox hbox = new Vbox()
-    hbox.setWidth("100%")
-    hbox.setAlign("center")
-    hbox.setStyle("background: #f6f6f6;border-bottom: 1px solid #346F97;")
-    Label headerLabel = new Label("Популярные")
-    headerLabel.setStyle("font-size: 20px;")
-    hbox.appendChild(headerLabel)
-    window.appendChild(hbox)
-
-    Table products = new Table()
-    products.setStyle("width:100%;")
     Tr row = new Tr()
 
     List<ProductEntity> recommended = initService.recommended
@@ -53,7 +45,6 @@ class RecommendedComposer extends GrailsComposer {
 
       //наименование.
       Label name = new Label(product.name)
-      name.setWidth("217px")
       //цена.
       Label price = new Label(Float.toString(product.price))
 
@@ -63,12 +54,15 @@ class RecommendedComposer extends GrailsComposer {
       buy.setAttribute("entity", product)
       buy.addEventListener(Events.ON_CLICK, buyListener)
 
-      vbox.appendChild(image)
-      vbox.appendChild(name)
-      vbox.appendChild(price)
-      vbox.appendChild(buy)
+      cell.appendChild(image)
+      cell.appendChild(new Br())
+      //cell.appendChild(name)
+      cell.appendChild(new Br())
+      cell.appendChild(price)
+      cell.appendChild(new Br())
+      cell.appendChild(buy)
 
-      cell.appendChild(vbox)
+      //cell.appendChild(vbox)
 
       row.appendChild(cell)
     }

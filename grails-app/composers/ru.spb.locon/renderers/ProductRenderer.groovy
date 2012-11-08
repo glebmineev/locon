@@ -60,8 +60,11 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
     Vbox vBox = new Vbox()
     vBox.setAlign("left")
 
-    Label header = new Label(entity.name)
-    header.setStyle("font-size: 18px;margin-top: 5px;margin-bottom: 5px;")
+    Label manufacturer = new Label(entity.manufacturer.name)
+    manufacturer.setStyle("font-size: 14px;margin-top: 5px;margin-bottom: 5px;")
+
+    Label productName = new Label(entity.name)
+    productName.setStyle("font-size: 18px;margin-top: 5px;margin-bottom: 5px;")
 
     Label price = new Label()
     price.setStyle("font-size: 14px;margin-bottom: 5px;")
@@ -70,7 +73,8 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
     Button addToCart = new Button("Добавить в корзину")
     addToCart.addEventListener(Events.ON_CLICK, addToCartListener)
 
-    vBox.appendChild(header)
+    vBox.appendChild(manufacturer)
+    vBox.appendChild(productName)
     vBox.appendChild(price)
     vBox.appendChild(addToCart)
 

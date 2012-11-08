@@ -58,7 +58,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
     Listcell productsCount = new Listcell()
     Hbox hbox = new Hbox()
     Label countLabel = new Label()
-    countLabel.setId("good_${cartItem.product}")
+    countLabel.setId("good_${cartItem.product.id}")
     countLabel.setValue(Long.toString(count))
     Image plus = new Image("/images/plus.png")
     plus.addEventListener(Events.ON_CLICK, plusListener)
@@ -76,7 +76,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
 
     Listcell allPriceCell = new Listcell()
     Label allPriceLabel = new Label(roundPrice.toString())
-    allPriceLabel.setId("price_${cartItem.product}")
+    allPriceLabel.setId("price_${cartItem.product.id}")
     allPriceLabel.setParent(allPriceCell)
     allPriceCell.setParent(listitem)
 
@@ -110,7 +110,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
 
       //изменяем начение количества.
       Window window = (Window) image.getPage().getFirstRoot()
-      Label countLabel = (Label) window.getFellow("good_${value.product}")
+      Label countLabel = (Label) window.getFellow("good_${value.product.id}")
       countLabel.setValue(Long.toString(value.count + 1))
 
       //изменяем item модели.
@@ -122,7 +122,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
       BigDecimal rounded = new BigDecimal(resultPrice).setScale(1, RoundingMode.HALF_DOWN).floatValue()
 
       //изменяем начение цены.
-      Label allPriceLabel = (Label) window.getFellow("price_${value.product}")
+      Label allPriceLabel = (Label) window.getFellow("price_${value.product.id}")
       allPriceLabel.setValue(rounded.toString())
     }
   }
@@ -137,7 +137,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
       if (value.count != 0) {
         cartService.decrementProduct(value)
         Window window = (Window) image.getPage().getFirstRoot()
-        Label countLabel = (Label) window.getFellow("good_${value.product}")
+        Label countLabel = (Label) window.getFellow("good_${value.product.id}")
         countLabel.setValue(Long.toString(count - 1))
 
         CartItem changingItem = (CartItem) cartModel.get((cartModel.indexOf(value)))
@@ -148,7 +148,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
         BigDecimal rounded = new BigDecimal(resultPrice).setScale(1, RoundingMode.HALF_DOWN).floatValue()
 
         //изменяем начение цены.
-        Label allPriceLabel = (Label) window.getFellow("price_${value.product}")
+        Label allPriceLabel = (Label) window.getFellow("price_${value.product.id}")
         allPriceLabel.setValue(rounded.toString())
 
       }

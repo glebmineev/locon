@@ -13,6 +13,9 @@
 	width:100%;
 	height:auto;
 	overflow: hidden;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
 }
 .nivoSlider img {
 	position:absolute;
@@ -100,7 +103,7 @@
 /* Control nav styles (e.g. 1,2,3...) */
 .nivo-controlNav {
 	text-align:center;
-	padding: 15px 0;
+	padding: 5px 0;
 }
 .nivo-controlNav a {
 	cursor:pointer;

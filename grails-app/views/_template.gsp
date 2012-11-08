@@ -2,51 +2,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 
-    <g:javascript library="application"/>
-    <g:javascript library="jquery" src="jquery-1.7.1.min.js"/>
-    <g:javascript library="nivo" src="slider/jquery.nivo.slider.js"/>
-    <g:javascript library="carousel" src="carousel/jquery.jcarousel.min.js"/>
+  <g:javascript library="application"/>
+  <g:javascript library="jquery" src="jquery-1.7.1.min.js"/>
+  <g:javascript library="nivo" src="slider/jquery.nivo.slider.js"/>
+  <g:javascript library="carousel" src="carousel/jquery.jcarousel.min.js"/>
 
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'content.css')}" type="text/css">
+  <link rel="stylesheet" href="${resource(dir: 'css', file: 'content.css')}" type="text/css">
 
-    <!-- slider stylesheet -->
-    <link rel="stylesheet" href="${resource(dir: 'css/slider/themes/default', file: 'default.css')}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="${resource(dir: 'css/slider/themes/light', file: 'light.css')}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="${resource(dir: 'css/slider/themes/dark', file: 'dark.css')}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="${resource(dir: 'css/slider/themes/bar', file: 'bar.css')}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="${resource(dir: 'css/slider', file: 'nivo-slider.css')}" />
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" href="${resource(dir: 'css/slider/themes/default', file: 'default.css')}" type="text/css"
+        media="screen"/>
+  <link rel="stylesheet" href="${resource(dir: 'css/slider/themes/light', file: 'light.css')}" type="text/css"
+        media="screen"/>
+  <link rel="stylesheet" href="${resource(dir: 'css/slider/themes/dark', file: 'dark.css')}" type="text/css"
+        media="screen"/>
+  <link rel="stylesheet" href="${resource(dir: 'css/slider/themes/bar', file: 'bar.css')}" type="text/css"
+        media="screen"/>
+  <link rel="stylesheet" href="${resource(dir: 'css/slider', file: 'nivo-slider.css')}"/>
 
-    <!-- drop menu -->
-    <link rel="stylesheet" href="${resource(dir: 'css/dropmenu', file: 'dropmenu.css')}" />
+  <!-- drop menu -->
+  <link rel="stylesheet" href="${resource(dir: 'css/dropmenu', file: 'dropmenu.css')}"/>
 
-    <!-- Carousel -->
-    <link rel="stylesheet" href="${resource(dir: 'css/carousel', file: 'carousel.css')}" />
+  <!-- Carousel -->
+  <link rel="stylesheet" href="${resource(dir: 'css/carousel', file: 'carousel.css')}"/>
 
-    <!-- ZK -->
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'ZK.css')}" />
-    ${head}
+  <!-- ZK -->
+  <link rel="stylesheet" href="${resource(dir: 'css', file: 'ZK.css')}"/>
+  ${head}
 </head>
 
 <body>
-<div class="content">
+<div id="content">
 
-    <div id="header" class="header">
-        ${header}
-    </div>
+  <div id="header">
+    ${header}
+  </div>
 
-    <div id="menu" class="menu">
-        ${menu}
-    </div>
+  <div id="menu">
+    ${menu}
+  </div>
 
-    <div id="wrap_content" class="wrap_content">
-        ${wrap_content}
-    </div>
+  <div id="wrap_content">
+    ${wrap_content}
+  </div>
 
-    <div id="footer">
-        ${footer}
-    </div>
+  <div id="footer">
+    ${footer}
+  </div>
 
 </div>
 

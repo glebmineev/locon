@@ -12,7 +12,7 @@
     <h:table width="100%" cellpadding="5px">
       <h:tr>
         <h:td>
-          <listbox id="cartItems" mold="paging" pageSize="10" height="500px" width="100%">
+          <listbox id="cartItems" mold="paging" pageSize="10" height="100%" width="100%">
             <listhead>
               <listheader label="Товар"/>
               <listheader label="Цена" width="100px"/>

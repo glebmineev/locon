@@ -8,16 +8,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-    <window apply="ru.spb.locon.CatalogComposer" width="875px">
-      <style src="/css/ZK.css"/>
-      <h:table>
+    <window apply="ru.spb.locon.CatalogComposer" contentStyle="margin-left: -5px;" width="100%">
+
+      <h:table width="100%" align="center">
         <h:tr>
-          <h:td valign="top" width="250px">
+          <h:td valign="top">
             <vbox>
-              <tree id="categoryTree" width="250px">
+              <tree height="100%">
                 <treechildren/>
               </tree>
-              <listbox id="productFilter" sclass="productFilter" width="250px">
+              <listbox width="250px">
                 <listhead>
                   <listheader width="50px"/>
                   <listheader/>
@@ -26,7 +26,7 @@
             </vbox>
           </h:td>
           <h:td valign="top">
-            <listbox id="products" sclass="products" height="760px" mold="paging" pageSize="5">
+            <listbox mold="paging" pageSize="5">
               <listhead>
                 <listheader width="180px"/>
                 <listheader width="435px"/>
