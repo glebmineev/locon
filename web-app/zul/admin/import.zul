@@ -14,7 +14,7 @@
         <button id="uploadButton" upload="true" label="Обзор"/>
         <combobox id="category"/>
         <button id="startButton" disabled="true" label="Начать импорт"/>
-        <button id="createDirsButton" disabled="false" label="Создать директории"/>
+        <!--<button id="createDirsButton" disabled="false" label="Создать директории"/>-->
     </window>
 
 </zk>

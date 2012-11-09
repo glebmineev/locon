@@ -17,8 +17,18 @@
         background: #f6f6f6;border-bottom: 1px solid #346F97;
       }
 
+      .recommendedItem {
+        word-wrap: break-word;
+        vertical-align: top;
+        width: 25%;
+      }
+
       .recommendedItem:hover {
-        background: #fbd850
+        background: #fbd850;
+      }
+
+      .recommendedName {
+        height: 20px;
       }
 
     </style>

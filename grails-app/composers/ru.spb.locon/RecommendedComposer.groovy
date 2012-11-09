@@ -15,6 +15,7 @@ import org.zkoss.zhtml.Tr
 import org.zkoss.zhtml.Td
 import org.zkoss.zul.Vbox
 import org.zkoss.zhtml.Br
+import org.zkoss.zul.Div
 
 /**
  * User: Gleb
@@ -36,15 +37,16 @@ class RecommendedComposer extends GrailsComposer {
     recommended.each {ProductEntity product ->
       Td cell = new Td()
       cell.setSclass("recommendedItem")
-      Vbox vbox = new Vbox()
-      vbox.setAlign("center")
       //картинка товара.
       Image image = new Image()
       image.setStyle("border: 1px solid #f6f6f6;")
       image.setSrc("/images/empty.png")
 
+      Div nameContainer = new Div()
+      nameContainer.setSclass("recommendedName")
       //наименование.
       Label name = new Label(product.name)
+      name.setParent(nameContainer)
       //цена.
       Label price = new Label(Float.toString(product.price))
 
@@ -56,13 +58,11 @@ class RecommendedComposer extends GrailsComposer {
 
       cell.appendChild(image)
       cell.appendChild(new Br())
-      //cell.appendChild(name)
+      cell.appendChild(nameContainer)
       cell.appendChild(new Br())
       cell.appendChild(price)
       cell.appendChild(new Br())
       cell.appendChild(buy)
-
-      //cell.appendChild(vbox)
 
       row.appendChild(cell)
     }
