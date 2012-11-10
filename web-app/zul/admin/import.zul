@@ -8,13 +8,34 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-    <window apply="ru.spb.locon.ImportComposer">
-
-        <textbox id="fileField" width="300px"/>
-        <button id="uploadButton" upload="true" label="Обзор"/>
-        <combobox id="category"/>
-        <button id="startButton" disabled="true" label="Начать импорт"/>
-        <!--<button id="createDirsButton" disabled="false" label="Создать директории"/>-->
+    <window apply="ru.spb.locon.importer.ImportComposer">
+      <h:table width="100%">
+        <h:tr>
+          <h:td>
+            <vbox>
+              <div id="upload">
+                <textbox id="fileField" width="300px"/>
+                <button id="uploadButton" upload="true" label="Обзор"/>
+                <combobox id="category"/>
+                <button id="startButton" disabled="true" label="Начать импорт"/>
+              </div>
+            </vbox>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td>
+            <div id="process" visible="false">
+              <listbox id="importResult">
+                <listhead>
+                  <listheader align="center" width="20%" label="Артикул"/>
+                  <listheader align="center" width="60%" label="Товар"/>
+                  <listheader align="center" width="20%" label="Обработка"/>
+                </listhead>
+              </listbox>
+            </div>
+          </h:td>
+        </h:tr>
+      </h:table>
     </window>
 
 </zk>

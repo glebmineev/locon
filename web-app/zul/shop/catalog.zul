@@ -14,10 +14,10 @@
         <h:tr>
           <h:td valign="top">
             <vbox>
-              <tree height="100%">
+              <tree id="categoryTree" height="100%">
                 <treechildren/>
               </tree>
-              <listbox width="250px">
+              <listbox id="productFilter" width="250px">
                 <listhead>
                   <listheader width="50px"/>
                   <listheader/>
@@ -26,7 +26,7 @@
             </vbox>
           </h:td>
           <h:td valign="top">
-            <listbox mold="paging" pageSize="5">
+            <listbox id="products" mold="paging" pageSize="5">
               <listhead>
                 <listheader width="180px"/>
                 <listheader width="435px"/>

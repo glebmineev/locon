@@ -8,6 +8,8 @@ class AdminController {
 
   def index() { }
 
+  def editor() { }
+
   def orders() { }
 
   def orderItem() { }

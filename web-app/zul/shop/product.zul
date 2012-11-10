@@ -14,8 +14,9 @@
       <!-- Основные сведения -->
       <h:table width="100%" cellspacing="5" align="center">
         <h:tr>
-          <h:td width="300px">
-            <h:img id="productImg" src="../images/empty.png" alt="картинка товара"/>
+          <h:td width="450px" height="450px">
+            <!--src="../images/empty.png"-->
+            <image width="450px" height="450px" id="productImg" visible="true"/>
           </h:td>
           <h:td width="580px">
             <h:table width="100%" cellspacing="5">

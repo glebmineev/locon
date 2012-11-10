@@ -26,6 +26,9 @@
       <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/cookie-0.2/grails-app/services" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/cookie-0.2/grails-app/taglib" isTestSource="false" />
     </content>
+    <content url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/executor-0.3">
+      <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/executor-0.3/src/groovy" isTestSource="false" />
+    </content>
     <content url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/hibernate-2.0.4" />
     <content url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/i18n-templates-1.1.0.1">
       <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/i18n-templates-1.1.0.1/grails-app/i18n" isTestSource="false" />
