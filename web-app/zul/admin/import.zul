@@ -9,7 +9,7 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
     <window apply="ru.spb.locon.importer.ImportComposer">
-      <h:table width="100%">
+      <h:table width="100%" cellpadding="0" cellspacing="0">
         <h:tr>
           <h:td>
             <vbox>

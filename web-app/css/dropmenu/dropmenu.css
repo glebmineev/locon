@@ -80,7 +80,7 @@
 }
 
 #nav ul a:hover {
-    text-decoration:underline;
+    /*text-decoration:underline;*/
 }
 
 /* fix ie6 small issue */
@@ -105,5 +105,6 @@
 
 .submenu{
   width: 220px;
-  background: #B8D335;
+  height: 37px;
+  background: url("../../images/menju.png") repeat;
 }

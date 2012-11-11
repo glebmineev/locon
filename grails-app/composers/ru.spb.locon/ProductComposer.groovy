@@ -18,6 +18,10 @@ import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.Image
 import ru.spb.locon.importer.ConverterRU_EN
 import ru.spb.locon.importer.ImageHandler
+import ru.spb.locon.windows.ImageWindow
+import org.zkoss.zk.ui.sys.ExecutionsCtrl
+import org.zkoss.zul.A
+import org.zkoss.zul.Div
 
 class ProductComposer extends SelectorComposer<Window> {
 
@@ -32,6 +36,9 @@ class ProductComposer extends SelectorComposer<Window> {
 
   @Wire("#backButton")
   Button backButton
+
+  @Wire("#categoryPath")
+  Div categoryPath
 
   Long productId
   CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
@@ -48,10 +55,27 @@ class ProductComposer extends SelectorComposer<Window> {
     String path = "${applicationPath}\\images\\catalog\\${imagePath}"
     ImageHandler dirUtils = new ImageHandler()
     List<String> images = dirUtils.findImages(path)
-    if ( images.size() > 0)
-      productImage.setSrc("/images/catalog/${imagePath}/1-100.jpg")
-    else
+    String resultPath = "/images/empty.png"
+    if ( images.size() > 0){
+      resultPath = "/images/catalog/${imagePath}"
+      productImage.setSrc("/images/catalog/${imagePath}/1-228.jpg")
+    } else
       productImage.setSrc("/images/empty.png")
+
+    productImage.setStyle("cursor: pointer;")
+    productImage.addEventListener(Events.ON_CLICK, new EventListener(){
+
+      @Override
+      void onEvent(Event t) {
+        Image zoomImage = new Image("${resultPath}/1-500.jpg")
+        zoomImage.setWidth("500px")
+        zoomImage.setHeight("500px")
+        ImageWindow imageWindow = new ImageWindow(zoomImage, product.name)
+        imageWindow.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
+        imageWindow.doModal()
+      }
+
+    })
 
     cartButton.addEventListener(Events.ON_CLICK, new EventListener() {
 
@@ -63,22 +87,17 @@ class ProductComposer extends SelectorComposer<Window> {
       }
     })
 
-    backButton.addEventListener(Events.ON_CLICK, new EventListener() {
-      @Override
-      void onEvent(Event t) {
-        String category = Executions.getCurrent().getParameter("category")
-        if (category != null)
-          Executions.sendRedirect("/shop/catalog?category=${Long.parseLong(category)}")
-      }
-    })
+    String categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
+    CategoryEntity category = CategoryEntity.get(categoryId)
 
+    initializeCategoryPath(category)
     initializeFields()
   }
 
   /*
    * метод проставляет занчения товара.
    */
-  private void initializeFields() {
+  void initializeFields() {
     ProductEntity product = ProductEntity.get(productId)
     if (product != null) {
       outputs.each {XulElement element ->
@@ -91,6 +110,15 @@ class ProductComposer extends SelectorComposer<Window> {
         }
       }
     }
+  }
+
+  void initializeCategoryPath(CategoryEntity category){
+    A link = new A()
+    link.setHref("/shop/catalog?category=${category.id}")
+    link.setLabel(category.name)
+    categoryPath.appendChild(link)
+    if (category.parentCategory != null)
+      initializeCategoryPath(category.parentCategory)
   }
 
 }

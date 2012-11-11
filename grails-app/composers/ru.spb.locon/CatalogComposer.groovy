@@ -200,8 +200,6 @@ class CatalogComposer extends GrailsComposer {
   public void rebuildFilterModel(CategoryEntity category) {
     List<ProductFilterEntity> productFilter = listProductFilter(category)
     currentCategory = category
-    //filterRenderer.setCategory(category)
-    //filterRenderer.checked.clear()
     checked.clear()
     productFilterModel.clear()
     productFilterModel.addAll(productFilter)

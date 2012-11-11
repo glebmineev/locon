@@ -8,15 +8,17 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.ProductComposer" width="880px">
-
-
+  <window apply="ru.spb.locon.ProductComposer">
       <!-- Основные сведения -->
       <h:table width="100%" cellspacing="5" align="center">
         <h:tr>
-          <h:td width="450px" height="450px">
-            <!--src="../images/empty.png"-->
-            <image width="450px" height="450px" id="productImg" visible="true"/>
+          <h:td colspan="2" width="100%">
+            <div id="categoryPath"/>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td>
+            <image id="productImg" width="228px" height="228px"/>
           </h:td>
           <h:td width="580px">
             <h:table width="100%" cellspacing="5">
@@ -26,6 +28,14 @@
                 </h:td>
                 <h:td align="left">
                   <label id="name"/>
+                </h:td>
+              </h:tr>
+              <h:tr>
+                <h:td width="150px" align="right">
+                  <label value="Применение:"/>
+                </h:td>
+                <h:td align="left">
+                  <label id="usage"/>
                 </h:td>
               </h:tr>
               <h:tr>
@@ -55,15 +65,12 @@
               <h:tr>
                 <h:td colspan="2" align="center">
                   <button id="cartButton" label="В корзину"/>
-                  <button id="backButton" label="Назад"/>
                 </h:td>
               </h:tr>
             </h:table>
           </h:td>
         </h:tr>
       </h:table>
-
-
   </window>
 
 </zk>

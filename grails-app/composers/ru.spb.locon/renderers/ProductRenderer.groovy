@@ -17,6 +17,9 @@ import org.zkoss.zul.Label
 import org.zkoss.zul.Vbox
 import org.zkoss.zkplus.spring.SpringUtil
 import ru.spb.locon.CartService
+import ru.spb.locon.importer.ConverterRU_EN
+import ru.spb.locon.importer.ImageHandler
+import org.zkoss.zk.ui.Executions
 
 class ProductRenderer implements ListitemRenderer<ProductEntity> {
 
@@ -39,7 +42,17 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
 
   private Image getImage(ProductEntity entity) {
     Image image = new Image()
-    image.setSrc("/images/empty.png")
+    image.setWidth("100px")
+    image.setHeight("100px")
+    String imagePath = ConverterRU_EN.translit(entity.imagePath)
+    String applicationPath = Executions.current.nativeRequest.getSession().getServletContext().getRealPath("/")
+    String path = "${applicationPath}\\images\\catalog\\${imagePath}"
+    ImageHandler dirUtils = new ImageHandler()
+    List<String> images = dirUtils.findImages(path)
+    if ( images.size() > 0)
+      image.setSrc("/images/catalog/${imagePath}/1-100.jpg")
+    else
+      image.setSrc("/images/empty.png")
     return image
   }
 

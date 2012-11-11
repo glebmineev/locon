@@ -1,6 +1,7 @@
 body {
     text-align: center;
     background: url("../images/flowers.png") repeat;
+    /*background: url("../images/fon.png") repeat;*/
 }
 
 #content {
@@ -14,7 +15,7 @@ body {
 }
 
 #menu {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .recommended {
@@ -23,6 +24,10 @@ body {
   -moz-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   border: 1px solid #346F97;
+}
+
+#footer {
+  width: 100%;
 }
 
 .info {

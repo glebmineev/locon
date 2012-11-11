@@ -13,23 +13,6 @@
       <g:include view="common/slider.gsp"/>
       <g:include view="common/recommended.gsp"/>
       <g:include view="common/carousel.gsp"/>
-      %{--<table width="100%">
-        <tr>
-          <td>
-            <g:include view="common/slider.gsp"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <g:include view="common/recommended.gsp"/>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
-            <g:include view="common/carousel.gsp"/>
-          </td>
-        </tr>
-      </table>--}%
     </tpl:block>
 
     <tpl:block name="footer">

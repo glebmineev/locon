@@ -13,9 +13,12 @@ import org.zkoss.zk.ui.event.Events
 import org.zkoss.zhtml.Table
 import org.zkoss.zhtml.Tr
 import org.zkoss.zhtml.Td
-import org.zkoss.zul.Vbox
 import org.zkoss.zhtml.Br
 import org.zkoss.zul.Div
+import org.zkoss.zk.ui.Executions
+import ru.spb.locon.importer.ConverterRU_EN
+import ru.spb.locon.importer.ImageHandler
+import org.zkoss.zul.A
 
 /**
  * User: Gleb
@@ -40,7 +43,16 @@ class RecommendedComposer extends GrailsComposer {
       //картинка товара.
       Image image = new Image()
       image.setStyle("border: 1px solid #f6f6f6;")
-      image.setSrc("/images/empty.png")
+
+      String applicationPath = Executions.current.nativeRequest.getSession().getServletContext().getRealPath("/")
+      String imagePath = ConverterRU_EN.translit(product.imagePath)
+      String path = "${applicationPath}\\images\\catalog\\${imagePath}"
+      ImageHandler dirUtils = new ImageHandler()
+      List<String> images = dirUtils.findImages(path)
+      if ( images.size() > 0)
+        image.setSrc("/images/catalog/${imagePath}/1-100.jpg")
+      else
+        image.setSrc("/images/empty.png")
 
       Div nameContainer = new Div()
       nameContainer.setSclass("recommendedName")
@@ -64,6 +76,15 @@ class RecommendedComposer extends GrailsComposer {
       cell.appendChild(new Br())
       cell.appendChild(buy)
 
+      cell.addEventListener(Events.ON_CLICK, new EventListener() {
+
+        @Override
+        void onEvent(Event t) {
+          Executions.sendRedirect("/shop/product?product=${product.id}")
+        }
+
+      })
+      
       row.appendChild(cell)
     }
 

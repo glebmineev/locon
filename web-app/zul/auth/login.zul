@@ -10,7 +10,7 @@
 
   <window apply="ru.spb.locon.LoginComposer" width="100%">
     <label id="errors" visible="false"/>
-    <h:table width="100%" cellspacing="5" align="center">
+    <h:table width="100%" cellspacing="0" cellpadding="0" align="center">
       <h:tr>
         <h:td colspan="2" align="center">
           <h:h2>Введите email и пароль</h:h2>

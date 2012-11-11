@@ -20,6 +20,8 @@
       .recommendedItem {
         word-wrap: break-word;
         vertical-align: top;
+        margin-top: 5px;
+        cursor: pointer;
         width: 25%;
       }
 
