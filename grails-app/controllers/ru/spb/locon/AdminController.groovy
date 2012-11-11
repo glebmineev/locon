@@ -1,10 +1,13 @@
 package ru.spb.locon
 
 import ru.spb.locon.login.URLUtils
+import org.apache.commons.io.FileUtils
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class AdminController {
 
   def loginService
+  def imageSyncService
 
   def index() { }
 
@@ -15,6 +18,10 @@ class AdminController {
   def orderItem() { }
 
   def importCatalog() { }
+
+  def sync() {
+    imageSyncService.syncWithServer(session.getServletContext().getRealPath("/"))
+  }
 
   def beforeInterceptor = {
     List<String> groups = loginService.getUserGroups()

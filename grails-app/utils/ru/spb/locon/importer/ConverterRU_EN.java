@@ -85,8 +85,8 @@ public class ConverterRU_EN {
     String result = "";
     if (source != null && !source.isEmpty()) {
       char[] chars = source.toCharArray();
-      for (int i = 0; i < chars.length; i++) {
-        String symbol = Character.toString(chars[i]);
+      for (char aChar : chars) {
+        String symbol = Character.toString(aChar);
         if (ru_enABC.containsKey(symbol)) {
           String value = ru_enABC.get(symbol);
           result = result + value;

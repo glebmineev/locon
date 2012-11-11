@@ -22,7 +22,7 @@ class DownloadUtils {
       File dir = new File(to)
       URL website = new URL(from)
       String type = fileType(from)
-      File image = new File("${dir}\\1${type}")
+      File image = new File("${dir}/1${type}")
       FileUtils.copyURLToFile(website, image)
       isDownloaded = true
     } catch (Exception e) {

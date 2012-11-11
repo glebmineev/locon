@@ -8,6 +8,7 @@ class ProductEntity {
   String article
   String name
   String description
+  String usage
   String volume
   Float price
 
@@ -24,6 +25,7 @@ class ProductEntity {
       article column: 'product_article'
       name column: 'product_name'
       description column: 'product_description'
+      usage column: 'product_usage'
       volume column: 'product_volume'
       productProperty column: 'product_productproperty_id'
       price column: 'product_price'
@@ -47,6 +49,7 @@ class ProductEntity {
     article nullable: true
     name maxSize: 65535, nullable: true
     description maxSize: 65535, nullable: true
+    usage maxSize: 65535, nullable: true
     volume nullable: true
     price nullable: true
     productProperty nullable: true

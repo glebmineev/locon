@@ -14,10 +14,10 @@ import org.zkoss.zk.ui.event.Event
 import ru.spb.locon.domain.DomainUtils
 
 import org.zkoss.zkplus.spring.SpringUtil
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import ru.spb.locon.importer.DirUtils
-import org.zkoss.zhtml.Img
+
 import org.zkoss.zul.Image
+import ru.spb.locon.importer.ConverterRU_EN
+import ru.spb.locon.importer.ImageHandler
 
 class ProductComposer extends SelectorComposer<Window> {
 
@@ -34,8 +34,6 @@ class ProductComposer extends SelectorComposer<Window> {
   Button backButton
 
   Long productId
-
-  String catalogPath = ConfigurationHolder.config.locon.store.catalog
   CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
 
   @Override
@@ -44,10 +42,16 @@ class ProductComposer extends SelectorComposer<Window> {
     productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
     ProductEntity product = ProductEntity.get(productId)
 
-    String path = "${catalogPath}\\${product.imagePath}\\"
-    DirUtils dirUtils = new DirUtils()
-    dirUtils.findImages(path)
-    productImage.setSrc("\\${path}\\1.jpg")
+    String applicationPath = Executions.current.nativeRequest.getSession().getServletContext().getRealPath("/")
+
+    String imagePath = ConverterRU_EN.translit(product.imagePath)
+    String path = "${applicationPath}\\images\\catalog\\${imagePath}"
+    ImageHandler dirUtils = new ImageHandler()
+    List<String> images = dirUtils.findImages(path)
+    if ( images.size() > 0)
+      productImage.setSrc("/images/catalog/${imagePath}/1-100.jpg")
+    else
+      productImage.setSrc("/images/empty.png")
 
     cartButton.addEventListener(Events.ON_CLICK, new EventListener() {
 

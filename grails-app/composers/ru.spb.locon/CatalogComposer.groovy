@@ -92,8 +92,6 @@ class CatalogComposer extends GrailsComposer {
     currentCategory = CategoryEntity.get(categoryId)
     productFilter.addEventListener(Events.ON_CLICK, productFilterLister)
     productFilter.setModel(productFilterModel)
-    //filterRenderer.setCategory(CategoryEntity.get(categoryId))
-    //filterRenderer.setProductsModel(productsModel)
     productFilter.setItemRenderer(filterRenderer)
   }
 

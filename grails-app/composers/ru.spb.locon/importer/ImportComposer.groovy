@@ -17,6 +17,7 @@ import ru.spb.locon.ImportService
 import org.zkoss.zul.Listbox
 import org.zkoss.zul.Div
 import org.zkoss.zul.ListModelList
+import org.zkoss.zk.ui.Executions
 
 class ImportComposer extends GrailsComposer {
 
@@ -95,9 +96,11 @@ class ImportComposer extends GrailsComposer {
         InputStream is = media.getStreamData()
         String manufacturer = media.getName().replace(".xls", "")
         String category = category.getValue()
+        //String applicationPath = Executions.current.nativeRequest.getSession().getServletContext().getRealPath("/")
         if (is != null) {
           runAsync {
             importService.setDesktop(desktop)
+            //importService.setApplicationPath(applicationPath)
             importService.setMenuCategory(category)
             importService.setManufacturer(manufacturer)
             importService.setWrkbook(Workbook.getWorkbook(is))
