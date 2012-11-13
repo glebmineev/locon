@@ -4,6 +4,7 @@ import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.UserEntity
 import ru.spb.locon.UserGroupEntity
 import ru.spb.locon.GroupEntity
+import ru.spb.locon.ProductFilterGroupEntity
 
 class BootStrap {
 
@@ -13,6 +14,11 @@ class BootStrap {
 
     ProductPropertyEntity.withTransaction {
       ProductPropertyEntity.findOrSaveWhere(name: "Объем")
+    }
+
+    ProductFilterGroupEntity.withTransaction {
+      ProductFilterGroupEntity.findOrSaveWhere(name: "Производитель")
+      ProductFilterGroupEntity.findOrSaveWhere(name: "Применение")
     }
 
     CategoryEntity.withTransaction {

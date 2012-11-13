@@ -14,7 +14,6 @@ class ProductEntity {
 
   ProductPropertyEntity productProperty
   ManufacturerEntity manufacturer
-  ProductFilterEntity productFilter
 
   static mapping = {
 
@@ -30,18 +29,19 @@ class ProductEntity {
       productProperty column: 'product_productproperty_id'
       price column: 'product_price'
       manufacturer fetch: "join", column: 'product_manufacturer_id'
-      productFilter fetch: "join", column: 'product_productfilter'
     }
 
     version false
 
     listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
     listOrderProduct lazy: false,  cascade: 'all-delete-orphan'
+    productProductFilterList lazy: false, cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
       listCategoryProduct: CategoryProductEntity,
-      listOrderProduct: OrderProductEntity
+      listOrderProduct: OrderProductEntity,
+      productProductFilterList: ProductProductFilterEntity
   ]
 
   static constraints = {
@@ -54,7 +54,6 @@ class ProductEntity {
     price nullable: true
     productProperty nullable: true
     manufacturer nullable: true
-    productFilter nullable: true
   }
 
 

@@ -90,7 +90,8 @@ class ProductComposer extends SelectorComposer<Window> {
     String categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
     CategoryEntity category = CategoryEntity.get(categoryId)
 
-    initializeCategoryPath(category)
+    fillCategories(category)
+    initializeCategoryPath()
     initializeFields()
   }
 
@@ -112,13 +113,29 @@ class ProductComposer extends SelectorComposer<Window> {
     }
   }
 
-  void initializeCategoryPath(CategoryEntity category){
-    A link = new A()
-    link.setHref("/shop/catalog?category=${category.id}")
-    link.setLabel(category.name)
-    categoryPath.appendChild(link)
+  List<CategoryEntity> categories = new ArrayList<CategoryEntity>()
+  void fillCategories(CategoryEntity category){
+    categories.add(category)
     if (category.parentCategory != null)
-      initializeCategoryPath(category.parentCategory)
+      fillCategories(category.parentCategory)
+  }
+
+  void initializeCategoryPath(){
+    int count = categories.size() - 1
+    while (count != -1) {
+      CategoryEntity category = categories.get(count)
+      A href = new A()
+      href.setHref("/shop/catalog?category=${category.id}")
+      href.setLabel(category.name)
+      href.setStyle("font-size: 16pt;")
+      categoryPath.appendChild(href)
+      
+      if (count != 0) {
+        Image right = new Image("/images/right.png")
+        categoryPath.appendChild(right)
+      }
+      count--
+    }
   }
 
 }

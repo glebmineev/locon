@@ -6,6 +6,8 @@ import ru.spb.locon.ProductEntity
 import ru.spb.locon.CategoryProductEntity
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductFilterCategoryEntity
+import ru.spb.locon.ProductFilterGroupEntity
+import ru.spb.locon.ProductProductFilterEntity
 
 /**
  * User: Gleb
@@ -14,10 +16,11 @@ import ru.spb.locon.ProductFilterCategoryEntity
  */
 class SaveUtils {
 
-  ProductFilterEntity getProductFilter(String filterName) {
+  ProductFilterEntity getProductFilter(String filterName, ProductFilterGroupEntity group) {
     ProductFilterEntity filterEntity = ProductFilterEntity.findByName(filterName)
     if (filterEntity == null) {
       filterEntity = new ProductFilterEntity()
+      filterEntity.setProductFilterGroup(group)
       filterEntity.setName(filterName)
       filterEntity.save()
     }
@@ -59,6 +62,27 @@ class SaveUtils {
       productFilterCategory.save()
     }
 
+  }
+
+  void saveFilterToProductLink(ProductEntity product, ProductFilterEntity productFilter) {
+    ProductProductFilterEntity exist =
+      ProductProductFilterEntity.findWhere(product: product, productFilter: productFilter)
+    if (exist == null) {
+      ProductProductFilterEntity productProductFilter = new ProductProductFilterEntity()
+      productProductFilter.setProduct(product)
+      productProductFilter.setProductFilter(productFilter)
+      productProductFilter.save()
+    }
+
+  }
+
+  ProductFilterGroupEntity getProductFilterGroup(String name){
+    ProductFilterGroupEntity group = ProductFilterGroupEntity.findByName(name)
+    if (group == null){
+      group.setName(name)
+      group.save()
+    }
+    return group
   }
 
 }

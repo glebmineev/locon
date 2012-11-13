@@ -25,13 +25,16 @@ class ImportService {
 
   String catalogPath = ConfigurationHolder.config.locon.store.catalog
   String applicationPath
+  Desktop desktop
+
   Workbook wrkbook = null
   ManufacturerEntity manufacturer
   CategoryEntity menuCategory
-  Desktop desktop
 
   DownloadUtils downloadUtils = new DownloadUtils()
   SaveUtils saveUtils = new SaveUtils()
+  
+  List<ProductFilterEntity> productFiltersTemp = new ArrayList<ProductFilterEntity>()
 
   public void doImport() {
 
@@ -40,6 +43,7 @@ class ImportService {
     sendEvent(startProcess)
 
     CategoryEntity.withTransaction {
+      int yuuu=0
       Sheet[] sheets = wrkbook.getSheets()
 
       sheets.each {Sheet sheet ->
@@ -50,10 +54,12 @@ class ImportService {
         //перебираем строки страницы.
         CategoryEntity temp = null
         (0..sheet.getRows() - 1).each { i ->
+          int yyy = 0
           Cell[] row = sheet.getRow(i)
           if (row.length != 0) {
+            yyy = 0
             if (row != null && row.length > 1 && !row[1].getContents().isEmpty()) {
-
+              yyy = 0
               //Создаем продукт.
               ProductEntity product = createProduct(row,
                   "${menuCategory}/${manufacturer}/${submenuCategory}/${temp != null ? temp : ""}")
@@ -64,10 +70,16 @@ class ImportService {
               product.setManufacturer(manufacturer)
               product.save()
 
-              if (product.productFilter != null) {
-                //saveFilterCategoryLink(menuCategory, product.productFilter)
-                saveUtils.saveFilterCategoryLink(submenuCategory, product.productFilter)
-                saveUtils.saveFilterCategoryLink(temp, product.productFilter)
+              if (productFiltersTemp.size() > 0) {
+
+                productFiltersTemp.each {ProductFilterEntity productFilter ->
+                  saveUtils.saveFilterCategoryLink(submenuCategory, productFilter)
+                  saveUtils.saveFilterCategoryLink(temp, productFilter)
+                  saveUtils.saveFilterToProductLink(product, productFilter)
+                }
+
+                productFiltersTemp.clear()
+
               }
 
             }
@@ -103,8 +115,18 @@ class ImportService {
           product.setArticle(value)
         if (i == 1)
           product.setName(value)
-        if (i == 2)
-          product.setProductFilter(saveUtils.getProductFilter(value))
+        if (i == 2){
+
+          ProductFilterGroupEntity manufacturerGroup = saveUtils.getProductFilterGroup("Производитель")
+          ProductFilterGroupEntity usageGroup = saveUtils.getProductFilterGroup("Применение")
+
+          ProductFilterEntity manufacturerFilter = saveUtils.getProductFilter(manufacturer.name, manufacturerGroup)
+          ProductFilterEntity usageFilter = saveUtils.getProductFilter(value, usageGroup)
+
+          productFiltersTemp.add(manufacturerFilter)
+          productFiltersTemp.add(usageFilter)
+        }
+
         if (i == 3)
           product.setVolume(value)
 

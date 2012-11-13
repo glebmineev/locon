@@ -55,7 +55,7 @@
 #nav ul li {
   width: 220px;
   float: left;
-  border-top: 1px solid #fff;
+  /*border-top: 1px solid #fff;*/
 }
 
 #nav ul li:first-child {

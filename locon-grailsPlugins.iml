@@ -4,10 +4,10 @@
     <facet type="web" name="GrailsWeb">
       <configuration>
         <webroots>
-          <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/zk-2.0.0.M5/web-app" relative="/" />
           <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/jquery-1.7.1/web-app" relative="/" />
           <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/jquery-ui-1.8.15/web-app" relative="/" />
           <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/zk-2.0.0.M5/web-app" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -70,8 +70,8 @@
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (locon-grailsPlugins)">
         <CLASSES>
-          <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/zk-2.0.0.M5/lib" />
           <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/lib" />
+          <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/zk-2.0.0.M5/lib" />
           <root url="jar://$USER_HOME_GRAILS$/ivy-cache/net.java.dev.inflector/inflector/jars/inflector-0.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />

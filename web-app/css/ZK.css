@@ -40,3 +40,6 @@ span.z-dottree-tee-close {
 span.z-dottree-tee-open {
   background-image: url("../images/about.png");
 }*/
+div.z-tabbox-accordion .z-tabpanel-accordion {
+  padding: 0;
+}

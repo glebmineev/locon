@@ -1,4 +1,4 @@
-package ru.spb.locon.renderers
+package ru.spb.locon.catalog
 
 import ru.spb.locon.CategoryEntity
 
