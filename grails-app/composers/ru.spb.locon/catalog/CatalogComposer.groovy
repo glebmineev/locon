@@ -8,9 +8,6 @@ import org.zkoss.zul.Treeitem
 
 import org.zkoss.zul.Listbox
 
-import org.springframework.context.MessageSource
-import org.zkoss.zkplus.spring.SpringUtil
-
 import org.zkoss.zk.ui.event.EventListener
 import org.zkoss.zk.ui.event.Event
 
@@ -49,17 +46,16 @@ class CatalogComposer extends GrailsComposer {
   
   Listbox productFilter
   BindingListModelList<ProductFilterEntity> productFilterModel
-  FilterRenderer filterRenderer = new FilterRenderer()
 
   Listbox products
   BindingListModelList<ProductEntity> productsModel
 
-  Long categoryId
-
-  MessageSource messageSource = (MessageSource) SpringUtil.getApplicationContext().getBean("messageSource")
+  List<ProductFilterEntity> checked = new ArrayList<ProductFilterEntity>()
+  CategoryEntity currentCategory
 
   def afterCompose = {Window window ->
-    categoryId = Long.parseLong(execution.getParameter("category"))
+    Long categoryId = Long.parseLong(execution.getParameter("category"))
+    currentCategory = CategoryEntity.get(categoryId)
 
     productFilter = new Listbox()
     initializeTree()
@@ -73,13 +69,12 @@ class CatalogComposer extends GrailsComposer {
   /*
    * метод инициализирует дерево категорий.
    */
-
   private void initializeTree() {
-    categoryTree.addEventListener(Events.ON_CLICK, treeListener)
     //берем все категории без парента.
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
     CategoryTreeNode root = new CategoryTreeNode(null, new ArrayList<CategoryTreeNode>())
     createTreeModel(root, categories)
+
     treeModel = new DefaultTreeModel<CategoryEntity>(root)
     categoryTree.setTreeitemRenderer(new TreeCategoryRenderer())
     categoryTree.setModel(treeModel)
@@ -88,13 +83,9 @@ class CatalogComposer extends GrailsComposer {
   /**
    * метод инициализирует listbox товаров.
    */
-
   private void initializeProductListBox() {
-    products.addEventListener(Events.ON_CLICK, productsLister)
-    //заполняем listbox.
-    CategoryEntity category = CategoryEntity.get(categoryId)
     if (productsModel == null) {
-      productsModel = new BindingListModelList<ProductEntity>(listProducts(category), true)
+      productsModel = new BindingListModelList<ProductEntity>(currentCategory.listCategoryProduct.product as List<ProductEntity>, true)
     }
     products.setModel(productsModel)
     products.setItemRenderer(new ProductRenderer())
@@ -112,15 +103,12 @@ class CatalogComposer extends GrailsComposer {
     productFilter.listhead.appendChild(cbHeader)
     productFilter.listhead.appendChild(new Listheader())
 
-    CategoryEntity category = CategoryEntity.get(categoryId)
-    if (productFilterModel == null) {
-      productFilterModel = new BindingListModelList<ProductFilterEntity>(listProductFilter(category, defaultGroup), true)
-    }
+    if (productFilterModel == null)
+      productFilterModel = new BindingListModelList<ProductFilterEntity>(listProductFilter(defaultGroup), true)
 
-    currentCategory = CategoryEntity.get(categoryId)
     productFilter.addEventListener(Events.ON_CLICK, productFilterListener)
     productFilter.setModel(productFilterModel)
-    productFilter.setItemRenderer(filterRenderer)
+    productFilter.setItemRenderer(new FilterRenderer())
   }
 
   void initializeFilterTabs(){
@@ -139,23 +127,15 @@ class CatalogComposer extends GrailsComposer {
       filterGroups.tabpanels.appendChild(tabpanel)
     }
 
-
-    filterGroups.addEventListener(Events.ON_CLICK, new EventListener(){
-      @Override
-      void onEvent(Event t) {
-        CategoryEntity category = categoryTree.selectedItem.value
-        Tab tab = filterGroups.selectedTab
-        rebuildFilterModel(category, tab.label)
-        rebuildListboxModel(category)
-        productFilter.detach()
-        filterGroups.selectedPanel.appendChild(productFilter)
-      }
-    })
-
   }
 
-  List<ProductFilterEntity> checked = new ArrayList<ProductFilterEntity>()
-  CategoryEntity currentCategory
+  public void onClick_filterGroups(Event event) {
+    Tab tab = filterGroups.selectedTab
+    rebuildFilterModel(tab.label)
+    rebuildListboxModel()
+    productFilter.detach()
+    filterGroups.selectedPanel.appendChild(productFilter)
+  }
 
   EventListener productFilterListener = new EventListener() {
     @Override
@@ -169,9 +149,8 @@ class CatalogComposer extends GrailsComposer {
       Checkbox checkbox = (Checkbox) window.getFellow("checkbox_${value.name}")
       checkbox.checked = !checkbox.checked
 
-      if (checkbox.checked) {
+      if (checkbox.checked)
         checked.add(value)
-      }
       else
         checked.remove(value)
 
@@ -180,8 +159,6 @@ class CatalogComposer extends GrailsComposer {
       Collection<ProductEntity> retrieved = currentCategory.listCategoryProduct.product
       if (checked.size() > 0) {
         retrieved.each {ProductEntity product ->
-          //if (checked.contains(product.productFilter))
-          //  productsModel.add(product)
           product.productProductFilterList.productFilter.each {ProductFilterEntity productFilter ->
             if (checked.contains(productFilter))
               productsModel.add(product)
@@ -192,19 +169,17 @@ class CatalogComposer extends GrailsComposer {
       else
         productsModel.addAll(retrieved)
 
-
     }
   }
 
   /*
-  * метод формирует мдель дерева категорий.
-  */
-
+   * метод формирует мдель дерева категорий.
+   */
   void createTreeModel(CategoryTreeNode parent, List<CategoryEntity> children) {
     children.each {CategoryEntity category ->
       CategoryTreeNode node = new CategoryTreeNode(category, new ArrayList<CategoryTreeNode>())
       parent.children.add(node)
-      if (category.id == categoryId) {
+      if (category.id == currentCategory.id) {
         openParent(node)
         node.setOpen(true)
         node.setSelected(true)        
@@ -216,6 +191,10 @@ class CatalogComposer extends GrailsComposer {
     }
   }
 
+  /**
+   * открывает рекурсивно все ноды родители.
+   * @param node - предыдущая нода.
+   */
   void openParent(CategoryTreeNode node){
     CategoryTreeNode parent = (CategoryTreeNode) node.getParent()
     if (parent != null) {
@@ -224,73 +203,60 @@ class CatalogComposer extends GrailsComposer {
     }
 
   }
-  
-  EventListener productsLister = new EventListener() {
-    @Override
-    void onEvent(Event t) {
-      int index = products.getSelectedIndex()
-      final Listitem listitem = products.getItemAtIndex(index)
+  /**
+   * Слушатель списка товаров.
+   * @param event - событие.
+   */
+  public void onClick_products(Event event){
 
-      final Treeitem selectedTreeItem = categoryTree.getSelectedItem()
-      CategoryEntity category = (CategoryEntity) selectedTreeItem.getValue()
+    int index = products.getSelectedIndex()
+    Listitem listitem = products.getItemAtIndex(index)
 
-      if (listitem != null) {
-        ProductEntity product = (ProductEntity) listitem.getValue()
-        Executions.sendRedirect("/shop/product?category=${category.id}&product=${product.id}")
-      }
+    if (listitem != null) {
+      ProductEntity product = (ProductEntity) listitem.getValue()
+      Executions.sendRedirect("/shop/product?category=${currentCategory.id}&product=${product.id}")
+    }
+
+  }
+
+  public void onClick_categoryTree(Event event) {
+    Treeitem selectedTreeItem = categoryTree.getSelectedItem()
+    if (selectedTreeItem.open)
+      selectedTreeItem.setOpen(false)
+    else
+      selectedTreeItem.setOpen(true)
+    if (selectedTreeItem != null) {
+      currentCategory = (CategoryEntity) selectedTreeItem.getValue()
+      rebuildListboxModel()
+      rebuildFilterModel(filterGroups.selectedTab.label)
     }
   }
 
-  EventListener treeListener = new EventListener() {
-    @Override
-    void onEvent(Event t) {
-      final Treeitem selectedTreeItem = categoryTree.getSelectedItem()
-      if (selectedTreeItem.open)
-        selectedTreeItem.setOpen(false)
-      else
-        selectedTreeItem.setOpen(true)
-      if (selectedTreeItem != null) {
-        CategoryEntity category = (CategoryEntity) selectedTreeItem.getValue()
-        rebuildListboxModel(category)
-        rebuildFilterModel(category, filterGroups.selectedTab.label)
-      }
-
-    }
-  }
-
-  /*
-  * метод переформирует модель listbox при первоначальной загрузке и выборе в дереве категорий.
-  */
-
-  private void rebuildListboxModel(CategoryEntity category) {
+  /**
+   * метод переформирует модель товаров.
+   * @param category - категория
+   */
+  void rebuildListboxModel() {
     productsModel.clear()
-    productsModel.addAll(listProducts(category))
+    productsModel.addAll(currentCategory.listCategoryProduct.product as List<ProductEntity>)
   }
 
-  private List<ProductEntity> listProducts(CategoryEntity category) {
-    Collection<ProductEntity> products = category.listCategoryProduct.product
-    return products
-  }
-
-  public void rebuildFilterModel(CategoryEntity category, String group) {
-    List<ProductFilterEntity> productFilter = listProductFilter(category, group)
-    currentCategory = category
+  /**
+   * метод переформирует модель фильтра товаров.
+   * @param group - группа фильтра
+   */
+  void rebuildFilterModel(String group) {
+    List<ProductFilterEntity> productFilter = listProductFilter(group)
     checked.clear()
     productFilterModel.clear()
     productFilterModel.addAll(productFilter)
   }
 
-  private List<ProductFilterEntity> listProductFilter(CategoryEntity category, String group) {
-
-    //Comboitem item = filterGroups.selectedItem
-    //int i = 0
-    List<ProductFilterEntity> result = category.productFilterCategoryList.productFilter.asList().findAll {
+  private List<ProductFilterEntity> listProductFilter(String group) {
+    List<ProductFilterEntity> result = currentCategory.productFilterCategoryList.productFilter.asList().findAll {
       it.productFilterGroup.name.equals(group)
     }
-
-    //List<ProductFilterEntity> result = category.productFilterCategoryList.productFilter as List<ProductFilterEntity>
     return result
   }
-
 
 }

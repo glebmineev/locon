@@ -9,6 +9,8 @@ import java.awt.Graphics2D
 import ru.spb.locon.importer.ImageHandler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.zkoss.zk.ui.Executions
+import org.zkoss.zul.Image
 
 class ImageSyncService {
 
@@ -23,7 +25,7 @@ class ImageSyncService {
   void syncWithServer(String applicationPath) {
     ProductEntity.list().each {ProductEntity product ->
       String storePath = "${catalogPath}\\${product.imagePath}"
-      String serverPath = ConverterRU_EN.translit("${applicationPath}\\images\\catalog\\${product.imagePath}")
+      String serverPath = ConverterRU_EN.translit("${applicationPath}\\images\\catalog\\${product.imagePath}").replace(" ", "")
       File src = new File(storePath)
       File dest = new File(serverPath)
       FileUtils.copyDirectory(src, dest)
@@ -54,8 +56,22 @@ class ImageSyncService {
   }
 
   void writeImage(BufferedImage source, File dest, int size, String ext){
-    BufferedImage image40x40 = resizeImage(source, size, size, source.getType())
-    ImageIO.write(image40x40, ext.toUpperCase(), dest)
+
+    int width = source.width
+    int height = source.height
+
+    float k = 1
+
+    if (width > height)
+      k = (width/size)
+    else
+      k = (height/size)
+
+    int new_h = (height/k)
+    int new_w = (width/k)
+    
+    BufferedImage image = resizeImage(source, new_w, new_h, source.getType())
+    ImageIO.write(image, ext.toUpperCase(), dest)
   }
 
   BufferedImage resizeImage(BufferedImage originalImage, int ing_width, int img_height, int type) {
@@ -65,6 +81,20 @@ class ImageSyncService {
     g.dispose()
     return resizedImage
   }
-
+  
+  Image getProductImage(ProductEntity product, String size) {
+    Image image = new Image()
+    image.setHeight("${size}px")
+    String imagePath = ConverterRU_EN.translit(product.imagePath).replace(" ","")
+    String applicationPath = Executions.current.nativeRequest.getSession().getServletContext().getRealPath("/")
+    String path = "${applicationPath}\\images\\catalog\\${imagePath}"
+    ImageHandler dirUtils = new ImageHandler()
+    List<String> images = dirUtils.findImages(path)
+    if ( images.size() > 0)
+      image.setSrc("/images/catalog/${imagePath}/1-${size}.jpg")
+    else
+      image.setSrc("/images/empty.png")
+    return image
+  }
 
 }

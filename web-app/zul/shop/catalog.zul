@@ -17,14 +17,7 @@
             <tree id="categoryTree" width="260px" height="100%">
               <treechildren/>
             </tree>
-            <!--<combobox id="filterGroups" width="260px" mold="rounded"/>-->
             <tabbox id="filterGroups" mold="accordion" width="260px"/>
-<!--            <listbox id="productFilter" visible="false" width="256px">
-              <listhead>
-                <listheader width="50px"/>
-                <listheader/>
-              </listhead>
-            </listbox>-->
           </vbox>
         </h:td>
         <h:td valign="top" width="70%">

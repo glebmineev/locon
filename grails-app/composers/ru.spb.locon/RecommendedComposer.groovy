@@ -4,7 +4,6 @@ import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.Window
 import org.zkoss.zkplus.spring.SpringUtil
 
-import org.zkoss.zul.Image
 import org.zkoss.zul.Label
 import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.EventListener
@@ -16,9 +15,6 @@ import org.zkoss.zhtml.Td
 import org.zkoss.zhtml.Br
 import org.zkoss.zul.Div
 import org.zkoss.zk.ui.Executions
-import ru.spb.locon.importer.ConverterRU_EN
-import ru.spb.locon.importer.ImageHandler
-import org.zkoss.zul.A
 
 /**
  * User: Gleb
@@ -30,6 +26,7 @@ class RecommendedComposer extends GrailsComposer {
   Table products
 
   InitService initService = (InitService) SpringUtil.getApplicationContext().getBean("initService")
+  ImageSyncService imageSyncService = (ImageSyncService) SpringUtil.getApplicationContext().getBean("imageSyncService")
   CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
 
   def afterCompose = {Window window ->
@@ -41,18 +38,6 @@ class RecommendedComposer extends GrailsComposer {
       Td cell = new Td()
       cell.setSclass("recommendedItem")
       //картинка товара.
-      Image image = new Image()
-      image.setStyle("border: 1px solid #f6f6f6;")
-
-      String applicationPath = Executions.current.nativeRequest.getSession().getServletContext().getRealPath("/")
-      String imagePath = ConverterRU_EN.translit(product.imagePath)
-      String path = "${applicationPath}\\images\\catalog\\${imagePath}"
-      ImageHandler dirUtils = new ImageHandler()
-      List<String> images = dirUtils.findImages(path)
-      if ( images.size() > 0)
-        image.setSrc("/images/catalog/${imagePath}/1-100.jpg")
-      else
-        image.setSrc("/images/empty.png")
 
       Div nameContainer = new Div()
       nameContainer.setSclass("recommendedName")
@@ -68,7 +53,8 @@ class RecommendedComposer extends GrailsComposer {
       buy.setAttribute("entity", product)
       buy.addEventListener(Events.ON_CLICK, buyListener)
 
-      cell.appendChild(image)
+      cell.appendChild(new Br())
+      cell.appendChild(imageSyncService.getProductImage(product, "100"))
       cell.appendChild(new Br())
       cell.appendChild(nameContainer)
       cell.appendChild(new Br())
@@ -95,7 +81,7 @@ class RecommendedComposer extends GrailsComposer {
   EventListener buyListener = new EventListener() {
     @Override
     void onEvent(Event t) {
-      ProductEntity product = ((Button) t.target).getAttribute("entity")
+      ProductEntity product = (ProductEntity) ((Button) t.target).getAttribute("entity")
       cartService.addToCart(product)
     }
   }

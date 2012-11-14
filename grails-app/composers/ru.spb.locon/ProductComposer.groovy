@@ -1,75 +1,47 @@
 package ru.spb.locon
 
-import org.zkoss.zk.ui.select.annotation.Wire
-import org.zkoss.zul.Window
-import org.zkoss.zul.Label
-
 import org.zkoss.zk.ui.Executions
-import org.zkoss.zk.ui.select.SelectorComposer
-import org.zkoss.zul.impl.XulElement
-import org.zkoss.zul.Button
-import org.zkoss.zk.ui.event.Events
-import org.zkoss.zk.ui.event.EventListener
-import org.zkoss.zk.ui.event.Event
-import ru.spb.locon.domain.DomainUtils
+import org.zkoss.zk.ui.event.*
 
 import org.zkoss.zkplus.spring.SpringUtil
 
-import org.zkoss.zul.Image
-import ru.spb.locon.importer.ConverterRU_EN
-import ru.spb.locon.importer.ImageHandler
 import ru.spb.locon.windows.ImageWindow
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
-import org.zkoss.zul.A
-import org.zkoss.zul.Div
+import org.zkoss.zul.*
+import org.zkoss.zk.grails.composer.GrailsComposer
 
-class ProductComposer extends SelectorComposer<Window> {
+class ProductComposer extends GrailsComposer {
 
-  @Wire("label")
-  List<XulElement> outputs
-
-  @Wire("#productImg")
-  Image productImage
-
-  @Wire("#cartButton")
+  Div productImg
   Button cartButton
-
-  @Wire("#backButton")
-  Button backButton
-
-  @Wire("#categoryPath")
   Div categoryPath
 
-  Long productId
+  Label usage
+  Label description
+  Label name
+  Label price
+  Label volume
+
+  ProductEntity product
+
   CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
+  ImageSyncService imageSyncService = (ImageSyncService) SpringUtil.getApplicationContext().getBean("imageSyncService")
 
-  @Override
-  public void doAfterCompose(Window window) {
-    super.doAfterCompose(window)
-    productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
-    ProductEntity product = ProductEntity.get(productId)
+  List<CategoryEntity> categories = new ArrayList<CategoryEntity>()
 
-    String applicationPath = Executions.current.nativeRequest.getSession().getServletContext().getRealPath("/")
+  def afterCompose = {Window window ->
+    Long productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
+    product = ProductEntity.get(productId)
 
-    String imagePath = ConverterRU_EN.translit(product.imagePath)
-    String path = "${applicationPath}\\images\\catalog\\${imagePath}"
-    ImageHandler dirUtils = new ImageHandler()
-    List<String> images = dirUtils.findImages(path)
-    String resultPath = "/images/empty.png"
-    if ( images.size() > 0){
-      resultPath = "/images/catalog/${imagePath}"
-      productImage.setSrc("/images/catalog/${imagePath}/1-228.jpg")
-    } else
-      productImage.setSrc("/images/empty.png")
+    Image image = imageSyncService.getProductImage(product, "228")
+    image.setStyle("cursor: pointer;")
+    productImg.appendChild(image)
 
-    productImage.setStyle("cursor: pointer;")
-    productImage.addEventListener(Events.ON_CLICK, new EventListener(){
+    image.addEventListener(Events.ON_CLICK, new EventListener(){
 
       @Override
       void onEvent(Event t) {
-        Image zoomImage = new Image("${resultPath}/1-500.jpg")
-        zoomImage.setWidth("500px")
-        zoomImage.setHeight("500px")
+        Image zoomImage = imageSyncService.getProductImage(product, "500")
         ImageWindow imageWindow = new ImageWindow(zoomImage, product.name)
         imageWindow.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
         imageWindow.doModal()
@@ -77,18 +49,16 @@ class ProductComposer extends SelectorComposer<Window> {
 
     })
 
-    cartButton.addEventListener(Events.ON_CLICK, new EventListener() {
-
-      @Override
-      void onEvent(Event t) {
-        //значения выбранных товаров храняться в cookie.
-        cartService.addToCart(product)
-
+    String param = Executions.getCurrent().getParameter("category")
+    CategoryEntity category
+    if (param != null){
+      Long categoryId = Long.parseLong(param)
+      category = CategoryEntity.get(categoryId)
+    } else {
+      category = product.listCategoryProduct.category.find {
+        it.parentCategory == null
       }
-    })
-
-    String categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
-    CategoryEntity category = CategoryEntity.get(categoryId)
+    }
 
     fillCategories(category)
     initializeCategoryPath()
@@ -99,27 +69,28 @@ class ProductComposer extends SelectorComposer<Window> {
    * метод проставляет занчения товара.
    */
   void initializeFields() {
-    ProductEntity product = ProductEntity.get(productId)
-    if (product != null) {
-      outputs.each {XulElement element ->
-        String fieldName = element.id
-        if (element instanceof Label &&
-            !fieldName.isEmpty()) {
-          Label label = (Label) element
-          Object value = product."${fieldName}"
-          label.setValue(DomainUtils.parseTo(value))
-        }
-      }
-    }
+
+    name.setValue(product.name)
+    price.setValue(Float.toString(product.price))
+    volume.setValue(product.volume)
+
+    usage.setValue(product.usage)
+    description.setValue(product.description)
   }
 
-  List<CategoryEntity> categories = new ArrayList<CategoryEntity>()
+  /**
+   * Формирует иерархию категорий начиная с самой последней.
+   * @param category - предыдущая катеория.
+   */
   void fillCategories(CategoryEntity category){
     categories.add(category)
     if (category.parentCategory != null)
       fillCategories(category.parentCategory)
   }
 
+  /**
+   * Формирует путь до корневой категории.
+   */
   void initializeCategoryPath(){
     int count = categories.size() - 1
     while (count != -1) {
@@ -136,6 +107,10 @@ class ProductComposer extends SelectorComposer<Window> {
       }
       count--
     }
+  }
+
+  public void onClick_cartButton(Event event) {
+    cartService.addToCart(product)
   }
 
 }

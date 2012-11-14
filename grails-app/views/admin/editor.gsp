@@ -10,7 +10,9 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-      <tpl:zkBody zul="/zul/admin/editor.zul"/>
+      <div class="info">
+        <tpl:zkBody zul="/zul/admin/editor.zul"/>
+      </div>
     </tpl:block>
 
     <tpl:block name="footer"/>

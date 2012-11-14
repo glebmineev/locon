@@ -5,7 +5,7 @@
 %>
 <table width="100%">
   <tr>
-    <td>
+    <td align="left">
       <table width="100%">
         <tr>
           <g:if test="${loginService.isLogged()}">
@@ -43,7 +43,7 @@
     </td>
   </tr>
   <tr>
-    <td colspan="2">
+    <td colspan="2" align="left">
       <g:link controller="shop" action="index">
         <g:img dir="images" file="logo.png"/>
       </g:link>
@@ -127,12 +127,13 @@
             </table>
           </td>
           <td colspan="2">
-            <g:form controller="search" action="index">
+            <tpl:zkBody zul="/zul/search/search.zul"/>
+            %{--<g:form controller="search" action="index">
               <g:textField name="query" size="16"/>
               <g:submitButton name="Найти">
                 <g:img dir="images" file="search.png"/>
               </g:submitButton>
-            </g:form>
+            </g:form>--}%
           </td>
         </tr>
         <tr>

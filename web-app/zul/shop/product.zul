@@ -9,68 +9,70 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window apply="ru.spb.locon.ProductComposer">
-      <!-- Основные сведения -->
-      <h:table width="100%" cellspacing="5" align="center">
-        <h:tr>
-          <h:td colspan="2" width="100%">
-            <div id="categoryPath"/>
-          </h:td>
-        </h:tr>
-        <h:tr>
-          <h:td>
-            <image id="productImg" width="228px" height="228px"/>
-          </h:td>
-          <h:td width="580px">
-            <h:table width="100%" cellspacing="5">
-              <h:tr>
-                <h:td width="150px" align="right">
-                  <label value="Наименование:"/>
-                </h:td>
-                <h:td align="left">
-                  <label id="name"/>
-                </h:td>
-              </h:tr>
-              <h:tr>
-                <h:td width="150px" align="right">
-                  <label value="Применение:"/>
-                </h:td>
-                <h:td align="left">
-                  <label id="usage"/>
-                </h:td>
-              </h:tr>
-              <h:tr>
-                <h:td width="150px" align="right">
-                  <label value="Описание:"/>
-                </h:td>
-                <h:td align="left">
-                  <label id="description"/>
-                </h:td>
-              </h:tr>
-              <h:tr>
-                <h:td width="150px" align="right">
-                  <label value="Цена:"/>
-                </h:td>
-                <h:td align="left">
-                  <label id="price"/>
-                </h:td>
-              </h:tr>
-              <h:tr>
-                <h:td width="150px" align="right">
-                  <label value="Объем:" />
-                </h:td>
-                <h:td align="left">
-                  <label id="volume"/>
-                </h:td>
-              </h:tr>
-              <h:tr>
-                <h:td colspan="2" align="center">
-                  <button id="cartButton" label="В корзину"/>
-                </h:td>
-              </h:tr>
-            </h:table>
-          </h:td>
-        </h:tr>
-      </h:table>
+    <h:table width="100%" cellspacing="5" align="center">
+      <h:tr>
+        <h:td colspan="2" width="100%">
+          <div id="categoryPath"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td valign="top">
+          <div id="productImg" style="width: 228px;"/>
+        </h:td>
+        <h:td width="580px" valign="top">
+          <h:table width="100%" cellspacing="5">
+            <h:tr>
+              <h:td width="150px" align="right">
+                <label value="Наименование:"/>
+              </h:td>
+              <h:td align="left">
+                <label id="name"/>
+              </h:td>
+            </h:tr>
+            <h:tr>
+              <h:td width="150px" align="right">
+                <label value="Цена(р.):"/>
+              </h:td>
+              <h:td align="left">
+                <label id="price"/>
+              </h:td>
+            </h:tr>
+            <h:tr>
+              <h:td width="150px" align="right">
+                <label value="Объем(гр.):"/>
+              </h:td>
+              <h:td align="left">
+                <label id="volume"/>
+              </h:td>
+            </h:tr>
+            <h:tr>
+              <h:td/>
+              <h:td align="left">
+                <button id="cartButton" label="В корзину"/>
+              </h:td>
+            </h:tr>
+            <h:tr>
+              <h:td colspan="2">
+                <tabbox>
+                  <tabs>
+                    <tab label="Применение:"/>
+                    <tab label="Описание:"/>
+                  </tabs>
+                  <tabpanels>
+                    <tabpanel>
+                      <label id="usage"/>
+                    </tabpanel>
+                    <tabpanel>
+                      <label id="description"/>
+                    </tabpanel>
+                  </tabpanels>
+                </tabbox>
+              </h:td>
+            </h:tr>
+          </h:table>
+        </h:td>
+      </h:tr>
+    </h:table>
   </window>
 
 </zk>

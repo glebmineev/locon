@@ -7,6 +7,8 @@ class AuthController {
   def initService
   def loginService
 
+  def index(){ }
+
   def login(){
     return [mainCategoties: initService.categories]
   }

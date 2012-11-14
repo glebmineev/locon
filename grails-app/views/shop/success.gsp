@@ -10,7 +10,9 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-      <h1>Ваш заказ успешно обработан!</h1>
+      <div class="info">
+        <h1>Ваш заказ успешно обработан!</h1>
+      </div>
     </tpl:block>
 
     <tpl:block name="footer">

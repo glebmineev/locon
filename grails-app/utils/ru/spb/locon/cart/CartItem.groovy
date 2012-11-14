@@ -7,7 +7,7 @@ import ru.spb.locon.ProductEntity
  * Date: 06.10.12
  * Time: 16:53
  */
-class CartItem {
+class CartItem implements Comparable{
   
   private ProductEntity product
   private Long count = 0
@@ -34,4 +34,15 @@ class CartItem {
   }
 
 
+  @Override
+  int compareTo(Object o) {
+    CartItem item = (CartItem) o
+    if (item.product.name > this.product.name)
+      return 1
+    if (item.product.name < this.product.name)
+      return -1
+    if (item.product.name.equals(this.product.name))
+      return 0
+
+  }
 }

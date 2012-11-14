@@ -6,7 +6,6 @@
         <webroots>
           <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/jquery-1.7.1/web-app" relative="/" />
           <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/jquery-ui-1.8.15/web-app" relative="/" />
-          <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/grails-app/views" relative="/" />
           <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/zk-2.0.0.M5/web-app" relative="/" />
         </webroots>
         <sourceRoots />
@@ -22,10 +21,6 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/cookie-0.2">
-      <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/cookie-0.2/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/cookie-0.2/grails-app/taglib" isTestSource="false" />
-    </content>
     <content url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/executor-0.3">
       <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/executor-0.3/src/groovy" isTestSource="false" />
     </content>
@@ -49,12 +44,6 @@
       <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/resources-1.1.6/grails-app/i18n" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/resources-1.1.6/grails-app/taglib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3">
-      <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/src/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/grails-app/controllers" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/grails-app/services" isTestSource="false" />
-    </content>
     <content url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/tomcat-2.0.4" />
     <content url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/webxml-1.4.1">
       <sourceFolder url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/webxml-1.4.1/src/groovy" isTestSource="false" />
@@ -70,13 +59,11 @@
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (locon-grailsPlugins)">
         <CLASSES>
-          <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/lib" />
           <root url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/zk-2.0.0.M5/lib" />
           <root url="jar://$USER_HOME_GRAILS$/ivy-cache/net.java.dev.inflector/inflector/jars/inflector-0.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/searchable-0.6.3/lib" recursive="false" />
         <jarDirectory url="file://$USER_HOME_GRAILS$/2.0.4/projects/locon/plugins/zk-2.0.0.M5/lib" recursive="false" />
       </library>
     </orderEntry>

@@ -31,27 +31,23 @@ class CartComposer extends GrailsComposer {
   def afterCompose = {Window window ->
     setModel()
     initializeListBox()
-    createOrder.addEventListener(Events.ON_CLICK, createOrderLister)
   }
 
-  private void setModel() {
+  void setModel() {
     List<CartItem> cartItems = cartService.getCartProducts()
     if (cartItems.size() > 0)
       cartModel = new BindingListModelList<CartItem>(cartItems, true)
   }
 
-  private void initializeListBox() {
+  void initializeListBox() {
     cartItems.setModel(cartModel)
     cartItems.setItemRenderer(new CartRenderer(cartModel))
   }
 
-  EventListener createOrderLister = new EventListener() {
-    @Override
-    void onEvent(Event t) {
-      List<CartItem> cartItems = cartService.getCartProducts()
-      if (cartItems.size() > 0)
-        Executions.sendRedirect("/shop/checkout")
-    }
+  public void onClick_createOrder(Event event){
+    List<CartItem> cartItems = cartService.getCartProducts()
+    if (cartItems.size() > 0)
+      Executions.sendRedirect("/shop/checkout")
   }
 
 }

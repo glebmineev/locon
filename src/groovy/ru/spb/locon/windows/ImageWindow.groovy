@@ -20,11 +20,11 @@ class ImageWindow extends Window {
   ImageWindow(Image image, String name) {
 
     setWidth("520px")
-    setHeight("540px")
+    setHeight("550px")
 
     Vbox vbox = new Vbox()
+    vbox.setWidth("520px")
     vbox.setAlign("center")
-    Hbox hbox = new Hbox()
 
     Label label = new Label(name)
     Image close = new Image("/images/failed.png")
@@ -35,10 +35,9 @@ class ImageWindow extends Window {
       }
     })
 
-    hbox.appendChild(label)
-    hbox.appendChild(close)
-    vbox.appendChild(hbox)
+    vbox.appendChild(label)
     vbox.appendChild(image)
+    vbox.appendChild(close)
 
     appendChild(vbox)
   }

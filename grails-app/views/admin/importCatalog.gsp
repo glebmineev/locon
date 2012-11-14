@@ -10,7 +10,9 @@
         </tpl:block>
 
         <tpl:block name="wrap_content">
+          <div class="info">
             <tpl:zkBody zul="/zul/admin/import.zul"/>
+          </div>
         </tpl:block>
 
         <tpl:block name="footer">

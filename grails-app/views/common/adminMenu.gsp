@@ -6,7 +6,7 @@
         <g:link controller="admin" action="importCatalog">Импорт</g:link>
       </li>
       <li class="submenu">
-        <g:link controller="admin" action="sync">Синхронизация</g:link>
+        <g:link controller="admin" action="sync">Обновить картинки товаров</g:link>
       </li>
       <li class="submenu">
         <g:link controller="admin" action="editor">Редактор</g:link>
