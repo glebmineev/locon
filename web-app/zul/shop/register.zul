@@ -8,60 +8,80 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.RegisterComposer" width="880px">
-    <h:table width="100%" cellspacing="0" cellpadding="0">
+  <window apply="ru.spb.locon.RegisterComposer" width="100%">
+    <style>
+
+      span.z-label {
+        font-size: 14pt;
+      }
+
+      .z-textbox {
+        font-size: 14pt;
+        background-color: #fff3f3;
+      }
+
+      .z-textbox:hover {
+        background-color: #ffffff;
+      }
+
+    </style>
+
+    <h:table width="100%" cellspacing="10" cellpadding="0">
       <h:tr>
-        <h:td width="200px" align="right">
+        <h:td colspan="2" width="100%">
+          <label value="Регистрация" style="font-size: 18pt;"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="40%" align="right">
           <label value="Логин:(*)"/>
         </h:td>
-        <h:td width="200px" align="left">
-          <textbox id="login"/>
+        <h:td width="60%" align="left">
+          <textbox id="login" width="80%"/>
         </h:td>
       </h:tr>
       <h:tr>
-        <h:td width="200px" align="right">
+        <h:td width="40%" align="right">
           <label value="Пароль:(*)"/>
         </h:td>
-        <h:td width="200px" align="left">
-          <textbox id="password"/>
+        <h:td width="60%" align="left">
+          <textbox id="password" width="80%"/>
         </h:td>
       </h:tr>
       <h:tr>
-        <h:td width="200px" align="right">
+        <h:td width="40%" align="right">
           <label value="Фамилия, имя:(*)"/>
         </h:td>
-        <h:td width="200px" align="left">
-          <textbox id="fio"/>
+        <h:td width="60%" align="left">
+          <textbox id="fio" width="80%"/>
         </h:td>
       </h:tr>
       <h:tr>
-        <h:td width="200px" align="right">
+        <h:td width="40%" align="right">
           <label value="Контактный телефон:"/>
         </h:td>
-        <h:td width="200px" align="left">
-          <textbox id="phone"/>
+        <h:td width="60%" align="left">
+          <textbox id="phone" width="80%"/>
         </h:td>
       </h:tr>
       <h:tr>
-        <h:td width="200px" align="right">
+        <h:td width="40%" align="right">
           <label value="E-mail:(*)"/>
         </h:td>
-        <h:td width="200px" align="left">
-          <textbox id="email"/>
+        <h:td width="60%" align="left">
+          <textbox id="email" width="80%"/>
         </h:td>
       </h:tr>
       <h:tr>
-        <h:td width="200px" align="right">
+        <h:td width="40%" align="right">
           <label value="Адрес доставки:(*)"/>
         </h:td>
-        <h:td width="300px" align="left">
-          <textbox id="address" rows="3" cols="15"/>
+        <h:td width="60%" align="left">
+          <textbox id="address" rows="3" cols="15" width="80%"/>
         </h:td>
       </h:tr>
-    </h:table>
-    <h:table width="100%">
       <h:tr>
-        <h:td width="200px" align="center">
+        <h:td colspan="2" width="100%" align="center">
           <button id="registerButton" label="Зарегистрироваться"/>
         </h:td>
       </h:tr>

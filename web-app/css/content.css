@@ -1,13 +1,14 @@
 body {
-    text-align: center;
-    background: url("../images/flowers.png") repeat;
-    /*background: url("../images/fon.png") repeat;*/
+  text-align: center;
+  background: url("../images/flowers.png") repeat;
+  /*background: url("../images/fon.png") repeat;*/
 }
 
 #content {
-    width: 888px;
-    height: 100%;
-    margin: 0 auto;
+  width: 888px;
+  height: 100%;
+  margin: 0 auto;
+  font-family: Century Gothic
 }
 
 #wrap_content {

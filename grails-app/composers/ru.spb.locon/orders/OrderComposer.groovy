@@ -1,17 +1,19 @@
-package ru.spb.locon
+package ru.spb.locon.orders
 
 import org.zkoss.zk.grails.composer.GrailsComposer
-import org.zkoss.zul.Window
+import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.event.Event
+import org.zkoss.zk.ui.event.EventListener
+import org.zkoss.zk.ui.event.Events
+import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Listbox
-import org.zkoss.zk.ui.event.Events
-import ru.spb.locon.renderers.OrderRenderer
-import org.zkoss.zk.ui.event.EventListener
-import org.zkoss.zk.ui.event.Event
 import org.zkoss.zul.Listitem
-import org.zkoss.zk.ui.Executions
-
-import org.zkoss.zkplus.spring.SpringUtil
+import org.zkoss.zul.Window
+import ru.spb.locon.LoginService
+import ru.spb.locon.OrderEntity
+import ru.spb.locon.UserEntity
+import ru.spb.locon.renderers.OrderRenderer
 
 /**
  * User: Gleb

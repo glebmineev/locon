@@ -9,27 +9,45 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window apply="ru.spb.locon.LoginComposer" width="100%">
+
+    <style>
+
+      span.z-label {
+        font-size: 14pt;
+      }
+
+      .z-textbox {
+        font-size: 14pt;
+        background-color: #fff3f3;
+      }
+
+      .z-textbox:hover {
+        background-color: #ffffff;
+      }
+
+    </style>
+
     <label id="errors" visible="false"/>
-    <h:table width="100%" cellspacing="0" cellpadding="0" align="center">
+    <h:table width="100%" cellspacing="10" cellpadding="0" align="center">
       <h:tr>
-        <h:td colspan="2" align="center">
+        <h:td width="100%" colspan="2" align="center">
           <h:h2>Введите email и пароль</h:h2>
         </h:td>
       </h:tr>
       <h:tr>
-        <h:td align="right">
+        <h:td width="40%" align="right">
           <label value="email: "/>
         </h:td>
-        <h:td align="left">
-          <textbox id="login" type="text"/>
+        <h:td width="60%" align="left">
+          <textbox id="login" type="text" width="50%"/>
         </h:td>
       </h:tr>
       <h:tr>
-        <h:td align="right">
+        <h:td width="40%" align="right">
           <label value="Пароль: "/>
         </h:td>
-        <h:td align="left">
-          <textbox id="password" type="password"/>
+        <h:td width="60%" align="left">
+          <textbox id="password" type="password" width="50%"/>
         </h:td>
       </h:tr>
       <h:tr>

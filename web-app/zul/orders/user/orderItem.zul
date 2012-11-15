@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <window apply="ru.spb.locon.orders.user.OrderItemComposer" width="100%">
+
+    <style>
+
+      div.z-listbox {
+        border: 1px solid #346F97;
+      }
+
+      span.z-label {
+        font-size: 12pt;
+      }
+
+    </style>
+
+    <h:table width="100%" cellpadding="0" cellspacing="0">
+      <h:tr>
+        <h:td width="100%" align="center">
+          <label id="orderStatus"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td align="left" width="100%">
+          <listbox id="products" mold="paging" pageSize="5">
+            <listhead sizable="true">
+              <listheader/>
+              <listheader label="Товар"/>
+              <listheader label="Цена"/>
+              <listheader label="Количество"/>
+              <listheader label="Стоимость"/>
+            </listhead>
+          </listbox>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td align="center" width="100%">
+          <button id="backButton" label="К списку заказов"/>
+        </h:td>
+      </h:tr>
+    </h:table>
+  </window>
+
+</zk>

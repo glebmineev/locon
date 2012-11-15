@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <window apply="ru.spb.locon.orders.admin.OrderItemComposer" width="100%">
+
+    <style>
+
+      div.z-listbox {
+        border: 1px solid #346F97;
+      }
+
+      span.z-label {
+        font-size: 12pt;
+      }
+
+      #header {
+        font-size: 16pt;
+      }
+
+    </style>
+
+    <h:table width="100%" cellspacing="5" cellpadding="0" align="center">
+      <h:tr>
+        <h:td width="100%" align="center" colspan="2">
+          <label id="header"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="40%" align="right">
+          <label value="Номер заказа: " style="color: #666666;"/>
+        </h:td>
+        <h:td width="60%" align="left">
+          <label id="number"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="40%" align="right" style="color: #666666;">
+          <label value="Фамилия, имя: "/>
+        </h:td>
+        <h:td width="60%" align="left">
+          <label id="fio"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="40%" align="right" style="color: #666666;">
+          <label value="Контактный телефон: "/>
+        </h:td>
+        <h:td width="60%" align="left">
+          <label id="phone"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="40%" align="right" style="color: #666666;">
+          <label value="E-mail: "/>
+        </h:td>
+        <h:td width="60%" align="left">
+          <label id="email"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="40%" align="right" style="color: #666666;">
+          <label value="Адрес доставки: "/>
+        </h:td>
+        <h:td width="60%" align="left">
+          <label id="address"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="40%" align="right" style="color: #666666;">
+          <label value="Примечания: "/>
+        </h:td>
+        <h:td width="60%" align="left">
+          <label id="notes"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="40%" align="right" style="color: #666666;">
+          <label value="Способы оплаты:"/>
+        </h:td>
+        <h:td width="60%">
+          <radiogroup>
+            <radio id="courier" checked="true" label="Оплата курьером"/>
+            <radio id="emoney" label="Оплата электронными деньгами"/>
+          </radiogroup>
+        </h:td>
+      </h:tr>
+    </h:table>
+
+    <h:table width="100%" cellpadding="0" cellspacing="0">
+      <h:tr>
+        <h:td align="left" width="100%">
+          <listbox id="products" mold="paging" pageSize="5">
+            <listhead sizable="true">
+              <listheader/>
+              <listheader label="Товар"/>
+              <listheader label="Цена"/>
+              <listheader label="Количество"/>
+              <listheader label="Стоимость"/>
+            </listhead>
+          </listbox>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td align="center" width="100%">
+          <button id="orderComplete" label="Заказ обработан"/>
+          <button id="orderCancel" label="Отменить заказ"/>
+          <button id="backButton" label="К списку заказов"/>
+        </h:td>
+      </h:tr>
+    </h:table>
+  </window>
+
+</zk>

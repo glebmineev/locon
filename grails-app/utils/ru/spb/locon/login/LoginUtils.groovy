@@ -2,6 +2,7 @@ package ru.spb.locon.login
 
 import ru.spb.locon.UserEntity
 import ru.spb.locon.UserGroupEntity
+import ru.spb.locon.common.StringUtils
 
 /**
  * User: Gleb
@@ -9,7 +10,7 @@ import ru.spb.locon.UserGroupEntity
  * Time: 0:16
  */
 class LoginUtils {
-
+  
   public static boolean authenticate(String email, String password){
     boolean result = false
     UserEntity.withTransaction{

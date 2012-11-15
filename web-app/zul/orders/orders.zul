@@ -8,11 +8,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.OrderComposer">
+  <window apply="ru.spb.locon.orders.OrderComposer" width="100%">
+    <style>
+
+      div.z-listbox {
+        border: 1px solid #346F97;
+      }
+
+    </style>
+
     <h:table width="100%" cellpadding="0" cellspacing="0">
       <h:tr>
         <h:td width="100%">
-          <listbox id="orders" mold="paging" pageSize="10" height="500px">
+          <listbox id="orders" mold="paging" pageSize="10">
             <listhead>
               <listheader label="Номер"/>
               <listheader label="ФИО"/>
