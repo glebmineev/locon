@@ -9,6 +9,7 @@ import ru.spb.locon.ProductFilterGroupEntity
 class BootStrap {
 
   def initService
+  def imageService
 
   def init = { servletContext ->
 
@@ -55,6 +56,9 @@ class BootStrap {
     UserGroupEntity.withTransaction {
       UserGroupEntity.findOrSaveWhere(user: UserEntity.findByLogin("admin"), group: GroupEntity.findByName("MANAGER"))
     }
+
+    imageService.syncAllImagesWithServer()
+
   }
 
   def destroy = {

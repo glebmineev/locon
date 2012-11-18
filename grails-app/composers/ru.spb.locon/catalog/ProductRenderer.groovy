@@ -5,11 +5,11 @@ import org.zkoss.zul.ListitemRenderer
 import org.zkoss.zul.Listcell
 
 import org.zkoss.zkplus.spring.SpringUtil
-import ru.spb.locon.ImageSyncService
+import ru.spb.locon.ImageService
 
 class ProductRenderer implements ListitemRenderer<ProductEntity> {
 
-  ImageSyncService imageSyncService = (ImageSyncService) SpringUtil.getApplicationContext().getBean("imageSyncService")
+  ImageService imageSyncService = (ImageService) SpringUtil.getApplicationContext().getBean("imageService")
 
   @Override
   void render(org.zkoss.zul.Listitem listitem, ProductEntity t, int i) {

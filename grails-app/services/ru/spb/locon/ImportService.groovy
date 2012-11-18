@@ -8,13 +8,13 @@ import java.math.RoundingMode
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.zkoss.zk.ui.Desktop
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.EventQueues
 import ru.spb.locon.importer.ImportEvent
-import ru.spb.locon.importer.DownloadUtils
 import ru.spb.locon.importer.SaveUtils
+import org.codehaus.groovy.grails.commons.ApplicationHolder
+import ru.spb.locon.common.StringUtils
 
 class ImportService {
 
@@ -23,18 +23,18 @@ class ImportService {
   //Логгер
   static Logger log = LoggerFactory.getLogger(ImportService.class)
 
-  String catalogPath = ConfigurationHolder.config.locon.store.catalog
-  String applicationPath
+  String catalogPath
   Desktop desktop
 
   Workbook wrkbook = null
   ManufacturerEntity manufacturer
   CategoryEntity menuCategory
 
-  DownloadUtils downloadUtils = new DownloadUtils()
   SaveUtils saveUtils = new SaveUtils()
   
   List<ProductFilterEntity> productFiltersTemp = new ArrayList<ProductFilterEntity>()
+
+  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
 
   public void doImport() {
 
@@ -43,7 +43,6 @@ class ImportService {
     sendEvent(startProcess)
 
     CategoryEntity.withTransaction {
-      int yuuu=0
       Sheet[] sheets = wrkbook.getSheets()
 
       sheets.each {Sheet sheet ->
@@ -54,12 +53,9 @@ class ImportService {
         //перебираем строки страницы.
         CategoryEntity temp = null
         (0..sheet.getRows() - 1).each { i ->
-          int yyy = 0
           Cell[] row = sheet.getRow(i)
           if (row.length != 0) {
-            yyy = 0
             if (row != null && row.length > 1 && !row[1].getContents().isEmpty()) {
-              yyy = 0
               //Создаем продукт.
               ProductEntity product = createProduct(row,
                   "${menuCategory}/${manufacturer}/${submenuCategory}/${temp != null ? temp : ""}")
@@ -105,7 +101,7 @@ class ImportService {
   private ProductEntity createProduct(Cell[] row, String imagePath) {
     ProductEntity product = new ProductEntity()
     String id = ""
-    (0..row.length - 1).each { i ->
+    (0 .. row.length - 1).each { i ->
       int r = 0
       String value = row[i].getContents()
 
@@ -151,13 +147,11 @@ class ImportService {
           String name = row[1].getContents()
 
           String to = "${imagePath}/${product.article}_${product.name}"
-          File dir = new File("${catalogPath}/${to}")
-          if (!dir.exists())
-            dir.mkdirs()
+          product.setImagePath("${to}")
 
           //загружем
-          boolean isDownloaded = downloadUtils.downloadImages(value, "${catalogPath}/${to}")
-
+          boolean isDownloaded = imageService.downloadImages(value, to)
+          imageService.syncWithServer(product)
           if (isDownloaded) {
             ImportEvent importEvent = new ImportEvent(id, name, article)
             importEvent.state = ImportEvent.STATES.SUCCESSFUL
@@ -168,8 +162,6 @@ class ImportService {
             importEvent.addError("Не удалось загрузить картинку")
             sendEvent(importEvent)
           }
-
-          product.setImagePath("${to}")
 
         }
 
@@ -186,7 +178,12 @@ class ImportService {
           String name = row[1].getContents()
 
           String to = "${imagePath}/${product.article}_${product.name}"
-          File dir = new File("${catalogPath}/${to}")
+
+          String root = ApplicationHolder.application.mainContext.servletContext.getRealPath("/")
+          StringUtils stringUtils = new StringUtils()
+          String store = "${stringUtils.buildPath(2, root)}\\productImages"
+
+          File dir = new File("${store}/${to}")
           if (!dir.exists())
             dir.mkdirs()
 
@@ -196,6 +193,7 @@ class ImportService {
           sendEvent(importEvent)
 
           product.setImagePath("${to}")
+          imageService.syncWithServer(product)
         }
       }
 

@@ -3,7 +3,7 @@ package ru.spb.locon.search
 import org.zkoss.zul.ListitemRenderer
 import ru.spb.locon.ProductEntity
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import ru.spb.locon.ImageSyncService
+import ru.spb.locon.ImageService
 import org.zkoss.zul.Listcell
 import org.zkoss.zul.Label
 
@@ -16,7 +16,7 @@ class SearchResultRenderer implements ListitemRenderer<ProductEntity>{
 
   String keyword
 
-  ImageSyncService imageSyncService = ApplicationHolder.getApplication().getMainContext().getBean("imageSyncService")
+  ImageService imageSyncService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
 
   SearchResultRenderer(String keyword) {
     this.keyword = keyword

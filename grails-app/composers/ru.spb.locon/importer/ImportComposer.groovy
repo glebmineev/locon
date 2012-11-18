@@ -19,6 +19,7 @@ import org.zkoss.zul.Div
 import org.zkoss.zul.ListModelList
 import org.zkoss.zk.ui.Executions
 import ru.spb.locon.CategoryEntity
+import ru.spb.locon.common.StringUtils
 
 class ImportComposer extends GrailsComposer {
 
@@ -102,7 +103,7 @@ class ImportComposer extends GrailsComposer {
         String manufacturer = media.getName().replace(".xls", "")
         String category = category.getValue()
         if (is != null) {
-          runAsync {
+          runAsync{
             importService.setDesktop(desktop)
             importService.setMenuCategory(category)
             importService.setManufacturer(manufacturer)

@@ -22,7 +22,8 @@ import org.zkoss.zk.ui.util.Clients
 import org.zkoss.zul.Window
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import java.math.RoundingMode
-import ru.spb.locon.ImageSyncService
+
+import ru.spb.locon.ImageService
 
 /**
  * User: Gleb
@@ -34,7 +35,7 @@ class CartRenderer implements ListitemRenderer<CartItem> {
   BindingListModelList<CartItem> cartModel
 
   CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService")
-  ImageSyncService imageSyncService = ApplicationHolder.getApplication().getMainContext().getBean("imageSyncService")
+  ImageService imageSyncService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
 
   CartRenderer(BindingListModelList<CartItem> cartModel) {
     this.cartModel = cartModel

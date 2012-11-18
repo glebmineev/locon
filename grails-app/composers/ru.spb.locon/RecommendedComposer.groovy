@@ -26,7 +26,7 @@ class RecommendedComposer extends GrailsComposer {
   Table products
 
   InitService initService = (InitService) SpringUtil.getApplicationContext().getBean("initService")
-  ImageSyncService imageSyncService = (ImageSyncService) SpringUtil.getApplicationContext().getBean("imageSyncService")
+  ImageService imageSyncService = (ImageService) SpringUtil.getApplicationContext().getBean("imageService")
   CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
 
   def afterCompose = {Window window ->

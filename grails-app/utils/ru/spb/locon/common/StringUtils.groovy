@@ -12,4 +12,14 @@ class StringUtils {
     return source.substring(0, of)
   }
   
+  String buildPath(int slashCount, String source) {
+    String result = source
+    (0 .. slashCount).each {i ->
+      int of = result.lastIndexOf("\\")
+      if (of != -1)
+        result = result.substring(0, of)
+    }
+    return  result
+  }
+  
 }

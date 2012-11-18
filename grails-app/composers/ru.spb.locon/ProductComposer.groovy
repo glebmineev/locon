@@ -25,7 +25,7 @@ class ProductComposer extends GrailsComposer {
   ProductEntity product
 
   CartService cartService = (CartService) SpringUtil.getApplicationContext().getBean("cartService")
-  ImageSyncService imageSyncService = (ImageSyncService) SpringUtil.getApplicationContext().getBean("imageSyncService")
+  ImageService imageSyncService = (ImageService) SpringUtil.getApplicationContext().getBean("imageService")
 
   List<CategoryEntity> categories = new ArrayList<CategoryEntity>()
 

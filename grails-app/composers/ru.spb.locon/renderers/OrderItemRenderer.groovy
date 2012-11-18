@@ -6,9 +6,9 @@ import ru.spb.locon.ProductEntity
 import org.zkoss.zul.Listcell
 
 import org.zkoss.zul.Label
-import org.zkoss.zul.Image
-import ru.spb.locon.ImageSyncService
+
 import org.zkoss.zkplus.spring.SpringUtil
+import ru.spb.locon.ImageService
 
 /**
  * User: Gleb
@@ -17,7 +17,7 @@ import org.zkoss.zkplus.spring.SpringUtil
  */
 class OrderItemRenderer implements ListitemRenderer<OrderProductEntity> {
 
-  ImageSyncService imageSyncService = (ImageSyncService) SpringUtil.getApplicationContext().getBean("imageSyncService")
+  ImageService imageSyncService = (ImageService) SpringUtil.getApplicationContext().getBean("imageService")
 
   @Override
   void render(org.zkoss.zul.Listitem listitem, OrderProductEntity t, int i) {
