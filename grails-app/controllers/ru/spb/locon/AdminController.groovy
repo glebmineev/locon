@@ -19,7 +19,11 @@ class AdminController {
 
   def manufacturers() {}
 
-  def info() {}
+  def info() { }
+
+  def saveInfo(){
+
+  }
 
   def beforeInterceptor = {
     List<String> groups = loginService.getUserGroups()

@@ -8,7 +8,40 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.InfoComposer">
+  <window apply="ru.spb.locon.InfoComposer" width="100%">
+    <h:table width="100%" cellpadding="0" cellspacing="0">
+      <h:tr>
+        <h:td width="100%">
+          <tabbox>
+            <tabs>
+              <tab label="Контакты"/>
+              <tab label="О нас"/>
+              <tab label="Доставка"/>
+              <tab label="Как платить"/>
+            </tabs>
+            <tabpanels>
+              <tabpanel>
+                <textbox id="contacts" multiline="true" width="100%" rows="5"/>
+              </tabpanel>
+              <tabpanel>
+                <textbox  id="about" multiline="true" width="100%" rows="5"/>
+              </tabpanel>
+              <tabpanel>
+                <textbox id="delivery" multiline="true" width="100%" rows="5"/>
+              </tabpanel>
+              <tabpanel>
+                <textbox id="details" multiline="true" width="100%" rows="5"/>
+              </tabpanel>
+            </tabpanels>
+          </tabbox>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="100%">
+          <button id="save" label="Сохранить"/>
+        </h:td>
+      </h:tr>
+    </h:table>
   </window>
 
 </zk>

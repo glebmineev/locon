@@ -20,6 +20,7 @@ import org.zkoss.zul.ListModelList
 import org.zkoss.zk.ui.Executions
 import ru.spb.locon.CategoryEntity
 import ru.spb.locon.common.StringUtils
+import org.zkforge.ckez.CKeditor
 
 class ImportComposer extends GrailsComposer {
 

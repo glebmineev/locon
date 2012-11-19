@@ -8,6 +8,9 @@
       <li class="submenu">
         <g:link controller="admin" action="editor">Редактор</g:link>
       </li>
+      <li class="submenu">
+        <g:link controller="admin" action="info">Информация</g:link>
+      </li>
     </ul>
 
     <div class="clear"></div>

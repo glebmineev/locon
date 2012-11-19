@@ -3,47 +3,43 @@
   def loginService = grailsApplication.mainContext.getBean("loginService");
   def cartService = grailsApplication.mainContext.getBean("cartService");
 %>
-<table width="100%">
-  <tr>
-    <td align="left">
-      <table width="100%">
-        <tr>
-          <g:if test="${loginService.isLogged()}">
-            <td>
-              <g:img dir="images" file="truck.png"/>
-            </td>
-            <td>
-              <g:link controller="user" action="orders">
-                Мои Заказы
-              </g:link>
-            </td>
-            <td>
-              <g:link controller="auth" action="logout">
-                Выйти
-              </g:link>
-            </td>
-          </g:if>
-          <g:else>
-            <td>
-              <g:img dir="images" file="unlock.png"/>
-            </td>
-            <td>
-              <g:link controller="shop" action="register">
-                Регистрация
-              </g:link>
-            </td>
-            <td>
-              <g:link controller="auth" action="login">
-                Войти
-              </g:link>
-            </td>
-          </g:else>
-        </tr>
-      </table>
-    </td>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr align="left">
+    <g:if test="${loginService.isLogged()}">
+      <td width="32px">
+        <g:img dir="images" file="truck.png"/>
+      </td>
+      <td width="110px">
+        <g:link controller="user" action="orders">
+          Мои Заказы
+        </g:link>
+      </td>
+      <td>
+        <g:link controller="auth" action="logout">
+          Выйти
+        </g:link>
+      </td>
+    </g:if>
+    <g:else>
+      <td width="32px">
+        <g:img dir="images" file="unlock.png"/>
+      </td>
+      <td width="110px">
+        <g:link controller="shop" action="register">
+          Регистрация
+        </g:link>
+      </td>
+      <td>
+        <g:link controller="auth" action="login">
+          Войти
+        </g:link>
+      </td>
+    </g:else>
   </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
   <tr>
-    <td colspan="2" align="left">
+    <td colspan="2" width="10%" align="left">
       <g:link controller="shop" action="index">
         <g:img dir="images" file="logo.png"/>
       </g:link>
