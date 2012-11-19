@@ -21,7 +21,7 @@
           </vbox>
         </h:td>
         <h:td valign="top" width="70%">
-          <listbox id="products" mold="paging" height="100%" pageSize="5">
+          <listbox id="products" mold="paging" height="100%" pageSize="10">
             <listhead>
               <listheader width="120px"/>
               <listheader/>

@@ -20,7 +20,7 @@ class ImageWindow extends Window {
   ImageWindow(Image image, String name) {
 
     setWidth("520px")
-    setHeight("550px")
+    setHeight("560px")
 
     Vbox vbox = new Vbox()
     vbox.setWidth("520px")

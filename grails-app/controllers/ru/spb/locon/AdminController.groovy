@@ -17,6 +17,10 @@ class AdminController {
 
   def importCatalog() { }
 
+  def manufacturers() {}
+
+  def info() {}
+
   def beforeInterceptor = {
     List<String> groups = loginService.getUserGroups()
     if (!groups.contains("MANAGER")) {

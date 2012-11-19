@@ -5,10 +5,10 @@ import org.zkoss.zul.Window
 
 /**
  * User: Gleb
- * Date: 09.11.12
- * Time: 14:57
+ * Date: 19.11.12
+ * Time: 13:10
  */
-class EditorComposer extends GrailsComposer {
+class ManufacturerComposer  extends GrailsComposer {
 
   def afterCompose = {Window window ->
   }

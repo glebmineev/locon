@@ -8,7 +8,6 @@ import java.awt.Graphics2D
 import ru.spb.locon.importer.ImageHandler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.zkoss.zk.ui.Executions
 import org.zkoss.zul.Image
 import ru.spb.locon.common.StringUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
@@ -32,19 +31,22 @@ class ImageService {
   }
 
   void syncAllImagesWithServer() {
-    ProductEntity.list().each {ProductEntity product ->
-      String serverPath = ConverterRU_EN.translit("${images}\\${product.imagePath}").replace(" ", "")
-      File src = new File("${store}\\${product.imagePath}")
-      File dest = new File(serverPath)
-      //копируем содержимое папки productImages в images на сервере.
-      FileUtils.copyDirectory(src, dest)
+    File storeFolder = new File(store)
+    if (storeFolder.exists()) {
+      ProductEntity.list().each {ProductEntity product ->
+        String serverPath = ConverterRU_EN.translit("${images}\\${product.imagePath}").replace(" ", "").replace("%", "")
+        File src = new File("${store}\\${product.imagePath}")
+        File dest = new File(serverPath)
+        //копируем содержимое папки productImages в images на сервере.
+        FileUtils.copyDirectory(src, dest)
 
-      //делаем изображения разной величины.
-      List<String> images = dirUtils.findImages(serverPath)
-      images.each {String fileName ->
-        if (!fileName.contains("-")) {
-          String[] arr = fileName.split("\\.")
-          resizeImage(serverPath, arr[0], arr[1])
+        //делаем изображения разной величины.
+        List<String> images = dirUtils.findImages(serverPath)
+        images.each {String fileName ->
+          if (!fileName.contains("-")) {
+            String[] arr = fileName.split("\\.")
+            resizeImage(serverPath, arr[0], arr[1])
+          }
         }
       }
     }
@@ -52,7 +54,7 @@ class ImageService {
 
   void syncWithServer(ProductEntity product) {
     //директория с томкатом.
-    String serverPath = ConverterRU_EN.translit("${images}\\${product.imagePath}").replace(" ", "")
+    String serverPath = ConverterRU_EN.translit("${images}\\${product.imagePath}").replace(" ", "").replace("%", "")
     //productImages.
     File src = new File("${store}\\${product.imagePath}")
     //locon/images.
@@ -116,9 +118,8 @@ class ImageService {
   Image getProductImage(ProductEntity product, String size) {
     Image image = new Image()
     image.setHeight("${size}px")
-    String imagePath = ConverterRU_EN.translit(product.imagePath).replace(" ", "")
-    String applicationPath = Executions.current.nativeRequest.getSession().getServletContext().getRealPath("/")
-    String path = "${applicationPath}\\images\\catalog\\${imagePath}"
+    String imagePath = ConverterRU_EN.translit(product.imagePath).replace(" ", "").replace("%", "")
+    String path = "${images}\\${imagePath}"
     ImageHandler dirUtils = new ImageHandler()
     List<String> images = dirUtils.findImages(path)
     if (images.size() > 0)

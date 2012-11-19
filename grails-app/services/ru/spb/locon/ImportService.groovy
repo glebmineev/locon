@@ -58,7 +58,7 @@ class ImportService {
             if (row != null && row.length > 1 && !row[1].getContents().isEmpty()) {
               //Создаем продукт.
               ProductEntity product = createProduct(row,
-                  "${menuCategory}/${manufacturer}/${submenuCategory}/${temp != null ? temp : ""}")
+                  "${menuCategory}/${manufacturer}/${submenuCategory}${temp != null ? "/${temp}" : ""}")
               //связываем со всеми категорими в которые он входит для дальнейшей фильтрации.
               saveUtils.linkToCategories(submenuCategory, product)
               saveUtils.linkToCategories(temp, product)
