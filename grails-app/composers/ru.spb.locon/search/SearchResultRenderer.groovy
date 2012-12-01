@@ -6,6 +6,8 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 import ru.spb.locon.ImageService
 import org.zkoss.zul.Listcell
 import org.zkoss.zul.Label
+import org.zkoss.zul.Image
+import org.zkoss.zul.Div
 
 /**
  * User: Gleb
@@ -29,7 +31,11 @@ class SearchResultRenderer implements ListitemRenderer<ProductEntity>{
 
     //Картинка товара
     Listcell imageCell = new Listcell()
-    imageCell.appendChild(imageSyncService.getProductImage(t, "100"))
+    Image image = imageSyncService.getProductImage(t, "150")
+    Div imageDiv = new Div()
+    imageDiv.setSclass("imageBox")
+    image.setParent(imageDiv)
+    imageCell.appendChild(imageDiv)
     imageCell.setParent(listitem)
 
     //Наименование товара

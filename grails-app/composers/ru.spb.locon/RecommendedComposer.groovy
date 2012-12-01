@@ -54,7 +54,7 @@ class RecommendedComposer extends GrailsComposer {
       buy.addEventListener(Events.ON_CLICK, buyListener)
 
       cell.appendChild(new Br())
-      cell.appendChild(imageSyncService.getProductImage(product, "100"))
+      cell.appendChild(imageSyncService.getProductImage(product, "150"))
       cell.appendChild(new Br())
       cell.appendChild(nameContainer)
       cell.appendChild(new Br())

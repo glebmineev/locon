@@ -68,7 +68,9 @@
           <root url="jar://$USER_HOME_GRAILS$/ivy-cache/net.java.dev.inflector/inflector/jars/inflector-0.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/java-image-scaling-0.8.5-sources.jar!/" />
+        </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>

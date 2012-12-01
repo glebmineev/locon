@@ -24,6 +24,7 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 import java.math.RoundingMode
 
 import ru.spb.locon.ImageService
+import org.zkoss.zul.Div
 
 /**
  * User: Gleb
@@ -50,7 +51,11 @@ class CartRenderer implements ListitemRenderer<CartItem> {
     Long count = cartItem.getCount()
 
     Listcell imageCell = new Listcell()
-    imageCell.appendChild(imageSyncService.getProductImage(product, "100"))
+    Image image = imageSyncService.getProductImage(product, "150")
+    Div imageDiv = new Div()
+    imageDiv.setSclass("imageBox")
+    image.setParent(imageDiv)
+    imageCell.appendChild(imageDiv)
     imageCell.setParent(listitem)
 
     //Товар

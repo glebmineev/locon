@@ -6,6 +6,8 @@ import org.zkoss.zul.Listcell
 
 import org.zkoss.zkplus.spring.SpringUtil
 import ru.spb.locon.ImageService
+import org.zkoss.zul.Image
+import org.zkoss.zul.Div
 
 class ProductRenderer implements ListitemRenderer<ProductEntity> {
 
@@ -17,7 +19,11 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
 
     //Ячейка с каритнкой
     Listcell imageCell = new Listcell()
-    imageCell.appendChild(imageSyncService.getProductImage(t, "100"))
+    Image image = imageSyncService.getProductImage(t, "150")
+    Div imageDiv = new Div()
+    imageDiv.setSclass("imageBox")
+    imageDiv.appendChild(image)
+    imageCell.appendChild(imageDiv)
     imageCell.setParent(listitem)
 
     //Ячейка с товаром

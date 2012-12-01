@@ -33,7 +33,7 @@ class ProductComposer extends GrailsComposer {
     Long productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
     product = ProductEntity.get(productId)
 
-    Image image = imageSyncService.getProductImage(product, "228")
+    Image image = imageSyncService.getProductImage(product, "300")
     image.setStyle("cursor: pointer;")
     productImg.appendChild(image)
 

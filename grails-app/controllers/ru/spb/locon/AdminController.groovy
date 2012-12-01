@@ -17,13 +17,13 @@ class AdminController {
 
   def importCatalog() { }
 
+  def products() { }
+
   def manufacturers() {}
 
   def info() { }
 
-  def saveInfo(){
-
-  }
+  def saveInfo(){ }
 
   def beforeInterceptor = {
     List<String> groups = loginService.getUserGroups()

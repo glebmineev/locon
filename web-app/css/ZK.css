@@ -43,3 +43,13 @@ span.z-dottree-tee-open {
 div.z-tabbox-accordion .z-tabpanel-accordion {
   padding: 0;
 }
+
+.imageBox {
+  height: 150px;
+  background: #ffffff;
+  background: #FFFFFF;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #E0F0FF;
+}

@@ -1,17 +1,28 @@
 package ru.spb.locon
 
+import ru.spb.locon.annotation.FieldInfo
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlAccessorType
+
+@XmlAccessorType(XmlAccessType.FIELD)
 class ProductEntity {
 
   //static searchable = [except: '']
 
   String imagePath
+
+  @FieldInfo(isFilter=true)
   String article
+  @FieldInfo(isFilter=true)
   String name
   String description
   String usage
   String volume
+  @FieldInfo(isFilter=true)
   Float price
-
+  @FieldInfo(isFilter=true)
+  Long countToStock
+  
   ProductPropertyEntity productProperty
   ManufacturerEntity manufacturer
 
@@ -29,6 +40,7 @@ class ProductEntity {
       productProperty column: 'product_productproperty_id'
       price column: 'product_price'
       manufacturer fetch: "join", column: 'product_manufacturer_id'
+      countToStock column: 'product_counttostock'
     }
 
     version false
@@ -54,6 +66,7 @@ class ProductEntity {
     price nullable: true
     productProperty nullable: true
     manufacturer nullable: true
+    countToStock nullable: true
   }
 
 

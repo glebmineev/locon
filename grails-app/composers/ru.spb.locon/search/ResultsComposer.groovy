@@ -23,7 +23,9 @@ class ResultsComposer extends GrailsComposer{
 
     String keyword = execution.getParameter("keyword")
     List<ProductEntity> list = ProductEntity.createCriteria().list {
-      sqlRestriction("product_name like '%${keyword}%' or product_description like '%${keyword}%' or product_usage like '%${keyword}%'")
+      ilike("name", "%${keyword}%")
+      ilike("description", "%${keyword}%")
+      //sqlRestriction("product_name like '%${keyword}%' or product_description like '%${keyword}%' or product_usage like '%${keyword}%'")
     }
     searchResult.setModel(new ListModelList<ProductEntity>(list))
     searchResult.setItemRenderer(new SearchResultRenderer(keyword))

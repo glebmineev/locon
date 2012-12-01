@@ -10,14 +10,6 @@
 
   <window apply="ru.spb.locon.ProductComposer" width="100%">
 
-    <style>
-
-      span.z-label {
-        font-size: 12pt;
-      }
-
-    </style>
-
     <h:table width="100%" cellspacing="5" align="center">
       <h:tr>
         <h:td colspan="2" width="100%">
@@ -25,8 +17,8 @@
         </h:td>
       </h:tr>
       <h:tr>
-        <h:td valign="top">
-          <div id="productImg" style="width: 228px;"/>
+        <h:td valign="top" width="300px">
+          <div id="productImg" sclass="productImg"/>
         </h:td>
         <h:td width="580px" valign="top">
           <h:table width="100%" cellspacing="5">

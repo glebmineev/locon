@@ -4,13 +4,23 @@ import org.apache.commons.io.FileUtils
 import ru.spb.locon.importer.ConverterRU_EN
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
-import java.awt.Graphics2D
 import ru.spb.locon.importer.ImageHandler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zkoss.zul.Image
 import ru.spb.locon.common.StringUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import static org.imgscalr.Scalr.*
+import org.imgscalr.Scalr
+import java.awt.Graphics2D
+import java.awt.Transparency
+import com.mortennobel.imagescaling.ResampleOp
+import com.mortennobel.imagescaling.ResampleFilters
+import com.mortennobel.imagescaling.AdvancedResizeOp
+import javax.imageio.ImageWriter
+import javax.imageio.ImageWriteParam
+import javax.imageio.stream.FileImageOutputStream
+import javax.imageio.IIOImage
 
 class ImageService {
 
@@ -77,11 +87,9 @@ class ImageService {
     try {
       BufferedImage source = ImageIO.read(new File("${path}/${fileName}.${ext}"))
 
-      writeImage(source, new File("${path}\\${fileName}-100.${ext}"), 100, ext)
-      writeImage(source, new File("${path}\\${fileName}-228.${ext}"), 228, ext)
-      writeImage(source, new File("${path}\\${fileName}-40.${ext}"), 40, ext)
+      writeImage(source, new File("${path}\\${fileName}-150.${ext}"), 150, ext)
+      writeImage(source, new File("${path}\\${fileName}-300.${ext}"), 300, ext)
       writeImage(source, new File("${path}\\${fileName}-500.${ext}"), 500, ext)
-      writeImage(source, new File("${path}\\${fileName}-80.${ext}"), 80, ext)
 
     } catch (IOException ex) {
       log.error("Ошибка обработки картинки ${path}/${fileName}.${ext}")
@@ -93,26 +101,35 @@ class ImageService {
     int width = source.width
     int height = source.height
 
-    float k = 1
+    float scale = 1
 
     if (width > height)
-      k = (width / size)
+      scale = (size / width)
     else
-      k = (height / size)
+      scale = (size / height)
 
-    int new_h = (height / k)
-    int new_w = (width / k)
+    int new_h = (height * scale)
+    int new_w = (width * scale)
 
-    BufferedImage image = resizeImage(source, new_w, new_h, source.getType())
-    ImageIO.write(image, ext.toUpperCase(), dest)
+    ResampleOp resampleOp = new ResampleOp(new_w, new_h)
+    resampleOp.setFilter(ResampleFilters.getLanczos3Filter())
+    resampleOp.setUnsharpenMask(AdvancedResizeOp.UnsharpenMask.Normal)
+    BufferedImage destImage = resampleOp.filter(source, null)
+    writeJpeg(destImage, dest, 1)
+
   }
 
-  BufferedImage resizeImage(BufferedImage originalImage, int ing_width, int img_height, int type) {
-    BufferedImage resizedImage = new BufferedImage(ing_width, img_height, type)
-    Graphics2D g = resizedImage.createGraphics()
-    g.drawImage(originalImage, 0, 0, ing_width, img_height, null)
-    g.dispose()
-    return resizedImage
+  void writeJpeg(BufferedImage image, File destFile, float quality)
+  throws IOException {
+    ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next()
+    ImageWriteParam param = writer.getDefaultWriteParam()
+    param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT)
+    param.setCompressionQuality(quality)
+    FileImageOutputStream output = new FileImageOutputStream(destFile)
+    writer.setOutput(output)
+    IIOImage iioImage = new IIOImage(image, null, null)
+    writer.write(null, iioImage, param)
+    writer.dispose()
   }
 
   Image getProductImage(ProductEntity product, String size) {

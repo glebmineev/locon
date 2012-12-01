@@ -57,7 +57,7 @@ class BootStrap {
       UserGroupEntity.findOrSaveWhere(user: UserEntity.findByLogin("admin"), group: GroupEntity.findByName("MANAGER"))
     }
 
-    imageService.syncAllImagesWithServer()
+    //imageService.syncAllImagesWithServer()
 
   }
 

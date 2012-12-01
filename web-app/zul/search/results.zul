@@ -9,12 +9,28 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window apply="ru.spb.locon.search.ResultsComposer" width="100%">
+
+
+    <style>
+
+      .imageBox{
+        height: 150px;
+        background: #ffffff;
+        background: #FFFFFF;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        border: 1px solid #E0F0FF;
+      }
+
+    </style>
+
     <h:table width="100%" cellpadding="0" cellspacing="0">
       <h:tr>
         <h:td width="100%">
           <listbox id="searchResult" width="100%" mold="paging" pageSize="10" emptyMessage="По запросу не найдено">
             <listhead>
-              <listheader width="120px"/>
+              <listheader width="190px"/>
               <listheader label="Наименование"/>
               <listheader label="Описание"/>
               <listheader label="Применение"/>

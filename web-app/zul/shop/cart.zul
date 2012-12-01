@@ -9,12 +9,27 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window apply="ru.spb.locon.CartComposer">
+
+    <style>
+
+      .imageBox {
+        height: 150px;
+        background: #ffffff;
+        background: #FFFFFF;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        border: 1px solid #E0F0FF;
+      }
+
+    </style>
+
     <h:table width="100%" cellpadding="0" cellspacing="0">
       <h:tr>
         <h:td width="100%">
           <listbox id="cartItems" mold="paging" emptyMessage="Корзина пуста" pageSize="10">
-            <listhead sizable="true">
-              <listheader/>
+            <listhead>
+              <listheader align="center" width="190px"/>
               <listheader label="Товар" sort="auto" sortDirection="descending"/>
               <listheader label="Цена" />
               <listheader label="Количество" />

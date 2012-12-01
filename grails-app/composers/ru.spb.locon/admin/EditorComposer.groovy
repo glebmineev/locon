@@ -1,4 +1,4 @@
-package ru.spb.locon
+package ru.spb.locon.admin
 
 import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.Window
