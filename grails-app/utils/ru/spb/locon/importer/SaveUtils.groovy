@@ -3,7 +3,7 @@ package ru.spb.locon.importer
 import ru.spb.locon.ProductFilterEntity
 import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ProductEntity
-import ru.spb.locon.CategoryProductEntity
+//import ru.spb.locon.CategoryProductEntity
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductFilterCategoryEntity
 import ru.spb.locon.ProductFilterGroupEntity
@@ -28,8 +28,10 @@ class SaveUtils {
   }
 
   void linkToCategories(CategoryEntity category, ProductEntity product) {
-    CategoryProductEntity categoryProduct = new CategoryProductEntity(product: product, category: category)
-    categoryProduct.save()
+    category.addToProducts(product)
+    category.save()
+    //CategoryProductEntity categoryProduct = new CategoryProductEntity(product: product, category: category)
+    //categoryProduct.save()
   }
 
   CategoryEntity getCategory(String name) {

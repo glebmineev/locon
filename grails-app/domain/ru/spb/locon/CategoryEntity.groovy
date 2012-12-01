@@ -17,17 +17,21 @@ class CategoryEntity {
       name column: 'category_name'
       description column: 'category_description'
       parentCategory column: 'category_parentcategory_id'
+      products joinTable: [name: 'category_product', key: 'category_id']
     }
 
     version false
 
-    listCategoryProduct sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
+    products lazy: false, cascade: 'all-delete-orphan'
+    //listCategoryProduct sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
     listCategory sort: "name", order: "desc", lazy: false, cascade: 'all-delete-orphan'
     productFilterCategoryList sort: "category", lazy: false, cascade: 'all-delete-orphan'
   }
 
+  static belongsTo = ProductEntity
+
   static hasMany = [
-      listCategoryProduct: CategoryProductEntity,
+      products: ProductEntity,
       listCategory: CategoryEntity,
       productFilterCategoryList: ProductFilterCategoryEntity
   ]

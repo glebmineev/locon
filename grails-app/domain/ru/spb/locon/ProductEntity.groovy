@@ -43,17 +43,18 @@ class ProductEntity {
       price column: 'product_price'
       manufacturer fetch: "join", column: 'product_manufacturer_id'
       countToStock column: 'product_counttostock'
+      categories joinTable: [name: 'category_product', key: 'product_id']
     }
 
     version false
 
-    listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
+    //listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
     listOrderProduct lazy: false,  cascade: 'all-delete-orphan'
     productProductFilterList lazy: false, cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
-      listCategoryProduct: CategoryProductEntity,
+      categories: CategoryEntity,
       listOrderProduct: OrderProductEntity,
       productProductFilterList: ProductProductFilterEntity
   ]
