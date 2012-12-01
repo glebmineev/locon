@@ -16,4 +16,5 @@ import java.lang.annotation.Target
 public @interface FieldInfo {
   
   boolean isFilter() default false
+  boolean isEditable() default false
 }

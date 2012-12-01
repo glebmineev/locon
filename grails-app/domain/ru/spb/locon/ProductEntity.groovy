@@ -8,19 +8,21 @@ import javax.xml.bind.annotation.XmlAccessorType
 class ProductEntity {
 
   //static searchable = [except: '']
-
   String imagePath
 
-  @FieldInfo(isFilter=true)
+  @FieldInfo(isFilter=true, isEditable=true)
   String article
-  @FieldInfo(isFilter=true)
+  @FieldInfo(isFilter=true, isEditable=true)
   String name
+  @FieldInfo(isEditable=true)
   String description
+  @FieldInfo(isEditable=true)
   String usage
+  @FieldInfo(isEditable=true)
   String volume
-  @FieldInfo(isFilter=true)
+  @FieldInfo(isFilter=true, isEditable=true)
   Float price
-  @FieldInfo(isFilter=true)
+  @FieldInfo(isFilter=true, isEditable=true)
   Long countToStock
   
   ProductPropertyEntity productProperty

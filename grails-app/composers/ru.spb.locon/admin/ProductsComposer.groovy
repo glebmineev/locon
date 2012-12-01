@@ -36,7 +36,7 @@ class ProductsComposer extends GrailsComposer {
       FieldInfo annotation = field.getAnnotation(FieldInfo)
       Hbox hbox = new Hbox()
 
-      if (annotation != null) {
+      if (annotation != null && annotation.isFilter()) {
         // берем картинку фильтра
         Image funnel = new Image("/images/funnel.png")
         TextBoxFilter textBoxFilter = new TextBoxFilter(
@@ -64,7 +64,6 @@ class ProductsComposer extends GrailsComposer {
   }
 
   void rebuildModel() {
-    int y = 0
     if (productsModel != null) {
       productsModel.clear()
       productsModel.addAll(getModelByFilters())
@@ -77,13 +76,11 @@ class ProductsComposer extends GrailsComposer {
   List<ProductEntity> getModelByFilters() {
     return ProductEntity.createCriteria().list {
       filterMap.each {Field field, Object value ->
-
         if (field.type.name.contains("String"))
           ilike(field.name, "%${(String) value}%")
         else {
           sqlRestriction("cast(product_${field.name} as varchar) like '%${(String) value}%'")
         }
-
       }
     }
   }
