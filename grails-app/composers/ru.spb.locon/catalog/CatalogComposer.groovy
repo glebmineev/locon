@@ -1,40 +1,18 @@
 package ru.spb.locon.catalog
 
 import org.zkoss.zk.grails.composer.*
-import org.zkoss.zul.Window
-import org.zkoss.zul.Tree
 
-import org.zkoss.zul.Treeitem
-
-import org.zkoss.zul.Listbox
-
-import org.zkoss.zk.ui.event.EventListener
-import org.zkoss.zk.ui.event.Event
-
-import org.zkoss.zk.ui.event.Events
+import org.zkoss.zk.ui.event.*
 import org.zkoss.zk.ui.Executions
 
-import org.zkoss.zul.DefaultTreeModel
-import org.zkoss.zul.TreeModel
+import org.zkoss.zul.*
 
 import org.zkoss.zkplus.databind.BindingListModelList
-import org.zkoss.zul.Listitem
 import ru.spb.locon.tree.node.CategoryTreeNode
 
 import org.zkoss.zk.ui.Component
 
-import org.zkoss.zul.Checkbox
-import ru.spb.locon.ProductFilterEntity
-import ru.spb.locon.ProductEntity
-import ru.spb.locon.CategoryEntity
-import ru.spb.locon.ProductFilterGroupEntity
-import org.zkoss.zul.Tabbox
-import org.zkoss.zul.Tabs
-import org.zkoss.zul.Tabpanels
-import org.zkoss.zul.Tab
-import org.zkoss.zul.Tabpanel
-import org.zkoss.zul.Listhead
-import org.zkoss.zul.Listheader
+import ru.spb.locon.*
 
 class CatalogComposer extends GrailsComposer {
 
@@ -45,12 +23,12 @@ class CatalogComposer extends GrailsComposer {
   String defaultGroup = "Производитель"
   
   Listbox productFilter
-  BindingListModelList<ProductFilterEntity> productFilterModel
+  BindingListModelList<FilterEntity> productFilterModel
 
   Listbox products
   BindingListModelList<ProductEntity> productsModel
 
-  List<ProductFilterEntity> checked = new ArrayList<ProductFilterEntity>()
+  List<FilterEntity> checked = new ArrayList<FilterEntity>()
   CategoryEntity currentCategory
 
   def afterCompose = {Window window ->
@@ -85,7 +63,7 @@ class CatalogComposer extends GrailsComposer {
    */
   private void initializeProductListBox() {
     if (productsModel == null) {
-      productsModel = new BindingListModelList<ProductEntity>(currentCategory.listCategoryProduct.product as List<ProductEntity>, true)
+      productsModel = new BindingListModelList<ProductEntity>(currentCategory.products.sort() as List<ProductEntity>, true)
     }
     products.setModel(productsModel)
     products.setItemRenderer(new ProductRenderer())
@@ -104,7 +82,7 @@ class CatalogComposer extends GrailsComposer {
     productFilter.listhead.appendChild(new Listheader())
 
     if (productFilterModel == null)
-      productFilterModel = new BindingListModelList<ProductFilterEntity>(listProductFilter(defaultGroup), true)
+      productFilterModel = new BindingListModelList<FilterEntity>(listProductFilter(defaultGroup), true)
 
     productFilter.addEventListener(Events.ON_CLICK, productFilterListener)
     productFilter.setModel(productFilterModel)
@@ -115,7 +93,7 @@ class CatalogComposer extends GrailsComposer {
     filterGroups.setWidth("260px")
     filterGroups.appendChild(new Tabs())
     filterGroups.appendChild(new Tabpanels())
-    ProductFilterGroupEntity.list().each {ProductFilterGroupEntity item ->
+    FilterGroupEntity.list().each {FilterGroupEntity item ->
 
       Tab tab = new Tab(item.name)
       Tabpanel tabpanel = new Tabpanel()
@@ -145,7 +123,7 @@ class CatalogComposer extends GrailsComposer {
 
       int index = productFilter.getSelectedIndex()
       Listitem listitem = productFilter.getItemAtIndex(index)
-      ProductFilterEntity value = (ProductFilterEntity) listitem.getValue()
+      FilterEntity value = (FilterEntity) listitem.getValue()
       Checkbox checkbox = (Checkbox) window.getFellow("checkbox_${value.name}")
       checkbox.checked = !checkbox.checked
 
@@ -156,10 +134,10 @@ class CatalogComposer extends GrailsComposer {
 
       productsModel.clear()
 
-      Collection<ProductEntity> retrieved = currentCategory.listCategoryProduct.product
+      Collection<ProductEntity> retrieved = currentCategory.products.sort()
       if (checked.size() > 0) {
         retrieved.each {ProductEntity product ->
-          product.productProductFilterList.productFilter.each {ProductFilterEntity productFilter ->
+          product.filters.each {FilterEntity productFilter ->
             if (checked.contains(productFilter))
               productsModel.add(product)
           }
@@ -238,7 +216,7 @@ class CatalogComposer extends GrailsComposer {
    */
   void rebuildListboxModel() {
     productsModel.clear()
-    productsModel.addAll(currentCategory.listCategoryProduct.product as List<ProductEntity>)
+    productsModel.addAll(currentCategory.products.sort() as List<ProductEntity>)
   }
 
   /**
@@ -246,14 +224,14 @@ class CatalogComposer extends GrailsComposer {
    * @param group - группа фильтра
    */
   void rebuildFilterModel(String group) {
-    List<ProductFilterEntity> productFilter = listProductFilter(group)
+    List<FilterEntity> productFilter = listProductFilter(group)
     checked.clear()
     productFilterModel.clear()
     productFilterModel.addAll(productFilter)
   }
 
-  private List<ProductFilterEntity> listProductFilter(String group) {
-    List<ProductFilterEntity> result = currentCategory.productFilterCategoryList.productFilter.asList().findAll {
+  private List<FilterEntity> listProductFilter(String group) {
+    List<FilterEntity> result = currentCategory.filters.asList().findAll {
       it.productFilterGroup.name.equals(group)
     }
     return result

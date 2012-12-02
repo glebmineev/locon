@@ -27,17 +27,21 @@ class UserEntity {
       phone column: 'user_phone'
       email column: 'user_email'
       address column: 'user_address'
+      groups joinTable: [name: 'user_role', key: 'user_id']
     }
 
     orderList lazy: false, cascade: 'all-delete-orphan'
-    userGroupList lazy: false, cascade: 'all-delete-orphan'
+    groups lazy: false, cascade: 'all-delete-orphan'
+
     version false
 
   }
 
+  static belongsTo = RoleEntity
+
   static hasMany = [
     orderList: OrderEntity,
-    userGroupList: UserGroupEntity
+    groups: RoleEntity
   ]
 
   static constraints = {

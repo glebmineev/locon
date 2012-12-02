@@ -1,6 +1,6 @@
 package ru.spb.locon
 
-class ProductFilterGroupEntity {
+class FilterGroupEntity {
 
   String name
 
@@ -8,10 +8,10 @@ class ProductFilterGroupEntity {
 
     datasource 'ALL'
 
-    table: 'productfiltergroup'
+    table: 'filtergroup'
     columns {
-      id column: 'productfiltergroup_id'
-      name column: 'productfiltergroup_name'
+      id column: 'filtergroup_id'
+      name column: 'filtergroup_name'
     }
 
     version false
@@ -24,7 +24,7 @@ class ProductFilterGroupEntity {
   }
 
   static hasMany = [
-      productFilterList: ProductFilterEntity
+      productFilterList: FilterEntity
   ]
 
   public String toString(){

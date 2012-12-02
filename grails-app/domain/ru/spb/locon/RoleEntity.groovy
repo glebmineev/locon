@@ -1,6 +1,6 @@
 package ru.spb.locon
 
-class GroupEntity {
+class RoleEntity {
 
   String name
 
@@ -9,15 +9,16 @@ class GroupEntity {
     columns {
       id column: 'usergroup_id'
       name column: 'usergroup_name'
+      users joinTable: [name: 'user_role', key: 'role_id']
     }
 
-    userGroupList lazy: false, cascade: 'all-delete-orphan'
+    users lazy: false, cascade: 'all-delete-orphan'
 
     version false
   }
 
   static hasMany = [
-      userGroupList: UserGroupEntity
+      users: UserEntity
   ]
 
   static constraints = {

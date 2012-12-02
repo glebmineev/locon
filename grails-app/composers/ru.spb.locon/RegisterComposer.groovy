@@ -4,10 +4,8 @@ import org.zkoss.zk.grails.composer.GrailsComposer
 
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.*
-import org.zkoss.zk.ui.event.EventListener
-import org.zkoss.zk.ui.event.Event
-import org.zkoss.zk.ui.event.Events
-import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.event.*
+import org.zkoss.zk.ui.*
 
 /**
  * User: Gleb
@@ -79,15 +77,11 @@ class RegisterComposer extends GrailsComposer {
       if (validateField(address))
         user.setAddress(address.getValue())
 
+      RoleEntity group = RoleEntity.findByName("USER")
+      user.addToGroups(group)
+
       if (user.validate()) {
         user.save(flush: true)
-        UserGroupEntity.withTransaction {
-          GroupEntity group = GroupEntity.findByName("USER")
-          UserGroupEntity userGroupEntity = new UserGroupEntity()
-          userGroupEntity.setUser(user)
-          userGroupEntity.setGroup(group)
-          userGroupEntity.save(flush: true)
-        }
         Executions.sendRedirect("/shop")
       }
       else

@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
 
 @XmlAccessorType(XmlAccessType.FIELD)
-class ProductEntity {
+class ProductEntity implements Comparable {
 
   //static searchable = [except: '']
   String imagePath
@@ -44,19 +44,23 @@ class ProductEntity {
       manufacturer fetch: "join", column: 'product_manufacturer_id'
       countToStock column: 'product_counttostock'
       categories joinTable: [name: 'category_product', key: 'product_id']
+      filters joinTable: [name: 'product_filter', key: 'product_id']
     }
 
     version false
 
+    categories cascade: 'all-delete-orphan'
     //listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
     listOrderProduct lazy: false,  cascade: 'all-delete-orphan'
-    productProductFilterList lazy: false, cascade: 'all-delete-orphan'
+    filters lazy: false, cascade: 'all-delete-orphan'
   }
+
+  static belongsTo = FilterEntity
 
   static hasMany = [
       categories: CategoryEntity,
       listOrderProduct: OrderProductEntity,
-      productProductFilterList: ProductProductFilterEntity
+      filters: FilterEntity
   ]
 
   static constraints = {
@@ -75,6 +79,18 @@ class ProductEntity {
 
   public String toString() {
     return name
+  }
+
+  @Override
+  int compareTo(Object o) {
+    ProductEntity item = (ProductEntity) o
+    if (item.name > this.name)
+      return 1
+    if (item.name < this.name)
+      return -1
+    if (item.name.equals(this.name))
+      return 0
+
   }
 
 }

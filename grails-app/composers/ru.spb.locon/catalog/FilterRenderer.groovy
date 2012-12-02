@@ -1,27 +1,19 @@
 package ru.spb.locon.catalog
 
 import org.zkoss.zul.ListitemRenderer
-import ru.spb.locon.ProductFilterEntity
+import ru.spb.locon.FilterEntity
 import org.zkoss.zul.Checkbox
 import org.zkoss.zul.Listcell
-import org.zkoss.zk.ui.event.EventListener
-import org.zkoss.zk.ui.event.Event
-import ru.spb.locon.ProductEntity
-import org.zkoss.zk.ui.event.Events
-import org.zkoss.zk.ui.event.CheckEvent
-import org.zkoss.zkplus.databind.BindingListModelList
-import ru.spb.locon.CategoryEntity
-import org.zkoss.zul.Listgroup
 
 /**
  * User: Gleb
  * Date: 20.10.12
  * Time: 18:24
  */
-class FilterRenderer implements ListitemRenderer<ProductFilterEntity> {
+class FilterRenderer implements ListitemRenderer<FilterEntity> {
   
   @Override
-  void render(org.zkoss.zul.Listitem listitem, ProductFilterEntity t, int i) {
+  void render(org.zkoss.zul.Listitem listitem, FilterEntity t, int i) {
     listitem.setValue(t)
 
     Checkbox checkbox = new Checkbox()

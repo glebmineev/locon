@@ -4,6 +4,7 @@ import ru.spb.locon.cart.CartItem
 import org.zkoss.zul.ListitemRenderer
 import org.zkoss.zul.Listcell
 import org.zkoss.zul.Label
+import org.zkoss.zul.RowRenderer
 
 /**
  * User: Gleb
@@ -17,7 +18,7 @@ class ImportResultRenderer implements ListitemRenderer<ResultItem> {
 
     listitem.setValue(t)
     listitem.setId(t.id)
-    
+
     Listcell articleCell = new Listcell()
     articleCell.appendChild(new Label(t.article))
     articleCell.setParent(listitem)

@@ -18,6 +18,7 @@ class CategoryEntity {
       description column: 'category_description'
       parentCategory column: 'category_parentcategory_id'
       products joinTable: [name: 'category_product', key: 'category_id']
+      filters joinTable: [name: 'category_filter', key: 'category_id']
     }
 
     version false
@@ -25,15 +26,15 @@ class CategoryEntity {
     products lazy: false, cascade: 'all-delete-orphan'
     //listCategoryProduct sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
     listCategory sort: "name", order: "desc", lazy: false, cascade: 'all-delete-orphan'
-    productFilterCategoryList sort: "category", lazy: false, cascade: 'all-delete-orphan'
+    filters lazy: false, cascade: 'all-delete-orphan'
   }
 
-  static belongsTo = ProductEntity
+  static belongsTo = [ProductEntity, FilterEntity]
 
   static hasMany = [
       products: ProductEntity,
       listCategory: CategoryEntity,
-      productFilterCategoryList: ProductFilterCategoryEntity
+      filters: FilterEntity
   ]
 
   static constraints = {

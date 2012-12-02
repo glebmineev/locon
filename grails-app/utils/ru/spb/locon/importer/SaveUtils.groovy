@@ -1,13 +1,11 @@
 package ru.spb.locon.importer
 
-import ru.spb.locon.ProductFilterEntity
 import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ProductEntity
-//import ru.spb.locon.CategoryProductEntity
 import ru.spb.locon.ManufacturerEntity
-import ru.spb.locon.ProductFilterCategoryEntity
-import ru.spb.locon.ProductFilterGroupEntity
-import ru.spb.locon.ProductProductFilterEntity
+
+import ru.spb.locon.FilterEntity
+import ru.spb.locon.FilterGroupEntity
 
 /**
  * User: Gleb
@@ -16,10 +14,10 @@ import ru.spb.locon.ProductProductFilterEntity
  */
 class SaveUtils {
 
-  ProductFilterEntity getProductFilter(String filterName, ProductFilterGroupEntity group) {
-    ProductFilterEntity filterEntity = ProductFilterEntity.findByName(filterName)
+  FilterEntity getProductFilter(String filterName, FilterGroupEntity group) {
+    FilterEntity filterEntity = FilterEntity.findByName(filterName)
     if (filterEntity == null) {
-      filterEntity = new ProductFilterEntity()
+      filterEntity = new FilterEntity()
       filterEntity.setProductFilterGroup(group)
       filterEntity.setName(filterName)
       filterEntity.save()
@@ -30,8 +28,6 @@ class SaveUtils {
   void linkToCategories(CategoryEntity category, ProductEntity product) {
     category.addToProducts(product)
     category.save()
-    //CategoryProductEntity categoryProduct = new CategoryProductEntity(product: product, category: category)
-    //categoryProduct.save()
   }
 
   CategoryEntity getCategory(String name) {
@@ -54,32 +50,20 @@ class SaveUtils {
     return manufacturer
   }
 
-  void saveFilterCategoryLink(CategoryEntity category, ProductFilterEntity productFilter) {
-    ProductFilterCategoryEntity exist =
-      ProductFilterCategoryEntity.findWhere(category: category, productFilter: productFilter)
-    if (exist == null) {
-      ProductFilterCategoryEntity productFilterCategory = new ProductFilterCategoryEntity()
-      productFilterCategory.setCategory(category)
-      productFilterCategory.setProductFilter(productFilter)
-      productFilterCategory.save()
-    }
+  void saveFilterCategoryLink(CategoryEntity category, FilterEntity productFilter) {
+
+    category.addToFilters(productFilter)
+    category.save()
 
   }
 
-  void saveFilterToProductLink(ProductEntity product, ProductFilterEntity productFilter) {
-    ProductProductFilterEntity exist =
-      ProductProductFilterEntity.findWhere(product: product, productFilter: productFilter)
-    if (exist == null) {
-      ProductProductFilterEntity productProductFilter = new ProductProductFilterEntity()
-      productProductFilter.setProduct(product)
-      productProductFilter.setProductFilter(productFilter)
-      productProductFilter.save()
-    }
-
+  void saveFilterToProductLink(ProductEntity product, FilterEntity productFilter) {
+    product.addToFilters(productFilter)
+    product.save()
   }
 
-  ProductFilterGroupEntity getProductFilterGroup(String name){
-    ProductFilterGroupEntity group = ProductFilterGroupEntity.findByName(name)
+  FilterGroupEntity getProductFilterGroup(String name){
+    FilterGroupEntity group = FilterGroupEntity.findByName(name)
     if (group == null){
       group.setName(name)
       group.save()

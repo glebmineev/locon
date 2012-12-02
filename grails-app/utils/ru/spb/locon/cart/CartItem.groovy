@@ -7,7 +7,7 @@ import ru.spb.locon.ProductEntity
  * Date: 06.10.12
  * Time: 16:53
  */
-class CartItem implements Comparable{
+class CartItem implements Comparable {
   
   private ProductEntity product
   private Long count = 0

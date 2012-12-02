@@ -1,10 +1,4 @@
-import ru.spb.locon.ProductPropertyEntity
-import ru.spb.locon.CategoryEntity
-import ru.spb.locon.ManufacturerEntity
-import ru.spb.locon.UserEntity
-import ru.spb.locon.UserGroupEntity
-import ru.spb.locon.GroupEntity
-import ru.spb.locon.ProductFilterGroupEntity
+import ru.spb.locon.*
 
 class BootStrap {
 
@@ -17,9 +11,9 @@ class BootStrap {
       ProductPropertyEntity.findOrSaveWhere(name: "Объем")
     }
 
-    ProductFilterGroupEntity.withTransaction {
-      ProductFilterGroupEntity.findOrSaveWhere(name: "Производитель")
-      ProductFilterGroupEntity.findOrSaveWhere(name: "Применение")
+    FilterGroupEntity.withTransaction {
+      FilterGroupEntity.findOrSaveWhere(name: "Производитель")
+      FilterGroupEntity.findOrSaveWhere(name: "Применение")
     }
 
     CategoryEntity.withTransaction {
@@ -38,23 +32,23 @@ class BootStrap {
       ManufacturerEntity.findOrSaveWhere(name: "Screen", shortName: 'Screen')
     }
 
-    GroupEntity.withTransaction {
-      GroupEntity.findOrSaveWhere(name: "MANAGER")
-      GroupEntity.findOrSaveWhere(name: "USER")
+    RoleEntity.withTransaction {
+      RoleEntity.findOrSaveWhere(name: "MANAGER")
+      RoleEntity.findOrSaveWhere(name: "USER")
     }
 
     UserEntity.withTransaction {
-      UserEntity.findOrSaveWhere(
+      UserEntity user = UserEntity.findOrSaveWhere(
           login: "admin",
           password: "admin".encodeAsSHA1(),
           email: "admin@admin.ru",
           fio: "fio",
           address: "SPb"
       )
-    }
 
-    UserGroupEntity.withTransaction {
-      UserGroupEntity.findOrSaveWhere(user: UserEntity.findByLogin("admin"), group: GroupEntity.findByName("MANAGER"))
+      user.addToGroups(RoleEntity.findWhere(name: "MANAGER"))
+      user.save()
+
     }
 
     //imageService.syncAllImagesWithServer()

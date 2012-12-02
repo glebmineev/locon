@@ -21,6 +21,7 @@ import org.zkoss.zk.ui.Executions
 import ru.spb.locon.CategoryEntity
 import ru.spb.locon.common.StringUtils
 import org.zkforge.ckez.CKeditor
+import org.zkoss.zul.Grid
 
 class ImportComposer extends GrailsComposer {
 

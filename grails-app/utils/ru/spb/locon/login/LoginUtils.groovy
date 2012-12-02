@@ -1,8 +1,6 @@
 package ru.spb.locon.login
 
-import ru.spb.locon.UserEntity
-import ru.spb.locon.UserGroupEntity
-import ru.spb.locon.common.StringUtils
+import ru.spb.locon.*
 
 /**
  * User: Gleb
@@ -24,8 +22,8 @@ class LoginUtils {
   public static List<String> userGroups(UserEntity user){
     List<String> groups = new ArrayList<String>()
     UserEntity.withTransaction{
-      user.userGroupList.each {UserGroupEntity userGroup ->
-        groups.add(userGroup.group.name)
+      user.groups.each {RoleEntity group ->
+        groups.add(group.name)
       }
     }
     return groups

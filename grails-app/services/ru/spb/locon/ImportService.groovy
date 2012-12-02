@@ -32,12 +32,12 @@ class ImportService {
 
   SaveUtils saveUtils = new SaveUtils()
   
-  List<ProductFilterEntity> productFiltersTemp = new ArrayList<ProductFilterEntity>()
+  List<FilterEntity> productFiltersTemp = new ArrayList<FilterEntity>()
 
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
 
   public void doImport() {
-
+    try{
     ImportEvent startProcess = new ImportEvent("Импорт товаров начат", "Импорт товаров", "")
     startProcess.state = ImportEvent.STATES.START
     sendEvent(startProcess)
@@ -60,17 +60,22 @@ class ImportService {
               ProductEntity product = createProduct(row,
                   "${menuCategory}/${manufacturer}/${submenuCategory}${temp != null ? "/${temp}" : ""}")
               //связываем со всеми категорими в которые он входит для дальнейшей фильтрации.
-              saveUtils.linkToCategories(submenuCategory, product)
-              saveUtils.linkToCategories(temp, product)
-              saveUtils.linkToCategories(menuCategory, product)
+              if (submenuCategory != null)
+                saveUtils.linkToCategories(submenuCategory, product)
+              if (temp != null)
+                saveUtils.linkToCategories(temp, product)
+              if (menuCategory != null)
+                saveUtils.linkToCategories(menuCategory, product)
               product.setManufacturer(manufacturer)
               product.save()
 
               if (productFiltersTemp.size() > 0) {
 
-                productFiltersTemp.each {ProductFilterEntity productFilter ->
-                  saveUtils.saveFilterCategoryLink(submenuCategory, productFilter)
-                  saveUtils.saveFilterCategoryLink(temp, productFilter)
+                productFiltersTemp.each {FilterEntity productFilter ->
+                  if (submenuCategory != null)
+                    saveUtils.saveFilterCategoryLink(submenuCategory, productFilter)
+                  if (temp != null)
+                    saveUtils.saveFilterCategoryLink(temp, productFilter)
                   saveUtils.saveFilterToProductLink(product, productFilter)
                 }
 
@@ -95,7 +100,9 @@ class ImportService {
     successfulProcess.state = ImportEvent.STATES.SUCCESSFUL
     sendEvent(successfulProcess)
 
-
+    } catch (Exception e) {
+      log.error(e.getMessage())
+    }
   }
 
   private ProductEntity createProduct(Cell[] row, String imagePath) {
@@ -113,11 +120,11 @@ class ImportService {
           product.setName(value)
         if (i == 2){
 
-          ProductFilterGroupEntity manufacturerGroup = saveUtils.getProductFilterGroup("Производитель")
-          ProductFilterGroupEntity usageGroup = saveUtils.getProductFilterGroup("Применение")
+          FilterGroupEntity manufacturerGroup = saveUtils.getProductFilterGroup("Производитель")
+          FilterGroupEntity usageGroup = saveUtils.getProductFilterGroup("Применение")
 
-          ProductFilterEntity manufacturerFilter = saveUtils.getProductFilter(manufacturer.name, manufacturerGroup)
-          ProductFilterEntity usageFilter = saveUtils.getProductFilter(value, usageGroup)
+          FilterEntity manufacturerFilter = saveUtils.getProductFilter(manufacturer.name, manufacturerGroup)
+          FilterEntity usageFilter = saveUtils.getProductFilter(value, usageGroup)
 
           productFiltersTemp.add(manufacturerFilter)
           productFiltersTemp.add(usageFilter)
