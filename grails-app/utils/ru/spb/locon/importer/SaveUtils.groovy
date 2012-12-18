@@ -17,9 +17,10 @@ class SaveUtils {
   FilterEntity getProductFilter(String filterName, FilterGroupEntity group) {
     FilterEntity filterEntity = FilterEntity.findByName(filterName)
     if (filterEntity == null) {
-      filterEntity = new FilterEntity()
-      filterEntity.setProductFilterGroup(group)
-      filterEntity.setName(filterName)
+      filterEntity = new FilterEntity(
+        name: filterName,
+        filterGroup: group
+      )
       filterEntity.save()
     }
     return filterEntity
@@ -27,15 +28,14 @@ class SaveUtils {
 
   void linkToCategories(CategoryEntity category, ProductEntity product) {
     category.addToProducts(product)
-    category.save()
+    category.save(flush: true)
   }
 
-  CategoryEntity getCategory(String name) {
+  CategoryEntity saveCategory(String name) {
     CategoryEntity category = CategoryEntity.findByName(name)
     if (category == null) {
-      category = new CategoryEntity()
-      category.setName(name)
-      category.save(insert: true)
+      category = new CategoryEntity(name: name)
+      category.save()
     }
     return category
   }
@@ -43,18 +43,21 @@ class SaveUtils {
   ManufacturerEntity getManufacturer(String name) {
     ManufacturerEntity manufacturer = ManufacturerEntity.findByName(name)
     if (manufacturer == null) {
-      manufacturer = new ManufacturerEntity()
-      manufacturer.setName(name)
-      manufacturer.save(insert: true)
+      manufacturer = new ManufacturerEntity(name: name)
+      manufacturer.save()
     }
     return manufacturer
   }
 
   void saveFilterCategoryLink(CategoryEntity category, FilterEntity productFilter) {
-
+    Set<FilterEntity> filters = category.filters
+    //if (filters == null)
+    //  filters = new HashSet<FilterEntity>()
+    //category.filters.clear()
     category.addToFilters(productFilter)
+    //category.filters.add
+    //filters.add(productFilter)
     category.save()
-
   }
 
   void saveFilterToProductLink(ProductEntity product, FilterEntity productFilter) {
@@ -65,7 +68,7 @@ class SaveUtils {
   FilterGroupEntity getProductFilterGroup(String name){
     FilterGroupEntity group = FilterGroupEntity.findByName(name)
     if (group == null){
-      group.setName(name)
+      group = new FilterGroupEntity(name: name)
       group.save()
     }
     return group

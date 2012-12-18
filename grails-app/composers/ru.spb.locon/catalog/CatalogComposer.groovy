@@ -232,7 +232,7 @@ class CatalogComposer extends GrailsComposer {
 
   private List<FilterEntity> listProductFilter(String group) {
     List<FilterEntity> result = currentCategory.filters.asList().findAll {
-      it.productFilterGroup.name.equals(group)
+      it.filterGroup.name.equals(group)
     }
     return result
   }

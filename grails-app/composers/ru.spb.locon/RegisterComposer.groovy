@@ -78,7 +78,8 @@ class RegisterComposer extends GrailsComposer {
         user.setAddress(address.getValue())
 
       RoleEntity group = RoleEntity.findByName("USER")
-      user.addToGroups(group)
+      user.groups = new HashSet<RoleEntity>()
+      user.groups.add(group) //addToGroups(group)
 
       if (user.validate()) {
         user.save(flush: true)

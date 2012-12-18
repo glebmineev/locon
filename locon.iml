@@ -60,7 +60,7 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
-    <orderEntry type="library" name="grails-2.0.4" level="application" />
+    <orderEntry type="library" name="grails-2.1.0" level="application" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (locon)">
         <CLASSES>

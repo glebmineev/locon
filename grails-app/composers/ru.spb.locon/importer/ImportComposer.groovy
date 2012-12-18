@@ -22,6 +22,8 @@ import ru.spb.locon.CategoryEntity
 import ru.spb.locon.common.StringUtils
 import org.zkforge.ckez.CKeditor
 import org.zkoss.zul.Grid
+import org.apache.poi.poifs.filesystem.POIFSFileSystem
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
 
 class ImportComposer extends GrailsComposer {
 
@@ -109,7 +111,7 @@ class ImportComposer extends GrailsComposer {
             importService.setDesktop(desktop)
             importService.setMenuCategory(category)
             importService.setManufacturer(manufacturer)
-            importService.setWrkbook(Workbook.getWorkbook(is))
+            importService.setWorkbook(new HSSFWorkbook(new POIFSFileSystem(is)))
             importService.doImport()
           }
         }

@@ -1,6 +1,10 @@
 package ru.spb.locon.admin
 
 import org.zkoss.zk.grails.composer.GrailsComposer
+import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.event.Event
+import org.zkoss.zk.ui.event.EventListener
+import org.zkoss.zk.ui.event.Events
 import org.zkoss.zul.*
 import org.zkoss.zul.Listbox
 import ru.spb.locon.ProductEntity
@@ -61,6 +65,19 @@ class ProductsComposer extends GrailsComposer {
     products.appendChild(auxhead)
     products.setItemRenderer(new ProductsRenderer())
     rebuildModel()
+
+    products.addEventListener(Events.ON_CLICK, productsListener)
+
+  }
+
+  EventListener productsListener = new EventListener() {
+
+    @Override
+    void onEvent(Event t) {
+      Listitem item = products.getSelectedItem()
+      Executions.sendRedirect("/admin/productItem?product=${item.value.id}")
+    }
+
   }
 
   void rebuildModel() {

@@ -1,20 +1,16 @@
 package ru.spb.locon
 
-import jxl.Workbook
-import jxl.Sheet
-import jxl.Cell
-import ru.spb.locon.importer.ConvertUtils
 import java.math.RoundingMode
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import org.zkoss.zk.ui.Desktop
-import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.*
 import org.zkoss.zk.ui.event.EventQueues
-import ru.spb.locon.importer.ImportEvent
-import ru.spb.locon.importer.SaveUtils
+import ru.spb.locon.importer.*
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import ru.spb.locon.common.StringUtils
+import org.apache.poi.hssf.usermodel.*
+import org.apache.poi.ss.usermodel.*
 
 class ImportService {
 
@@ -22,194 +18,184 @@ class ImportService {
 
   //Логгер
   static Logger log = LoggerFactory.getLogger(ImportService.class)
-
-  String catalogPath
   Desktop desktop
 
-  Workbook wrkbook = null
+  HSSFWorkbook workbook
   ManufacturerEntity manufacturer
   CategoryEntity menuCategory
 
   SaveUtils saveUtils = new SaveUtils()
-  
+
   List<FilterEntity> productFiltersTemp = new ArrayList<FilterEntity>()
 
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
 
   public void doImport() {
-    try{
-    ImportEvent startProcess = new ImportEvent("Импорт товаров начат", "Импорт товаров", "")
-    startProcess.state = ImportEvent.STATES.START
-    sendEvent(startProcess)
+    try {
+      ImportEvent startProcess = new ImportEvent("Импорт товаров начат", "Импорт товаров", "")
+      startProcess.state = ImportEvent.STATES.START
+      sendEvent(startProcess)
 
-    CategoryEntity.withTransaction {
-      Sheet[] sheets = wrkbook.getSheets()
+      CategoryEntity.withTransaction {
 
-      sheets.each {Sheet sheet ->
-        //получаем корневую категорию.
-        CategoryEntity submenuCategory = saveUtils.getCategory(sheet.getName())
-        submenuCategory.setParentCategory(menuCategory)
+        (0..workbook.getNumberOfSheets()-1).each { sheetIndex ->
+          HSSFSheet sheet = workbook.getSheetAt(sheetIndex)
 
-        //перебираем строки страницы.
-        CategoryEntity temp = null
-        (0..sheet.getRows() - 1).each { i ->
-          Cell[] row = sheet.getRow(i)
-          if (row.length != 0) {
-            if (row != null && row.length > 1 && !row[1].getContents().isEmpty()) {
-              //Создаем продукт.
-              ProductEntity product = createProduct(row,
-                  "${menuCategory}/${manufacturer}/${submenuCategory}${temp != null ? "/${temp}" : ""}")
-              //связываем со всеми категорими в которые он входит для дальнейшей фильтрации.
-              if (submenuCategory != null)
-                saveUtils.linkToCategories(submenuCategory, product)
-              if (temp != null)
-                saveUtils.linkToCategories(temp, product)
-              if (menuCategory != null)
-                saveUtils.linkToCategories(menuCategory, product)
-              product.setManufacturer(manufacturer)
-              product.save()
+          if (!"Списки".equals(sheet.getSheetName())) {
 
-              if (productFiltersTemp.size() > 0) {
+            //получаем корневую категорию из названия листа excel файла.
+            CategoryEntity submenuCategory = saveUtils.saveCategory(sheet.getSheetName())
+            submenuCategory.setParentCategory(menuCategory)
+            submenuCategory.save()
 
-                productFiltersTemp.each {FilterEntity productFilter ->
-                  if (submenuCategory != null)
-                    saveUtils.saveFilterCategoryLink(submenuCategory, productFilter)
-                  if (temp != null)
-                    saveUtils.saveFilterCategoryLink(temp, productFilter)
-                  saveUtils.saveFilterToProductLink(product, productFilter)
+            Iterator<Row> rowIterator = sheet.rowIterator()
+            while (rowIterator.hasNext()) {
+              Row row = rowIterator.next()
+
+              //Посылаем событие о начале импорта.
+              String id = UUID.randomUUID().toString().replaceAll("-", "")
+              ImportEvent startProductImport = new ImportEvent(id, getStringCellContent(row.getCell(1)), getStringCellContent(row.getCell(0)))
+              startProductImport.state = ImportEvent.STATES.START
+              sendEvent(startProductImport)
+
+              String categoryName = ""
+              if (row.getCell(8) != null)
+                categoryName = getStringCellContent(row.getCell(8))
+
+              //Создаем товар и заполняем часть полей.
+              ProductEntity product = createProduct(row)
+              String imagePath = "${menuCategory}/${manufacturer}/${submenuCategory}${categoryName != null ? "/${categoryName}" : ""}"
+
+              String from = getStringCellContent(row.getCell(5))
+              String to = "${imagePath}/${product?.article}_${product.name}"
+              product.setImagePath(to)
+
+              if (product.validate()) {
+                ProductEntity savedProduct = product.save()
+                //загружем изображение товара.
+                boolean  isDownloaded = imageService.downloadImages(from, to)
+                if (!isDownloaded) {
+                  ImportEvent importEvent = new ImportEvent(id, getStringCellContent(row.getCell(1)), getStringCellContent(row.getCell(0)))
+                  importEvent.state = ImportEvent.STATES.ERROR
+                  importEvent.addErrorMessage("Не удалось загрузить картинку.")
+                  sendEvent(importEvent)
+                }
+                //создаем на сервере папку с картинками разного размера.
+                imageService.syncWithServer(savedProduct)
+
+                CategoryEntity category = null
+                //получаем корневую категорию.
+                if (!categoryName.isEmpty()) {
+                  category = saveUtils.saveCategory(getStringCellContent(row.getCell(8)))
+                  category.setParentCategory(submenuCategory)
+                  saveUtils.linkToCategories(category, savedProduct)
                 }
 
-                productFiltersTemp.clear()
+                //Связываем категоии с товаром.
+                saveUtils.linkToCategories(menuCategory, savedProduct)
+                saveUtils.linkToCategories(submenuCategory, savedProduct)
 
+                //Связываем фильтры с товаром.
+                if (productFiltersTemp.size() > 0) {
+
+                  productFiltersTemp.each {FilterEntity productFilter ->
+                    if (submenuCategory != null)
+                      saveUtils.saveFilterCategoryLink(submenuCategory, productFilter)
+                    if (category != null)
+                      saveUtils.saveFilterCategoryLink(category, productFilter)
+                  }
+
+                  productFiltersTemp.clear()
+                }
+
+                //Если картинка загрузилать и товар сохранен, то посылаем событие об успехе.
+                if (isDownloaded){
+                  ImportEvent endProductImport = new ImportEvent(id, getStringCellContent(row.getCell(1)), getStringCellContent(row.getCell(0)))
+                  endProductImport.state = ImportEvent.STATES.SUCCESSFUL
+                  sendEvent(endProductImport)
+                }
+
+              }
+              else {
+                ImportEvent importEvent = new ImportEvent(id, getStringCellContent(row.getCell(1)), getStringCellContent(row.getCell(0)))
+                importEvent.state = ImportEvent.STATES.ERROR
+                importEvent.addErrorMessage("Не удалось сохранить товар.")
+                sendEvent(importEvent)
               }
 
             }
-            else if (row[0] != null && !row[0].getContents().isEmpty()) {
-              String cName = row[0].getContents()
-              temp = saveUtils.getCategory(ConvertUtils.formatString(cName))
-              temp.setParentCategory(submenuCategory)
-            }
 
           }
         }
 
       }
+
+      ImportEvent successfulProcess = new ImportEvent("Импорт товаров начат", "Импорт товаров", "")
+      successfulProcess.state = ImportEvent.STATES.SUCCESSFUL
+      sendEvent(successfulProcess)
+
     }
 
-    ImportEvent successfulProcess = new ImportEvent("Импорт товаров начат", "Импорт товаров", "")
-    successfulProcess.state = ImportEvent.STATES.SUCCESSFUL
-    sendEvent(successfulProcess)
-
-    } catch (Exception e) {
-      log.error(e.getMessage())
+    catch (Exception e) {
+      log.error(e.message)
     }
   }
 
-  private ProductEntity createProduct(Cell[] row, String imagePath) {
-    ProductEntity product = new ProductEntity()
-    String id = ""
-    (0 .. row.length - 1).each { i ->
-      int r = 0
-      String value = row[i].getContents()
+  ProductEntity createProduct(Row row) {
 
-      if (!value.isEmpty()) {
+    ProductEntity product = new ProductEntity(
+        article: getStringCellContent(row.getCell(0)),
+        name: getStringCellContent(row.getCell(1)),
+        volume: getStringCellContent(row.getCell(3)),
+        price: getLongCellContent(row.getCell(4)),
+        description: getStringCellContent(row.getCell(6)),
+        usage: getStringCellContent(row.getCell(7)),
+        manufacturer: manufacturer
+    )
 
-        if (i == 0)
-          product.setArticle(value)
-        if (i == 1)
-          product.setName(value)
-        if (i == 2){
+    String filterName = getStringCellContent(row.getCell(2))
 
-          FilterGroupEntity manufacturerGroup = saveUtils.getProductFilterGroup("Производитель")
-          FilterGroupEntity usageGroup = saveUtils.getProductFilterGroup("Применение")
+    if (!filterName.isEmpty()) {
+      FilterGroupEntity manufacturerGroup = saveUtils.getProductFilterGroup("Производитель")
+      FilterGroupEntity usageGroup = saveUtils.getProductFilterGroup("Применение")
 
-          FilterEntity manufacturerFilter = saveUtils.getProductFilter(manufacturer.name, manufacturerGroup)
-          FilterEntity usageFilter = saveUtils.getProductFilter(value, usageGroup)
+      FilterEntity manufacturerFilter = saveUtils.getProductFilter(manufacturer.name, manufacturerGroup)
+      FilterEntity usageFilter = saveUtils.getProductFilter(filterName, usageGroup)
 
-          productFiltersTemp.add(manufacturerFilter)
-          productFiltersTemp.add(usageFilter)
-        }
+      productFiltersTemp.add(manufacturerFilter)
+      productFiltersTemp.add(usageFilter)
 
-        if (i == 3)
-          product.setVolume(value)
-
-        if (i == 4) {
-          float price = Float.parseFloat(value.replace(",", "."))
-          float result = new BigDecimal(price).setScale(2, RoundingMode.UP).floatValue()
-          product.setPrice(result)
-
-          String article = row[0].getContents()
-          String name = row[1].getContents()
-          id = UUID.randomUUID().toString().replaceAll("-", "")
-
-
-          ImportEvent startProcess = new ImportEvent(id, name, article)
-          startProcess.state = ImportEvent.STATES.START
-          sendEvent(startProcess)
-
-        }
-
-        if (i == 5) {
-          String article = row[0].getContents()
-          String name = row[1].getContents()
-
-          String to = "${imagePath}/${product.article}_${product.name}"
-          product.setImagePath("${to}")
-
-          //загружем
-          boolean isDownloaded = imageService.downloadImages(value, to)
-          imageService.syncWithServer(product)
-          if (isDownloaded) {
-            ImportEvent importEvent = new ImportEvent(id, name, article)
-            importEvent.state = ImportEvent.STATES.SUCCESSFUL
-            sendEvent(importEvent)
-          } else {
-            ImportEvent importEvent = new ImportEvent(id, name, article)
-            importEvent.state = ImportEvent.STATES.ERROR
-            importEvent.addError("Не удалось загрузить картинку")
-            sendEvent(importEvent)
-          }
-
-        }
-
-        if (i == 6)
-          product.setDescription(value)
-
-        if (i == 7)
-          product.setUsage(value)
-
-      } else {
-
-        if (i == 5) {
-          String article = row[0].getContents()
-          String name = row[1].getContents()
-
-          String to = "${imagePath}/${product.article}_${product.name}"
-
-          String root = ApplicationHolder.application.mainContext.servletContext.getRealPath("/")
-          StringUtils stringUtils = new StringUtils()
-          String store = "${stringUtils.buildPath(2, root)}\\productImages"
-
-          File dir = new File("${store}/${to}")
-          if (!dir.exists())
-            dir.mkdirs()
-
-          ImportEvent importEvent = new ImportEvent(id, name, article)
-          importEvent.state = ImportEvent.STATES.ERROR
-          importEvent.addError("Не удалось загрузить картинку")
-          sendEvent(importEvent)
-
-          product.setImagePath("${to}")
-          imageService.syncWithServer(product)
-        }
-      }
+      product.addToFilters(manufacturerFilter)
+      product.addToFilters(usageFilter)
 
     }
 
     return product
+
   }
 
-  //отсыл события композеру ImportComposer.
+  Long getLongCellContent(Cell cell) {
+    Long result = 0
+    if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+      result = cell.getNumericCellValue()
+
+    if (cell.getCellType() == Cell.CELL_TYPE_STRING &&
+        cell.getStringCellValue() != null)
+      result = Long.parseLong(cell.getStringCellValue())
+    return result
+  }
+
+  String getStringCellContent(Cell cell) {
+    String result = ""
+    if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+      result = cell.getNumericCellValue().toString().replace(".0", "")
+
+    if (cell.getCellType() == Cell.CELL_TYPE_STRING)
+      result = cell.getStringCellValue()
+    return result
+  }
+
+//отсыл события композеру ImportComposer.
   private void sendEvent(ImportEvent event) {
     Executions.activate(desktop)
     EventQueues.lookup("catalogImportQueue").publish(event)
@@ -221,7 +207,7 @@ class ImportService {
   }
 
   void setMenuCategory(String menuCategoryName) {
-    this.menuCategory = saveUtils.getCategory(menuCategoryName)
+    this.menuCategory = saveUtils.saveCategory(menuCategoryName)
   }
 
 }

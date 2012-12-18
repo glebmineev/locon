@@ -22,6 +22,8 @@ class ProductsRenderer implements ListitemRenderer<ProductEntity> {
   @Override
   void render(org.zkoss.zul.Listitem listitem, ProductEntity t, int i) {
 
+    listitem.setValue(t)
+
     Listcell imageCell = new Listcell()
     Image image = imageSyncService.getProductImage(t, "150")
     Div imageDiv = new Div()
@@ -32,8 +34,7 @@ class ProductsRenderer implements ListitemRenderer<ProductEntity> {
 
     ProductEntity.declaredFields.each {Field field ->
       FieldInfo annotation = field.getAnnotation(FieldInfo)
-
-      if (annotation != null) {
+      if (annotation != null && annotation.isFilter()) {
         String value = t."${field.name}"
         Listcell cell = new Listcell()
         if (value != null)

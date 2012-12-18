@@ -3,7 +3,7 @@ package ru.spb.locon
 class FilterEntity implements Comparable {
 
   String name
-  FilterGroupEntity productFilterGroup
+  FilterGroupEntity filterGroup
   
   static mapping = {
 
@@ -13,7 +13,7 @@ class FilterEntity implements Comparable {
     columns {
       id column: 'filter_id'
       name column: 'filter_name'
-      productFilterGroup column: 'filter_filtergroup'
+      filterGroup column: 'filter_filtergroup'
       categories joinTable: [name: 'category_filter', key: 'filter_id']
       products joinTable: [name: 'product_filter', key: 'filter_id']
     }
@@ -25,7 +25,7 @@ class FilterEntity implements Comparable {
 
   static constraints = {
     name nullable: true
-    productFilterGroup nullable: true
+    filterGroup nullable: true
   }
 
   static hasMany = [

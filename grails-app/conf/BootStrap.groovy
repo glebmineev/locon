@@ -21,6 +21,7 @@ class BootStrap {
       CategoryEntity.findOrSaveWhere(name: "Для тела")
       CategoryEntity.findOrSaveWhere(name: "Для рук")
       CategoryEntity.findOrSaveWhere(name: "Депиляция")
+      CategoryEntity.findOrSaveWhere(name: "Для мужчин")
     }
 
     ManufacturerEntity.withTransaction {

@@ -53,7 +53,7 @@
 }
 
 #nav ul li {
-  width: 220px;
+  width: 177px;
   float: left;
   /*border-top: 1px solid #fff;*/
 }
@@ -94,7 +94,7 @@
   -moz-border-radius: 10px 10px 10px 10px;
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
-  width: 220px;
+  width: 175.6px;
   height: 37px;
   background: url("../../images/menu_button_Hover_bg.png") repeat;
 }
@@ -104,7 +104,7 @@
 }
 
 .submenu{
-  width: 220px;
+  width: 177px;
   height: 37px;
   background: url("../../images/menju.png") repeat;
 }

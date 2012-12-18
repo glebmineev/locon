@@ -11,7 +11,7 @@ import org.zkoss.zul.Window
 class ProductItemComposer  extends GrailsComposer {
 
   def afterCompose = {Window window ->
-
+    int r = 0
   }
 
 }

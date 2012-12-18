@@ -19,6 +19,8 @@ class AdminController {
 
   def products() { }
 
+  def productItem() { }
+
   def manufacturers() {}
 
   def info() { }

@@ -39,7 +39,7 @@ class ImportEvent extends Event {
     this.article = article
   }
 
-  void addError(String error) {
+  void addErrorMessage(String error) {
     errors.add(error)
   }
 
