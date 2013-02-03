@@ -51,7 +51,7 @@ class OrderEntity {
       isCancel column: 'order_iscancel'
     }
 
-    orderProductList sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
+    orderProductList sort: "product", order: "desc", cascade: 'all-delete-orphan'
 
     version false
 

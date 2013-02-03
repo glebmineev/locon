@@ -21,7 +21,7 @@
   </li>
 
   <li class="main">
-    <g:link controller="admin" action="orders">Операции с заказами</g:link>
+    <g:link controller="admin" action="orders">Заказы</g:link>
     <div class="clear"></div>
   </li>
   <li class="main">

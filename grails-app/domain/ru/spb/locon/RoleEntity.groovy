@@ -12,7 +12,7 @@ class RoleEntity {
       users joinTable: [name: 'user_role', key: 'role_id']
     }
 
-    users lazy: false, cascade: 'all-delete-orphan'
+    users cascade: 'all-delete-orphan'
 
     version false
   }

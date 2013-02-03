@@ -30,8 +30,6 @@
 
   <!-- ZK -->
   <link rel="stylesheet" href="${resource(dir: 'css', file: 'ZK.css')}"/>
-
-  <ckeditor:resources/>
   ${head}
 </head>
 

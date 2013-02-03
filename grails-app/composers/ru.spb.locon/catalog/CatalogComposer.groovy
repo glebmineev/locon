@@ -28,7 +28,7 @@ class CatalogComposer extends GrailsComposer {
   Listbox products
   BindingListModelList<ProductEntity> productsModel
 
-  List<FilterEntity> checked = new ArrayList<FilterEntity>()
+  List<Long> checked = new ArrayList<Long>()
   CategoryEntity currentCategory
 
   def afterCompose = {Window window ->
@@ -128,18 +128,20 @@ class CatalogComposer extends GrailsComposer {
       checkbox.checked = !checkbox.checked
 
       if (checkbox.checked)
-        checked.add(value)
+        checked.add(value.id)
       else
-        checked.remove(value)
+        checked.remove(value.id)
 
       productsModel.clear()
 
       Collection<ProductEntity> retrieved = currentCategory.products.sort()
       if (checked.size() > 0) {
         retrieved.each {ProductEntity product ->
-          product.filters.each {FilterEntity productFilter ->
-            if (checked.contains(productFilter))
-              productsModel.add(product)
+          ProductEntity get = ProductEntity.get(product.id)
+
+          get.filters.each {FilterEntity productFilter ->
+            if (checked.contains(productFilter.id))
+              productsModel.add(get)
           }
 
         }
@@ -148,6 +150,7 @@ class CatalogComposer extends GrailsComposer {
         productsModel.addAll(retrieved)
 
     }
+    int r = 0
   }
 
   /*
@@ -204,7 +207,8 @@ class CatalogComposer extends GrailsComposer {
     else
       selectedTreeItem.setOpen(true)
     if (selectedTreeItem != null) {
-      currentCategory = (CategoryEntity) selectedTreeItem.getValue()
+      CategoryEntity categoryEntity = (CategoryEntity) selectedTreeItem.getValue()
+      currentCategory = CategoryEntity.get(categoryEntity.id)
       rebuildListboxModel()
       rebuildFilterModel(filterGroups.selectedTab.label)
     }

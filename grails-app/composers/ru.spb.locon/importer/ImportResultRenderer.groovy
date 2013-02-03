@@ -1,5 +1,7 @@
 package ru.spb.locon.importer
 
+import org.zkoss.zul.Div
+import org.zkoss.zul.Row
 import ru.spb.locon.cart.CartItem
 import org.zkoss.zul.ListitemRenderer
 import org.zkoss.zul.Listcell
@@ -11,9 +13,9 @@ import org.zkoss.zul.RowRenderer
  * Date: 09.11.12
  * Time: 16:32
  */
-class ImportResultRenderer implements ListitemRenderer<ResultItem> {
+class ImportResultRenderer implements RowRenderer<ResultItem> {
 
-  @Override
+/*  @Override
   void render(org.zkoss.zul.Listitem listitem, ResultItem t, int i) {
 
     listitem.setValue(t)
@@ -30,6 +32,19 @@ class ImportResultRenderer implements ListitemRenderer<ResultItem> {
     Listcell imageCell = new ResultCell("item_${t.id}_PROCESS")
     imageCell.setParent(listitem)
 
-  }
+  }*/
 
+  @Override
+  void render(Row row, ResultItem t, int i) throws Exception {
+    row.setValue(t)
+    row.setId(t.id)
+
+    row.appendChild(new Label(t.article))
+
+    row.appendChild(new Label(t.name))
+
+    Div imageCell = new ResultCell("item_${t.id}_PROCESS")
+    row.appendChild(imageCell)
+
+  }
 }

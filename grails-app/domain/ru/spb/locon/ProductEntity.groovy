@@ -51,8 +51,8 @@ class ProductEntity implements Comparable {
 
     categories cascade: 'all-delete-orphan'
     //listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
-    listOrderProduct lazy: false,  cascade: 'all-delete-orphan'
-    filters lazy: false, cascade: 'all-delete-orphan'
+    listOrderProduct  cascade: 'all-delete-orphan'
+    filters cascade: 'all-delete-orphan'
   }
 
   static belongsTo = FilterEntity
