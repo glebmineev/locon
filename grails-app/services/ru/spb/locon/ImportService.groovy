@@ -1,6 +1,5 @@
 package ru.spb.locon
 
-import org.hibernate.SessionFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import ru.spb.locon.excel.CellHandler
@@ -8,12 +7,10 @@ import ru.spb.locon.excel.ExcelObject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import org.zkoss.zk.ui.*
 import ru.spb.locon.excel.ImportException
 import ru.spb.locon.importer.*
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.apache.poi.hssf.usermodel.*
-import org.apache.poi.ss.usermodel.*
 
 class ImportService extends IImporterService implements ApplicationContextAware {
 
@@ -63,6 +60,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
       FilterEntity.withTransaction {
         processFilters(excelObject)
+        cleanUpGorm()
       }
 
       doProgress(50, "Идет анализ фильтров товаров...")
@@ -86,6 +84,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
       CategoryEntity.withTransaction {
         processCategories(excelObject)
+        cleanUpGorm()
       }
 
       doProgress(75, "Идет построение дерева категорий...")
@@ -109,6 +108,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
       ProductEntity.withTransaction {
         processProducts(excelObject)
+        cleanUpGorm()
       }
 
       doProgress(100, "Идет загрузка товаров...")
@@ -118,9 +118,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         errorEvent.state = ImportEvent.STATES.ERROR
         errorEvent.addAllErrors(imageErrors)
         sendErrorEvent(errorEvent)
-      }
-      else
-      {
+      } else {
         ImportEvent successfulProcess = new ImportEvent("Импорт товаров начат", "Импорт товаров", "")
         successfulProcess.state = ImportEvent.STATES.SUCCESSFUL
         sendSuccessfulEvent(successfulProcess)
@@ -133,6 +131,9 @@ class ImportService extends IImporterService implements ApplicationContextAware 
       sendErrorEvent(errorEvent)
     }
 
+    categoryCache.clear()
+    filtersCache.clear()
+    initService.refreshShop()
     complete("Импорт завершен!")
 
   }
@@ -159,7 +160,13 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           rowNumber = it.rowNumber
           String categoryName = it.data.get("I") as String
           if (categoryName != null) {
-            categories.add(saveUtils.getCategory(categoryName, submenuCategory, filtersCache.get(sheet)))
+            try {
+              CategoryEntity category = saveUtils.getCategory(categoryName, submenuCategory, filtersCache.get(sheet))
+              categories.add(CategoryEntity.get(category.id))
+            } catch (Throwable tr) {
+              int r = 0
+            }
+
             log.debug("сохранена категория: ${categoryName}")
           }
 
@@ -200,8 +207,14 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           rowNumber = it.rowNumber
           String filterName = it.data.get("C") as String
           if (filterName != null) {
-            filters.add(saveUtils.getFilter(filterName, usageGroup))
-            log.debug("сохранена категория: ${filterName}")
+            try{
+              FilterEntity filter = saveUtils.getFilter(filterName, usageGroup)
+              filters.add(FilterEntity.get(filter.id))
+            } catch (Throwable ex) {
+              int r = 0;
+            }
+
+            log.debug("сохранен фильтр: ${filterName}")
           }
 
         }
@@ -210,8 +223,8 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
       }
     } catch (ImportException ex) {
-      log.debug("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
-      throw new ImportException("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
+      log.debug("ошибка сохраненения фильтра страница: ${sheetName} строка: ${rowNumber}")
+      throw new ImportException("ошибка сохраненения фильтра страница: ${sheetName} строка: ${rowNumber}")
     }
 
   }
@@ -235,7 +248,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
         rowNumber = it.rowNumber
 
-        ProductEntity product = createProduct(it)
+        ProductEntity product = getProduct(it)
 
         String categoryName = it.getData().get("I") as String
         String imagePath = "${menuCategory}/${manufacturer}/${sheetName}${categoryName != null ? "/${categoryName}" : ""}"
@@ -243,22 +256,26 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         String to = "${imagePath}/${product?.article}_${product.name}"
         product.setImagePath(to)
 
-        //TODO: включить в категории подменю.
-        categoryCache.get(sheetName).each {CategoryEntity category ->
+        categoryCache.get(sheetName).each { CategoryEntity category ->
           if (category.name.equals(categoryName))
-            product.addToCategories(category)
+            product.addToCategories(CategoryEntity.get(category.id))
         }
 
-        //TODO: включить в фильтр производителя.
         String filterName = it.data.get("C") as String
-        filtersCache.get(sheetName).each {FilterEntity filter ->
+        filtersCache.get(sheetName).each { FilterEntity filter ->
           if (filter.name.equals(filterName))
-            product.addToFilters(filter)
+            product.addToFilters(FilterEntity.get(filter.id))
+          if (filter.name.equals(manufacturer.name))
+            product.addToFilters(FilterEntity.get(filter.id))
         }
 
-        if (product.validate()){
-          product.save(flush: true)
-          log.debug("товара ${product.name} сохранен.")
+        if (product.validate()) {
+          try {
+            product.save(flush: true)
+            log.debug("товара ${product.name} сохранен.")
+          } catch (Throwable tr) {
+            int r = 0
+          }
         } else {
           log.debug("ошибка сохраненения товара страница: ${sheetName} строка: ${rowNumber}")
           throw new ImportException("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
@@ -268,7 +285,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
         //загружем изображение товара.
         boolean isDownloaded = imageService.downloadImages(from, to)
-        if (!isDownloaded){
+        if (!isDownloaded) {
           log.debug("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
           imageErrors.add("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
         }
@@ -285,9 +302,13 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
   }
 
-  ProductEntity createProduct(CellHandler cellHandler) {
+  ProductEntity getProduct(CellHandler cellHandler) {
 
-    ProductEntity product = new ProductEntity(
+    ProductEntity product = ProductEntity.findByNameAndArticle(cellHandler.data.get("B") as String, cellHandler.data.get("A") as String)
+    if (product == null)
+      product = ProductEntity.newInstance()
+
+    product = new ProductEntity(
         article: cellHandler.data.get("A") as String,
         name: cellHandler.data.get("B") as String,
         volume: cellHandler.data.get("D") as String,

@@ -23,10 +23,10 @@ class CategoryEntity {
 
     version false
 
-    products cascade: 'all-delete-orphan'
+    //products cascade: 'all-delete-orphan'
     //listCategoryProduct sort: "product", order: "desc", lazy: false, cascade: 'all-delete-orphan'
     listCategory sort: "name", order: "desc", cascade: 'all-delete-orphan'
-    filters cascade: 'all-delete-orphan'
+    //filters cascade: 'all-delete-orphan'
   }
 
   static belongsTo = [ProductEntity, FilterEntity]

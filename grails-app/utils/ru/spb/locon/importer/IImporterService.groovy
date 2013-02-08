@@ -6,6 +6,7 @@ import org.zkoss.zk.ui.Desktop
 import org.zkoss.zk.ui.Executions
 import ru.spb.locon.IImporterComposer
 import ru.spb.locon.ImageService
+import ru.spb.locon.InitService
 
 /**
  * User: Gleb
@@ -14,9 +15,10 @@ import ru.spb.locon.ImageService
  */
 abstract class IImporterService {
 
-  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
   def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
   SessionFactory sessionFactory = ApplicationHolder.getApplication().getMainContext().getBean("sessionFactory") as SessionFactory
+  InitService initService = ApplicationHolder.getApplication().getMainContext().getBean("initService") as InitService
 
   Desktop desktop
   IImporterComposer composer

@@ -23,30 +23,27 @@ class SaveUtils {
     usageGroup = FilterGroupEntity.findByName("Применение")
   }
 
-  Map<String, CategoryEntity> categoryCache = new HashMap<String, CategoryEntity>()
-
   CategoryEntity getCategory(String name, CategoryEntity parent, Set<FilterEntity> filters) {
-    CategoryEntity category = categoryCache.get(name)
-    if (category == null)
-      category = CategoryEntity.findByName(name)
+    CategoryEntity category = CategoryEntity.findByName(name)
     if (category == null) {
+      category = CategoryEntity.newInstance()
       //получаем корневую категорию из названия листа excel файла.
       category = new CategoryEntity(
           name: name,
           parentCategory: parent
       )
-
+    }
       filters.each {FilterEntity filter ->
-        category.addToFilters(filter)
+        if (!category.filters.name.contains(filter.name))
+          category.addToFilters(FilterEntity.get(filter.id))
       }
 
       if (category.validate()) {
         category.save(flush: true)
-        categoryCache.put(name, category)
       }
       else
         throw new ImportException("Ошибка при сохранении категоии ${category.name}.")
-    }
+
 
     return category
 
@@ -76,7 +73,7 @@ class SaveUtils {
     CategoryEntity category = CategoryEntity.findByName(name)
     if (category == null) {
       category = new CategoryEntity(name: name)
-      category.save()
+      category.save(flush: true)
     }
     return category
   }
@@ -85,7 +82,7 @@ class SaveUtils {
     ManufacturerEntity manufacturer = ManufacturerEntity.findByName(name)
     if (manufacturer == null) {
       manufacturer = new ManufacturerEntity(name: name)
-      manufacturer.save()
+      manufacturer.save(flush: true)
     }
     return manufacturer
   }

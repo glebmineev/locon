@@ -14,7 +14,10 @@ class InitService implements InitializingBean{
     categories = CategoryEntity.findAllWhere(parentCategory: null)
     manufacturers = ManufacturerEntity.list()
     recommended = ProductEntity.list(max: 4)
+  }
 
+  void refreshShop(){
+    afterPropertiesSet()
   }
 
 }

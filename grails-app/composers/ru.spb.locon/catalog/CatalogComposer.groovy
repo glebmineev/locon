@@ -21,7 +21,7 @@ class CatalogComposer extends GrailsComposer {
 
   Tabbox filterGroups
   String defaultGroup = "Производитель"
-  
+
   Listbox productFilter
   BindingListModelList<FilterEntity> productFilterModel
 
@@ -31,7 +31,7 @@ class CatalogComposer extends GrailsComposer {
   List<Long> checked = new ArrayList<Long>()
   CategoryEntity currentCategory
 
-  def afterCompose = {Window window ->
+  def afterCompose = { Window window ->
     Long categoryId = Long.parseLong(execution.getParameter("category"))
     currentCategory = CategoryEntity.get(categoryId)
 
@@ -47,6 +47,7 @@ class CatalogComposer extends GrailsComposer {
   /*
    * метод инициализирует дерево категорий.
    */
+
   private void initializeTree() {
     //берем все категории без парента.
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
@@ -63,7 +64,8 @@ class CatalogComposer extends GrailsComposer {
    */
   private void initializeProductListBox() {
     if (productsModel == null) {
-      productsModel = new BindingListModelList<ProductEntity>(currentCategory.products.sort() as List<ProductEntity>, true)
+      List<ProductEntity> result = collectAllProducts(currentCategory, new ArrayList<ProductEntity>())
+      productsModel = new BindingListModelList<ProductEntity>(result, true)
     }
     products.setModel(productsModel)
     products.setItemRenderer(new ProductRenderer())
@@ -89,15 +91,15 @@ class CatalogComposer extends GrailsComposer {
     productFilter.setItemRenderer(new FilterRenderer())
   }
 
-  void initializeFilterTabs(){
+  void initializeFilterTabs() {
     filterGroups.setWidth("260px")
     filterGroups.appendChild(new Tabs())
     filterGroups.appendChild(new Tabpanels())
-    FilterGroupEntity.list().each {FilterGroupEntity item ->
+    FilterGroupEntity.list().each { FilterGroupEntity item ->
 
       Tab tab = new Tab(item.name)
       Tabpanel tabpanel = new Tabpanel()
-      if ("Производитель".equals(item.name)){
+      if ("Производитель".equals(item.name)) {
         tab.setSelected(true)
         tabpanel.appendChild(productFilter)
       }
@@ -134,36 +136,56 @@ class CatalogComposer extends GrailsComposer {
 
       productsModel.clear()
 
-      Collection<ProductEntity> retrieved = currentCategory.products.sort()
+      CategoryEntity categoryEntity = CategoryEntity.get(currentCategory.id)
+
+      List<ProductEntity> retrieved = collectAllProducts(categoryEntity, new ArrayList<ProductEntity>())
+
       if (checked.size() > 0) {
-        retrieved.each {ProductEntity product ->
+        retrieved.each { ProductEntity product ->
           ProductEntity get = ProductEntity.get(product.id)
 
-          get.filters.each {FilterEntity productFilter ->
+          get.filters.each { FilterEntity productFilter ->
             if (checked.contains(productFilter.id))
               productsModel.add(get)
           }
 
         }
-      }
-      else
+      } else
         productsModel.addAll(retrieved)
 
     }
+
     int r = 0
+  }
+
+  List<ProductEntity> collectAllProducts(CategoryEntity category, List<ProductEntity> products) {
+    List<CategoryEntity> categories = category.listCategory as List<CategoryEntity>
+    if (categories != null && categories.size() > 0)
+    categories.each { CategoryEntity it ->
+      if (it.listCategory != null && it.listCategory.size() > 0)
+        collectAllProducts(it, products)
+      else
+        products.addAll(it.products as List<ProductEntity>)
+    }
+    else
+    {
+      products.addAll(category.products as List<ProductEntity>)
+    }
+    return products
   }
 
   /*
    * метод формирует мдель дерева категорий.
    */
+
   void createTreeModel(CategoryTreeNode parent, List<CategoryEntity> children) {
-    children.each {CategoryEntity category ->
+    children.each { CategoryEntity category ->
       CategoryTreeNode node = new CategoryTreeNode(category, new ArrayList<CategoryTreeNode>())
       parent.children.add(node)
       if (category.id == currentCategory.id) {
         openParent(node)
         node.setOpen(true)
-        node.setSelected(true)        
+        node.setSelected(true)
       }
       if (category.listCategory != null &&
           category.listCategory.size() > 0) {
@@ -176,7 +198,7 @@ class CatalogComposer extends GrailsComposer {
    * открывает рекурсивно все ноды родители.
    * @param node - предыдущая нода.
    */
-  void openParent(CategoryTreeNode node){
+  void openParent(CategoryTreeNode node) {
     CategoryTreeNode parent = (CategoryTreeNode) node.getParent()
     if (parent != null) {
       parent.setOpen(true)
@@ -188,7 +210,7 @@ class CatalogComposer extends GrailsComposer {
    * Слушатель списка товаров.
    * @param event - событие.
    */
-  public void onClick_products(Event event){
+  public void onClick_products(Event event) {
 
     int index = products.getSelectedIndex()
     Listitem listitem = products.getItemAtIndex(index)
@@ -220,7 +242,8 @@ class CatalogComposer extends GrailsComposer {
    */
   void rebuildListboxModel() {
     productsModel.clear()
-    productsModel.addAll(currentCategory.products.sort() as List<ProductEntity>)
+    List<ProductEntity> result = collectAllProducts(currentCategory, new ArrayList<ProductEntity>())
+    productsModel.addAll(result)
   }
 
   /**

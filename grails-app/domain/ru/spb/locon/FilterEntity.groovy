@@ -19,8 +19,8 @@ class FilterEntity implements Comparable {
     }
 
     version false
-    products cascade: 'all-delete-orphan'
-    categories cascade: 'all-delete-orphan'
+    //products cascade: 'all-delete-orphan'
+    //categories cascade: 'all-delete-orphan'
   }
 
   static constraints = {
