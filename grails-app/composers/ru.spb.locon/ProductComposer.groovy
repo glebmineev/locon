@@ -55,13 +55,14 @@ class ProductComposer extends GrailsComposer {
       Long categoryId = Long.parseLong(param)
       category = CategoryEntity.get(categoryId)
     } else {
-      category = product.listCategoryProduct.category.find {
+      category = product.categories.find {
         it.parentCategory == null
       }
     }
 
     fillCategories(category)
-    initializeCategoryPath()
+    if (category != null)
+      initializeCategoryPath()
     initializeFields()
   }
 
@@ -84,7 +85,7 @@ class ProductComposer extends GrailsComposer {
    */
   void fillCategories(CategoryEntity category){
     categories.add(category)
-    if (category.parentCategory != null)
+    if (category != null && category.parentCategory != null)
       fillCategories(category.parentCategory)
   }
 

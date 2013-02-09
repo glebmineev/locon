@@ -39,6 +39,8 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
   void doImport(InputStream is) {
 
+    doProgress(0, "Идет анализ структуры данных файла...")
+
     //АНАЛИЗ ФАЙЛА.
     ImportEvent startProcessExcel = new ImportEvent("Анализ excel файла", "Анализ excel файла", "")
     startProcessExcel.state = ImportEvent.STATES.START
@@ -46,7 +48,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
     ExcelObject excelObject = new ExcelObject(is)
 
-    doProgress(25, "Идет анализ структуры данных файла...")
+    doProgress(25, "Идет анализ фильтров товаров...")
 
     ImportEvent endProcessExcel = new ImportEvent("Анализ excel файла", "Анализ excel файла", "")
     endProcessExcel.state = ImportEvent.STATES.SUCCESSFUL
@@ -63,7 +65,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         cleanUpGorm()
       }
 
-      doProgress(50, "Идет анализ фильтров товаров...")
+      doProgress(50, "Идет построение дерева категорий...")
 
       ImportEvent endCreateFilters = new ImportEvent("Сохранение фильтров", "Анализ фильтров", "")
       endCreateFilters.state = ImportEvent.STATES.SUCCESSFUL
@@ -87,7 +89,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         cleanUpGorm()
       }
 
-      doProgress(75, "Идет построение дерева категорий...")
+      doProgress(75, "Идет загрузка товаров...")
 
       ImportEvent endCreateTreeCategories = new ImportEvent("Построение дерева категорий", "Построение дерева категорий", "")
       endCreateTreeCategories.state = ImportEvent.STATES.SUCCESSFUL
@@ -161,16 +163,23 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           String categoryName = it.data.get("I") as String
           if (categoryName != null) {
             try {
-              CategoryEntity category = saveUtils.getCategory(categoryName, submenuCategory, filtersCache.get(sheet))
-              categories.add(CategoryEntity.get(category.id))
+              if (!categories.name.contains(categoryName)) {
+                CategoryEntity category = saveUtils.getCategory(categoryName, submenuCategory, filtersCache.get(sheet))
+                categories.add(CategoryEntity.get(category.id))
+                log.debug("сохранена категория: ${categoryName}")
+              }
             } catch (Throwable tr) {
-              int r = 0
+              log.debug("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
+              throw new ImportException("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
             }
 
-            log.debug("сохранена категория: ${categoryName}")
           }
 
         }
+
+        //TODO: если категорий нет прикрепляем товары к самой верхней.
+        if (categories.size() == 0)
+          categories.add(submenuCategory)
 
         categoryCache.put(sheetName, categories)
 
@@ -208,13 +217,15 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           String filterName = it.data.get("C") as String
           if (filterName != null) {
             try{
-              FilterEntity filter = saveUtils.getFilter(filterName, usageGroup)
-              filters.add(FilterEntity.get(filter.id))
+              if (!filters.name.contains(filterName)) {
+                FilterEntity filter = saveUtils.getFilter(filterName, usageGroup)
+                filters.add(FilterEntity.get(filter.id))
+                log.debug("сохранен фильтр: ${filterName}")
+              }
             } catch (Throwable ex) {
-              int r = 0;
+              log.debug("ошибка сохраненения фильтра страница: ${sheetName} строка: ${rowNumber}")
+              throw new ImportException("ошибка сохраненения фильтра страница: ${sheetName} строка: ${rowNumber}")
             }
-
-            log.debug("сохранен фильтр: ${filterName}")
           }
 
         }
@@ -274,7 +285,8 @@ class ImportService extends IImporterService implements ApplicationContextAware 
             product.save(flush: true)
             log.debug("товара ${product.name} сохранен.")
           } catch (Throwable tr) {
-            int r = 0
+            log.debug("ошибка сохраненения товара страница: ${sheetName} строка: ${rowNumber}")
+            throw new ImportException("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
           }
         } else {
           log.debug("ошибка сохраненения товара страница: ${sheetName} строка: ${rowNumber}")
@@ -295,7 +307,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           cleanUpGorm()
           sessionCleaner = 0
         }
-
+        int r = 0
       }
 
     }
@@ -312,7 +324,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         article: cellHandler.data.get("A") as String,
         name: cellHandler.data.get("B") as String,
         volume: cellHandler.data.get("D") as String,
-        price: cellHandler.data.get("E") as Float,
+        price: Math.round(cellHandler.data.get("E") as Float),
         description: cellHandler.data.get("G") as String,
         usage: cellHandler.data.get("H") as String,
         manufacturer: manufacturer

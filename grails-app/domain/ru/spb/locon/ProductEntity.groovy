@@ -21,7 +21,7 @@ class ProductEntity implements Comparable {
   @FieldInfo(isEditable=true)
   String volume
   @FieldInfo(isFilter=true, isEditable=true)
-  Float price
+  Long price
   @FieldInfo(isFilter=true, isEditable=true)
   Long countToStock
   

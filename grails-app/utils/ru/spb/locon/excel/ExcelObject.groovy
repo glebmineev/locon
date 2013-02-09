@@ -30,7 +30,7 @@ class ExcelObject extends HashMap<String, List<CellHandler>>{
           } catch(InvalidRowException ex) {
 
           }
-          if (cellHandler != null)
+          if (cellHandler != null && cellHandler.data.size() > 0)
             cellHandlers.add(cellHandler)
 
         }

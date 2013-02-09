@@ -28,21 +28,25 @@ class SaveUtils {
     if (category == null) {
       category = CategoryEntity.newInstance()
       //получаем корневую категорию из названия листа excel файла.
-      category = new CategoryEntity(
-          name: name,
-          parentCategory: parent
-      )
+      category.setName(name)
+      category.setParentCategory(parent)
     }
-      filters.each {FilterEntity filter ->
+
+    if (category.filters != null) {
+      filters.each { FilterEntity filter ->
         if (!category.filters.name.contains(filter.name))
           category.addToFilters(FilterEntity.get(filter.id))
       }
-
-      if (category.validate()) {
-        category.save(flush: true)
+    } else {
+      filters.each { FilterEntity filter ->
+        category.addToFilters(FilterEntity.get(filter.id))
       }
-      else
-        throw new ImportException("Ошибка при сохранении категоии ${category.name}.")
+    }
+
+    if (category.validate()) {
+      category.save(flush: true)
+    } else
+      throw new ImportException("Ошибка при сохранении категоии ${category.name}.")
 
 
     return category
@@ -60,8 +64,7 @@ class SaveUtils {
 
       if (filter.validate()) {
         filter.save(flush: true)
-      }
-      else
+      } else
         throw new ImportException("Ошибка при сохранении категоии ${filter.name}.")
     }
 
