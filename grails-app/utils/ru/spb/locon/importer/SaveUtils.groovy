@@ -6,6 +6,7 @@ import ru.spb.locon.ManufacturerEntity
 
 import ru.spb.locon.FilterEntity
 import ru.spb.locon.FilterGroupEntity
+import ru.spb.locon.excel.ImportException
 
 /**
  * User: Gleb
@@ -14,28 +15,68 @@ import ru.spb.locon.FilterGroupEntity
  */
 class SaveUtils {
 
-  FilterEntity getProductFilter(String filterName, FilterGroupEntity group) {
-    FilterEntity filterEntity = FilterEntity.findByName(filterName)
-    if (filterEntity == null) {
-      filterEntity = new FilterEntity(
-        name: filterName,
-        filterGroup: group
-      )
-      filterEntity.save()
-    }
-    return filterEntity
+  FilterGroupEntity manufacturerGroup
+  FilterGroupEntity usageGroup
+
+  SaveUtils() {
+    manufacturerGroup = FilterGroupEntity.findByName("Производитель")
+    usageGroup = FilterGroupEntity.findByName("Применение")
   }
 
-  void linkToCategories(CategoryEntity category, ProductEntity product) {
-    category.addToProducts(product)
-    category.save(flush: true)
+  CategoryEntity getCategory(String name, CategoryEntity parent, Set<FilterEntity> filters) {
+    CategoryEntity category = CategoryEntity.findByName(name)
+    if (category == null) {
+      category = CategoryEntity.newInstance()
+      //получаем корневую категорию из названия листа excel файла.
+      category.setName(name)
+      category.setParentCategory(parent)
+    }
+
+    if (category.filters != null) {
+      filters.each { FilterEntity filter ->
+        if (!category.filters.name.contains(filter.name))
+          category.addToFilters(FilterEntity.get(filter.id))
+      }
+    } else {
+      filters.each { FilterEntity filter ->
+        category.addToFilters(FilterEntity.get(filter.id))
+      }
+    }
+
+    if (category.validate()) {
+      category.save(flush: true)
+    } else
+      throw new ImportException("Ошибка при сохранении категоии ${category.name}.")
+
+
+    return category
+
+  }
+
+  FilterEntity getFilter(String name, FilterGroupEntity group) {
+    FilterEntity filter = FilterEntity.findByName(name)
+    if (filter == null) {
+      //получаем корневую категорию из названия листа excel файла.
+      filter = new FilterEntity(
+          name: name,
+          filterGroup: group
+      )
+
+      if (filter.validate()) {
+        filter.save(flush: true)
+      } else
+        throw new ImportException("Ошибка при сохранении категоии ${filter.name}.")
+    }
+
+    return filter
+
   }
 
   CategoryEntity saveCategory(String name) {
     CategoryEntity category = CategoryEntity.findByName(name)
     if (category == null) {
       category = new CategoryEntity(name: name)
-      category.save()
+      category.save(flush: true)
     }
     return category
   }
@@ -44,34 +85,10 @@ class SaveUtils {
     ManufacturerEntity manufacturer = ManufacturerEntity.findByName(name)
     if (manufacturer == null) {
       manufacturer = new ManufacturerEntity(name: name)
-      manufacturer.save()
+      manufacturer.save(flush: true)
     }
     return manufacturer
   }
 
-  void saveFilterCategoryLink(CategoryEntity category, FilterEntity productFilter) {
-    Set<FilterEntity> filters = category.filters
-    //if (filters == null)
-    //  filters = new HashSet<FilterEntity>()
-    //category.filters.clear()
-    category.addToFilters(productFilter)
-    //category.filters.add
-    //filters.add(productFilter)
-    category.save()
-  }
-
-  void saveFilterToProductLink(ProductEntity product, FilterEntity productFilter) {
-    product.addToFilters(productFilter)
-    product.save()
-  }
-
-  FilterGroupEntity getProductFilterGroup(String name){
-    FilterGroupEntity group = FilterGroupEntity.findByName(name)
-    if (group == null){
-      group = new FilterGroupEntity(name: name)
-      group.save()
-    }
-    return group
-  }
 
 }

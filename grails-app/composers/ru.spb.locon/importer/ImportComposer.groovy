@@ -2,30 +2,16 @@ package ru.spb.locon.importer
 
 import org.zkoss.zk.grails.composer.*
 
-import org.zkoss.zul.Window
-import org.zkoss.zul.Textbox
-import org.zkoss.zul.Button
 import org.zkoss.zk.ui.event.*
 import org.zkoss.util.media.Media
 
 import org.zkoss.zul.Combobox
-
-import jxl.Workbook
-
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import ru.spb.locon.IImporterComposer
 import ru.spb.locon.ImportService
-import org.zkoss.zul.Listbox
-import org.zkoss.zul.Div
-import org.zkoss.zul.ListModelList
-import org.zkoss.zk.ui.Executions
+import org.zkoss.zul.*
 import ru.spb.locon.CategoryEntity
-import ru.spb.locon.common.StringUtils
-import org.zkforge.ckez.CKeditor
-import org.zkoss.zul.Grid
-import org.apache.poi.poifs.filesystem.POIFSFileSystem
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
-
-class ImportComposer extends GrailsComposer {
+class ImportComposer extends GrailsComposer implements IImporterComposer{
 
   Div upload
   Textbox fileField
@@ -34,7 +20,10 @@ class ImportComposer extends GrailsComposer {
   Combobox category
 
   Div process
-  Listbox importResult
+  Label info
+  Progressmeter progressmeter
+  Grid importResult
+
   ListModelList<ResultItem> model = new ListModelList<ResultItem>()
 
   ImportService importService = (ImportService) ApplicationHolder.getApplication().getMainContext().getBean("importService")
@@ -52,7 +41,6 @@ class ImportComposer extends GrailsComposer {
     enablePush()
 
     uploadButton.addEventListener(Events.ON_UPLOAD, uploadLister)
-    startButton.addEventListener(Events.ON_CLICK, startListener)
 
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
     categories.each {CategoryEntity item ->
@@ -60,25 +48,8 @@ class ImportComposer extends GrailsComposer {
     }
 
     importResult.setModel(model)
-    importResult.setItemRenderer(new ImportResultRenderer())
+    importResult.setRowRenderer(new ImportResultRenderer())
 
-    // подписываемся на очередь событий импорта
-    EventQueue<ImportEvent> queue = EventQueues.lookup("catalogImportQueue", EventQueues.DESKTOP, true)
-    queue.subscribe(new org.zkoss.zk.ui.event.EventListener<ImportEvent>() {
-
-      @Override
-      void onEvent(ImportEvent event) {
-        if (event.state == ImportEvent.STATES.START) {
-          model.add(new ResultItem(event))
-        } else {
-          ResultItem item = model.asList().find {it.id == event.id}
-          if (item != null) {
-            ((ResultCell) importResult.getFellow("item_${event.id}_PROCESS")).changeState(event)
-          }
-        }
-      }
-
-    })
   }
 
   EventListener uploadLister = new EventListener() {
@@ -95,28 +66,45 @@ class ImportComposer extends GrailsComposer {
     }
   }
 
-  EventListener startListener = new EventListener() {
-    @Override
-    void onEvent(Event t) {
-      if (t instanceof MouseEvent) {
+  public void onClick_startButton(Event event){
+    upload.setVisible(false)
+    process.setVisible(true)
 
-        upload.setVisible(false)
-        process.setVisible(true)
-
-        InputStream is = media.getStreamData()
-        String manufacturer = media.getName().replace(".xls", "")
-        String category = category.getValue()
-        if (is != null) {
-          runAsync{
-            importService.setDesktop(desktop)
-            importService.setMenuCategory(category)
-            importService.setManufacturer(manufacturer)
-            importService.setWorkbook(new HSSFWorkbook(new POIFSFileSystem(is)))
-            importService.doImport()
-          }
-        }
+    InputStream is = media.getStreamData()
+    String manufacturer = media.getName().replace(".xls", "")
+    String category = category.getValue()
+    if (is != null) {
+      runAsync{
+        importService.setDesktop(desktop)
+        importService.setComposer(this)
+        importService.setMenuCategory(category)
+        importService.setManufacturer(manufacturer)
+        importService.doImport(is)
       }
     }
   }
 
+  @Override
+  void addRow(ImportEvent event) {
+    if (event.state == ImportEvent.STATES.START) {
+      model.add(new ResultItem(event))
+    } else {
+      ResultItem item = model.asList().find {it.id == event.id}
+      if (item != null) {
+        ((ResultCell) importResult.getFellow("item_${event.id}_PROCESS")).changeState(event)
+      }
+    }
+  }
+
+  @Override
+  void doProgress(int value, String message) {
+    info.setValue(message)
+    progressmeter.setValue(value)
+  }
+
+  @Override
+  void complete(String message) {
+    info.setValue(message)
+    progressmeter.setValue(100)
+  }
 }

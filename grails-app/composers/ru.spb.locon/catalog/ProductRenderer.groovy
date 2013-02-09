@@ -15,11 +15,12 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
 
   @Override
   void render(org.zkoss.zul.Listitem listitem, ProductEntity t, int i) {
-    listitem.setValue(t)
+    ProductEntity product = ProductEntity.get(t.id)
+    listitem.setValue(product)
 
     //Ячейка с каритнкой
     Listcell imageCell = new Listcell()
-    Image image = imageSyncService.getProductImage(t, "150")
+    Image image = imageSyncService.getProductImage(product, "150")
     Div imageDiv = new Div()
     imageDiv.setSclass("imageBox")
     imageDiv.appendChild(image)
@@ -27,7 +28,7 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
     imageCell.setParent(listitem)
 
     //Ячейка с товаром
-    Listcell descCell = new ProductCell(t)
+    Listcell descCell = new ProductCell(product)
     descCell.setParent(listitem)
   }
 

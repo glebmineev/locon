@@ -30,8 +30,8 @@ class UserEntity {
       groups joinTable: [name: 'user_role', key: 'user_id']
     }
 
-    orderList lazy: false, cascade: 'all-delete-orphan'
-    groups lazy: false, cascade: 'all-delete-orphan'
+    orderList cascade: 'all-delete-orphan'
+    groups cascade: 'all-delete-orphan'
 
     version false
 

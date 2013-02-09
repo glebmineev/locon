@@ -27,6 +27,11 @@
     <name>org.zkoss.zk.ui.metainfo.page.Loader.class</name>
     <value>org.zkoss.web.util.resource.CustomContentLoader</value>
   </library-property>
+
+  <language-config>
+    <addon-uri>/WEB-INF/components/lang-addon.xml</addon-uri>
+  </language-config>
+
   <system-config>
     <max-upload-size>204800</max-upload-size>
   </system-config>

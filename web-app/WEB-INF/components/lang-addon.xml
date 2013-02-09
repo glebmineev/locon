@@ -1,0 +1,10 @@
+<language-addon>
+  <addon-name>loconzk</addon-name>
+  <language-name>xul/html</language-name>
+
+  <version>
+    <version-uid>6.0.2</version-uid>
+    <zk-version>6.0.2</zk-version>
+  </version>
+
+</language-addon>

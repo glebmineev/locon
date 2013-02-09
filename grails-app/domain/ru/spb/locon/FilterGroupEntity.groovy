@@ -15,7 +15,7 @@ class FilterGroupEntity {
     }
 
     version false
-    productFilterList lazy: false, cascade: 'all-delete-orphan'
+    productFilterList cascade: 'all-delete-orphan'
 
   }
 

@@ -21,7 +21,7 @@ class ProductEntity implements Comparable {
   @FieldInfo(isEditable=true)
   String volume
   @FieldInfo(isFilter=true, isEditable=true)
-  Float price
+  Long price
   @FieldInfo(isFilter=true, isEditable=true)
   Long countToStock
   
@@ -49,10 +49,10 @@ class ProductEntity implements Comparable {
 
     version false
 
-    categories cascade: 'all-delete-orphan'
+    //categories cascade: 'all-delete-orphan'
     //listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
-    listOrderProduct lazy: false,  cascade: 'all-delete-orphan'
-    filters lazy: false, cascade: 'all-delete-orphan'
+    listOrderProduct  cascade: 'all-delete-orphan'
+    //filters cascade: 'all-delete-orphan'
   }
 
   static belongsTo = FilterEntity

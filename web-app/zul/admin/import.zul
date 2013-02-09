@@ -4,39 +4,35 @@
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
-    xmlns:h="http://www.w3.org/1999/xhtml"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-    <window apply="ru.spb.locon.importer.ImportComposer">
-      <h:table width="100%" cellpadding="0" cellspacing="0">
-        <h:tr>
-          <h:td>
-            <vbox>
-              <div id="upload">
-                <textbox id="fileField" width="300px"/>
-                <button id="uploadButton" upload="true" label="Обзор"/>
-                <combobox id="category"/>
-                <button id="startButton" disabled="true" label="Начать импорт"/>
-              </div>
-            </vbox>
-          </h:td>
-        </h:tr>
-        <h:tr>
-          <h:td>
-            <div id="process" visible="false">
-              <listbox id="importResult">
-                <listhead>
-                  <listheader align="center" width="20%" label="Артикул"/>
-                  <listheader align="center" width="60%" label="Товар"/>
-                  <listheader align="center" width="20%" label="Обработка"/>
-                </listhead>
-              </listbox>
-            </div>
-          </h:td>
-        </h:tr>
-      </h:table>
+  <window apply="ru.spb.locon.importer.ImportComposer">
+    <div id="upload">
+      <vbox align="center" width="100%">
+        <h:h1>Загрузка католога товаров</h:h1>
+        <hbox>
+          <textbox id="fileField" width="300px"/>
+          <button id="uploadButton" upload="true" label="Обзор"/>
+          <combobox id="category"/>
+          <button id="startButton" disabled="true" label="Начать импорт"/>
+        </hbox>
+      </vbox>
+    </div>
+    <div id="process" visible="false">
+      <vbox align="center" width="100%">
+        <label id="info"/>
+        <progressmeter id="progressmeter" width="100%"/>
+        <grid id="importResult">
+          <columns>
+            <column align="center" width="20%" label="Артикул"/>
+            <column align="center" width="60%" label="Товар"/>
+            <column align="center" width="20%" label="Обработка"/>
+          </columns>
+        </grid>
+      </vbox>
+    </div>
 
-    </window>
+  </window>
 
 </zk>

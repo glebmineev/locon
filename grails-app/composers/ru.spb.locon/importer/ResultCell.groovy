@@ -1,5 +1,6 @@
 package ru.spb.locon.importer
 
+import org.zkoss.zul.Div
 import org.zkoss.zul.Listcell
 import org.zkoss.zul.Image
 import org.zkoss.zul.Html
@@ -10,7 +11,7 @@ import org.zkoss.zul.Popup
  * Date: 09.11.12
  * Time: 16:36
  */
-class ResultCell extends Listcell{
+class ResultCell extends Div{
 
   Image start
   Image error
