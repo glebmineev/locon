@@ -12,7 +12,7 @@ class BootStrap {
     }
 
     FilterGroupEntity.withTransaction {
-      FilterGroupEntity.findOrSaveWhere(name: "Производитель")
+      //FilterGroupEntity.findOrSaveWhere(name: "Производитель")
       FilterGroupEntity.findOrSaveWhere(name: "Применение")
     }
 

@@ -62,4 +62,8 @@ class ShopController {
     return [mainCategoties: initService.categories]
   }
 
+  def test() {
+
+  }
+
 }

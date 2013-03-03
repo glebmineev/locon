@@ -206,6 +206,7 @@ class CatalogComposer extends GrailsComposer {
     }
 
   }
+
   /**
    * Слушатель списка товаров.
    * @param event - событие.

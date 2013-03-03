@@ -12,13 +12,18 @@ class CategoryTreeNode extends DefaultTreeNode<CategoryEntity>{
 
   private boolean open = false
   private boolean selected = false
+  String name
 
   CategoryTreeNode(CategoryEntity data) {
     super(data)
+    if (data != null)
+      this.name = data.name
   }
 
   CategoryTreeNode(CategoryEntity data, java.util.List<? extends DefaultTreeNode<CategoryEntity>> children) {
     super(data, children)
+    if (data != null)
+      this.name = data.name
   }
 
   void setOpen(boolean open) {
@@ -37,4 +42,11 @@ class CategoryTreeNode extends DefaultTreeNode<CategoryEntity>{
     return selected
   }
 
+  String getName() {
+    return name
+  }
+
+  void setName(String name) {
+    this.name = name
+  }
 }

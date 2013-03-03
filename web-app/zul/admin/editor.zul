@@ -4,11 +4,34 @@
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
-    xmlns:h="http://www.w3.org/1999/xhtml"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.admin.EditorComposer">
-  </window>
+  <window apply="ru.spb.locon.admin.EditorComposer" width="100%">
+    <h:table width="100%" cellpadding="0" cellspacing="0">
+      <h:tr>
+        <h:td width="35%" valign="top" align="left">
+          <vbox width="100%">
+            <tree id="categoryTree" zclass="z-dottree" height="100%">
+              <treecols>
+                <treecol label="Категория" width="65%"/>
+                <treecol label="Действия" width="35%"/>
+              </treecols>
+              <treechildren/>
+            </tree>
+            <tabbox id="filterGroups" mold="accordion" width="260px"/>
+          </vbox>
+        </h:td>
+        <h:td valign="top" width="65%">
+          <listbox id="products" mold="paging" height="100%" pageSize="10">
+            <listhead>
+              <listheader width="190px"/>
+              <listheader/>
+            </listhead>
+          </listbox>
+        </h:td>
+      </h:tr>
+    </h:table>
 
+  </window>
 </zk>

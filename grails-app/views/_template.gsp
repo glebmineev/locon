@@ -8,6 +8,10 @@
   <g:javascript library="jquery" src="jquery-1.7.1.min.js"/>
   <g:javascript library="nivo" src="slider/jquery.nivo.slider.js"/>
   <g:javascript library="carousel" src="carousel/jquery.jcarousel.min.js"/>
+  <g:javascript library="carousel" src="ckeditor.js"/>
+  <g:javascript library="carousel" src="sample.js"/>
+
+  <link rel="stylesheet" href="${resource(dir: 'css', file: 'sample.css')}" type="text/css">
 
   <link rel="stylesheet" href="${resource(dir: 'css', file: 'content.css')}" type="text/css">
 

@@ -30,6 +30,14 @@ class LoginComposer extends GrailsComposer {
   LoginService loginService = (LoginService) SpringUtil.getApplicationContext().getBean("loginService")
 
   def afterCompose = {Window window ->
+
+    password.addEventListener(Events.ON_CTRL_KEY, new EventListener() {
+      @Override
+      void onEvent(Event t) {
+
+      }
+    })
+
     loginButton.addEventListener(Events.ON_CLICK, loginButtonLister)
     cancelButton.addEventListener(Events.ON_CLICK, cancelButtonLister)
   }

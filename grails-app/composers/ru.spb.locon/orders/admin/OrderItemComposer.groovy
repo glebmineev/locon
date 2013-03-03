@@ -38,6 +38,7 @@ class OrderItemComposer extends GrailsComposer {
   Long orderId
 
   def afterCompose = {Window window ->
+
     orderId = Long.parseLong(execution.getParameter("order"))
     initializeFields()
     initializeListBox()

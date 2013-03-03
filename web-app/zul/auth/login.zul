@@ -28,6 +28,7 @@
     </style>
 
     <label id="errors" visible="false"/>
+    <h:form>
     <h:table width="100%" cellspacing="10" cellpadding="0" align="center">
       <h:tr>
         <h:td width="100%" colspan="2" align="center">
@@ -52,11 +53,12 @@
       </h:tr>
       <h:tr>
         <h:td colspan="2" align="center">
-          <button id="loginButton" label="Войти"/>
+          <button id="loginButton" type="submit" label="Войти"/>
           <button id="cancelButton" label="Отмена"/>
         </h:td>
       </h:tr>
     </h:table>
+    </h:form>
   </window>
 
 </zk>

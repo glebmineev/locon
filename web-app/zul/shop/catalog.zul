@@ -7,27 +7,109 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.catalog.CatalogComposer" width="100%">
-    <h:table width="100%" cellpadding="0" cellspacing="0">
-      <h:tr>
-        <h:td width="30%" valign="top" align="left">
-          <vbox width="100%">
-            <tree id="categoryTree" zclass="z-dottree" width="260px" height="100%">
-              <treechildren/>
-            </tree>
-            <tabbox id="filterGroups" mold="accordion" width="260px"/>
-          </vbox>
-        </h:td>
-        <h:td valign="top" width="70%">
-          <listbox id="products" mold="paging" height="100%" pageSize="10">
-            <listhead>
-              <listheader width="190px"/>
-              <listheader/>
-            </listhead>
-          </listbox>
-        </h:td>
-      </h:tr>
-    </h:table>
-  </window>
+  <!--  <window apply="ru.spb.locon.catalog.CatalogComposer" width="100%">
+      <h:table width="100%" cellpadding="0" cellspacing="0">
+        <h:tr>
+          <h:td width="30%" valign="top" align="left">
+            <vbox width="100%">
+              <tree id="categoryTree" zclass="z-dottree" width="260px" height="100%">
+                <treechildren/>
+              </tree>
+              <tabbox id="filterGroups" mold="accordion" width="260px"/>
+            </vbox>
+          </h:td>
+          <h:td valign="top" width="70%">
+            <listbox id="products" mold="paging" height="100%" pageSize="10">
+              <listhead>
+                <listheader width="190px"/>
+                <listheader/>
+              </listhead>
+            </listbox>
+          </h:td>
+        </h:tr>
+      </h:table>
 
+    </window>-->
+  <window apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.catalog.CatalogViewModel')" width="100%">
+    <hbox widths="30%,70%">
+      <vbox width="100%" style="padding-right: 5px;">
+        <tree id="categoryTree" zclass="z-dottree" height="100%"
+              model="@load(vm.categoryTreeModel)">
+          <template name="model" var="node">
+            <!--              <treechildren>-->
+            <treeitem open="@bind(node.open)" onClick="@command('refreshModels')">
+              <treerow>
+                <treecell>
+                  <label value="${node.name}"/>
+                </treecell>
+              </treerow>
+            </treeitem>
+            <!--              </treechildren>-->
+          </template>
+        </tree>
+
+        <groupbox closable="false">
+          <caption label="Фильтр"/>
+
+          <listbox id="manufListbox" model="@load(vm.manufsFilterModel)" multiple="true" checkmark="true"
+                   height="122px">
+            <listhead>
+              <listheader onClick="@command('addAllProducts')" label="Производитель"/>
+            </listhead>
+            <template name="model" var="item">
+              <listitem>
+                <listcell>
+                  <label value="${item.name}"/>
+                </listcell>
+              </listitem>
+            </template>
+          </listbox>
+          <h:br/>
+          <listbox id="usageListbox" model="@load(vm.usageFilterModel)" multiple="true" checkmark="true" height="300px">
+            <listhead>
+              <listheader onClick="@command('addAllProducts')" label="Применение"/>
+            </listhead>
+            <template name="model" var="item">
+              <listitem onClick="@command('selectAllManufs')">
+                <listcell>
+                  <label value="${item.name}"/>
+                </listcell>
+              </listitem>
+            </template>
+          </listbox>
+          <h:br/>
+          <button label="Поиск" onClick="@command('search')"/>
+        </groupbox>
+        <!--            <tabbox id="filterGroups" mold="accordion" width="260px">
+                      <tabs>
+                        <tab forEach="${vm.groupFilterModel}" selected="${each.name == 'Производитель'}"
+                             label="${each.name}"
+                             onClick="@global-command('rebuildFilterModel', group=self.label)"/>
+                      </tabs>
+                      <tabpanels>
+                        <tabpanel forEach="${vm.groupFilterModel}">
+                          <listbox model="@load(vm.filterModel)">
+                            <template name="model" var="item">
+                              <listitem>
+                                <listcell>
+                                  <label value="${item.name}"/>
+                                </listcell>
+                              </listitem>
+                            </template>
+                          </listbox>
+                        </tabpanel>
+                      </tabpanels>
+                    </tabbox>-->
+      </vbox>
+
+      <listbox id="products" mold="paging" model="@load(vm.productsModel)" height="100%" pageSize="10"
+               itemRenderer="@load(vm.productsRenderer)">
+        <listhead>
+          <listheader width="190px"/>
+          <listheader/>
+        </listhead>
+      </listbox>
+    </hbox>
+  </window>
 </zk>
