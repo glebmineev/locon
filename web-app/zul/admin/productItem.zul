@@ -14,7 +14,7 @@
       <hbox>
         <label value="Описание:"/>
         <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
-        <textbox visible="false" value="@bind(vm)"/>
+        <textbox visible="false" value="@bind(vm.ckeditorValue)"/>
       </hbox>
     </groupbox>
   </window>
