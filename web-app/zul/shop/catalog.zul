@@ -32,6 +32,7 @@
     </window>-->
   <window apply="ru.spb.locon.BindComposer"
           viewModel="@id('vm') @init('ru.spb.locon.catalog.CatalogViewModel')" width="100%">
+    <style src="/css/ZK.css"/>
     <hbox widths="30%,70%">
       <vbox width="100%" style="padding-right: 5px;">
         <tree id="categoryTree" zclass="z-dottree" height="100%"

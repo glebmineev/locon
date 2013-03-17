@@ -178,8 +178,8 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         }
 
         //TODO: если категорий нет прикрепляем товары к самой верхней.
-        if (categories.size() == 0)
-          categories.add(submenuCategory)
+        //if (categories.size() == 0)
+        //  categories.add(submenuCategory)
 
         categoryCache.put(sheetName, categories)
 
@@ -199,13 +199,13 @@ class ImportService extends IImporterService implements ApplicationContextAware 
     String sheetName = ""
     int rowNumber = 0
 
-    FilterGroupEntity manufacturerGroup = saveUtils.manufacturerGroup
-    FilterEntity manufacturerFilter = saveUtils.getFilter(manufacturer.name, manufacturerGroup)
+    //FilterGroupEntity manufacturerGroup = saveUtils.manufacturerGroup
+    //FilterEntity manufacturerFilter = saveUtils.getFilter(manufacturer.name, manufacturerGroup)
     FilterGroupEntity usageGroup = saveUtils.usageGroup
 
     try {
 
-      saveUtils.getFilter(manufacturer.name, manufacturerGroup)
+      //saveUtils.getFilter(manufacturer.name, manufacturerGroup)
 
       excelObject.each { String sheet, List<CellHandler> handlers ->
 
@@ -229,7 +229,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           }
 
         }
-        filters.add(manufacturerFilter)
+        //filters.add(manufacturerFilter)
         filtersCache.put(sheetName, filters)
 
       }
@@ -275,9 +275,9 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         String filterName = it.data.get("C") as String
         filtersCache.get(sheetName).each { FilterEntity filter ->
           if (filter.name.equals(filterName))
-            product.addToFilters(FilterEntity.get(filter.id))
-          if (filter.name.equals(manufacturer.name))
-            product.addToFilters(FilterEntity.get(filter.id))
+            product.setFilter(FilterEntity.get(filter.id))//addToFilters(FilterEntity.get(filter.id))
+          //if (filter.name.equals(manufacturer.name))
+          //  product.addToFilters(FilterEntity.get(filter.id))
         }
 
         if (product.validate()) {
@@ -296,11 +296,11 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         String from = it.getData().get("F") as String
 
         //загружем изображение товара.
-        boolean isDownloaded = imageService.downloadImages(from, to)
+        /*boolean isDownloaded = imageService.downloadImages(from, to)
         if (!isDownloaded) {
           log.debug("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
           imageErrors.add("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
-        }
+        }*/
 
         sessionCleaner++
         if (sessionCleaner > 10) {

@@ -1,14 +1,25 @@
 package ru.spb.locon.admin
 
+import com.google.common.collect.Lists
+import org.zkoss.bind.BindUtils
+import org.zkoss.bind.annotation.BindingParam
+import org.zkoss.bind.annotation.Command
+import org.zkoss.bind.annotation.ContextParam
+import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
+import org.zkoss.bind.annotation.NotifyChange
+import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.Page
+import org.zkoss.zk.ui.event.Event
 import org.zkoss.zkplus.databind.BindingListModelList
-import org.zkoss.zul.DefaultTreeModel
-import org.zkoss.zul.DefaultTreeNode
-import org.zkoss.zul.ListModelList
-import ru.spb.locon.CategoryEntity
-import ru.spb.locon.FilterEntity
-import ru.spb.locon.FilterGroupEntity
-import ru.spb.locon.ProductEntity
+import org.zkoss.zkplus.spring.SpringUtil
+import org.zkoss.zul.*
+import org.zkoss.zul.event.TreeDataEvent
+import ru.spb.locon.*
+import ru.spb.locon.admin.models.AdvancedTreeModel
+import ru.spb.locon.admin.windows.CategoryEditCallback
+import ru.spb.locon.admin.windows.CategoryEditWnd
+import ru.spb.locon.catalog.ProductRenderer
 import ru.spb.locon.tree.node.CategoryTreeNode
 
 
@@ -21,31 +32,47 @@ import ru.spb.locon.tree.node.CategoryTreeNode
  */
 class EditorViewModel {
 
-  DefaultTreeModel categoryTreeModel
-  ListModelList<ProductEntity> productsModel
-  ProductsRenderer productsRenderer
+  AdvancedTreeModel categoryTreeModel
+  ListModelList<ProductEntity> productsModel = new BindingListModelList<ProductEntity>(Lists.newArrayList(), true)
+  ProductRenderer productsRenderer = new ProductRenderer()
 
-  ListModelList<FilterEntity> manufModel
-  ListModelList<FilterEntity> usageModel
+  ListModelList<ManufacturerEntity> manufsFilterModel = new BindingListModelList<ManufacturerEntity>(Lists.newArrayList(), true)
+  ListModelList<FilterEntity> usageFilterModel  = new BindingListModelList<FilterEntity>(Lists.newArrayList(), true);
+
+
+  Treeitem selectedItem
+  CategoryTreeNode root
+  Long categoryID
+
+  CartService cartService = SpringUtil.getApplicationContext().getBean("cartService") as CartService
 
   @Init
   public void init() {
-    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    CategoryTreeNode root = new CategoryTreeNode(null, new ArrayList<CategoryTreeNode>())
-    createTreeModel(root, categories)
-    categoryTreeModel = new DefaultTreeModel(root)
-
-    productsModel = new BindingListModelList<ProductEntity>(ProductEntity.list(), true)
-    productsRenderer = new ProductsRenderer()
-
-    manufModel = new BindingListModelList<FilterEntity>(FilterEntity.findAllWhere(filterGroup: FilterGroupEntity.findByName("Производитель")), true)
-    usageModel = new BindingListModelList<FilterEntity>(FilterEntity.findAllWhere(filterGroup: FilterGroupEntity.findByName("Применение")), true)
+    categoryTreeModel = new AdvancedTreeModel(getRootNode())
+    manufsFilterModel.setMultiple(true)
+    usageFilterModel.setMultiple(true)
   }
 
+  public CategoryTreeNode getRootNode(){
+    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+    root = new CategoryTreeNode(null, "ROOT")
+    createTreeModel(root, categories)
+    return root
+
+  }
+
+  /*
+   * метод формирует модель дерева категорий.
+   */
   void createTreeModel(CategoryTreeNode parent, List<CategoryEntity> children) {
     children.each { CategoryEntity category ->
-      CategoryTreeNode node = new CategoryTreeNode(category, new ArrayList<CategoryTreeNode>())
+      CategoryTreeNode node = new CategoryTreeNode(category, category.name)
       parent.children.add(node)
+      if (category.id == categoryID) {
+        openParent(node)
+        node.setOpen(true)
+        node.setSelected(true)
+      }
       if (category.listCategory != null &&
           category.listCategory.size() > 0) {
         createTreeModel(node, category.listCategory.asList())
@@ -53,6 +80,259 @@ class EditorViewModel {
     }
   }
 
+  /**
+   * открывает рекурсивно все ноды родители.
+   * @param node - предыдущая нода.
+   */
+  void openParent(CategoryTreeNode node) {
+    CategoryTreeNode parent = (CategoryTreeNode) node.getParent()
+    if (parent != null) {
+      parent.setOpen(true)
+      openParent(parent)
+    }
 
+  }
+
+  /**
+   * Отмечает всех производителей, если выбрано хоть одно применение.
+   * @param event
+   */
+  @Command
+  public void selectAllManufs(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
+    Listitem listitem = event.getTarget() as Listitem
+    if (listitem.isSelected())
+      manufsFilterModel.setSelection(manufsFilterModel.getInnerList())
+  }
+
+  /**
+   * Кнопка поиска.
+   * @param event
+   */
+  @Command
+  public void search(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
+
+    List<String> manufsSelection = manufsFilterModel.getSelection().collect { it.name } as List<String>
+    List<String> usageSelection = usageFilterModel.getSelection().collect { it.name } as List<String>
+
+    List<ManufacturerEntity> manufs = ManufacturerEntity.findAllByNameInList(manufsSelection)
+    CategoryEntity categoryEntity = CategoryEntity.get(categoryID)
+    List<ProductEntity> retrieved = collectAllProducts(categoryEntity, new ArrayList<ProductEntity>())
+
+    List<ProductEntity> result = new ArrayList<ProductEntity>()
+
+    retrieved.each { it ->
+      ManufacturerEntity manufacturer = it.manufacturer
+      if (manufs.contains(manufacturer)) {
+        FilterEntity filter = it.filter
+        if (usageSelection.size() > 0) {
+          if (usageSelection.contains(filter.name))
+            result.add(it)
+        } else
+          result.add(it)
+
+      }
+    }
+    productsModel.clear()
+    productsModel.addAll(result)
+  }
+
+  /**
+   * обновляем модели фильтров и товаров.
+   * @param event
+   */
+  @Command
+  public void refreshModels(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
+    Treeitem treeitem = event.getTarget() as Treeitem
+    CategoryTreeNode node = treeitem.getValue() as CategoryTreeNode
+    CategoryEntity categoryEntity = node.getData()
+    categoryID = categoryEntity.id
+
+    CategoryEntity retrivedCategory = CategoryEntity.get(categoryID)
+    //обновляем модель фильтра по производителю.
+    List<ProductEntity> products = collectAllProducts(retrivedCategory, Lists.newArrayList())
+
+    manufsFilterModel.clear()
+    manufsFilterModel.addAll(products.manufacturer.unique() as List<ManufacturerEntity>)
+
+    //обновляем модель фильтра по применению.
+    usageFilterModel.clear()
+    usageFilterModel.addAll(products.filter.unique() as List<FilterEntity>)
+
+    //обновляем модель товаров.
+    productsModel.clear()
+    productsModel.addAll(collectAllProducts(retrivedCategory, Lists.newArrayList()))
+
+  }
+
+  /**
+   * Иерархический сбор товаров.
+   * @param category - категория с которой собираем продукты.
+   * @param products - список хранящий продукты.
+   * @return список продуктов.
+   */
+  List<ProductEntity> collectAllProducts(CategoryEntity category, List<ProductEntity> products) {
+    List<CategoryEntity> categories = category.listCategory as List<CategoryEntity>
+    products.addAll(category.products as List<ProductEntity>)
+    if (categories != null && categories.size() > 0)
+      categories.each { CategoryEntity it ->
+        if (it.listCategory != null && it.listCategory.size() > 0)
+          collectAllProducts(it, products)
+        else
+          products.addAll(it.products as List<ProductEntity>)
+      }
+    return products
+  }
+
+  @Command
+  public void saveCategory(@BindingParam("node") CategoryTreeNode node) {
+
+    CategoryEntity.withTransaction {status ->
+      String name = node.getName()
+      CategoryEntity data = node.getData()
+      if (!name.isEmpty() && !name.equals(data.name)) {
+        data.setName(name)
+        data.save(flush: true)
+      }
+
+    }
+
+    changeEditableStatus(node);
+    refreshRowTemplate(node);
+  }
+
+  @Command
+  public void changeEditableStatus(@BindingParam("node")  CategoryTreeNode node) {
+    node.setEditingStatus(!node.getEditingStatus())
+    refreshRowTemplate(node);
+  }
+
+  public void refreshRowTemplate(CategoryTreeNode node) {
+    /*
+     * This code is special and notifies ZK that the bean's value
+     * has changed as it is used in the template mechanism.
+     * This stops the entire Grid's data from being refreshed
+     */
+    BindUtils.postNotifyChange(null, null, node, "editingStatus");
+  }
+
+  @Command
+  public void updateSelectedItem(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
+    Tree tree = event.getTarget() as Tree
+    selectedItem = tree.getSelectedItem()
+    categoryID = ((CategoryTreeNode) selectedItem.getValue()).data.id
+    int r = 0
+  }
+
+  @Command
+  @NotifyChange(["categoryTreeModel"])
+  public void addCategory(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
+
+    Page page = event.getTarget().getPage()
+    CategoryEntity parent = CategoryEntity.get(categoryID)
+
+    CategoryEditCallback callback = new CategoryEditCallback() {
+      @Override
+      void refreshModel(CategoryEntity category) {
+        if (selectedItem != null) {
+          CategoryTreeNode value = selectedItem.getValue() as CategoryTreeNode
+          int index = value.getChildren().size()
+          CategoryTreeNode[] arr = new CategoryTreeNode[1]
+          arr[0] = new CategoryTreeNode(category, category.name)
+          categoryTreeModel.insert(value, index, index, arr)
+          //открывае мсозданные категории.
+          //LinkedList<TreeNode<CategoryEntity>> selection = new LinkedList<TreeNode<CategoryEntity>>()
+          //selection.add(arr[0])
+          //categoryTreeModel.setSelection(selection)
+          //categoryTreeModel.setOpen(arr[0], true)
+        } else {
+          int index = root.getChildren().size()
+          CategoryTreeNode[] arr = new CategoryTreeNode[1]
+          arr[0] = new CategoryTreeNode(category, category.name)
+          categoryTreeModel.insert(root, index, index, arr)
+
+          //LinkedList<TreeNode<CategoryEntity>> selection = new LinkedList<TreeNode<CategoryEntity>>()
+          //selection.add(arr[0])
+          //categoryTreeModel.setSelection(selection)
+          //categoryTreeModel.setOpen(arr[0], true)
+        }
+
+      }
+    }
+
+    CategoryEditWnd wnd = new CategoryEditWnd(page, parent, callback)
+
+  }
+
+  @Command
+  @NotifyChange(["categoryTreeModel"])
+  public void deleteCategory(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
+    CategoryEntity category = CategoryEntity.get(categoryID)
+
+    Messagebox.show("Удалить?", "Удаление категории", Messagebox.OK  | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+      public void onEvent(Event evt) throws InterruptedException {
+        if (evt.getName().equals("onOK")) {
+          CategoryEntity.withTransaction {status ->
+            category.delete(flush: true)
+          }
+
+          categoryTreeModel.remove(selectedItem.value as CategoryTreeNode)
+          clearSelection()
+        }
+      }
+    });
+
+  }
+
+  @Command
+  public void clearSelection(){
+    categoryTreeModel.clearSelection()
+    selectedItem = null
+    categoryID = null
+  }
+
+  @Command
+  public void redirectToProductItem(){
+    Executions.sendRedirect("/admin/productItem")
+  }
+
+  DefaultTreeModel getCategoryTreeModel() {
+    return categoryTreeModel
+  }
+
+  ListModelList<FilterEntity> getUsageFilterModel() {
+    return usageFilterModel
+  }
+
+  ListModelList<FilterEntity> getManufsFilterModel() {
+    return manufsFilterModel
+  }
+
+  void setCategoryTreeModel(DefaultTreeModel categoryTreeModel) {
+    this.categoryTreeModel = categoryTreeModel
+  }
+
+  void setManufsFilterModel(ListModelList<FilterEntity> manufsFilterModel) {
+    this.manufsFilterModel = manufsFilterModel
+  }
+
+  void setUsageFilterModel(ListModelList<FilterEntity> usageFilterModel) {
+    this.usageFilterModel = usageFilterModel
+  }
+
+  ListModelList<ProductEntity> getProductsModel() {
+    return productsModel
+  }
+
+  void setProductsModel(ListModelList<ProductEntity> productsModel) {
+    this.productsModel = productsModel
+  }
+
+  ProductRenderer getProductsRenderer() {
+    return productsRenderer
+  }
+
+  void setProductsRenderer(ProductRenderer productsRenderer) {
+    this.productsRenderer = productsRenderer
+  }
 
 }

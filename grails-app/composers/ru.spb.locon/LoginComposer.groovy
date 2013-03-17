@@ -1,5 +1,7 @@
 package ru.spb.locon
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zul.*
 import org.zkoss.zkplus.spring.SpringUtil
@@ -16,6 +18,9 @@ import ru.spb.locon.login.URLUtils
  * Time: 14:59
  */
 class LoginComposer extends GrailsComposer {
+
+  //Логгер
+  static Logger log = LoggerFactory.getLogger(ImportService.class)
 
   Textbox login
   Textbox password
@@ -54,6 +59,7 @@ class LoginComposer extends GrailsComposer {
         errors.setVisible(true)
         errors.setStyle("color: red;")
         errors.setValue("Неправильная комбинация email и пароля.")
+        log.error("Неправильная комбинация email и пароля.")
       }
       else
       {

@@ -24,7 +24,9 @@ class ProductEntity implements Comparable {
   Long price
   @FieldInfo(isFilter=true, isEditable=true)
   Long countToStock
-  
+
+  FilterEntity filter
+
   ProductPropertyEntity productProperty
   ManufacturerEntity manufacturer
 
@@ -44,7 +46,8 @@ class ProductEntity implements Comparable {
       manufacturer fetch: "join", column: 'product_manufacturer_id'
       countToStock column: 'product_counttostock'
       categories joinTable: [name: 'category_product', key: 'product_id']
-      filters joinTable: [name: 'product_filter', key: 'product_id']
+      filter column: 'product_filter'
+      //filters joinTable: [name: 'product_filter', key: 'product_id']
     }
 
     version false
@@ -55,12 +58,12 @@ class ProductEntity implements Comparable {
     //filters cascade: 'all-delete-orphan'
   }
 
-  static belongsTo = FilterEntity
+  //static belongsTo = FilterEntity
 
   static hasMany = [
       categories: CategoryEntity,
-      listOrderProduct: OrderProductEntity,
-      filters: FilterEntity
+      listOrderProduct: OrderProductEntity//,
+      //filters: FilterEntity
   ]
 
   static constraints = {
@@ -74,6 +77,7 @@ class ProductEntity implements Comparable {
     productProperty nullable: true
     manufacturer nullable: true
     countToStock nullable: true
+    filter nullable: true
   }
 
 

@@ -11,7 +11,10 @@ import ru.spb.locon.IImporterComposer
 import ru.spb.locon.ImportService
 import org.zkoss.zul.*
 import ru.spb.locon.CategoryEntity
-class ImportComposer extends GrailsComposer implements IImporterComposer{
+import ru.spb.locon.ZulService
+import ru.spb.locon.importer.exceptions.ImportException
+
+class ImportComposer extends GrailsComposer implements IImporterComposer {
 
   Div upload
   Textbox fileField
@@ -26,7 +29,8 @@ class ImportComposer extends GrailsComposer implements IImporterComposer{
 
   ListModelList<ResultItem> model = new ListModelList<ResultItem>()
 
-  ImportService importService = (ImportService) ApplicationHolder.getApplication().getMainContext().getBean("importService")
+  ImportService importService = ApplicationHolder.getApplication().getMainContext().getBean("importService") as ImportService
+  ZulService zulService = ApplicationHolder.getApplication().getMainContext().getBean("zulService") as ZulService
 
   Media media
 
@@ -37,13 +41,13 @@ class ImportComposer extends GrailsComposer implements IImporterComposer{
     }
   }
 
-  def afterCompose = {Window window ->
+  def afterCompose = { Window window ->
     enablePush()
 
     uploadButton.addEventListener(Events.ON_UPLOAD, uploadLister)
 
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    categories.each {CategoryEntity item ->
+    categories.each { CategoryEntity item ->
       category.appendItem(item.name)
     }
 
@@ -66,22 +70,31 @@ class ImportComposer extends GrailsComposer implements IImporterComposer{
     }
   }
 
-  public void onClick_startButton(Event event){
-    upload.setVisible(false)
-    process.setVisible(true)
+  public void onClick_startButton(Event event) {
+    try {
 
-    InputStream is = media.getStreamData()
-    String manufacturer = media.getName().replace(".xls", "")
-    String category = category.getValue()
-    if (is != null) {
-      runAsync{
-        importService.setDesktop(desktop)
-        importService.setComposer(this)
-        importService.setMenuCategory(category)
-        importService.setManufacturer(manufacturer)
-        importService.doImport(is)
+      if (!"xls".equals(media.getFormat()))
+        throw new ImportException("Формат загружаемого файла должен быть xls!")
+
+      upload.setVisible(false)
+      process.setVisible(true)
+
+      InputStream is = media.getStreamData()
+      String manufacturer = media.getName().replace(".xls", "")
+      String category = category.getValue()
+      if (is != null) {
+        runAsync {
+          importService.setDesktop(desktop)
+          importService.setComposer(this)
+          importService.setMenuCategory(category)
+          importService.setManufacturer(manufacturer)
+          importService.doImport(is)
+        }
       }
+    } catch (ImportException ex) {
+      zulService.showErrors("Формат загружаемого файла должен быть xls!")
     }
+
   }
 
   @Override
@@ -89,7 +102,7 @@ class ImportComposer extends GrailsComposer implements IImporterComposer{
     if (event.state == ImportEvent.STATES.START) {
       model.add(new ResultItem(event))
     } else {
-      ResultItem item = model.asList().find {it.id == event.id}
+      ResultItem item = model.asList().find { it.id == event.id }
       if (item != null) {
         ((ResultCell) importResult.getFellow("item_${event.id}_PROCESS")).changeState(event)
       }

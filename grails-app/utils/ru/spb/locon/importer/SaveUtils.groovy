@@ -32,7 +32,7 @@ class SaveUtils {
       category.setParentCategory(parent)
     }
 
-    if (category.filters != null) {
+/*    if (category.filters != null) {
       filters.each { FilterEntity filter ->
         if (!category.filters.name.contains(filter.name))
           category.addToFilters(FilterEntity.get(filter.id))
@@ -41,7 +41,7 @@ class SaveUtils {
       filters.each { FilterEntity filter ->
         category.addToFilters(FilterEntity.get(filter.id))
       }
-    }
+    }*/
 
     if (category.validate()) {
       category.save(flush: true)

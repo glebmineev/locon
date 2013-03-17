@@ -7,31 +7,120 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.admin.EditorComposer" width="100%">
-    <h:table width="100%" cellpadding="0" cellspacing="0">
-      <h:tr>
-        <h:td width="35%" valign="top" align="left">
-          <vbox width="100%">
-            <tree id="categoryTree" zclass="z-dottree" height="100%">
-              <treecols>
-                <treecol label="Категория" width="65%"/>
-                <treecol label="Действия" width="35%"/>
-              </treecols>
-              <treechildren/>
-            </tree>
-            <tabbox id="filterGroups" mold="accordion" width="260px"/>
-          </vbox>
-        </h:td>
-        <h:td valign="top" width="65%">
-          <listbox id="products" mold="paging" height="100%" pageSize="10">
-            <listhead>
-              <listheader width="190px"/>
-              <listheader/>
-            </listhead>
-          </listbox>
-        </h:td>
-      </h:tr>
-    </h:table>
+  <window apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.admin.EditorViewModel')" width="100%">
 
+    <style src="/css/ZK.css"/>
+
+    <hbox widths="40%,60%">
+      <vbox style="padding-right: 5px;">
+        <tree id="categoryTree" onSelect="@command('updateSelectedItem')"
+            model="@bind(vm.categoryTreeModel) @template((each.editingStatus) ? 'editable' : 'noneditable')">
+          <treecols>
+            <treecol label="Категории"/>
+            <treecol width="95px"/>
+          </treecols>
+          <template name="noneditable" var="node">
+            <treeitem open="@bind(node.open)" onClick="@command('refreshModels')">
+              <treerow>
+                <treecell>
+                  <label value="${node.name}"/>
+                </treecell>
+                <treecell>
+                  <image src="/images/pencil.png"
+                         onClick="@command('changeEditableStatus', node=node)"/>
+                </treecell>
+              </treerow>
+            </treeitem>
+          </template>
+          <template name="editable" var="node">
+            <treeitem open="@bind(node.open)" onClick="@command('refreshModels')">
+              <treerow>
+                <treecell>
+                  <textbox value="@bind(node.name)"/>
+                </treecell>
+                <treecell>
+                  <hbox>
+                    <image src="/images/success.gif"
+                           onClick="@command('saveCategory', node=node)"/>
+                    <image src="/images/cancel.png" onClick="@command('changeEditableStatus', node=node)"/>
+                  </hbox>
+                </treecell>
+              </treerow>
+            </treeitem>
+          </template>
+          <treefoot>
+            <treefooter/>
+            <treefooter width="60%" align="left">
+              <hbox>
+                <image src="/images/clear.png"
+                       onClick="@command('clearSelection')"/>
+                <image src="/images/add.png"
+                       onClick="@command('addCategory')"/>
+                <image src="/images/failed.png"
+                       onClick="@command('deleteCategory')"/>
+              </hbox>
+            </treefooter>
+          </treefoot>
+        </tree>
+
+        <groupbox closable="false">
+          <caption label="Фильтр"/>
+
+          <listbox id="manufListbox" model="@load(vm.manufsFilterModel)" multiple="true" checkmark="true"
+                   height="122px">
+            <listhead>
+              <listheader label="Производители"/>
+            </listhead>
+            <template name="model" var="item">
+              <listitem>
+                <listcell>
+                  <label value="${item.name}"/>
+                </listcell>
+              </listitem>
+            </template>
+          </listbox>
+          <h:br/>
+          <listbox id="usageListbox" model="@load(vm.usageFilterModel)" multiple="true" checkmark="true" height="300px">
+            <listhead>
+              <listheader label="Применение"/>
+            </listhead>
+            <template name="model" var="item">
+              <listitem onClick="@command('selectAllManufs')">
+                <listcell>
+                  <label value="${item.name}"/>
+                </listcell>
+              </listitem>
+            </template>
+          </listbox>
+          <h:br/>
+          <button label="Поиск" onClick="@command('search')"/>
+        </groupbox>
+      </vbox>
+
+      <listbox id="products" mold="paging" model="@load(vm.productsModel)" height="100%" pageSize="10">
+        <listhead>
+          <listheader width="170px"/>
+          <listheader/>
+        </listhead>
+        <template name="model" var="item">
+        <listitem onClick="@command('redirectToProductItem')">
+          <listcell>
+            <vbox align="end" sclass="imageBox">
+              <image width="150px" src="/images/empty.png"/>
+            </vbox>
+          </listcell>
+          <listcell>
+            <vbox>
+              <label value="${item.manufacturer.name}" style="font-size: 14px;margin-top: 5px;margin-bottom: 5px;"/>
+              <label value="${item.name}" style="font-size: 18px;margin-top: 5px;margin-bottom: 5px;"/>
+              <label value="Цена: ${item.price}" style="font-size: 14px;margin-bottom: 5px;"/>
+            </vbox>
+          </listcell>
+        </listitem>
+        </template>
+
+      </listbox>
+    </hbox>
   </window>
 </zk>

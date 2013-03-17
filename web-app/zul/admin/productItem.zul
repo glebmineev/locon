@@ -4,14 +4,18 @@
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
-    xmlns:h="http://www.w3.org/1999/xhtml"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.admin.ProductItemComposer" width="100%">
+  <window apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.admin.ProductItemViewModel')" width="100%">
     <groupbox closable="false">
       <caption label="Основные данные"/>
-      <textbox id=""/>
+      <hbox>
+        <label value="Описание:"/>
+        <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
+        <textbox visible="false" value="@bind(vm)"/>
+      </hbox>
     </groupbox>
   </window>
 

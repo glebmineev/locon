@@ -28,7 +28,7 @@ class CatalogViewModel {
   ListModelList<ProductEntity> productsModel
   ProductRenderer productsRenderer
 
-  ListModelList<FilterEntity> manufsFilterModel
+  ListModelList<ManufacturerEntity> manufsFilterModel
   ListModelList<FilterEntity> usageFilterModel
   ListModelList<FilterGroupEntity> groupFilterModel
 
@@ -45,7 +45,7 @@ class CatalogViewModel {
     categoryID = Long.parseLong(Executions.getCurrent().getParameter("category"))
 
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    CategoryTreeNode root = new CategoryTreeNode(null, new ArrayList<CategoryTreeNode>())
+    CategoryTreeNode root = new CategoryTreeNode(null, "ROOT")
     createTreeModel(root, categories)
 
     categoryTreeModel = new DefaultTreeModel(root)
@@ -54,12 +54,13 @@ class CatalogViewModel {
     productsRenderer = new ProductRenderer()
 
     CategoryEntity category = CategoryEntity.get(categoryID)
+
+    List<ProductEntity> products = collectAllProducts(category, Lists.newArrayList())
+
     FilterGroupEntity manufsGroup = FilterGroupEntity.findByName("Производитель")
-    List<FilterEntity> filters = category.filters as List<FilterEntity>
-    manufsFilterModel = new BindingListModelList<FilterEntity>(
-        filters.findAll { it ->
-          it.filterGroup.name.equals(manufsGroup.name)
-        },
+    List<FilterEntity> filters = products.filter.unique() as List<FilterEntity>
+    manufsFilterModel = new BindingListModelList<ManufacturerEntity>(
+        products.manufacturer.unique() as List<ManufacturerEntity>,
         true
     )
     manufsFilterModel.setMultiple(true)
@@ -87,7 +88,7 @@ class CatalogViewModel {
 
   void createTreeModel(CategoryTreeNode parent, List<CategoryEntity> children) {
     children.each { CategoryEntity category ->
-      CategoryTreeNode node = new CategoryTreeNode(category, new ArrayList<CategoryTreeNode>())
+      CategoryTreeNode node = new CategoryTreeNode(category, category.name)
       parent.children.add(node)
       if (category.id == categoryID) {
         openParent(node)
@@ -111,40 +112,6 @@ class CatalogViewModel {
       parent.setOpen(true)
       openParent(parent)
     }
-
-  }
-
-  @Command
-  public void refreshProducts(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
-    Listitem target = event.target as Listitem
-
-    FilterEntity filter = target.getValue() as FilterEntity
-
-    if (target.selected)
-      checked.add(filter.id)
-    else
-      checked.remove(filter.id)
-
-
-    CategoryEntity categoryEntity = CategoryEntity.get(categoryID)
-    List<ProductEntity> retrieved = collectAllProducts(categoryEntity, new ArrayList<ProductEntity>())
-    productsModel.clear()
-
-    if (checked.size() > 0) {
-
-      retrieved.each { ProductEntity product ->
-        ProductEntity get = ProductEntity.get(product.id)
-
-        get.filters.each { FilterEntity productFilter ->
-
-
-          if (checked.contains(productFilter.id))
-            productsModel.add(get)
-        }
-
-      }
-    } else
-      productsModel.addAll(retrieved)
 
   }
 
@@ -179,12 +146,10 @@ class CatalogViewModel {
     retrieved.each { it ->
       ManufacturerEntity manufacturer = it.manufacturer
       if (manufs.contains(manufacturer)) {
-        List<FilterEntity> filters = it.getFilters() as List<FilterEntity>
+        FilterEntity filter = it.filter
         if (usageSelection.size() > 0) {
-          filters.each { filter ->
-            if (usageSelection.contains(filter.name))
-              result.add(it)
-          }
+          if (usageSelection.contains(filter.name))
+            result.add(it)
         } else
           result.add(it)
 
@@ -209,16 +174,15 @@ class CatalogViewModel {
     //обновляем модель фильтра по производителю.
     FilterGroupEntity manufsGroup = FilterGroupEntity.findByName("Производитель")
     manufsFilterModel.clear()
-    manufsFilterModel.addAll(retrivedCategory.filters.findAll {
-      it.filterGroup.name.equals(manufsGroup.name)
-    } as List<FilterEntity>)
+
+    List<ProductEntity> products = collectAllProducts(retrivedCategory, Lists.newArrayList())
+
+    manufsFilterModel.addAll(products.manufacturer.unique() as List<ManufacturerEntity>)
 
     //обновляем модель фильтра по применению.
     FilterGroupEntity usageGroup = FilterGroupEntity.findByName("Применение")
     usageFilterModel.clear()
-    usageFilterModel.addAll(retrivedCategory.filters.findAll {
-      it.filterGroup.name.equals(usageGroup.name)
-    } as List<FilterEntity>)
+    usageFilterModel.addAll(products.filter.unique() as List<FilterEntity>)
 
     //обновляем модель товаров.
     productsModel.clear()

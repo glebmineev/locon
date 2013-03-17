@@ -60,12 +60,11 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
-    <orderEntry type="library" name="grails-2.1.0" level="application" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (locon)">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
-          <root url="jar://$USER_HOME_GRAILS$/ivy-cache/net.java.dev.inflector/inflector/jars/inflector-0.7.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/net.java.dev.inflector/inflector/jars/inflector-0.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
@@ -74,6 +73,7 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="grails-2.2.1" level="application" />
     <orderEntry type="module" module-name="locon-grailsPlugins" />
   </component>
 </module>

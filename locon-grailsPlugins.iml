@@ -4,9 +4,9 @@
     <facet type="web" name="GrailsWeb">
       <configuration>
         <webroots>
-          <root url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-1.7.1/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-ui-1.8.15/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/zk-2.1.0/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-ui-1.8.15/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/zk-2.1.0/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-1.7.1/web-app" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -17,52 +17,54 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="true">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/executor-0.3">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/executor-0.3/src/groovy" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/executor-0.3">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/executor-0.3/src/groovy" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/hibernate-2.2.0" />
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/i18n-templates-1.1.0.1">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/i18n-templates-1.1.0.1/grails-app/i18n" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/hibernate-2.2.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/hibernate-2.2.1/grails-app/i18n" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-1.7.1">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-1.7.1/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-1.7.1/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-1.7.1/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-1.7.1/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/i18n-templates-1.1.0.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/i18n-templates-1.1.0.1/grails-app/i18n" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-ui-1.8.15">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-ui-1.8.15/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/jquery-ui-1.8.15/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-1.7.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-1.7.1/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-1.7.1/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-1.7.1/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-1.7.1/grails-app/taglib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/resources-1.1.6">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/resources-1.1.6/src/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/resources-1.1.6/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/resources-1.1.6/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/resources-1.1.6/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-ui-1.8.15">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-ui-1.8.15/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/jquery-ui-1.8.15/grails-app/taglib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/tomcat-2.2.0" />
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/webxml-1.4.1">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/webxml-1.4.1/src/groovy" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/resources-1.1.6">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/resources-1.1.6/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/resources-1.1.6/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/resources-1.1.6/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/resources-1.1.6/grails-app/taglib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/zk-2.1.0">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/zk-2.1.0/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/zk-2.1.0/grails-app/controllers" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/zk-2.1.0/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/tomcat-2.2.1" />
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/webxml-1.4.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/webxml-1.4.1/src/groovy" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/zk-2.1.0">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/zk-2.1.0/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/zk-2.1.0/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/zk-2.1.0/grails-app/taglib" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="grails-2.2.0" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="grails-2.2.1" level="application" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (locon-grailsPlugins)">
         <CLASSES>
-          <root url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/zk-2.1.0/lib" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/net.java.dev.inflector/inflector/jars/inflector-0.7.0.jar!/" />
+          <root url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/zk-2.1.0/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/.grails/2.2.0/projects/locon/plugins/zk-2.1.0/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/.grails/2.2.1/projects/locon/plugins/zk-2.1.0/lib" recursive="false" />
       </library>
     </orderEntry>
   </component>

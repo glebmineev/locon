@@ -1,6 +1,7 @@
 package ru.spb.locon.tree.node
 
 import org.zkoss.zul.DefaultTreeNode
+import org.zkoss.zul.TreeNode
 import ru.spb.locon.CategoryEntity
 
 /**
@@ -12,19 +13,17 @@ class CategoryTreeNode extends DefaultTreeNode<CategoryEntity>{
 
   private boolean open = false
   private boolean selected = false
+  private boolean editingStatus = false
   String name
 
-  CategoryTreeNode(CategoryEntity data) {
-    super(data)
-    if (data != null)
-      this.name = data.name
+  CategoryTreeNode(CategoryEntity data, String name) {
+    super(data, new LinkedList<TreeNode<CategoryEntity>>())
+    this.name = name
   }
 
-  CategoryTreeNode(CategoryEntity data, java.util.List<? extends DefaultTreeNode<CategoryEntity>> children) {
-    super(data, children)
-    if (data != null)
-      this.name = data.name
-  }
+/*  public boolean isLeaf() {
+    return false;//getData() != null && getData().getListCategory().isEmpty();
+  }*/
 
   void setOpen(boolean open) {
     this.open = open
@@ -49,4 +48,13 @@ class CategoryTreeNode extends DefaultTreeNode<CategoryEntity>{
   void setName(String name) {
     this.name = name
   }
+
+  boolean getEditingStatus() {
+    return editingStatus
+  }
+
+  void setEditingStatus(boolean editingStatus) {
+    this.editingStatus = editingStatus
+  }
+
 }

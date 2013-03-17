@@ -14,12 +14,12 @@ class FilterEntity implements Comparable {
       id column: 'filter_id'
       name column: 'filter_name'
       filterGroup column: 'filter_filtergroup'
-      categories joinTable: [name: 'category_filter', key: 'filter_id']
-      products joinTable: [name: 'product_filter', key: 'filter_id']
+      //categories joinTable: [name: 'category_filter', key: 'filter_id']
+      //products joinTable: [name: 'product_filter', key: 'filter_id']
     }
 
     version false
-    //products cascade: 'all-delete-orphan'
+    products cascade: 'all-delete-orphan'
     //categories cascade: 'all-delete-orphan'
   }
 
@@ -29,8 +29,8 @@ class FilterEntity implements Comparable {
   }
 
   static hasMany = [
-      products: ProductEntity,
-      categories: CategoryEntity
+      products: ProductEntity//,
+      //categories: CategoryEntity
   ]
 
   public String toString(){

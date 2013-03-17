@@ -40,6 +40,31 @@ span.z-dottree-tee-close {
 span.z-dottree-tee-open {
   background-image: url("../images/about.png");
 }*/
+
+span.z-dottree-tee-close {
+  background-image: url("../images/tree/tee-close.png")
+}
+
+span.z-dottree-tee-open {
+  background-image: url("../images/tree/tee-open.png");
+}
+
+span.z-dottree-root-open, span.z-dottree-root-close {
+  background-image: url("../images/tree/dot-toggle.png");
+}
+
+span.z-dottree-last-open {
+  background-image: url("../images/tree/tee-last-open.png");
+}
+
+span.z-dottree-last-close {
+  background-image: url("../images/tree/tee-last-close.png");
+}
+
+span.z-dottree-tee, span.z-dottree-last, span.z-dottree-vbar {
+  background-image: none;
+}
+
 div.z-tabbox-accordion .z-tabpanel-accordion {
   padding: 0;
 }

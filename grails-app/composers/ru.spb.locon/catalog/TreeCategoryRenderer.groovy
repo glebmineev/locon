@@ -16,6 +16,8 @@ class TreeCategoryRenderer implements TreeitemRenderer<CategoryTreeNode> {
 
   @Override
   void render(org.zkoss.zul.Treeitem treeitem, CategoryTreeNode node, int i) {
+    Treerow dataRow = new Treerow();
+    dataRow.setParent(treeitem)
     CategoryEntity category = node.getData()
     treeitem.setValue(category)
     treeitem.setOpen(node.open)
