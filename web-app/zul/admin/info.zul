@@ -21,10 +21,21 @@
             </tabs>
             <tabpanels>
               <tabpanel>
-                <textbox id="contacts" multiline="true" width="100%" rows="5"/>
+                <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
+                <!--<h:button id="save" onClick="javascript:sendToServer()">Сохранить</h:button>-->
+                <html><![CDATA[
+                  <script type="text/javascript">
+                    function sendToServer() {
+                      var ckedata = CKEDITOR.instances['ckeditor'].getData();
+                      zAu.send(new zk.Event(zk.Widget.$(this), 'onSave', ckedata));
+                    }
+                  </script>
+                  ]]>
+                </html>
+                <!--<textbox id="contacts" multiline="true" width="100%" rows="5"/>-->
               </tabpanel>
               <tabpanel>
-                <textbox  id="about" multiline="true" width="100%" rows="5"/>
+                <textbox id="about" multiline="true" width="100%" rows="5"/>
               </tabpanel>
               <tabpanel>
                 <textbox id="delivery" multiline="true" width="100%" rows="5"/>

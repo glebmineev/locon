@@ -1,5 +1,9 @@
 package ru.spb.locon.catalog
 
+import org.zkoss.zk.ui.Execution
+import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.event.Event
+import org.zkoss.zk.ui.event.Events
 import ru.spb.locon.ProductEntity
 import org.zkoss.zul.ListitemRenderer
 import org.zkoss.zul.Listcell
@@ -30,6 +34,14 @@ class ProductRenderer implements ListitemRenderer<ProductEntity> {
     //Ячейка с товаром
     Listcell descCell = new ProductCell(product)
     descCell.setParent(listitem)
+
+    descCell.addEventListener(Events.ON_CLICK, new org.zkoss.zk.ui.event.EventListener(){
+      @Override
+      void onEvent(Event event) throws Exception {
+        Executions.sendRedirect("/shop/product?product=${product.id}")
+      }
+    })
+
   }
 
 }

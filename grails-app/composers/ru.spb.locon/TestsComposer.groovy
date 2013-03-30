@@ -7,12 +7,17 @@ import org.zkoss.bind.annotation.Init
 import org.zkoss.zhtml.Textarea
 import org.zkoss.zk.grails.composer.GrailsComposer
 import org.zkoss.zk.ui.Component
+import org.zkoss.zk.ui.Page
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.event.Events
+import org.zkoss.zk.ui.event.ForwardEvent
 import org.zkoss.zk.ui.event.UploadEvent
+import org.zkoss.zk.ui.select.annotation.Wire
 import org.zkoss.zk.ui.util.Clients
+import org.zkoss.zk.ui.util.GenericForwardComposer
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.Button
+import org.zkoss.zul.Textbox
 import org.zkoss.zul.Window
 
 /**
@@ -22,25 +27,16 @@ import org.zkoss.zul.Window
  * Time: 17:16
  * To change this template use File | Settings | File Templates.
  */
-class TestsComposer extends GrailsComposer{
+class TestsComposer extends GrailsComposer  {
 
-/*    @Init
-    public void init() {
-        Clients.evalJavaScript("alert(\$('.result').html())")
-    }*/
+  @Override
+  public void doAfterCompose(Component comp) throws Exception {
+    super.doAfterCompose(comp);
+  }
 
-    Button save
-
-    def afterCompose = {Window window ->
-    save.addEventListener(Events.ON_CLICK, uploadLister)
-    }
-
-    org.zkoss.zk.ui.event.EventListener uploadLister = new org.zkoss.zk.ui.event.EventListener() {
-        @Override
-        void onEvent(Event t) {
-            Clients.evalJavaScript("\$('.result').val(CKEDITOR.instances['ckeditor'].getData())")
-        }
-    }
-
+  public void onUser$info(Event event){
+    ForwardEvent eventx = (ForwardEvent) event;
+    println(eventx.getOrigin().getData())
+  }
 
 }

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType
 class ProductEntity implements Comparable {
 
   //static searchable = [except: '']
+  String engImagePath
   String imagePath
 
   @FieldInfo(isFilter=true, isEditable=true)
@@ -36,6 +37,7 @@ class ProductEntity implements Comparable {
     columns {
       id column: 'product_id'
       imagePath column: 'product_imagepath', type: 'text'
+      engImagePath column: 'product_engimagepath', type: 'text'
       article column: 'product_article'
       name column: 'product_name'
       description column: 'product_description'
@@ -68,6 +70,7 @@ class ProductEntity implements Comparable {
 
   static constraints = {
     imagePath maxSize: 65535, nullable: true
+    engImagePath maxSize: 65535, nullable: true
     article nullable: true
     name maxSize: 65535, nullable: true
     description maxSize: 65535, nullable: true

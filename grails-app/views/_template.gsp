@@ -9,7 +9,8 @@
   <g:javascript library="nivo" src="slider/jquery.nivo.slider.js"/>
   <g:javascript library="carousel" src="carousel/jquery.jcarousel.min.js"/>
   <g:javascript library="carousel" src="ckeditor.js"/>
-  <g:javascript library="carousel" src="sample.js"/>
+  <g:javascript library="megamenu" src="megamenu/jquery.dcmegamenu.1.3.3.js"/>
+  <g:javascript library="hoverIntent" src="megamenu/jquery.hoverIntent.minified.js"/>
 
   <link rel="stylesheet" href="${resource(dir: 'css', file: 'sample.css')}" type="text/css">
 
@@ -28,6 +29,14 @@
 
   <!-- drop menu -->
   <link rel="stylesheet" href="${resource(dir: 'css/dropmenu', file: 'dropmenu.css')}"/>
+
+  <!-- Handle menu -->
+  <link rel="stylesheet" href="${resource(dir: 'css/dropmenu', file: 'handleMenu.css')}"/>
+
+  <!-- Megamenu -->
+  <link rel="stylesheet" href="${resource(dir: 'css/megamenu', file: 'megamenu.css')}"/>
+  <link rel="stylesheet" href="${resource(dir: 'css/megamenu/skins', file: 'green.css')}"/>
+  <link rel="stylesheet" href="${resource(dir: 'css/megamenu/skins', file: 'black.css')}"/>
 
   <!-- Carousel -->
   <link rel="stylesheet" href="${resource(dir: 'css/carousel', file: 'carousel.css')}"/>
@@ -49,6 +58,16 @@
   </div>
 
   <div id="wrap_content">
+
+    <ul id="navigation">
+      <li class="home"><a href="" title="Главная"></a></li>
+      <li class="person"><a href="" title="Личный кабинет"></a></li>
+      <li class="search"><a href="" title="Поиск"></a></li>
+      <li class="mail"><a href="" title="Почта"></a></li>
+      <li class="order"><a href="" title="Заказы"></a></li>
+      <li class="cart"><a href="" title="Корзина"></a></li>
+    </ul>
+
     ${wrap_content}
   </div>
 

@@ -1,22 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:w="http://www.zkoss.org/2005/zk/client"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.admin.ProductItemViewModel')" width="100%">
-    <groupbox closable="false">
-      <caption label="Основные данные"/>
+  <!--  <window apply="ru.spb.locon.BindComposer"
+            viewModel="@id('vm') @init('ru.spb.locon.admin.ProductItemViewModel')" width="100%">
       <hbox>
-        <label value="Описание:"/>
-        <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
-        <textbox visible="false" value="@bind(vm.ckeditorValue)"/>
+        <groupbox closable="true">
+          <caption label="Описание:"/>
+          <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
+          <textbox id="result" sclass="result" visible="true" value="ds"/>
+        </groupbox>
       </hbox>
-    </groupbox>
-  </window>
+      <button label="Сохранить" onClick="@command('saveProductItem')"/>
+    </window>-->
 
+  <!--  <zscript><![CDATA[
+      import org.zkoss.zk.ui.util.Clients;
+
+      Clients.evalJavaScript("var field = \$('.info'); zAu.send(new zk.Event(zk.Widget.\$(field), 'onSaveFile', editor.getCode()));");
+    ]]></zscript>-->
+
+  <window id="productItem" apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.admin.ProductItemViewModel')" width="100%">
+
+    <!--   <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
+       <button label="Сохранить" w:onClick="sendToServer();" id="save"/>
+       &lt;!&ndash;<h:button id="save" onClick="javascript:sendToServer()">Сохранить</h:button>&ndash;&gt;
+       <html><![CDATA[
+         <script type="text/javascript">
+           function sendToServer(){
+             var ckedata = CKEDITOR.instances['ckeditor'].getData();
+             zAu.send(new zk.Event(zk.Widget.$(this), 'onSave', ckedata));
+           }
+         </script>
+         ]]>
+         </html>-->
+    <h:table width="100%" cellpadding="5" cellspacing="0">
+      <h:tr>
+        <h:td width="200px" align="right">
+          <vlayout id="pics" width="200px" height="150px" style="overflow:auto"/>
+        </h:td>
+        <h:td align="left">
+          <button label="Upload Image" upload="true,maxsize=300">
+            <attribute name="onUpload"><![CDATA[
+			          org.zkoss.util.media.Media media = event.getMedia();
+			          if (media instanceof org.zkoss.image.Image) {
+				          org.zkoss.zul.Image image = new org.zkoss.zul.Image();
+				          image.setContent(media);
+				          image.setParent(pics);
+			          } else {
+				          Messagebox.show("Not an image: "+media, "Error", Messagebox.OK, Messagebox.ERROR);
+			          }
+		        ]]></attribute>
+          </button>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td>
+          <label value="Наименование"/>
+        </h:td>
+        <h:td>
+          <textbox/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td>
+          <label value="Описание"/>
+        </h:td>
+        <h:td>
+          <textbox/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td>
+          <label value="Цена"/>
+        </h:td>
+        <h:td>
+          <textbox/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td>
+          <label value="Объем"/>
+        </h:td>
+        <h:td>
+          <textbox/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td colspan="2">
+          <button label="Сохранить" onClick="@command('saveItem')"/>
+          <button label="Закрыть" onClick="@command('closeWnd')"/>
+        </h:td>
+      </h:tr>
+    </h:table>
+  </window>
 </zk>

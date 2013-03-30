@@ -266,6 +266,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
         String to = "${imagePath}/${product?.article}_${product.name}"
         product.setImagePath(to)
+        product.setEngImagePath(ConverterRU_EN.translit(to).replace(" ", "").replace("%", ""))
 
         categoryCache.get(sheetName).each { CategoryEntity category ->
           if (category.name.equals(categoryName))
@@ -296,11 +297,11 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         String from = it.getData().get("F") as String
 
         //загружем изображение товара.
-        /*boolean isDownloaded = imageService.downloadImages(from, to)
+        boolean isDownloaded = imageService.downloadImages(from, to)
         if (!isDownloaded) {
           log.debug("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
           imageErrors.add("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
-        }*/
+        }
 
         sessionCleaner++
         if (sessionCleaner > 10) {

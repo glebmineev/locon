@@ -1,6 +1,7 @@
 package ru.spb.locon.catalog
 
 import com.google.common.collect.Lists
+import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
@@ -118,7 +119,6 @@ class CatalogViewModel {
   @Command
   public void addAllProducts(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     Listheader target = event.target as Listheader
-
     FilterEntity filter = target.getValue() as FilterEntity
 
   }
@@ -205,6 +205,15 @@ class CatalogViewModel {
     return products
   }
 
+  @Command
+  public void redirectToProductItem(@BindingParam("product") ProductEntity product){
+    Executions.sendRedirect("/shop/product?product=${product.id}")
+  }
+
+  @Command
+  public void toCart(@BindingParam("product") ProductEntity product){
+    cartService.addToCart(product)
+  }
 
   ListModelList<FilterGroupEntity> getGroupFilterModel() {
     return groupFilterModel

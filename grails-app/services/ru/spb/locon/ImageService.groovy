@@ -48,16 +48,20 @@ class ImageService {
         File src = new File("${store}\\${product.imagePath}")
         File dest = new File(serverPath)
         //копируем содержимое папки productImages в images на сервере.
-        FileUtils.copyDirectory(src, dest)
+        if (src.exists()) {
+          FileUtils.copyDirectory(src, dest)
 
-        //делаем изображения разной величины.
-        List<String> images = dirUtils.findImages(serverPath)
-        images.each {String fileName ->
-          if (!fileName.contains("-")) {
-            String[] arr = fileName.split("\\.")
-            resizeImage(serverPath, arr[0], arr[1])
+          //делаем изображения разной величины.
+          List<String> images = dirUtils.findImages(serverPath)
+          images.each {String fileName ->
+            if (!fileName.contains("-")) {
+              String[] arr = fileName.split("\\.")
+              resizeImage(serverPath, arr[0], arr[1])
+            }
           }
+
         }
+
       }
     }
   }

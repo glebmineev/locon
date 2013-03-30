@@ -11,6 +11,8 @@ import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
 import org.zkoss.zk.ui.event.Event
+import org.zkoss.zk.ui.sys.ExecutionCtrl
+import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.*
@@ -37,7 +39,7 @@ class EditorViewModel {
   ProductRenderer productsRenderer = new ProductRenderer()
 
   ListModelList<ManufacturerEntity> manufsFilterModel = new BindingListModelList<ManufacturerEntity>(Lists.newArrayList(), true)
-  ListModelList<FilterEntity> usageFilterModel  = new BindingListModelList<FilterEntity>(Lists.newArrayList(), true);
+  ListModelList<FilterEntity> usageFilterModel = new BindingListModelList<FilterEntity>(Lists.newArrayList(), true);
 
 
   Treeitem selectedItem
@@ -53,7 +55,7 @@ class EditorViewModel {
     usageFilterModel.setMultiple(true)
   }
 
-  public CategoryTreeNode getRootNode(){
+  public CategoryTreeNode getRootNode() {
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
     root = new CategoryTreeNode(null, "ROOT")
     createTreeModel(root, categories)
@@ -64,6 +66,7 @@ class EditorViewModel {
   /*
    * метод формирует модель дерева категорий.
    */
+
   void createTreeModel(CategoryTreeNode parent, List<CategoryEntity> children) {
     children.each { CategoryEntity category ->
       CategoryTreeNode node = new CategoryTreeNode(category, category.name)
@@ -186,7 +189,7 @@ class EditorViewModel {
   @Command
   public void saveCategory(@BindingParam("node") CategoryTreeNode node) {
 
-    CategoryEntity.withTransaction {status ->
+    CategoryEntity.withTransaction { status ->
       String name = node.getName()
       CategoryEntity data = node.getData()
       if (!name.isEmpty() && !name.equals(data.name)) {
@@ -201,7 +204,7 @@ class EditorViewModel {
   }
 
   @Command
-  public void changeEditableStatus(@BindingParam("node")  CategoryTreeNode node) {
+  public void changeEditableStatus(@BindingParam("node") CategoryTreeNode node) {
     node.setEditingStatus(!node.getEditingStatus())
     refreshRowTemplate(node);
   }
@@ -216,7 +219,7 @@ class EditorViewModel {
   }
 
   @Command
-  public void updateSelectedItem(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
+  public void updateSelectedItem(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     Tree tree = event.getTarget() as Tree
     selectedItem = tree.getSelectedItem()
     categoryID = ((CategoryTreeNode) selectedItem.getValue()).data.id
@@ -225,7 +228,7 @@ class EditorViewModel {
 
   @Command
   @NotifyChange(["categoryTreeModel"])
-  public void addCategory(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
+  public void addCategory(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
 
     Page page = event.getTarget().getPage()
     CategoryEntity parent = CategoryEntity.get(categoryID)
@@ -265,13 +268,13 @@ class EditorViewModel {
 
   @Command
   @NotifyChange(["categoryTreeModel"])
-  public void deleteCategory(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
+  public void deleteCategory(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     CategoryEntity category = CategoryEntity.get(categoryID)
 
-    Messagebox.show("Удалить?", "Удаление категории", Messagebox.OK  | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+    Messagebox.show("Удалить?", "Удаление категории", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
       public void onEvent(Event evt) throws InterruptedException {
         if (evt.getName().equals("onOK")) {
-          CategoryEntity.withTransaction {status ->
+          CategoryEntity.withTransaction { status ->
             category.delete(flush: true)
           }
 
@@ -284,14 +287,27 @@ class EditorViewModel {
   }
 
   @Command
-  public void clearSelection(){
+  @NotifyChange(["categoryTreeModel"])
+  public void addProduct(@BindingParam("node") CategoryTreeNode node){
+    Map<String, Object> params = new HashMap<String, Object>()
+    params.put("category", categoryID)
+    Window productItemWnd = (Window) Executions.createComponents("/zul/admin/productItem.zul", null, params)
+    productItemWnd.setWidth("640px")
+    productItemWnd.setHeight("300px")
+    productItemWnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
+    productItemWnd.doModal()
+    productItemWnd.setVisible(true)
+  }
+
+  @Command
+  public void clearSelection() {
     categoryTreeModel.clearSelection()
     selectedItem = null
     categoryID = null
   }
 
   @Command
-  public void redirectToProductItem(){
+  public void redirectToProductItem() {
     Executions.sendRedirect("/admin/productItem")
   }
 

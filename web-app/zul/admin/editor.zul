@@ -29,6 +29,7 @@
                 <treecell>
                   <image src="/images/pencil.png"
                          onClick="@command('changeEditableStatus', node=node)"/>
+                  <image src="/images/goods.png" width="24px" height="24px" onClick="@command('addProduct', node=node)"/>
                 </treecell>
               </treerow>
             </treeitem>
@@ -44,6 +45,7 @@
                     <image src="/images/success.gif"
                            onClick="@command('saveCategory', node=node)"/>
                     <image src="/images/cancel.png" onClick="@command('changeEditableStatus', node=node)"/>
+                    <image src="/images/goods.png" width="24px" height="24px" onClick="@command('addProduct', node=node)"/>
                   </hbox>
                 </treecell>
               </treerow>
@@ -63,7 +65,6 @@
             </treefooter>
           </treefoot>
         </tree>
-
         <groupbox closable="false">
           <caption label="Фильтр"/>
 

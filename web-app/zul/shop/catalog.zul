@@ -104,12 +104,29 @@
                     </tabbox>-->
       </vbox>
 
-      <listbox id="products" mold="paging" model="@load(vm.productsModel)" height="100%" pageSize="10"
-               itemRenderer="@load(vm.productsRenderer)">
+      <listbox id="products" mold="paging" model="@load(vm.productsModel)" height="100%" pageSize="10">
         <listhead>
           <listheader width="190px"/>
           <listheader/>
         </listhead>
+        <template name="model" var="item">
+          <listitem onClick="@command('redirectToProductItem', product=item)">
+            <listcell>
+              <div align="center" sclass="imageBox">
+                <image src="/images/catalog/${item.engImagePath}/1-150.jpg"/>
+              </div>
+            </listcell>
+            <listcell>
+              <vbox>
+                <label value="${item.manufacturer.name}" style="font-size: 14px;margin-top: 5px;margin-bottom: 5px;"/>
+                <label value="${item.name}" style="font-size: 18px;margin-top: 5px;margin-bottom: 5px;"/>
+                <label value="Цена: ${item.price}" style="font-size: 14px;margin-bottom: 5px;"/>
+                <button label="В корзину" onClick="@command('toCart', product=item)"/>
+              </vbox>
+            </listcell>
+          </listitem>
+        </template>
+
       </listbox>
     </hbox>
   </window>
