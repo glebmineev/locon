@@ -34,6 +34,27 @@
         <h:td align="right" width="50%">
           <div width="320px" align="center" sclass="imageBoxAdmin">
             <image id="targetImage"/>
+            <zscript><![CDATA[
+
+                      import ru.spb.locon.*
+                      import org.codehaus.groovy.grails.commons.ApplicationHolder
+                      import org.zkoss.image.*
+                      import org.zkoss.zk.ui.*
+
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+                      def arg = Executions.getCurrent().getParameterMap()
+                      if (arg.size() > 0) {
+                        def productID = arg.get("product")
+                        ProductEntity product = ProductEntity.get(productID)
+                        if (product != null) {
+
+                        AImage img = imageService.getImageFile(product, "${300}")
+                        targetImage.setContent(img)
+                        }
+                      }
+                  ]]>
+            </zscript>
           </div>
         </h:td>
         <h:td align="left" width="50%">
@@ -71,7 +92,7 @@
             <label value="Описание: "/>
           </cell>
           <cell>
-            <textbox rows="5"  value="@bind(vm.description)" width="100%"/>
+            <textbox rows="5" value="@bind(vm.description)" width="100%"/>
           </cell>
         </row>
         <row>

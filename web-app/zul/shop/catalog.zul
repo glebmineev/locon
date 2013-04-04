@@ -109,8 +109,8 @@
           <listheader width="190px"/>
           <listheader/>
         </listhead>
-        <template name="model" var="item">
-          <listitem onClick="@command('redirectToProductItem', product=item)">
+        <template name="model">
+          <listitem onClick="@command('redirectToProductItem', product=each)">
             <listcell>
               <div align="center" sclass="imageBox">
                 <image>
@@ -127,10 +127,10 @@
             </listcell>
             <listcell>
               <vbox>
-                <label value="${item.manufacturer.name}" style="font-size: 14px;margin-top: 5px;margin-bottom: 5px;"/>
-                <label value="${item.name}" style="font-size: 18px;margin-top: 5px;margin-bottom: 5px;"/>
-                <label value="Цена: ${item.price}" style="font-size: 14px;margin-bottom: 5px;"/>
-                <button label="В корзину" onClick="@command('toCart', product=item)"/>
+                <label value="${each.manufacturer.name}" style="font-size: 14px;margin-top: 5px;margin-bottom: 5px;"/>
+                <label value="${each.name}" style="font-size: 18px;margin-top: 5px;margin-bottom: 5px;"/>
+                <label value="Цена: ${each.price}" style="font-size: 14px;margin-bottom: 5px;"/>
+                <button label="В корзину" onClick="@command('toCart', product=each)"/>
               </vbox>
             </listcell>
           </listitem>

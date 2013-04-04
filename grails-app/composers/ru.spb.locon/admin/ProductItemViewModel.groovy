@@ -79,6 +79,14 @@ class ProductItemViewModel {
   }
 
   public void initItem(ProductEntity product) {
+    article = product.article
+    name = product.name
+    description = product.description
+    price = product.price
+    volume = product.volume
+
+    selectedManufacturer = product.manufacturer
+    selectedFilter = product.filter
 
   }
 
@@ -121,11 +129,14 @@ class ProductItemViewModel {
 
       product.save(flush: true)
 
-      File store = new File("${imageService.store}\\${translit}")
-      if (!store.exists())
-        store.mkdirs()
+      if (uuid != null) {
+        File store = new File("${imageService.store}\\${translit}")
+        if (!store.exists())
+          store.mkdirs()
 
-      FileUtils.copyDirectory(src, store)
+        FileUtils.copyDirectory(src, store)
+      }
+
     }
 
     Executions.sendRedirect("/admin/editor")
