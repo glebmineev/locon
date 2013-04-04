@@ -8,6 +8,9 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window apply="ru.spb.locon.importer.ImportComposer">
+
+    <style src="/css/ZK.css"/>
+
     <div id="upload">
       <vbox align="center" width="100%">
         <h:h1>Загрузка католога товаров</h:h1>

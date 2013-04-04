@@ -1,6 +1,7 @@
 package ru.spb.locon.admin
 
 import com.google.common.collect.Lists
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.bind.BindUtils
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
@@ -11,17 +12,15 @@ import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
 import org.zkoss.zk.ui.event.Event
-import org.zkoss.zk.ui.sys.ExecutionCtrl
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.*
-import org.zkoss.zul.event.TreeDataEvent
 import ru.spb.locon.*
 import ru.spb.locon.admin.models.AdvancedTreeModel
 import ru.spb.locon.admin.windows.CategoryEditCallback
 import ru.spb.locon.admin.windows.CategoryEditWnd
-import ru.spb.locon.catalog.ProductRenderer
+import ru.spb.locon.importer.ConverterRU_EN
 import ru.spb.locon.tree.node.CategoryTreeNode
 
 
@@ -34,9 +33,11 @@ import ru.spb.locon.tree.node.CategoryTreeNode
  */
 class EditorViewModel {
 
+  InitService initService = ApplicationHolder.getApplication().getMainContext().getBean("initService") as InitService
+  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
+
   AdvancedTreeModel categoryTreeModel
   ListModelList<ProductEntity> productsModel = new BindingListModelList<ProductEntity>(Lists.newArrayList(), true)
-  ProductRenderer productsRenderer = new ProductRenderer()
 
   ListModelList<ManufacturerEntity> manufsFilterModel = new BindingListModelList<ManufacturerEntity>(Lists.newArrayList(), true)
   ListModelList<FilterEntity> usageFilterModel = new BindingListModelList<FilterEntity>(Lists.newArrayList(), true);
@@ -191,10 +192,11 @@ class EditorViewModel {
 
     CategoryEntity.withTransaction { status ->
       String name = node.getName()
-      CategoryEntity data = node.getData()
+      CategoryEntity data = CategoryEntity.get(node.getData().id)
       if (!name.isEmpty() && !name.equals(data.name)) {
         data.setName(name)
         data.save(flush: true)
+        initService.refreshShop()
       }
 
     }
@@ -289,14 +291,24 @@ class EditorViewModel {
   @Command
   @NotifyChange(["categoryTreeModel"])
   public void addProduct(@BindingParam("node") CategoryTreeNode node){
+
+    Window wnd = new Window()
+    wnd.setWidth("80%")
+    wnd.setHeight("700px")
+    wnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
+    Div div = new Div()
+    div.setStyle("overflow: auto;")
+    div.setWidth("100%")
+    div.setHeight("700px")
+    wnd.appendChild(div)
+    Vlayout panel = new Vlayout()
+    div.appendChild(panel)
+
     Map<String, Object> params = new HashMap<String, Object>()
     params.put("category", categoryID)
-    Window productItemWnd = (Window) Executions.createComponents("/zul/admin/productItem.zul", null, params)
-    productItemWnd.setWidth("640px")
-    productItemWnd.setHeight("300px")
-    productItemWnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
-    productItemWnd.doModal()
-    productItemWnd.setVisible(true)
+    Executions.createComponents("/zul/admin/productItem.zul", panel, params)
+    wnd.doModal()
+    wnd.setVisible(true)
   }
 
   @Command
@@ -307,8 +319,26 @@ class EditorViewModel {
   }
 
   @Command
-  public void redirectToProductItem() {
-    Executions.sendRedirect("/admin/productItem")
+  public void redirectToProductItem(@BindingParam("product") ProductEntity product) {
+    Set<CategoryEntity> categories = ProductEntity.get(product.id).categories
+    Executions.sendRedirect("/admin/productItem?product=${product.id}&category=${categories.first().id}")
+  }
+
+  @Command
+  @NotifyChange(["productsModel"])
+  public void deleteProduct(@BindingParam("product") ProductEntity item){
+    ProductEntity.withTransaction { status ->
+
+      ProductEntity product = ProductEntity.get(item.id)
+
+      //Executions.sendRedirect("/admin/editor")
+
+      productsModel.remove(product)
+      product.delete(flush: true)
+
+      imageService.cleanStore(product)
+
+    }
   }
 
   DefaultTreeModel getCategoryTreeModel() {
@@ -341,14 +371,6 @@ class EditorViewModel {
 
   void setProductsModel(ListModelList<ProductEntity> productsModel) {
     this.productsModel = productsModel
-  }
-
-  ProductRenderer getProductsRenderer() {
-    return productsRenderer
-  }
-
-  void setProductsRenderer(ProductRenderer productsRenderer) {
-    this.productsRenderer = productsRenderer
   }
 
 }

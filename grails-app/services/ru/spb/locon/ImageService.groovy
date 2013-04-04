@@ -1,6 +1,8 @@
 package ru.spb.locon
 
 import org.apache.commons.io.FileUtils
+import org.zkoss.image.AImage
+import ru.spb.locon.image.ImageExtensionFinder
 import ru.spb.locon.importer.ConverterRU_EN
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
@@ -10,10 +12,6 @@ import org.slf4j.LoggerFactory
 import org.zkoss.zul.Image
 import ru.spb.locon.common.StringUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import static org.imgscalr.Scalr.*
-import org.imgscalr.Scalr
-import java.awt.Graphics2D
-import java.awt.Transparency
 import com.mortennobel.imagescaling.ResampleOp
 import com.mortennobel.imagescaling.ResampleFilters
 import com.mortennobel.imagescaling.AdvancedResizeOp
@@ -33,17 +31,23 @@ class ImageService {
   StringUtils stringUtils = new StringUtils()
   String store
   String images
+  String temp
 
   ImageService() {
     String root = ApplicationHolder.application.mainContext.servletContext.getRealPath("/")
-    images = "${root}\\images\\catalog"
+    images = "${root}\\images"
     store = "${stringUtils.buildPath(2, root)}\\productImages"
+    temp = "${root}\\images\\temp"
   }
 
-  void syncAllImagesWithServer() {
+/*  void syncAllImagesWithServer() {
+    //Чистим директорию скартинками полностью.
+    File catalog = new File(images)
+    catalog.delete()
+
     File storeFolder = new File(store)
     if (storeFolder.exists()) {
-      ProductEntity.list().each {ProductEntity product ->
+      ProductEntity.list().each { ProductEntity product ->
         String serverPath = ConverterRU_EN.translit("${images}\\${product.imagePath}").replace(" ", "").replace("%", "")
         File src = new File("${store}\\${product.imagePath}")
         File dest = new File(serverPath)
@@ -53,7 +57,7 @@ class ImageService {
 
           //делаем изображения разной величины.
           List<String> images = dirUtils.findImages(serverPath)
-          images.each {String fileName ->
+          images.each { String fileName ->
             if (!fileName.contains("-")) {
               String[] arr = fileName.split("\\.")
               resizeImage(serverPath, arr[0], arr[1])
@@ -79,13 +83,13 @@ class ImageService {
     FileUtils.copyDirectory(src, dest)
 
     List<String> images = dirUtils.findImages(serverPath)
-    images.each {String fileName ->
+    images.each { String fileName ->
       if (!fileName.contains("-")) {
         String[] arr = fileName.split("\\.")
         resizeImage(serverPath, arr[0], arr[1])
       }
     }
-  }
+  }*/
 
   void resizeImage(String path, String fileName, String ext) {
     try {
@@ -99,6 +103,26 @@ class ImageService {
       log.error("Ошибка обработки картинки ${path}/${fileName}.${ext}")
     }
   }
+
+  String saveImageInTemp(InputStream is, String fileName, String ext) {
+    String UUID = UUID.randomUUID()
+    new File("${temp}\\${UUID}").mkdirs()
+    File newFile = new File("${temp}\\${UUID}\\${fileName}.${ext}");
+    boolean isCreate = newFile.createNewFile()
+    if (isCreate) {
+      OutputStream out = new FileOutputStream(newFile);
+      byte[] buf = new byte[1024];
+      int len;
+      while ((len = is.read(buf)) > 0)
+        out.write(buf, 0, len);
+      out.close();
+      is.close();
+    }
+
+    return UUID
+
+  }
+
 
   void writeImage(BufferedImage source, File dest, int size, String ext) {
 
@@ -150,6 +174,33 @@ class ImageService {
     return image
   }
 
+  AImage getImageFile(ProductEntity product, String size) {
+    AImage aImage
+
+    String imageDir = product.engImagePath;
+    String ext = getImageExtension("${store}/${imageDir}")
+    File image = new File("${store}/${imageDir}/1-${size}.${ext}")
+    if (image.exists())
+      aImage = new AImage(image.path)
+    else
+      aImage = new AImage("${images}/empty.png")
+
+    return aImage
+  }
+
+  public String getImageExtension(String dir) {
+    String ext = ".jpg"
+    File imageDir = new File(dir)
+    if (imageDir.exists())
+      imageDir.eachFile { it ->
+
+        String[] arr = it.name.split("\\.")
+        if ("1".equals(arr[0]))
+          ext = arr[1]
+      }
+    return ext
+  }
+
   boolean downloadImages(String from, String to) {
     boolean isDownloaded = false
     try {
@@ -161,6 +212,8 @@ class ImageService {
       String type = fileType(from)
       File image = new File("${dir}/1${type}")
       FileUtils.copyURLToFile(website, image)
+      resizeImage(image)
+
       isDownloaded = true
 
     } catch (Exception e) {
@@ -172,6 +225,70 @@ class ImageService {
   String fileType(String url) {
     int lastPoint = url.lastIndexOf(".")
     return url.substring(lastPoint)
+  }
+
+  void clearTemp() {
+    File file = new File(temp)
+    file.eachDir { it ->
+      if (it.isDirectory()) {
+        it.eachFile { image ->
+          image.delete()
+        }
+        it.delete()
+      }
+    }
+  }
+
+  File getSourceFile(String uuid) {
+    File result
+    new File("${temp}\\${uuid}").eachFile { it ->
+      if (it.name.startsWith("1."))
+        result = it
+    }
+    return result
+  }
+
+/*  String getProductImagePath(ProductEntity product) {
+
+    CategoryEntity category = ProductEntity.get(product.id).categories.first()
+    List<CategoryEntity> categories = new ArrayList<CategoryEntity>()
+    fillCategories(category, categories)
+    List<CategoryEntity> reverse = categories.reverse()
+
+    String imagePath = "${reverse.first()}/${product.manufacturer.name}"
+
+    CategoryEntity[] array = reverse.toArray()
+    for (int i = 1; i < array.length; i++) {
+      imagePath = "${imagePath}/${array[i].name}"
+    }
+
+    return imagePath
+
+  }
+
+  *//**
+   * Формирует иерархию категорий начиная с самой последней.
+   * @param category - предыдущая катеория.
+   *//*
+  void fillCategories(CategoryEntity category, List<CategoryEntity> categories) {
+    categories.add(category)
+    if (category != null && category.parentCategory != null)
+      fillCategories(category.parentCategory, categories)
+  }*/
+
+  void cleanStore(ProductEntity product) {
+    File store = new File("${store}\\${product.engImagePath}")
+
+    if (store.exists()) {
+      store.eachFile { it ->
+        it.delete()
+      }
+      store.eachDir { it ->
+        it.delete()
+      }
+      store.delete()
+    }
+
   }
 
 }

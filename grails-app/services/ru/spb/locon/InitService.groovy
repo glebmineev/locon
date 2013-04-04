@@ -2,7 +2,7 @@ package ru.spb.locon
 
 import org.springframework.beans.factory.InitializingBean
 
-class InitService implements InitializingBean{
+class InitService implements InitializingBean {
 
   static transactional = true
 
@@ -16,7 +16,7 @@ class InitService implements InitializingBean{
     recommended = ProductEntity.list(max: 4)
   }
 
-  void refreshShop(){
+  void refreshShop() {
     afterPropertiesSet()
   }
 

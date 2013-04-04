@@ -76,5 +76,56 @@ div.z-tabbox-accordion .z-tabpanel-accordion {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
-  border: 1px solid #E0F0FF;
+  border: 1px solid #346F97;
+}
+
+.imageBoxAdmin {
+  height: 320px;
+  background: #ffffff;
+  background: #FFFFFF;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #346F97;
+}
+
+span.z-upload input {
+  float: left;
+}
+
+div.z-grid {
+  border: none;
+  background-image: none;
+}
+
+div.z-grid-header tr.z-columns, div.z-grid-header tr.z-auxhead {
+  background-color: #f2f2f2;
+  background-image: none;
+}
+
+div.z-grid-header th.z-column, div.z-grid-header th.z-auxheader {
+  border: 1px solid #e2e2e2;
+  border-left: none;
+}
+
+tr.z-row td.z-row-inner, tr.z-row .z-cell {
+  border-right: 1px solid #efefef;
+}
+
+div.z-grid-header tr.z-columns th:first-child, div.z-grid-header tr.z-auxhead th:first-child {
+  border-left: 1px solid #e2e2e2;
+}
+
+div.z-grid-header tr.z-columns th:last-child, div.z-grid-header tr.z-auxhead th:last-child {
+  border-right: 1px solid #e2e2e2;
+}
+
+tr.z-row-over > td.z-row-inner, tr.z-row-over > .z-cell {
+  background-image: none;
+  border: 1px solid transparent;
+  border-right: 1px solid #efefef;
+}
+
+td.z-comboitem-text {
+  text-align: left;
 }

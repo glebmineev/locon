@@ -113,7 +113,16 @@
           <listitem onClick="@command('redirectToProductItem', product=item)">
             <listcell>
               <div align="center" sclass="imageBox">
-                <image src="/images/catalog/${item.engImagePath}/1-150.jpg"/>
+                <image>
+                  <zscript><![CDATA[
+                      ru.spb.locon.ImageService imageService =
+                                    org.codehaus.groovy.grails.commons.ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                      org.zkoss.image.AImage img = imageService.getImageFile(each, "${150}")
+                      self.setContent(img)
+                  ]]>
+                  </zscript>
+                </image>
               </div>
             </listcell>
             <listcell>

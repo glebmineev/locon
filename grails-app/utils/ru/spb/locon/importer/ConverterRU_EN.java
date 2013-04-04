@@ -95,6 +95,7 @@ public class ConverterRU_EN {
         }
       }
     }
-    return result;
+    String cleanResult = result.replace(" ", "").replace("%", "").replace("\"", "");
+    return cleanResult;
   }
 }

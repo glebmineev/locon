@@ -265,8 +265,9 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         String imagePath = "${menuCategory}/${manufacturer}/${sheetName}${categoryName != null ? "/${categoryName}" : ""}"
 
         String to = "${imagePath}/${product?.article}_${product.name}"
-        product.setImagePath(to)
-        product.setEngImagePath(ConverterRU_EN.translit(to).replace(" ", "").replace("%", ""))
+        //product.setImagePath(to)
+        String translited = ConverterRU_EN.translit(to)
+        product.setEngImagePath(translited)
 
         categoryCache.get(sheetName).each { CategoryEntity category ->
           if (category.name.equals(categoryName))
@@ -297,7 +298,8 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         String from = it.getData().get("F") as String
 
         //загружем изображение товара.
-        boolean isDownloaded = imageService.downloadImages(from, to)
+        boolean isDownloaded = imageService.downloadImages(from,
+            translited)
         if (!isDownloaded) {
           log.debug("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
           imageErrors.add("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")

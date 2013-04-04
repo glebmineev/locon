@@ -7,7 +7,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.BindComposer"
+  <window id="editorWnd" apply="ru.spb.locon.BindComposer"
           viewModel="@id('vm') @init('ru.spb.locon.admin.EditorViewModel')" width="100%">
 
     <style src="/css/ZK.css"/>
@@ -15,7 +15,7 @@
     <hbox widths="40%,60%">
       <vbox style="padding-right: 5px;">
         <tree id="categoryTree" onSelect="@command('updateSelectedItem')"
-            model="@bind(vm.categoryTreeModel) @template((each.editingStatus) ? 'editable' : 'noneditable')">
+              model="@bind(vm.categoryTreeModel) @template((each.editingStatus) ? 'editable' : 'noneditable')">
           <treecols>
             <treecol label="Категории"/>
             <treecol width="95px"/>
@@ -29,7 +29,8 @@
                 <treecell>
                   <image src="/images/pencil.png"
                          onClick="@command('changeEditableStatus', node=node)"/>
-                  <image src="/images/goods.png" width="24px" height="24px" onClick="@command('addProduct', node=node)"/>
+                  <image src="/images/add_product.png" width="24px" height="24px"
+                         onClick="@command('addProduct', node=node)"/>
                 </treecell>
               </treerow>
             </treeitem>
@@ -45,7 +46,8 @@
                     <image src="/images/success.gif"
                            onClick="@command('saveCategory', node=node)"/>
                     <image src="/images/cancel.png" onClick="@command('changeEditableStatus', node=node)"/>
-                    <image src="/images/goods.png" width="24px" height="24px" onClick="@command('addProduct', node=node)"/>
+                    <image src="/images/goods.png" width="24px" height="24px"
+                           onClick="@command('addProduct', node=node)"/>
                   </hbox>
                 </treecell>
               </treerow>
@@ -99,29 +101,40 @@
         </groupbox>
       </vbox>
 
-      <listbox id="products" mold="paging" model="@load(vm.productsModel)" height="100%" pageSize="10">
+      <listbox id="products" mold="paging" model="@bind(vm.productsModel)" height="100%" pageSize="10">
         <listhead>
-          <listheader width="170px"/>
+          <listheader width="190px"/>
           <listheader/>
         </listhead>
-        <template name="model" var="item">
-        <listitem onClick="@command('redirectToProductItem')">
-          <listcell>
-            <vbox align="end" sclass="imageBox">
-              <image width="150px" src="/images/empty.png"/>
-            </vbox>
-          </listcell>
-          <listcell>
-            <vbox>
-              <label value="${item.manufacturer.name}" style="font-size: 14px;margin-top: 5px;margin-bottom: 5px;"/>
-              <label value="${item.name}" style="font-size: 18px;margin-top: 5px;margin-bottom: 5px;"/>
-              <label value="Цена: ${item.price}" style="font-size: 14px;margin-bottom: 5px;"/>
-            </vbox>
-          </listcell>
-        </listitem>
+        <template name="model">
+          <listitem onClick="@command('redirectToProductItem', product=each)">
+            <listcell>
+              <div align="center" sclass="imageBox">
+                <image>
+                  <zscript><![CDATA[
+                      ru.spb.locon.ImageService imageService =
+                                    org.codehaus.groovy.grails.commons.ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                      org.zkoss.image.AImage img = imageService.getImageFile(each, "${150}")
+                      self.setContent(img)
+                  ]]>
+                  </zscript>
+                </image>
+              </div>
+            </listcell>
+            <listcell>
+              <vbox>
+                <label value="${each.manufacturer.name}" style="font-size: 14px;margin-top: 5px;margin-bottom: 5px;"/>
+                <label value="${each.name}" style="font-size: 18px;margin-top: 5px;margin-bottom: 5px;"/>
+                <label value="Цена: ${each.price}" style="font-size: 14px;margin-bottom: 5px;"/>
+                <button label="Удалить товар" onClick="@command('deleteProduct', product=each)"/>
+              </vbox>
+            </listcell>
+          </listitem>
         </template>
 
       </listbox>
+
     </hbox>
   </window>
 </zk>

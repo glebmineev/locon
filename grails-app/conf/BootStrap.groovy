@@ -52,7 +52,7 @@ class BootStrap {
 
     }
 
-    imageService.syncAllImagesWithServer()
+    //imageService.syncAllImagesWithServer()
 
   }
 

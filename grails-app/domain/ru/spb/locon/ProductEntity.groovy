@@ -78,7 +78,7 @@ class ProductEntity implements Comparable {
     volume nullable: true
     price nullable: true
     productProperty nullable: true
-    manufacturer nullable: true
+    manufacturer nullable: false
     countToStock nullable: true
     filter nullable: true
   }

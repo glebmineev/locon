@@ -59,14 +59,14 @@
 
   <div id="wrap_content">
 
-    <ul id="navigation">
+%{--    <ul id="navigation">
       <li class="home"><a href="" title="Главная"></a></li>
       <li class="person"><a href="" title="Личный кабинет"></a></li>
       <li class="search"><a href="" title="Поиск"></a></li>
       <li class="mail"><a href="" title="Почта"></a></li>
       <li class="order"><a href="" title="Заказы"></a></li>
       <li class="cart"><a href="" title="Корзина"></a></li>
-    </ul>
+    </ul>--}%
 
     ${wrap_content}
   </div>
