@@ -109,7 +109,7 @@
         <template name="model">
           <listitem onClick="@command('redirectToProductItem', product=each)">
             <listcell>
-              <div align="center" sclass="imageBox">
+              <div align="center" width="160px" sclass="imageBox">
                 <image>
                   <zscript><![CDATA[
                       ru.spb.locon.ImageService imageService =

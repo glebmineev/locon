@@ -77,6 +77,9 @@ div.z-tabbox-accordion .z-tabpanel-accordion {
   -moz-border-radius: 10px;
   border-radius: 10px;
   border: 1px solid #346F97;
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center
 }
 
 .imageBoxAdmin {
@@ -87,6 +90,9 @@ div.z-tabbox-accordion .z-tabpanel-accordion {
   -moz-border-radius: 10px;
   border-radius: 10px;
   border: 1px solid #346F97;
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center
 }
 
 span.z-upload input {

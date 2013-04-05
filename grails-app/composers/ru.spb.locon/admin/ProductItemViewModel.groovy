@@ -97,13 +97,12 @@ class ProductItemViewModel {
     AImage media = uploadEvent.getMedia() as AImage
 
     String fullFileName = media.getName()
-    String fileName = fullFileName.split("\\.")[0]
     String ext = fullFileName.split("\\.")[1]
 
     uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
     imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ext)
 
-    image.setContent(media)
+    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-300.${ext}"))
 
   }
 

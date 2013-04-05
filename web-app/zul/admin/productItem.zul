@@ -30,10 +30,10 @@
          ]]>
          </html>-->
     <h:table width="100%" cellpadding="0" cellspacing="15">
-      <h:tr>
+      <h:tr valign="middle">
         <h:td align="right" width="50%">
-          <div width="320px" align="center" sclass="imageBoxAdmin">
-            <image id="targetImage"/>
+          <div id="imageDiv" width="320px" align="center" sclass="imageBoxAdmin">
+            <image id="targetImage" style="margin: 10px"/>
             <zscript><![CDATA[
 
                       import ru.spb.locon.*
@@ -49,8 +49,9 @@
                         ProductEntity product = ProductEntity.get(productID)
                         if (product != null) {
 
-                        AImage img = imageService.getImageFile(product, "${300}")
-                        targetImage.setContent(img)
+                          AImage img = imageService.getImageFile(product, "${300}")
+                          targetImage.setContent(img)
+
                         }
                       }
                   ]]>
