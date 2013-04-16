@@ -1,0 +1,1 @@
+<tpl:zkBody zul="/zul/navigate/navigate.zul"/>

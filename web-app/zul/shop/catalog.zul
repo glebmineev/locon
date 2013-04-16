@@ -7,38 +7,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <!--  <window apply="ru.spb.locon.catalog.CatalogComposer" width="100%">
-      <h:table width="100%" cellpadding="0" cellspacing="0">
-        <h:tr>
-          <h:td width="30%" valign="top" align="left">
-            <vbox width="100%">
-              <tree id="categoryTree" zclass="z-dottree" width="260px" height="100%">
-                <treechildren/>
-              </tree>
-              <tabbox id="filterGroups" mold="accordion" width="260px"/>
-            </vbox>
-          </h:td>
-          <h:td valign="top" width="70%">
-            <listbox id="products" mold="paging" height="100%" pageSize="10">
-              <listhead>
-                <listheader width="190px"/>
-                <listheader/>
-              </listhead>
-            </listbox>
-          </h:td>
-        </h:tr>
-      </h:table>
-
-    </window>-->
   <window apply="ru.spb.locon.BindComposer"
           viewModel="@id('vm') @init('ru.spb.locon.catalog.CatalogViewModel')" width="100%">
     <style src="/css/ZK.css"/>
+    <include src="../navigate/navigate.zul" some="${'test'}"/>
     <hbox widths="30%,70%">
       <vbox width="100%" style="padding-right: 5px;">
         <tree id="categoryTree" zclass="z-dottree" height="100%"
               model="@load(vm.categoryTreeModel)">
           <template name="model" var="node">
-            <!--              <treechildren>-->
             <treeitem open="@bind(node.open)" onClick="@command('refreshModels')">
               <treerow>
                 <treecell>
@@ -46,7 +23,6 @@
                 </treecell>
               </treerow>
             </treeitem>
-            <!--              </treechildren>-->
           </template>
         </tree>
 
@@ -56,10 +32,10 @@
           <listbox id="manufListbox" model="@load(vm.manufsFilterModel)" multiple="true" checkmark="true"
                    height="122px">
             <listhead>
-              <listheader onClick="@command('addAllProducts')" label="Производитель"/>
+              <listheader label="Производитель"/>
             </listhead>
             <template name="model" var="item">
-              <listitem>
+              <listitem onClick="@command('filtred')">
                 <listcell>
                   <label value="${item.name}"/>
                 </listcell>
@@ -69,70 +45,208 @@
           <h:br/>
           <listbox id="usageListbox" model="@load(vm.usageFilterModel)" multiple="true" checkmark="true" height="300px">
             <listhead>
-              <listheader onClick="@command('addAllProducts')" label="Применение"/>
+              <listheader label="Применение"/>
             </listhead>
             <template name="model" var="item">
-              <listitem onClick="@command('selectAllManufs')">
+              <listitem onClick="@command('filtred')">
                 <listcell>
                   <label value="${item.name}"/>
                 </listcell>
               </listitem>
             </template>
           </listbox>
-          <h:br/>
-          <button label="Поиск" onClick="@command('search')"/>
         </groupbox>
-        <!--            <tabbox id="filterGroups" mold="accordion" width="260px">
-                      <tabs>
-                        <tab forEach="${vm.groupFilterModel}" selected="${each.name == 'Производитель'}"
-                             label="${each.name}"
-                             onClick="@global-command('rebuildFilterModel', group=self.label)"/>
-                      </tabs>
-                      <tabpanels>
-                        <tabpanel forEach="${vm.groupFilterModel}">
-                          <listbox model="@load(vm.filterModel)">
-                            <template name="model" var="item">
-                              <listitem>
-                                <listcell>
-                                  <label value="${item.name}"/>
-                                </listcell>
-                              </listitem>
-                            </template>
-                          </listbox>
-                        </tabpanel>
-                      </tabpanels>
-                    </tabbox>-->
       </vbox>
 
-      <listbox id="products" mold="paging" model="@load(vm.productsModel)" height="100%" pageSize="10">
-        <listhead>
-          <listheader width="190px"/>
-          <listheader/>
-        </listhead>
+      <!-- тавары  -->
+      <listbox id="products" zclass="catalog" mold="paging" model="@load(vm.productsModel)" height="100%" pageSize="4">
         <template name="model">
-          <listitem onClick="@command('redirectToProductItem', product=each)">
-            <listcell>
-              <div align="center" sclass="imageBox">
-                <image>
-                  <zscript><![CDATA[
-                      ru.spb.locon.ImageService imageService =
-                                    org.codehaus.groovy.grails.commons.ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-                      org.zkoss.image.AImage img = imageService.getImageFile(each, "${150}")
+          <listitem zclass="catalog-listitem">
+            <listcell zclass="catalog-listcell">
+              <hbox spacing="10px">
+                <!-- первый товар -->
+                <div sclass="productBox" if="${each.size() > 0}">
+                  <div align="center">
+                    <image sclass="productImage" onClick="@command('redirectToProductItem', product=each.get(0))">
+                      <zscript><![CDATA[
+                      import ru.spb.locon.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import org.zkoss.image.*
+
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                      def product = ProductEntity.get(each.get(0).id)
+
+                      AImage img = imageService.getImageFile(product, "${150}")
                       self.setContent(img)
-                  ]]>
-                  </zscript>
-                </image>
-              </div>
+                      ]]>
+                      </zscript>
+                    </image>
+                  </div>
+                  <vbox>
+                  <div height="20px" style="margin: 5px">
+                    <label style="color: green">
+                      <zscript><![CDATA[
+                          import ru.spb.locon.*
+
+                          def product = ProductEntity.get(each.get(0).id)
+                          self.setValue(product.manufacturer.name)
+                        ]]>
+                      </zscript>
+                    </label>
+                  </div>
+                  <div align="left" height="60px" style="margin: 5px">
+                    <label style="font-weight: bold">
+                      <zscript><![CDATA[
+                        import ru.spb.locon.*
+
+                        def product = ProductEntity.get(each.get(0).id)
+                        self.setValue(product.name)
+                        ]]>
+                      </zscript>
+                    </label>
+                  </div>
+                  <div align="left" height="10px" style="margin: 5px;">
+                    <label style="font-weight: bold; font-size: 16pt">
+                      <zscript><![CDATA[
+                        import ru.spb.locon.*
+
+                        def product = ProductEntity.get(each.get(0).id)
+                        self.setValue("Цена: ${product.price}")
+                        ]]>
+                      </zscript>
+                    </label>
+                  </div>
+                  <div align="center" width="100%">
+                    <button label="В корзину"
+                            onClick="@command('toCart', product=each.get(0))"/>
+                  </div>
+                  </vbox>
+                </div>
+                <!-- второй товар -->
+                <div sclass="productBox" if="${each.size() > 1}">
+                  <div align="center">
+                    <image sclass="productImage" onClick="@command('redirectToProductItem', product=each.get(1))">
+                      <zscript><![CDATA[
+                      import ru.spb.locon.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import org.zkoss.image.*
+
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                      ProductEntity product = ProductEntity.get(each.get(1).id)
+
+                      AImage img = imageService.getImageFile(product, "${150}")
+                      self.setContent(img)
+                      ]]>
+                      </zscript>
+                    </image>
+                  </div>
+                  <vbox>
+                    <div height="20px" style="margin: 5px">
+                      <label style="color: green">
+                        <zscript><![CDATA[
+                      import ru.spb.locon.*
+
+                      def product = ProductEntity.get(each.get(1).id)
+                      self.setValue(product.manufacturer.name)
+                      ]]>
+                        </zscript>
+                      </label>
+                    </div>
+                    <div align="left" height="60px" style="margin: 5px">
+                      <label style="font-weight: bold">
+                        <zscript><![CDATA[
+                      import ru.spb.locon.*
+
+                      def product = ProductEntity.get(each.get(1).id)
+                      self.setValue(product.name)
+                      ]]>
+                        </zscript>
+                      </label>
+                    </div>
+                    <div align="left" height="10px" style="margin: 5px;">
+                      <label style="font-weight: bold; font-size: 16pt">
+                        <zscript><![CDATA[
+                      import ru.spb.locon.*
+
+                      def product = ProductEntity.get(each.get(1).id)
+                      self.setValue("Цена: ${product.price}")
+                      ]]>
+                        </zscript>
+                      </label>
+                    </div>
+                    <div align="center" width="100%">
+                      <button label="В корзину" onClick="@command('toCart', product=each.get(1))"/>
+                    </div>
+                  </vbox>
+                </div>
+                <!-- третий товар -->
+                <div sclass="productBox" if="${each.size() > 2}">
+                  <div align="center">
+                    <image sclass="productImage" onClick="@command('redirectToProductItem', product=each.get(2))">
+                      <zscript><![CDATA[
+
+                      import ru.spb.locon.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import org.zkoss.image.*
+
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                      ProductEntity product = ProductEntity.get(each.get(2).id)
+
+                      AImage img = imageService.getImageFile(product, "${150}")
+                      self.setContent(img)
+                      ]]>
+                      </zscript>
+                    </image>
+                  </div>
+                  <vbox>
+                    <div height="20px" style="margin: 5px">
+                      <label style="color: green;">
+                        <zscript><![CDATA[
+                      import ru.spb.locon.*
+
+                      def product = ProductEntity.get(each.get(2).id)
+                      self.setValue(product.manufacturer.name)
+                      ]]>
+                        </zscript>
+                      </label>
+                    </div>
+                    <div align="left" height="60px" style="margin: 5px">
+                      <label style="font-weight: bold">
+                        <zscript><![CDATA[
+                      import ru.spb.locon.*
+
+                      def product = ProductEntity.get(each.get(2).id)
+                      self.setValue(product.name)
+                      ]]>
+                        </zscript>
+                      </label>
+                    </div>
+                    <div align="left" height="10px" style="margin: 5px;">
+                      <label style="font-weight: bold; font-size: 16pt">
+                        <zscript><![CDATA[
+                      import ru.spb.locon.*
+
+                      def product = ProductEntity.get(each.get(2).id)
+                      self.setValue("Цена: ${product.price}")
+                      ]]>
+                        </zscript>
+                      </label>
+                    </div>
+                    <div align="center" width="100%">
+                      <button label="В корзину" onClick="@command('toCart', product=each.get(2))"/>
+                    </div>
+                  </vbox>
+                </div>
+              </hbox>
             </listcell>
-            <listcell>
-              <vbox>
-                <label value="${each.manufacturer.name}" style="font-size: 14px;margin-top: 5px;margin-bottom: 5px;"/>
-                <label value="${each.name}" style="font-size: 18px;margin-top: 5px;margin-bottom: 5px;"/>
-                <label value="Цена: ${each.price}" style="font-size: 14px;margin-bottom: 5px;"/>
-                <button label="В корзину" onClick="@command('toCart', product=each)"/>
-              </vbox>
-            </listcell>
+
           </listitem>
         </template>
 

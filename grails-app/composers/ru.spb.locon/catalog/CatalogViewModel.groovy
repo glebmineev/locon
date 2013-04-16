@@ -1,17 +1,21 @@
 package ru.spb.locon.catalog
 
 import com.google.common.collect.Lists
+import javassist.tools.web.Viewer
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
+import org.zkoss.bind.annotation.GlobalCommand
 import org.zkoss.bind.annotation.Init
+import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.*
+import org.zkoss.zul.event.PagingEvent
 import ru.spb.locon.*
 import ru.spb.locon.tree.node.CategoryTreeNode
 
@@ -25,20 +29,14 @@ import ru.spb.locon.tree.node.CategoryTreeNode
 class CatalogViewModel {
 
   DefaultTreeModel categoryTreeModel
-
-  ListModelList<ProductEntity> productsModel
-  ProductRenderer productsRenderer
-
+  ListModelList<List<ProductEntity>> productsModel
   ListModelList<ManufacturerEntity> manufsFilterModel
   ListModelList<FilterEntity> usageFilterModel
   ListModelList<FilterGroupEntity> groupFilterModel
 
   Long categoryID
-
-  ImageService imageSyncService = SpringUtil.getApplicationContext().getBean("imageService") as ImageService
+  List<ProductEntity> products
   CartService cartService = SpringUtil.getApplicationContext().getBean("cartService") as CartService
-
-  List<Long> checked = new ArrayList<Long>()
 
   @Init
   public void init() {
@@ -51,42 +49,23 @@ class CatalogViewModel {
 
     categoryTreeModel = new DefaultTreeModel(root)
 
-    productsModel = new BindingListModelList<ProductEntity>(ProductEntity.list(), true)
-    productsRenderer = new ProductRenderer()
-
     CategoryEntity category = CategoryEntity.get(categoryID)
-
-    List<ProductEntity> products = collectAllProducts(category, Lists.newArrayList())
-
-    FilterGroupEntity manufsGroup = FilterGroupEntity.findByName("Производитель")
+    products = collectAllProducts(category, Lists.newArrayList())
     List<FilterEntity> filters = products.filter.unique() as List<FilterEntity>
     manufsFilterModel = new BindingListModelList<ManufacturerEntity>(
         products.manufacturer.unique() as List<ManufacturerEntity>,
         true
     )
     manufsFilterModel.setMultiple(true)
-
-    FilterGroupEntity usageGroup = FilterGroupEntity.findByName("Применение")
-    usageFilterModel = new BindingListModelList<FilterEntity>(
-        filters.findAll { it ->
-          it.filterGroup.name.equals(usageGroup.name)
-        },
-        true
-    )
-
+    usageFilterModel = new BindingListModelList<FilterEntity>(filters, true)
     usageFilterModel.setMultiple(true)
-
-    groupFilterModel = new BindingListModelList<FilterGroupEntity>(FilterGroupEntity.list(sort: "name"), true)
-
-    productsModel = new BindingListModelList<ProductEntity>(collectAllProducts(category, Lists.newArrayList()), true)
-    productsRenderer = new ProductRenderer()
+    productsModel = new BindingListModelList<List<ProductEntity>>(split(products, 3), true)
 
   }
 
   /*
    * метод формирует модель дерева категорий.
    */
-
   void createTreeModel(CategoryTreeNode parent, List<CategoryEntity> children) {
     children.each { CategoryEntity category ->
       CategoryTreeNode node = new CategoryTreeNode(category, category.name)
@@ -117,46 +96,21 @@ class CatalogViewModel {
   }
 
   @Command
-  public void addAllProducts(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
-    Listheader target = event.target as Listheader
-    FilterEntity filter = target.getValue() as FilterEntity
-
-  }
-
-  @Command
-  public void selectAllManufs(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
-    Listitem listitem = event.getTarget() as Listitem
-    if (listitem.isSelected())
-      manufsFilterModel.setSelection(manufsFilterModel.getInnerList())
-
-  }
-
-  @Command
-  public void search(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
+  @NotifyChange(["productsModel"])
+  public void filtred() {
 
     List<String> manufsSelection = manufsFilterModel.getSelection().collect { it.name } as List<String>
     List<String> usageSelection = usageFilterModel.getSelection().collect { it.name } as List<String>
 
-    List<ManufacturerEntity> manufs = ManufacturerEntity.findAllByNameInList(manufsSelection)
-    CategoryEntity categoryEntity = CategoryEntity.get(categoryID)
-    List<ProductEntity> retrieved = collectAllProducts(categoryEntity, new ArrayList<ProductEntity>())
+    List<ProductEntity> result = products
+    if (manufsSelection.size() > 0)
+      result = products.findAll { it -> manufsSelection.contains(it.manufacturer.name) }
 
-    List<ProductEntity> result = new ArrayList<ProductEntity>()
+    if (usageSelection.size() > 0)
+      result = result.findAll { it -> usageSelection.contains(it.filter.name) }
 
-    retrieved.each { it ->
-      ManufacturerEntity manufacturer = it.manufacturer
-      if (manufs.contains(manufacturer)) {
-        FilterEntity filter = it.filter
-        if (usageSelection.size() > 0) {
-          if (usageSelection.contains(filter.name))
-            result.add(it)
-        } else
-          result.add(it)
-
-      }
-    }
     productsModel.clear()
-    productsModel.addAll(result)
+    productsModel.addAll(split(result, 3))
   }
 
   /**
@@ -171,22 +125,19 @@ class CatalogViewModel {
     categoryID = categoryEntity.id
 
     CategoryEntity retrivedCategory = CategoryEntity.get(categoryID)
+    products = collectAllProducts(retrivedCategory, Lists.newArrayList())
+
     //обновляем модель фильтра по производителю.
-    FilterGroupEntity manufsGroup = FilterGroupEntity.findByName("Производитель")
     manufsFilterModel.clear()
-
-    List<ProductEntity> products = collectAllProducts(retrivedCategory, Lists.newArrayList())
-
     manufsFilterModel.addAll(products.manufacturer.unique() as List<ManufacturerEntity>)
 
     //обновляем модель фильтра по применению.
-    FilterGroupEntity usageGroup = FilterGroupEntity.findByName("Применение")
     usageFilterModel.clear()
     usageFilterModel.addAll(products.filter.unique() as List<FilterEntity>)
 
     //обновляем модель товаров.
     productsModel.clear()
-    productsModel.addAll(collectAllProducts(retrivedCategory, Lists.newArrayList()))
+    productsModel.addAll(split(products, 3))
 
   }
 
@@ -202,7 +153,30 @@ class CatalogViewModel {
     else {
       products.addAll(category.products as List<ProductEntity>)
     }
+
     return products
+  }
+
+  public List<List<ProductEntity>> split(List list, int i ){
+    List<List<ProductEntity>> out = new ArrayList<List<ProductEntity>>();
+
+    int size = list.size();
+
+    int number = size/i;
+    int remain = size % i;
+    if(remain != 0){
+      number++;
+    }
+
+    for(int j = 0; j < number; j++){
+      int start  = j * i;
+      int end =  start+ i;
+      if(end > list.size()){
+        end = list.size();
+      }
+      out.add(list.subList(start, end));
+    }
+    return out;
   }
 
   @Command
@@ -212,7 +186,7 @@ class CatalogViewModel {
 
   @Command
   public void toCart(@BindingParam("product") ProductEntity product){
-    cartService.addToCart(product)
+    cartService.addToCart(ProductEntity.get(product.id))
   }
 
   ListModelList<FilterGroupEntity> getGroupFilterModel() {
@@ -253,14 +227,6 @@ class CatalogViewModel {
 
   void setProductsModel(ListModelList<ProductEntity> productsModel) {
     this.productsModel = productsModel
-  }
-
-  ProductRenderer getProductsRenderer() {
-    return productsRenderer
-  }
-
-  void setProductsRenderer(ProductRenderer productsRenderer) {
-    this.productsRenderer = productsRenderer
   }
 
 }

@@ -8,7 +8,7 @@
   <g:javascript library="jquery" src="jquery-1.7.1.min.js"/>
   <g:javascript library="nivo" src="slider/jquery.nivo.slider.js"/>
   <g:javascript library="carousel" src="carousel/jquery.jcarousel.min.js"/>
-  <g:javascript library="carousel" src="ckeditor.js"/>
+  <g:javascript library="ckeditor" src="ckeditor.js"/>
   <g:javascript library="megamenu" src="megamenu/jquery.dcmegamenu.1.3.3.js"/>
   <g:javascript library="hoverIntent" src="megamenu/jquery.hoverIntent.minified.js"/>
 
@@ -55,6 +55,10 @@
 
   <div id="menu">
     ${menu}
+  </div>
+
+  <div id="navigate">
+    ${navigate}
   </div>
 
   <div id="wrap_content">

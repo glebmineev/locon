@@ -1,7 +1,7 @@
 body {
   text-align: center;
-  background: url("../images/fon2.jpg") repeat;
-  /*background: url("../images/fon.png") repeat;*/
+  background: #fed22f;
+  /*background: url("../images/fon2.jpg") repeat;*/
 }
 
 #content {

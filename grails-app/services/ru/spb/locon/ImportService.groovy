@@ -318,20 +318,25 @@ class ImportService extends IImporterService implements ApplicationContextAware 
   }
 
   ProductEntity getProduct(CellHandler cellHandler) {
+    ProductEntity product
+    try {
+      product = ProductEntity.findByNameAndArticle(cellHandler.data.get("B") as String, cellHandler.data.get("A") as String)
+      if (product == null)
+        product = ProductEntity.newInstance()
 
-    ProductEntity product = ProductEntity.findByNameAndArticle(cellHandler.data.get("B") as String, cellHandler.data.get("A") as String)
-    if (product == null)
-      product = ProductEntity.newInstance()
+      product = new ProductEntity(
+          article: cellHandler.data.get("A") as String,
+          name: cellHandler.data.get("B") as String,
+          volume: cellHandler.data.get("D") as String,
+          price: Math.round(cellHandler.data.get("E") as Float),
+          description: cellHandler.data.get("G") as String,
+          usage: cellHandler.data.get("H") as String,
+          manufacturer: manufacturer
+      )
+    } catch (Exception ex) {
+      log.error(ex)
+    }
 
-    product = new ProductEntity(
-        article: cellHandler.data.get("A") as String,
-        name: cellHandler.data.get("B") as String,
-        volume: cellHandler.data.get("D") as String,
-        price: Math.round(cellHandler.data.get("E") as Float),
-        description: cellHandler.data.get("G") as String,
-        usage: cellHandler.data.get("H") as String,
-        manufacturer: manufacturer
-    )
 
     return product
 

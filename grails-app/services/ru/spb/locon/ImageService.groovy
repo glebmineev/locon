@@ -27,7 +27,6 @@ class ImageService {
   //Логгер
   static Logger log = LoggerFactory.getLogger(ImageService.class)
 
-  ImageHandler dirUtils = new ImageHandler()
   StringUtils stringUtils = new StringUtils()
   String store
   String images
@@ -40,67 +39,16 @@ class ImageService {
     temp = "${root}\\images\\temp"
   }
 
-/*  void syncAllImagesWithServer() {
-    //Чистим директорию скартинками полностью.
-    File catalog = new File(images)
-    catalog.delete()
-
-    File storeFolder = new File(store)
-    if (storeFolder.exists()) {
-      ProductEntity.list().each { ProductEntity product ->
-        String serverPath = ConverterRU_EN.translit("${images}\\${product.imagePath}").replace(" ", "").replace("%", "")
-        File src = new File("${store}\\${product.imagePath}")
-        File dest = new File(serverPath)
-        //копируем содержимое папки productImages в images на сервере.
-        if (src.exists()) {
-          FileUtils.copyDirectory(src, dest)
-
-          //делаем изображения разной величины.
-          List<String> images = dirUtils.findImages(serverPath)
-          images.each { String fileName ->
-            if (!fileName.contains("-")) {
-              String[] arr = fileName.split("\\.")
-              resizeImage(serverPath, arr[0], arr[1])
-            }
-          }
-
-        }
-
-      }
-    }
-  }
-
-  void syncWithServer(ProductEntity product) {
-    //директория с томкатом.
-    String serverPath = ConverterRU_EN.translit("${images}\\${product.imagePath}").replace(" ", "").replace("%", "")
-    //productImages.
-    File src = new File("${store}\\${product.imagePath}")
-    //locon/images.
-    File dest = new File(serverPath)
-    if (!dest.exists())
-      dest.mkdirs()
-    //копируем.
-    FileUtils.copyDirectory(src, dest)
-
-    List<String> images = dirUtils.findImages(serverPath)
-    images.each { String fileName ->
-      if (!fileName.contains("-")) {
-        String[] arr = fileName.split("\\.")
-        resizeImage(serverPath, arr[0], arr[1])
-      }
-    }
-  }*/
-
   void resizeImage(String path, String fileName, String ext) {
     try {
-      BufferedImage source = ImageIO.read(new File("${path}/${fileName}.${ext}"))
+      BufferedImage source = ImageIO.read(new File("${path}/${fileName}${ext}"))
 
-      writeImage(source, new File("${path}\\${fileName}-150.${ext}"), 150, ext)
-      writeImage(source, new File("${path}\\${fileName}-300.${ext}"), 300, ext)
-      writeImage(source, new File("${path}\\${fileName}-500.${ext}"), 500, ext)
+      writeImage(source, new File("${path}\\${fileName}-150${ext}"), 150, ext)
+      writeImage(source, new File("${path}\\${fileName}-300${ext}"), 300, ext)
+      writeImage(source, new File("${path}\\${fileName}-500${ext}"), 500, ext)
 
     } catch (IOException ex) {
-      log.error("Ошибка обработки картинки ${path}/${fileName}.${ext}")
+      log.error("Ошибка обработки картинки ${path}/${fileName}${ext}")
     }
   }
 
@@ -123,13 +71,26 @@ class ImageService {
 
   }
 
+  void overwriteImage(InputStream is, ProductEntity product, String ext) {
+    File newFile = new File("${store}\\${product.engImagePath}\\1.${ext}");
+    boolean isCreate = newFile.createNewFile()
+    if (isCreate) {
+      OutputStream out = new FileOutputStream(newFile);
+      byte[] buf = new byte[1024];
+      int len;
+      while ((len = is.read(buf)) > 0)
+        out.write(buf, 0, len);
+      out.close();
+      is.close();
+    }
+  }
 
   void writeImage(BufferedImage source, File dest, int size, String ext) {
 
     int width = source.width
     int height = source.height
 
-    float scale = 1
+    float scale
 
     if (width > height)
       scale = (size / width)
@@ -176,7 +137,6 @@ class ImageService {
 
   AImage getImageFile(ProductEntity product, String size) {
     AImage aImage
-
     String imageDir = product.engImagePath;
     String ext = getImageExtension("${store}/${imageDir}")
     File image = new File("${store}/${imageDir}/1-${size}.${ext}")
@@ -212,7 +172,7 @@ class ImageService {
       String type = fileType(from)
       File image = new File("${dir}/1${type}")
       FileUtils.copyURLToFile(website, image)
-      resizeImage(image)
+      resizeImage("${store}/${to}", "1", type)
 
       isDownloaded = true
 
@@ -227,57 +187,22 @@ class ImageService {
     return url.substring(lastPoint)
   }
 
-  void clearTemp() {
-    File file = new File(temp)
-    file.eachDir { it ->
-      if (it.isDirectory()) {
-        it.eachFile { image ->
-          image.delete()
-        }
-        it.delete()
-      }
-    }
-  }
-
-  File getSourceFile(String uuid) {
-    File result
-    new File("${temp}\\${uuid}").eachFile { it ->
-      if (it.name.startsWith("1."))
-        result = it
-    }
-    return result
-  }
-
-/*  String getProductImagePath(ProductEntity product) {
-
-    CategoryEntity category = ProductEntity.get(product.id).categories.first()
-    List<CategoryEntity> categories = new ArrayList<CategoryEntity>()
-    fillCategories(category, categories)
-    List<CategoryEntity> reverse = categories.reverse()
-
-    String imagePath = "${reverse.first()}/${product.manufacturer.name}"
-
-    CategoryEntity[] array = reverse.toArray()
-    for (int i = 1; i < array.length; i++) {
-      imagePath = "${imagePath}/${array[i].name}"
-    }
-
-    return imagePath
-
-  }
-
-  *//**
-   * Формирует иерархию категорий начиная с самой последней.
-   * @param category - предыдущая катеория.
-   *//*
-  void fillCategories(CategoryEntity category, List<CategoryEntity> categories) {
-    categories.add(category)
-    if (category != null && category.parentCategory != null)
-      fillCategories(category.parentCategory, categories)
-  }*/
-
   void cleanStore(ProductEntity product) {
     File store = new File("${store}\\${product.engImagePath}")
+
+    if (store.exists()) {
+      store.eachFile { it ->
+        it.delete()
+      }
+      store.eachDir { it ->
+        it.delete()
+      }
+      store.delete()
+    }
+
+  }
+
+  void cleanStore(File store) {
 
     if (store.exists()) {
       store.eachFile { it ->

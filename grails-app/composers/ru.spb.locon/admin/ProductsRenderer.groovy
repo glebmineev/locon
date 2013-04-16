@@ -1,12 +1,11 @@
 package ru.spb.locon.admin
 
+import org.zkoss.image.AImage
 import ru.spb.locon.ProductEntity
 import org.zkoss.zul.ListitemRenderer
 import java.lang.reflect.Field
 import ru.spb.locon.annotation.FieldInfo
-import org.zkoss.zul.Image
-import org.zkoss.zul.Listcell
-import org.zkoss.zul.Div
+import org.zkoss.zul.*
 import ru.spb.locon.ImageService
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 
@@ -17,7 +16,7 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
  */
 class ProductsRenderer implements ListitemRenderer<ProductEntity> {
 
-  ImageService imageSyncService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
 
   @Override
   void render(org.zkoss.zul.Listitem listitem, ProductEntity t, int i) {
@@ -25,8 +24,13 @@ class ProductsRenderer implements ListitemRenderer<ProductEntity> {
     listitem.setValue(t)
 
     Listcell imageCell = new Listcell()
-    Image image = imageSyncService.getProductImage(t, "150")
+    Image image = new Image()
+    AImage aImage = imageService.getImageFile(t, "150")
+    image.setContent(aImage)
+
     Div imageDiv = new Div()
+    imageDiv.setWidth("160px")
+    imageDiv.setAlign("center")
     imageDiv.setSclass("imageBox")
     image.setParent(imageDiv)
     imageCell.appendChild(imageDiv)

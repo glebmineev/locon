@@ -9,6 +9,10 @@
       <g:include view="common/menu.gsp"/>
     </tpl:block>
 
+    <tpl:block name="navigate">
+      <g:include view="common/navigate.gsp"/>
+    </tpl:block>
+
     <tpl:block name="wrap_content">
       <tpl:zkBody zul="/zul/shop/catalog.zul"/>
     </tpl:block>

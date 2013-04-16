@@ -13,6 +13,7 @@ import org.zkoss.zk.ui.event.*
 import org.zkoss.zul.*
 import ru.spb.locon.*
 import ru.spb.locon.ImageService
+import ru.spb.locon.common.PathHandler
 import ru.spb.locon.importer.ConverterRU_EN
 import ru.spb.locon.tree.node.CategoryTreeNode
 
@@ -26,6 +27,7 @@ import ru.spb.locon.tree.node.CategoryTreeNode
 class ProductItemViewModel {
 
   Long categoryID
+  Long productID
   String uuid
 
   ListModelList<Object> productItemModel = new ListModelList<Object>()
@@ -55,7 +57,6 @@ class ProductItemViewModel {
     initComboboxes()
 
     HashMap<String, Object> arg = Executions.getCurrent().getArg() as HashMap<String, Object>
-    Long productID
 
     if (arg.size() > 0) {
       categoryID = arg.get("category") as Long
@@ -100,57 +101,101 @@ class ProductItemViewModel {
     String ext = fullFileName.split("\\.")[1]
 
     uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ext)
-
+    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}")
     image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-300.${ext}"))
 
   }
 
   @Command
   public void saveItem(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
-    ProductEntity product = new ProductEntity()
-    product.addToCategories(CategoryEntity.get(categoryID))
-    product.setName(name)
-    product.setArticle(article)
-    product.setManufacturer(selectedManufacturer)
-    product.setDescription(description)
-    product.setFilter(selectedFilter)
-    //если валидно копируемфайл картинки из темповой дериктории.
-    if (product.validate()) {
-      File src = new File("${imageService.temp}\\${uuid}")
+    ProductEntity product = ProductEntity.get(productID)
+    if (product == null)
+      saveProduct(new ProductEntity())
+    else
+      updateProduct(product)
 
-      String dirPath = getProductImagePath()
-      String filePath = "${dirPath}/${article}_${name}"
-      String translit = ConverterRU_EN.translit("${filePath}")
+    Executions.sendRedirect("/admin/editor")
+  }
 
-      product.setImagePath(filePath)
-      product.setEngImagePath(translit)
+  public void saveProduct(ProductEntity product) {
+    ProductEntity.withTransaction {
+      product.addToCategories(CategoryEntity.get(categoryID))
+      product.setName(name)
+      product.setArticle(article)
+      product.setManufacturer(selectedManufacturer)
+      product.setDescription(description)
+      product.setFilter(selectedFilter)
+      //если валидно копируемфайл картинки из темповой дериктории.
+      if (product.validate()) {
+        File src = new File("${imageService.temp}\\${uuid}")
 
-      product.save(flush: true)
+        String dirPath = getProductImagePath()
+        String filePath = "${dirPath}/${article}_${name}"
+        String translit = ConverterRU_EN.translit("${filePath}")
 
-      if (uuid != null) {
+        product.setImagePath(filePath)
+        product.setEngImagePath(translit)
+
+        product.save(flush: true)
+
+        if (uuid != null) {
+          File store = new File("${imageService.store}\\${translit}")
+          if (!store.exists())
+            store.mkdirs()
+
+          FileUtils.copyDirectory(src, store)
+        }
+
+      }
+
+    }
+  }
+
+  public void updateProduct(ProductEntity product) {
+
+    ProductEntity.withTransaction {
+      product.addToCategories(CategoryEntity.get(categoryID))
+      product.setName(name)
+      product.setArticle(article)
+      product.setManufacturer(selectedManufacturer)
+      product.setDescription(description)
+      product.setFilter(selectedFilter)
+      //если валидно копируемфайл картинки из темповой дериктории.
+      if (product.validate()) {
+
+        String oldPath = product.engImagePath
+        File src = new File("${imageService.store}\\${oldPath}")
+        if (uuid != null)
+          src = new File("${imageService.temp}\\${uuid}")
+
+        String dirPath = getProductImagePath()
+        String filePath = "${dirPath}/${article}_${name}"
+        String translit = ConverterRU_EN.translit("${filePath}")
+
+        product.setImagePath(filePath)
+        product.setEngImagePath(translit)
+        product.save(flush: true)
+
         File store = new File("${imageService.store}\\${translit}")
         if (!store.exists())
           store.mkdirs()
 
         FileUtils.copyDirectory(src, store)
+        imageService.cleanStore(src)
       }
-
     }
-
-    Executions.sendRedirect("/admin/editor")
   }
+
+
 
   String getProductImagePath() {
 
     CategoryEntity category = CategoryEntity.get(categoryID)
-    List<CategoryEntity> categories = new ArrayList<CategoryEntity>()
-    fillCategories(category, categories)
-    List<CategoryEntity> reverse = categories.reverse()
+    List<CategoryEntity> categories = PathHandler.getCategoryPath(category)
 
-    String imagePath = "${reverse.first()}/${selectedManufacturer.name}"
+    String imagePath = "${categories.first()}/${selectedManufacturer.name}"
 
-    CategoryEntity[] array = reverse.toArray()
+    CategoryEntity[] array = categories.toArray()
     for (int i = 1; i < array.length; i++) {
       imagePath = "${imagePath}/${array[i].name}"
     }

@@ -147,6 +147,7 @@ class EditorViewModel {
   @Command
   public void refreshModels(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     Treeitem treeitem = event.getTarget() as Treeitem
+    treeitem.setOpen(!treeitem.isOpen())
     CategoryTreeNode node = treeitem.getValue() as CategoryTreeNode
     CategoryEntity categoryEntity = node.getData()
     categoryID = categoryEntity.id
@@ -290,7 +291,7 @@ class EditorViewModel {
 
   @Command
   @NotifyChange(["categoryTreeModel"])
-  public void addProduct(@BindingParam("node") CategoryTreeNode node){
+  public void addProduct(@BindingParam("product") ProductEntity product){
 
     Window wnd = new Window()
     wnd.setWidth("80%")
@@ -306,6 +307,8 @@ class EditorViewModel {
 
     Map<String, Object> params = new HashMap<String, Object>()
     params.put("category", categoryID)
+    if (product != null)
+      params.put("product", product.id)
     Executions.createComponents("/zul/admin/productItem.zul", panel, params)
     wnd.doModal()
     wnd.setVisible(true)
@@ -330,13 +333,11 @@ class EditorViewModel {
     ProductEntity.withTransaction { status ->
 
       ProductEntity product = ProductEntity.get(item.id)
-
-      //Executions.sendRedirect("/admin/editor")
-
-      productsModel.remove(product)
       product.delete(flush: true)
-
       imageService.cleanStore(product)
+
+      productsModel.clear()
+      productsModel.addAll(collectAllProducts(CategoryEntity.get(categoryID), Lists.newArrayList()))
 
     }
   }

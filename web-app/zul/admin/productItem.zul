@@ -30,7 +30,7 @@
          ]]>
          </html>-->
     <h:table width="100%" cellpadding="0" cellspacing="15">
-      <h:tr valign="middle">
+      <h:tr>
         <h:td align="right" width="50%">
           <div id="imageDiv" width="320px" align="center" sclass="imageBoxAdmin">
             <image id="targetImage" style="margin: 10px"/>
@@ -43,7 +43,7 @@
 
                       ImageService imageService =
                                     ApplicationHolder.getApplication().getMainContext().getBean("imageService");
-                      def arg = Executions.getCurrent().getParameterMap()
+                      def arg = Executions.getCurrent().getArg()
                       if (arg.size() > 0) {
                         def productID = arg.get("product")
                         ProductEntity product = ProductEntity.get(productID)

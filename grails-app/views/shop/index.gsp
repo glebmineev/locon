@@ -9,6 +9,8 @@
       <g:include view="common/menu.gsp"/>
     </tpl:block>
 
+    <tpl:block name="navigate"/>
+
     <tpl:block name="wrap_content">
       <g:include view="common/slider.gsp"/>
       <g:include view="common/recommended.gsp"/>

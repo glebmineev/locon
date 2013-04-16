@@ -132,6 +132,27 @@ tr.z-row-over > td.z-row-inner, tr.z-row-over > .z-cell {
   border-right: 1px solid #efefef;
 }
 
+.productBox {
+  width: 200px;
+  height: 300px;
+  background: #ffffff;
+  background: #FFFFFF;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  display:table-cell;
+  vertical-align:top;
+}
+
+.productImage {
+  margin-top: 5px;
+}
+
+div.catalog-listcell-cnt {
+  background: none;
+  padding-bottom: 10px;
+}
+
 td.z-comboitem-text {
   text-align: left;
 }

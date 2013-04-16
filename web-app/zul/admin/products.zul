@@ -8,23 +8,84 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.admin.ProductsComposer" width="100%">
-      <h:table width="100%" cellpadding="0" cellspacing="0">
-        <h:tr>
-          <h:td>
-            <listbox id="products" mold="paging" emptyMessage="Товаров в магазине нет" pageSize="10">
-              <listhead>
-                <listheader width="190px"/>
-                <listheader label="Артикул"/>
-                <listheader label="Наименование"/>
-                <listheader label="Цена"/>
-                <listheader label="Количество" />
-                <listheader label="Действия"/>
-              </listhead>
-            </listbox>
-          </h:td>
-        </h:tr>
-      </h:table>
+  <window id="editorWnd" apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.admin.ProductsViewModel')"
+          width="100%">
+
+    <listbox id="products" width="100%"
+             model="@bind(vm.products) @template((each.editingStatus) ? 'editable' : 'noneditable')"
+             mold="paging"
+             emptyMessage="Товаров в магазине нет"
+             checkmark="true"
+             pageSize="10">
+      <listhead>
+        <listheader width="40px" align="center"/>
+        <listheader align="center" label="Артикул"/>
+        <listheader align="center" label="Наименование"/>
+        <listheader align="center" label="Цена"/>
+        <listheader align="center" label="Количество"/>
+        <listheader align="center" label="Производитель"/>
+        <listheader align="center" label="Действия"/>
+      </listhead>
+      <auxhead>
+        <auxheader align="center">
+          <image src="/images/plus.png" onClick="@command('changePrice')"/>
+        </auxheader>
+        <auxheader forEach="${vm.filters}">
+          <hbox width="100%">
+            <image if="${each.filterType != 'mesureField'}" src="/images/funnel.png"/>
+            <textbox if="${each.filterType == 'textField'}"
+                     use="ru.spb.locon.admin.filters.components.TextBoxFilter" filterBean="${each}"/>
+            <intbox if="${each.filterType == 'numberField'}"
+                     use="ru.spb.locon.admin.filters.components.NumberBoxFilter" filterBean="${each}"/>
+            <vbox if="${each.filterType == 'mesureField'}"
+                     use="ru.spb.locon.admin.filters.components.MeasureFilter" filterBean="${each}"/>
+            <combobox if="${each.filterType == 'comboField'}" width="60%"
+                     use="ru.spb.locon.admin.filters.components.ComboBoxFilter" filterBean="${each}"/>
+          </hbox>
+        </auxheader>
+        <auxheader/>
+      </auxhead>
+      <template name="noneditable">
+        <listitem>
+          <listcell/>
+          <listcell label="${each.article}"/>
+          <listcell label="${each.name}"/>
+          <listcell label="${each.price}"/>
+          <listcell label="${each.countToStock}"/>
+          <listcell label="${each.manufacturer}"/>
+          <listcell>
+            <image src="/images/pencil.png" onClick="@command('changeEditableStatus', wrapper=each)"/>
+          </listcell>
+        </listitem>
+      </template>
+      <template name="editable">
+        <listitem>
+          <listcell/>
+          <listcell>
+            <textbox value="@bind(each.article)"/>
+          </listcell>
+          <listcell>
+            <textbox rows="5" cols="15" value="@bind(each.name)"/>
+          </listcell>
+          <listcell>
+            <intbox value="@bind(each.price)"/>
+          </listcell>
+          <listcell>
+            <intbox value="@bind(each.countToStock)"/>
+          </listcell>
+          <listcell>
+            <combobox model="@bind(each.manufacturers)" width="80%"/>
+          </listcell>
+          <listcell>
+            <image src="/images/success.gif" onClick="@command('saveProduct', wrapper=each)"/>
+            <image src="/images/failed.png"
+                   onClick="@command('deleteProduct', wrapper=each)"/>
+            <image src="/images/cancel.png" onClick="@command('cancelEditing', wrapper=each)"/>
+          </listcell>
+        </listitem>
+      </template>
+    </listbox>
   </window>
 
 </zk>

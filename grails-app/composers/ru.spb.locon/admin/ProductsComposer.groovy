@@ -11,9 +11,9 @@ import ru.spb.locon.ProductEntity
 import java.lang.reflect.Field
 import ru.spb.locon.annotation.FieldInfo
 import org.zkoss.zkplus.databind.BindingListModelList
-import ru.spb.locon.admin.filters.TextBoxFilter
+import ru.spb.locon.admin.filters.components.TextBoxFilter
 import ru.spb.locon.admin.filters.IFilterCallback
-import ru.spb.locon.admin.filters.ObjectFilter
+import ru.spb.locon.admin.filters.data.ObjectFilter
 
 /**
  * User: Gleb

@@ -1,5 +1,6 @@
 package ru.spb.locon
 
+import ru.spb.locon.admin.filters.data.FilterTypes
 import ru.spb.locon.annotation.FieldInfo
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
@@ -11,24 +12,22 @@ class ProductEntity implements Comparable {
   String engImagePath
   String imagePath
 
-  @FieldInfo(isFilter=true, isEditable=true)
+  @FieldInfo(isFilter=true, type=FilterTypes.TEXT_FIELD)
   String article
-  @FieldInfo(isFilter=true, isEditable=true)
+  @FieldInfo(isFilter=true, type=FilterTypes.TEXT_FIELD)
   String name
-  @FieldInfo(isEditable=true)
   String description
-  @FieldInfo(isEditable=true)
   String usage
-  @FieldInfo(isEditable=true)
   String volume
-  @FieldInfo(isFilter=true, isEditable=true)
+  @FieldInfo(isFilter=true, type=FilterTypes.MEASURE_FIELD)
   Long price
-  @FieldInfo(isFilter=true, isEditable=true)
+  @FieldInfo(isFilter=true, type=FilterTypes.NUMBER_FIELD)
   Long countToStock
 
   FilterEntity filter
 
   ProductPropertyEntity productProperty
+  @FieldInfo(isFilter=true, type=FilterTypes.COMBO_FIELD)
   ManufacturerEntity manufacturer
 
   static mapping = {

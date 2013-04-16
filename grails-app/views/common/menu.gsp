@@ -19,30 +19,34 @@
 </ul>--}%
 
 <div class="green">
-<ul id="mega-menu" class="mega-menu">
+  <ul id="mega-menu" class="mega-menu">
 
-  <g:set var="count" value="${0}"/>
+    <g:set var="count" value="${0}"/>
 
-  <g:each in="${mainCategoties}" var="parent">
-    <li><g:link controller="shop" action="catalog" params="[category: parent.id]">${parent.name}</g:link>
-    <g:if test="${DomainUtils.getChildCategories(parent.name).size() > 0}">
-      <ul>
-      <g:each in="${DomainUtils.getChildCategories(parent.name)}" var="child">
+    <g:each in="${mainCategoties}" var="parent">
+      <li><g:link controller="shop" action="catalog" params="[category: parent.id]">${parent.name}</g:link>
+      <g:if test="${DomainUtils.getChildCategories(parent.name).size() > 0}">
+        <ul>
+        <g:each in="${DomainUtils.getChildCategories(parent.name)}" var="child">
 
-        <li>
-          <ul>
             <li>
-              <g:link controller="shop" action="catalog" params="[category: child.id]">${child.name}</g:link>
+              <ul>
+                <li>
+                  <g:link controller="shop" action="catalog" params="[category: child.id]">${child.name}</g:link>
+                </li>
+              </ul>
             </li>
-          </ul>
-        </li>
 
-        <g:set var="count" value="${count + 1}"/>
-      </g:each>
+          <g:set var="count" value="${count + 1}"/>
+        </g:each>
+        </ul>
       </li>
-      </ul>
-    </g:if>
-  </g:each>
+
+      </g:if>
+      <g:else>
+
+      </g:else>
+    </g:each>
 
 </div>
 

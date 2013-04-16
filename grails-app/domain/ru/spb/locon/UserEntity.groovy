@@ -31,7 +31,6 @@ class UserEntity {
     }
 
     orderList cascade: 'all-delete-orphan'
-    groups cascade: 'all-delete-orphan'
 
     version false
 

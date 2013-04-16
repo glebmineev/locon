@@ -10,10 +10,7 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-      <div class="info">
-        <h2>Товары</h2>
-        <tpl:zkBody zul="/zul/admin/products.zul"/>
-      </div>
+      <tpl:zkBody zul="/zul/admin/products.zul"/>
     </tpl:block>
 
     <tpl:block name="footer"/>
