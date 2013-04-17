@@ -84,6 +84,7 @@ div.z-tabbox-accordion .z-tabpanel-accordion {
 
 .imageBoxAdmin {
   height: 320px;
+  width: 320px;
   background: #ffffff;
   background: #FFFFFF;
   -webkit-border-radius: 10px;
@@ -155,4 +156,14 @@ div.catalog-listcell-cnt {
 
 td.z-comboitem-text {
   text-align: left;
+}
+
+.navigationLink {
+  text-decoration: none;
+  color: #000000;
+}
+
+.navigationLink:hover {
+  text-decoration: underline;
+  color: #316ac5;
 }

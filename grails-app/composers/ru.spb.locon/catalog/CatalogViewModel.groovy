@@ -1,22 +1,21 @@
 package ru.spb.locon.catalog
 
 import com.google.common.collect.Lists
-import javassist.tools.web.Viewer
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
-import org.zkoss.bind.annotation.GlobalCommand
 import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Executions
-import org.zkoss.zk.ui.Page
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.*
-import org.zkoss.zul.event.PagingEvent
 import ru.spb.locon.*
+import ru.spb.locon.common.PathHandler
+import ru.spb.locon.navigate.HrefObject
+import ru.spb.locon.navigate.NavigateViewModel
 import ru.spb.locon.tree.node.CategoryTreeNode
 
 /**
@@ -37,6 +36,8 @@ class CatalogViewModel {
   Long categoryID
   List<ProductEntity> products
   CartService cartService = SpringUtil.getApplicationContext().getBean("cartService") as CartService
+  //Навигация.
+  List<HrefObject> links = new LinkedList<HrefObject>()
 
   @Init
   public void init() {
@@ -60,6 +61,8 @@ class CatalogViewModel {
     usageFilterModel = new BindingListModelList<FilterEntity>(filters, true)
     usageFilterModel.setMultiple(true)
     productsModel = new BindingListModelList<List<ProductEntity>>(split(products, 3), true)
+
+    rebuildPath()
 
   }
 
@@ -118,6 +121,7 @@ class CatalogViewModel {
    * @param event
    */
   @Command
+  @NotifyChange(["links"])
   public void refreshModels(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     Treeitem treeitem = event.getTarget() as Treeitem
     CategoryTreeNode node = treeitem.getValue() as CategoryTreeNode
@@ -139,6 +143,18 @@ class CatalogViewModel {
     productsModel.clear()
     productsModel.addAll(split(products, 3))
 
+    rebuildPath()
+
+  }
+
+  void rebuildPath(){
+    List<CategoryEntity> categories = PathHandler.getCategoryPath(CategoryEntity.get(categoryID))
+    links.clear()
+    links.add(new HrefObject("Главная", "/shop"))
+    links.add(new HrefObject("Каталог товаров", "/catalog"))
+    categories.each {it ->
+      links.add(new HrefObject(it.name, "/shop/catalog/category?category=${it.id}"))
+    }
   }
 
   List<ProductEntity> collectAllProducts(CategoryEntity category, List<ProductEntity> products) {
@@ -181,7 +197,7 @@ class CatalogViewModel {
 
   @Command
   public void redirectToProductItem(@BindingParam("product") ProductEntity product){
-    Executions.sendRedirect("/shop/product?product=${product.id}")
+    Executions.sendRedirect("/shop/product?category=${categoryID}&product=${product.id}")
   }
 
   @Command
@@ -227,6 +243,22 @@ class CatalogViewModel {
 
   void setProductsModel(ListModelList<ProductEntity> productsModel) {
     this.productsModel = productsModel
+  }
+
+  NavigateViewModel getNavigateViewModel() {
+    return navigateViewModel
+  }
+
+  void setNavigateViewModel(NavigateViewModel navigateViewModel) {
+    this.navigateViewModel = navigateViewModel
+  }
+
+  List<String> getLinks() {
+    return links
+  }
+
+  void setLinks(List<String> links) {
+    this.links = links
   }
 
 }

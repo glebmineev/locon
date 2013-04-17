@@ -1,5 +1,6 @@
 package ru.spb.locon.windows
 
+import org.zkoss.image.AImage
 import org.zkoss.zul.Window
 import org.zkoss.zul.Image
 import org.zkoss.zul.Label
@@ -17,7 +18,7 @@ import org.zkoss.zul.Hbox
  */
 class ImageWindow extends Window {
 
-  ImageWindow(Image image, String name) {
+  ImageWindow(AImage aImage, String name) {
 
     setWidth("520px")
     setHeight("560px")
@@ -34,9 +35,11 @@ class ImageWindow extends Window {
         setVisible(false)
       }
     })
+    Image productImage = new Image()
+    productImage.setContent(aImage)
 
     vbox.appendChild(label)
-    vbox.appendChild(image)
+    vbox.appendChild(productImage)
     vbox.appendChild(close)
 
     appendChild(vbox)

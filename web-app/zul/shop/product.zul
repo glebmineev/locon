@@ -8,72 +8,107 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.ProductComposer" width="100%">
+  <window apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.catalog.ProductViewModel')" width="100%">
 
-    <h:table width="100%" cellspacing="5" align="center">
-      <h:tr>
-        <h:td colspan="2" width="100%">
-          <div id="categoryPath"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td valign="top" width="300px">
-          <div id="productImg" sclass="productImg"/>
-        </h:td>
-        <h:td width="580px" valign="top">
-          <h:table width="100%" cellspacing="5">
-            <h:tr>
-              <h:td width="150px" align="right">
-                <label value="Наименование:"/>
-              </h:td>
-              <h:td align="left">
-                <label id="name"/>
-              </h:td>
-            </h:tr>
-            <h:tr>
-              <h:td width="150px" align="right">
-                <label value="Цена(р.):"/>
-              </h:td>
-              <h:td align="left">
-                <label id="price"/>
-              </h:td>
-            </h:tr>
-            <h:tr>
-              <h:td width="150px" align="right">
-                <label value="Объем(гр.):"/>
-              </h:td>
-              <h:td align="left">
-                <label id="volume"/>
-              </h:td>
-            </h:tr>
-            <h:tr>
-              <h:td/>
-              <h:td align="left">
-                <button id="cartButton" label="В корзину"/>
-              </h:td>
-            </h:tr>
-            <h:tr>
-              <h:td colspan="2">
-                <tabbox>
-                  <tabs>
-                    <tab label="Применение:"/>
-                    <tab label="Описание:"/>
-                  </tabs>
-                  <tabpanels>
-                    <tabpanel>
-                      <label id="usage"/>
-                    </tabpanel>
-                    <tabpanel>
-                      <label id="description"/>
-                    </tabpanel>
-                  </tabpanels>
-                </tabbox>
-              </h:td>
-            </h:tr>
-          </h:table>
-        </h:td>
-      </h:tr>
-    </h:table>
+    <!-- Навигация -->
+    <hbox align="start">
+      <div children="@bind(vm.hrefs)">
+        <template name="children">
+          <a sclass="navigationLink" href="@load(each.href)" label="@load(each.name)"/>/
+        </template>
+      </div>
+    </hbox>
+
+    <hbox widths="50%,50%">
+      <div id="imageDiv" align="center" sclass="imageBoxAdmin">
+        <image id="productImage" style="margin: 10px" onClick="@command('zoomImage')"/>
+        <zscript><![CDATA[
+          import ru.spb.locon.*
+          import org.codehaus.groovy.grails.commons.ApplicationHolder
+          import org.zkoss.image.*
+          import org.zkoss.zk.ui.*
+
+          ImageService imageService =
+                                ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+          def productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
+          ProductEntity product = ProductEntity.get(productId)
+          if (product != null) {
+            AImage img = imageService.getImageFile(product, "${300}")
+            productImage.setContent(img)
+          }
+          ]]>
+        </zscript>
+      </div>
+      <div>
+
+      </div>
+    </hbox>
+
+    <!--<h:table width="100%" cellspacing="5" align="center">-->
+      <!--<h:tr>-->
+        <!--<h:td colspan="2" width="100%">-->
+          <!--<div id="categoryPath"/>-->
+        <!--</h:td>-->
+      <!--</h:tr>-->
+      <!--<h:tr>-->
+        <!--<h:td valign="top" width="300px">-->
+          <!--<div id="productImg" sclass="productImg"/>-->
+        <!--</h:td>-->
+        <!--<h:td width="580px" valign="top">-->
+          <!--<h:table width="100%" cellspacing="5">-->
+            <!--<h:tr>-->
+              <!--<h:td width="150px" align="right">-->
+                <!--<label value="Наименование:"/>-->
+              <!--</h:td>-->
+              <!--<h:td align="left">-->
+                <!--<label id="name"/>-->
+              <!--</h:td>-->
+            <!--</h:tr>-->
+            <!--<h:tr>-->
+              <!--<h:td width="150px" align="right">-->
+                <!--<label value="Цена(р.):"/>-->
+              <!--</h:td>-->
+              <!--<h:td align="left">-->
+                <!--<label id="price"/>-->
+              <!--</h:td>-->
+            <!--</h:tr>-->
+            <!--<h:tr>-->
+              <!--<h:td width="150px" align="right">-->
+                <!--<label value="Объем(гр.):"/>-->
+              <!--</h:td>-->
+              <!--<h:td align="left">-->
+                <!--<label id="volume"/>-->
+              <!--</h:td>-->
+            <!--</h:tr>-->
+            <!--<h:tr>-->
+              <!--<h:td/>-->
+              <!--<h:td align="left">-->
+                <!--<button id="cartButton" label="В корзину"/>-->
+              <!--</h:td>-->
+            <!--</h:tr>-->
+            <!--<h:tr>-->
+              <!--<h:td colspan="2">-->
+                <!--<tabbox>-->
+                  <!--<tabs>-->
+                    <!--<tab label="Применение:"/>-->
+                    <!--<tab label="Описание:"/>-->
+                  <!--</tabs>-->
+                  <!--<tabpanels>-->
+                    <!--<tabpanel>-->
+                      <!--<label id="usage"/>-->
+                    <!--</tabpanel>-->
+                    <!--<tabpanel>-->
+                      <!--<label id="description"/>-->
+                    <!--</tabpanel>-->
+                  <!--</tabpanels>-->
+                <!--</tabbox>-->
+              <!--</h:td>-->
+            <!--</h:tr>-->
+          <!--</h:table>-->
+        <!--</h:td>-->
+      <!--</h:tr>-->
+    <!--</h:table>-->
   </window>
 
 </zk>

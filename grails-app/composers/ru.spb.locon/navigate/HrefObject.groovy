@@ -7,12 +7,12 @@ package ru.spb.locon.navigate
  * Time: 12:31 AM
  * To change this template use File | Settings | File Templates.
  */
-class LinkObject {
+class HrefObject {
 
   String name
   String href
 
-  LinkObject(String name, String href) {
+  HrefObject(String name, String href) {
     this.name = name
     this.href = href
   }

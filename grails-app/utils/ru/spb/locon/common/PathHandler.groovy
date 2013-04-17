@@ -15,7 +15,7 @@ class PathHandler {
    * Формирует иерархию категорий начиная с самой последней.
    * @param category - предыдущая катеория.
    */
-  static void fillCategories(CategoryEntity category, List<CategoryEntity> categories) {
+  private static void fillCategories(CategoryEntity category, List<CategoryEntity> categories) {
     categories.add(category)
     if (category != null && category.parentCategory != null)
       fillCategories(category.parentCategory, categories)
