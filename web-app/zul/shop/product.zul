@@ -10,18 +10,21 @@
 
   <window apply="ru.spb.locon.BindComposer"
           viewModel="@id('vm') @init('ru.spb.locon.catalog.ProductViewModel')" width="100%">
-
+    <style src="/css/ZK.css"/>
     <!-- Навигация -->
     <hbox align="start">
       <div children="@bind(vm.hrefs)">
         <template name="children">
-          <a sclass="navigationLink" href="@load(each.href)" label="@load(each.name)"/>/
+          <a sclass="navigationLink" href="@load(each.href)"
+             label="@load(each.name)" style="font-size: 16pt;"/>
+          <label if="${forEachStatus.index != vm.hrefs.size()-1}"
+                 value="/" style="font-size: 16pt;"/>
         </template>
       </div>
-    </hbox>
 
-    <hbox widths="50%,50%">
-      <div id="imageDiv" align="center" sclass="imageBoxAdmin">
+    </hbox>
+    <hlayout>
+      <div id="imageDiv" width="320px" align="center" sclass="imageBoxAdmin">
         <image id="productImage" style="margin: 10px" onClick="@command('zoomImage')"/>
         <zscript><![CDATA[
           import ru.spb.locon.*
@@ -40,75 +43,55 @@
           ]]>
         </zscript>
       </div>
-      <div>
-
-      </div>
-    </hbox>
-
-    <!--<h:table width="100%" cellspacing="5" align="center">-->
-      <!--<h:tr>-->
-        <!--<h:td colspan="2" width="100%">-->
-          <!--<div id="categoryPath"/>-->
-        <!--</h:td>-->
-      <!--</h:tr>-->
-      <!--<h:tr>-->
-        <!--<h:td valign="top" width="300px">-->
-          <!--<div id="productImg" sclass="productImg"/>-->
-        <!--</h:td>-->
-        <!--<h:td width="580px" valign="top">-->
-          <!--<h:table width="100%" cellspacing="5">-->
-            <!--<h:tr>-->
-              <!--<h:td width="150px" align="right">-->
-                <!--<label value="Наименование:"/>-->
-              <!--</h:td>-->
-              <!--<h:td align="left">-->
-                <!--<label id="name"/>-->
-              <!--</h:td>-->
-            <!--</h:tr>-->
-            <!--<h:tr>-->
-              <!--<h:td width="150px" align="right">-->
-                <!--<label value="Цена(р.):"/>-->
-              <!--</h:td>-->
-              <!--<h:td align="left">-->
-                <!--<label id="price"/>-->
-              <!--</h:td>-->
-            <!--</h:tr>-->
-            <!--<h:tr>-->
-              <!--<h:td width="150px" align="right">-->
-                <!--<label value="Объем(гр.):"/>-->
-              <!--</h:td>-->
-              <!--<h:td align="left">-->
-                <!--<label id="volume"/>-->
-              <!--</h:td>-->
-            <!--</h:tr>-->
-            <!--<h:tr>-->
-              <!--<h:td/>-->
-              <!--<h:td align="left">-->
-                <!--<button id="cartButton" label="В корзину"/>-->
-              <!--</h:td>-->
-            <!--</h:tr>-->
-            <!--<h:tr>-->
-              <!--<h:td colspan="2">-->
-                <!--<tabbox>-->
-                  <!--<tabs>-->
-                    <!--<tab label="Применение:"/>-->
-                    <!--<tab label="Описание:"/>-->
-                  <!--</tabs>-->
-                  <!--<tabpanels>-->
-                    <!--<tabpanel>-->
-                      <!--<label id="usage"/>-->
-                    <!--</tabpanel>-->
-                    <!--<tabpanel>-->
-                      <!--<label id="description"/>-->
-                    <!--</tabpanel>-->
-                  <!--</tabpanels>-->
-                <!--</tabbox>-->
-              <!--</h:td>-->
-            <!--</h:tr>-->
-          <!--</h:table>-->
-        <!--</h:td>-->
-      <!--</h:tr>-->
-    <!--</h:table>-->
+      <vbox>
+        <grid width="100%">
+          <columns>
+            <column align="right" width="20%"/>
+            <column align="left" width="45%"/>
+          </columns>
+          <rows>
+            <row>
+              <cell>
+                <label value="Наименование: "/>
+              </cell>
+              <cell>
+                <label value="@load(vm.name)"/>
+              </cell>
+            </row>
+            <row>
+              <cell>
+                <label value="Цена(р.): "/>
+              </cell>
+              <cell>
+                <label value="@load(vm.price)"/>
+              </cell>
+            </row>
+            <row>
+              <cell>
+                <label value="Объем: "/>
+              </cell>
+              <cell>
+                <label value="@load(vm.volume)"/>
+              </cell>
+            </row>
+          </rows>
+        </grid>
+        <tabbox>
+          <tabs width="550px">
+            <tab label="Применение"/>
+            <tab label="Описание"/>
+          </tabs>
+          <tabpanels style="background: #ffffff;">
+            <tabpanel width="550px">
+              <label value="@load(vm.usage)"/>
+            </tabpanel>
+            <tabpanel width="550px">
+              <label value="@load(vm.description)"/>
+            </tabpanel>
+          </tabpanels>
+        </tabbox>
+      </vbox>
+    </hlayout>
   </window>
 
 </zk>

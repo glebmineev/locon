@@ -23,12 +23,28 @@ class ProductViewModel {
   ImageService imageService = (ImageService) SpringUtil.getApplicationContext().getBean("imageService")
   List<HrefObject> hrefs
 
+  String usage
+  String description
+  String name
+  String price
+  String volume
+
   @Init
   public void init() {
     hrefs = new LinkedList<HrefObject>()
     productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
     categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
     buildNavPath()
+    initGrid()
+  }
+
+  public void initGrid(){
+    ProductEntity productEntity = ProductEntity.get(productId)
+    usage = productEntity.getUsage()
+    description = productEntity.getDescription()
+    name = productEntity.getName()
+    price = productEntity.getPrice() as String
+    volume = productEntity.getVolume()
   }
 
   public void buildNavPath(){
@@ -58,4 +74,53 @@ class ProductViewModel {
   void setProductId(Long productId) {
     this.productId = productId
   }
+
+  List<HrefObject> getHrefs() {
+    return hrefs
+  }
+
+  void setHrefs(List<HrefObject> hrefs) {
+    this.hrefs = hrefs
+  }
+
+  String getUsage() {
+    return usage
+  }
+
+  void setUsage(String usage) {
+    this.usage = usage
+  }
+
+  String getDescription() {
+    return description
+  }
+
+  void setDescription(String description) {
+    this.description = description
+  }
+
+  String getName() {
+    return name
+  }
+
+  void setName(String name) {
+    this.name = name
+  }
+
+  String getPrice() {
+    return price
+  }
+
+  void setPrice(String price) {
+    this.price = price
+  }
+
+  String getVolume() {
+    return volume
+  }
+
+  void setVolume(String volume) {
+    this.volume = volume
+  }
+
 }

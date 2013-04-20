@@ -15,7 +15,10 @@
     <hbox align="start">
       <div children="@bind(vm.links)">
         <template name="children">
-          <a sclass="navigationLink" href="@load(each.href)" label="@load(each.name)"/>/
+          <a sclass="navigationLink" href="@load(each.href)"
+             label="@load(each.name)" style="font-size: 16pt;"/>
+          <label if="${forEachStatus.index != vm.links.size()-1}"
+                 value="/" style="font-size: 16pt;"/>
         </template>
       </div>
     </hbox>

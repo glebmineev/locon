@@ -2,23 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/ProductViewModel.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/gleb.xml" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\Indola.jpg" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\OLLIN.jpg" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\Periche.jpg" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\Screen.jpg" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\gleb\Projects\locon\grails-app\composers\ru.spb.locon\navigate\LinkObject.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/navigate/HrefObject.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogViewModel.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/ru/spb/locon/windows/ImageWindow.groovy" afterPath="$PROJECT_DIR$/src/groovy/ru/spb/locon/windows/ImageWindow.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/navigate/NavigateViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/navigate/NavigateViewModel.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/common/PathHandler.groovy" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/common/PathHandler.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/ProductViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/ProductViewModel.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/css/ZK.css" afterPath="$PROJECT_DIR$/web-app/css/ZK.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/shop/catalog.gsp" afterPath="$PROJECT_DIR$/grails-app/views/shop/catalog.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/zul/shop/catalog.zul" afterPath="$PROJECT_DIR$/web-app/zul/shop/catalog.zul" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locon-grailsPlugins.iml" afterPath="$PROJECT_DIR$/locon-grailsPlugins.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/zul/navigate/navigate.zul" afterPath="$PROJECT_DIR$/web-app/zul/navigate/navigate.zul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/shop/product.gsp" afterPath="$PROJECT_DIR$/grails-app/views/shop/product.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/zul/shop/product.zul" afterPath="$PROJECT_DIR$/web-app/zul/shop/product.zul" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -26,11 +18,11 @@
     <ignored path="locon.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$USER_HOME$/.grails/" />
-    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366220272775" ignored="false" />
+    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366452140000" ignored="false" />
     <file path="/ProductsRenderer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365252977775" ignored="false" />
     <file path="/products.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365962597166" ignored="false" />
     <file path="/ProductsComposer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355861096735" ignored="false" />
-    <file path="/a.dummy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366229761829" ignored="false" />
+    <file path="/a.dummy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366313236828" ignored="false" />
     <file path="/AdminController.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355860817667" ignored="false" />
     <file path="/productItem.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355860866790" ignored="false" />
     <file path="/productItem.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365186691331" ignored="false" />
@@ -56,7 +48,7 @@
     <file path="/CategoryTreeNodeStatus.java" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1363456720062" ignored="false" />
     <file path="/CategoryTreeNode.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1363540333999" ignored="false" />
     <file path="/CategoryTreeModel.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1363507548293" ignored="false" />
-    <file path="/ZK.css" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366229313809" ignored="false" />
+    <file path="/ZK.css" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366456922418" ignored="false" />
     <file path="/CategoryEditWnd.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1363538921193" ignored="false" />
     <file path="/CategoryEditCallback.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1363535927145" ignored="false" />
     <file path="/AdvancedTreeModel.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1363533575029" ignored="false" />
@@ -68,7 +60,7 @@
     <file path="/IUpdaterGridCallback.java" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364142997709" ignored="false" />
     <file path="/IUpdaterGridsCallback.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364143048146" ignored="false" />
     <file path="/ProductRenderer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364149659787" ignored="false" />
-    <file path="/catalog.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366224074989" ignored="false" />
+    <file path="/catalog.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366457033544" ignored="false" />
     <file path="/ImageService.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365698616350" ignored="false" />
     <file path="/menu.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365362652273" ignored="false" />
     <file path="/_template.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365365129820" ignored="false" />
@@ -105,8 +97,8 @@
     <file path="/NumberFilter.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365956594363" ignored="false" />
     <file path="/ObjectFilter.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365958926275" ignored="false" />
     <file path="/NumberBoxFilter.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365959016072" ignored="false" />
-    <file path="/product.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366229603540" ignored="false" />
-    <file path="/ProductViewModel.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366230450310" ignored="false" />
+    <file path="/product.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366457075587" ignored="false" />
+    <file path="/ProductViewModel.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366313280619" ignored="false" />
     <file path="/ImageWindow.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1366229457298" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -143,6 +135,7 @@
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
         <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
@@ -159,6 +152,7 @@
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
         <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
@@ -182,36 +176,25 @@
       <file leaf-file-name="catalog.zul" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-app/zul/shop/catalog.zul">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="623" selection-end="623" vertical-scroll-proportion="0.0">
+            <state line="20" column="27" selection-start="965" selection-end="989" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="product.zul" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app/zul/shop/product.zul">
+      <file leaf-file-name="CatalogViewModel.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogViewModel.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="35" selection-start="675" selection-end="680" vertical-scroll-proportion="0.0">
+            <state line="158" column="2" selection-start="5243" selection-end="5243" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProductViewModel.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/ProductViewModel.groovy">
+      <file leaf-file-name="ProductComposer.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/ProductComposer.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="54" selection-start="1431" selection-end="1431" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#30#70#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ZK.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app/css/ZK.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="14" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
+            <state line="18" column="0" selection-start="393" selection-end="468" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -220,27 +203,43 @@
       <file leaf-file-name="productItem.zul" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-app/zul/admin/productItem.zul">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="20" selection-start="697" selection-end="757" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1365237798299" expanded="true" signature="1609:1621" placeholder="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProductComposer.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/ProductComposer.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="4" selection-start="1473" selection-end="1536" vertical-scroll-proportion="0.0">
+            <state line="94" column="32" selection-start="3495" selection-end="3495" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CatalogViewModel.groovy" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogViewModel.groovy">
+      <file leaf-file-name="ZK.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-app/css/ZK.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="55" selection-start="5203" selection-end="5203" vertical-scroll-proportion="0.39713773">
+            <state line="158" column="0" selection-start="3275" selection-end="3275" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProductViewModel.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/ProductViewModel.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="24" selection-start="831" selection-end="831" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="product.zul" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-app/zul/shop/product.zul">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="51" selection-start="992" selection-end="992" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cart.zul" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web-app/zul/shop/cart.zul">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.37918216">
               <folding />
             </state>
           </provider>
@@ -272,14 +271,14 @@
         <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/common/PathHandler.groovy" />
         <option value="$PROJECT_DIR$/web-app/zul/navigate/navigate.zul" />
         <option value="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/navigate/NavigateViewModel.groovy" />
-        <option value="$PROJECT_DIR$/web-app/zul/shop/catalog.zul" />
         <option value="$PROJECT_DIR$/grails-app/views/shop/product.gsp" />
-        <option value="$PROJECT_DIR$/web-app/css/ZK.css" />
         <option value="$PROJECT_DIR$/src/groovy/ru/spb/locon/windows/ImageWindow.groovy" />
-        <option value="$PROJECT_DIR$/web-app/zul/shop/product.zul" />
         <option value="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/navigate/HrefObject.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/ProductViewModel.groovy" />
         <option value="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogViewModel.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/ProductViewModel.groovy" />
+        <option value="$PROJECT_DIR$/web-app/css/ZK.css" />
+        <option value="$PROJECT_DIR$/web-app/zul/shop/catalog.zul" />
+        <option value="$PROJECT_DIR$/web-app/zul/shop/product.zul" />
       </list>
     </option>
   </component>
@@ -330,53 +329,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ru.spb.locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ru.spb.locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="importer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -593,19 +545,66 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ru.spb.locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ru.spb.locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="importer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="93" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="104" />
-    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="104" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
-    <property name="MemberChooser.sorted" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="102" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="C:/Program Files (x86)/Git/cmd/git.exe" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="108" />
@@ -622,18 +621,18 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
-    <property name="RESOURCE_BUNDLE_SPLITTER_PROPORTION" value="0.5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="preferences.sourceCode.XML" />
+    <property name="RESOURCE_BUNDLE_SPLITTER_PROPORTION" value="0.5" />
     <property name="download.sources.last.used.dir" value="$PROJECT_DIR$" />
+    <property name="options.lastSelected" value="preferences.sourceCode.XML" />
     <property name="project.structure.side.proportion" value="0.13286713" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -683,12 +682,6 @@
       <option name="CONTEXT_PROVIDER" />
       <method />
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
-      <option name="PROGRAM_PARAMETERS" />
-      <method />
-    </configuration>
     <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
       <module name="" />
       <setting name="vmparams" value="" />
@@ -700,6 +693,12 @@
       <method>
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -720,6 +719,19 @@
       </option>
       <option name="moduleName" value="" />
       <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -750,19 +762,6 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" />
@@ -776,6 +775,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -799,24 +805,17 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
-      <JSDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSDebuggerConfigurationSettings>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
+      <deployment />
+      <server-settings />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method />
     </configuration>
     <configuration default="true" type="com.intellij.persistence.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
       <option name="VM_PARAMETERS" value="" />
       <option name="USER_CFG_CLASS" />
       <option name="CONTEXT_PROVIDER" />
-      <method />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
-      <deployment />
-      <server-settings />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method />
     </configuration>
     <configuration default="false" name="Grails:locon" type="GrailsRunConfigurationType" factoryName="Grails">
@@ -828,6 +827,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <setting name="launchBrowser" value="true" />
       <MavenGeneralSettings>
+        <option name="alwaysUpdateSnapshots" value="false" />
         <option name="checksumPolicy" value="FAIL" />
         <option name="failureBehavior" value="FAST" />
         <option name="localRepository" value="" />
@@ -836,7 +836,6 @@
         <option name="outputLevel" value="INFO" />
         <option name="pluginUpdatePolicy" value="DO_NOT_UPDATE" />
         <option name="printErrorStackTraces" value="false" />
-        <option name="snapshotUpdatePolicy" value="ALWAYS_UPDATE" />
         <option name="usePluginRegistry" value="false" />
         <option name="userSettingsFile" value="" />
         <option name="workOffline" value="false" />
@@ -998,38 +997,43 @@
       <created>1366143316158</created>
       <updated>1366143316158</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Навигация">
+      <created>1366230764899</created>
+      <updated>1366230764899</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5591572" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24796748" sideWeight="0.24473257" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35264054" sideWeight="0.3273906" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20854701" sideWeight="0.3273906" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5089141" sideWeight="0.6669368" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29135054" sideWeight="0.22998296" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44974446" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22195122" sideWeight="0.68881685" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32981315" sideWeight="0.7050243" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.7050243" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5948718" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.71282053" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25345248" sideWeight="0.22690438" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39984825" sideWeight="0.5349233" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.62521297" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39984825" sideWeight="0.5349233" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.62521297" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23444612" sideWeight="0.64735943" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23444612" sideWeight="0.791453" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2725724" sideWeight="0.0" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44974446" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32901135" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23151909" sideWeight="0.7374392" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23151909" sideWeight="0.7374392" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4684838" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1063,7 +1067,7 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
-    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
     <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
     <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
@@ -1073,9 +1077,13 @@
     <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
     <option name="LIMIT_HISTORY" value="true" />
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="новое меню." />
+    <option name="LAST_COMMIT_MESSAGE" value="Навигация" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1086,9 +1094,9 @@
     <option name="ACTIVE_VCS_NAME" />
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="# - listbox товаров.&#10;" />
     <MESSAGE value="# - сделал дерево категорий с фильтром.&#10;" />
     <MESSAGE value="# - добавил подвал.&#10;" />
     <MESSAGE value="# - докоммитил композер продукта.&#10;" />
@@ -1113,6 +1121,7 @@
     <MESSAGE value="редактор товаров" />
     <MESSAGE value="админка" />
     <MESSAGE value="новое меню." />
+    <MESSAGE value="Навигация" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1156,36 +1165,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/admin/EditorViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="220" column="13" selection-start="7386" selection-end="7395" vertical-scroll-proportion="0.38857144">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/zul/navigate/navigate.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="350" selection-end="517" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/navigate/NavigateViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="25" selection-start="506" selection-end="521" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/zul/admin/productItem.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="20" selection-start="697" selection-end="757" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1365237798299" expanded="true" signature="1609:1621" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/shop/cart.gsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="26" selection-start="312" selection-end="312" vertical-scroll-proportion="0.5138539">
@@ -1200,76 +1179,96 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/css/ZK.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="14" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/zul/shop/catalog.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="623" selection-end="623" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/zul/shop/product.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="35" selection-start="675" selection-end="680" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/navigate/HrefObject.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="10" selection-start="193" selection-end="193" vertical-scroll-proportion="0.094444446">
-          <folding />
-        </state>
+        <state line="9" column="10" selection-start="193" selection-end="193" vertical-scroll-proportion="0.094444446" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/groovy/ru/spb/locon/windows/ImageWindow.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="911" selection-end="911" vertical-scroll-proportion="0.55925924">
-          <folding>
-            <element signature="e#30#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/ProductComposer.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="4" selection-start="1473" selection-end="1536" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="39" column="0" selection-start="911" selection-end="911" vertical-scroll-proportion="0.55925924" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/ShopController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="28" selection-end="28" vertical-scroll-proportion="0.065764025">
+        <state line="2" column="6" selection-start="28" selection-end="28" vertical-scroll-proportion="0.065764025" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/ProductComposer.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="393" selection-end="468" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogComposer.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogViewModel.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="96" selection-start="6291" selection-end="6291" vertical-scroll-proportion="0.24427481">
+        <state line="158" column="2" selection-start="5243" selection-end="5243" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/ProductViewModel.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="54" selection-start="1431" selection-end="1431" vertical-scroll-proportion="0.0">
+        <state line="26" column="24" selection-start="831" selection-end="831" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/css/ZK.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="158" column="0" selection-start="3275" selection-end="3275" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/zul/shop/catalog.zul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="27" selection-start="965" selection-end="989" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/zul/admin/productItem.zul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="32" selection-start="3495" selection-end="3495" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/zul/shop/checkout.zul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#30#70#0" expanded="true" />
+            <marker date="1362914500108" expanded="true" signature="-1:-1" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogViewModel.groovy">
+    <entry file="file://$PROJECT_DIR$/web-app/zul/shop/product.zul">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="55" selection-start="5203" selection-end="5203" vertical-scroll-proportion="0.39713773">
+        <state line="20" column="51" selection-start="992" selection-end="992" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/CatalogComposer.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="217" column="96" selection-start="6291" selection-end="6291" vertical-scroll-proportion="0.24535316">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/composers/ru.spb.locon/catalog/FilterRenderer.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="76" selection-start="212" selection-end="212" vertical-scroll-proportion="0.22118959">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/zul/shop/cart.zul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.37918216">
           <folding />
         </state>
       </provider>
