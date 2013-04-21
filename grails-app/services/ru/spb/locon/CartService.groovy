@@ -1,6 +1,8 @@
 package ru.spb.locon
 
 import ru.spb.locon.cart.CartItem
+import ru.spb.locon.catalog.ProductModel
+
 import java.math.RoundingMode
 import org.zkoss.zk.ui.util.Clients
 
@@ -11,7 +13,7 @@ class CartService {
   static proxy = true
 
   private Map<Long, Long> cart = new HashMap<Long, Long>()
-  private Float totalPrice = 0.0
+  private Long totalPrice = 0
   private Long totalCount = 0
 
   public void addToCart(ProductEntity product) {
@@ -24,82 +26,92 @@ class CartService {
     renderTotalPrice()
   }
 
-  private void updateCart(Map<Long, Long> cart, ProductEntity product){
+  private void updateCart(Map<Long, Long> cart, ProductEntity product) {
     if (cart.containsKey(product.id)) {
       long count = cart.get(product.id)
       cart.put(product.id, count + 1)
       updateSessionAttributes(product.price, 1L)
-    }
-    else
-    {
+    } else {
       cart.put(product.id, 1)
       updateSessionAttributes(product.price, 1L)
     }
   }
 
-  private void createCart(ProductEntity product){
+  private void createCart(ProductEntity product) {
     cart.put(product.id, 1L)
     updateSessionAttributes(product.price, 1L)
   }
 
-  public List<CartItem> getCartProducts(){
-    List<CartItem> items = new ArrayList<CartItem>()
-    cart.each{id, count ->
-      CartItem item = new CartItem(ProductEntity.get(id), count)
-      items.add(item)
+  public List<ProductEntity> getCartProducts() {
+    List<ProductEntity> items = new ArrayList<ProductEntity>()
+    cart.each { id, count ->
+      items.add(ProductEntity.get(id),)
     }
     return items
   }
 
-  public void removeFromCart(CartItem cartItem){
+  public void incrementCount(ProductModel productModel, long mark) {
+    Long productID = productModel.productEntity.id
+    Long price = productModel.productEntity.price
+    cart.put(productID, cart.get(productID) + mark)
+    Long newPrice = productModel.totalPrice + (mark * price)
+    productModel.setTotalPrice(newPrice)
+    updateSessionAttributes((mark * price), mark)
+    renderTotalCount()
+    renderTotalPrice()
+  }
+
+  public Long getProductCount(Long productID) {
+    return cart.get(productID);
+  }
+
+  public void removeFromCart(ProductEntity product) {
+    Long count = cart.get(product.id)
+    Long price = (product.price * count)
+    updateSessionAttributes(-price, -count)
+    renderTotalCount()
+    renderTotalPrice()
+    cart.remove(product.id)
+  }
+
+  public void decrementProduct(CartItem cartItem) {
     ProductEntity product = cartItem.getProduct()
-    if (cart.containsKey(product.id)){
-      cart.remove(product.id)
-      Long count = cartItem.count
-      Float price = (product.price * Float.parseFloat(count.toString()))
-      updateSessionAttributes(-(price), -cartItem.count)
+    if (cart.containsKey(product.id)) {
+      cart.put(product.id, cartItem.count - 1L)
+      Long count = 1L
+      updateSessionAttributes(-product.price, -count)
       renderTotalCount()
       renderTotalPrice()
     }
   }
 
-  public void decrementProduct(CartItem cartItem){
-    ProductEntity product = cartItem.getProduct()
-    if (cart.containsKey(product.id)){
-      cart.put(product.id, cartItem.count - 1L)
-      Long count = 1L
-      Float price = product.price
-      updateSessionAttributes(-(price), -count)
-      renderTotalCount()
-      renderTotalPrice()
-    }
-  }
-  
-  public void cleanCart(){
+  public void cleanCart() {
     cart.clear()
     this.totalPrice = 0.0
     this.totalCount = 0
   }
 
-  private void updateSessionAttributes(Float addPrice, Long addCount) {
+  private void updateSessionAttributes(Long addPrice, Long addCount) {
     Long totalCount = this.totalCount + addCount
-    Float result = totalPrice + addPrice
-    BigDecimal rounded = new BigDecimal(result).setScale(1, RoundingMode.HALF_DOWN).floatValue()
-    this.totalPrice = rounded
+    Long result = totalPrice + addPrice
+    //BigDecimal rounded = new BigDecimal(result).setScale(1, RoundingMode.HALF_DOWN).floatValue()
+    this.totalPrice = result
     this.totalCount = totalCount
   }
 
 
-  public renderTotalPrice(){
-    Clients.evalJavaScript("\$('#totalPrice').html('${totalPrice.toString()}')")
+  public renderTotalPrice() {
+    Clients.evalJavaScript("\$('#totalPrice').html('${totalPrice as String}')")
   }
 
-  public renderTotalCount(){
-    Clients.evalJavaScript("\$('#totalCount').html('${totalCount.toString()}')")
+  public renderTotalCount() {
+    Clients.evalJavaScript("\$('#totalCount').html('${totalCount as String}')")
   }
-  public Float getTotalPrice() {
+
+  public Long getTotalPrice() {
     return totalPrice
   }
+
   public Long getTotalCount() {
     return totalCount
   }

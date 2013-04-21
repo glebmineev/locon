@@ -8,43 +8,60 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.CartComposer">
+  <window apply="ru.spb.locon.BindComposer" viewModel="@id('vm') @init('ru.spb.locon.catalog.CartViewModel')">
 
-    <style>
+    <style src="/css/ZK.css"/>
 
-      .imageBox {
-        height: 150px;
-        background: #ffffff;
-        background: #FFFFFF;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-        border: 1px solid #E0F0FF;
-      }
+    <grid model="@bind(vm.cartProduct)" width="100%">
+      <columns>
+        <column width="170px"/>
+        <column label="Наименование"/>
+        <column label="Цена"/>
+        <column label="Количество"/>
+        <column label="Стоимость"/>
+        <column label="Действия"/>
+      </columns>
+      <template name="model" var="productModel">
+        <row>
+          <cell>
+            <div align="center" width="160px" sclass="imageBox">
+              <image>
+                <zscript><![CDATA[
+                      import ru.spb.locon.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import org.zkoss.image.*
 
-    </style>
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-    <h:table width="100%" cellpadding="0" cellspacing="0">
-      <h:tr>
-        <h:td width="100%">
-          <listbox id="cartItems" mold="paging" emptyMessage="Корзина пуста" pageSize="10">
-            <listhead>
-              <listheader align="center" width="190px"/>
-              <listheader label="Товар" sort="auto" sortDirection="descending"/>
-              <listheader label="Цена" />
-              <listheader label="Количество" />
-              <listheader label="Стоимость" />
-              <listheader label="Действия"/>
-            </listhead>
-          </listbox>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td width="100%" align="center">
-          <button id="createOrder" label="Оформить заказ"/>
-        </h:td>
-      </h:tr>
-    </h:table>
+                      AImage img = imageService.getImageFile(productModel.productEntity, "${150}")
+                      self.setContent(img)
+                      ]]>
+                </zscript>
+              </image>
+            </div>
+          </cell>
+          <cell>
+            <label value="${productModel.productEntity.name}"/>
+          </cell>
+          <cell>
+            <label value="${productModel.productEntity.price}"/>
+          </cell>
+          <cell>
+            <spinner mold="rounded" readonly="true" step="1" value="@bind(productModel.count)"
+                     onChanging="@command('processCount', productModel=productModel, inputEvent=event)"
+                     cols="3" constraint="min 0"/>
+          </cell>
+          <cell>
+            <label value="@bind(productModel.totalPrice)">
+            </label>
+          </cell>
+          <cell>
+            <button label="Удалить" onClick="@command('removeItem', productModel=productModel)"/>
+          </cell>
+        </row>
+      </template>
+    </grid>
   </window>
 
 </zk>

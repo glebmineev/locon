@@ -44,6 +44,22 @@
   <!-- ZK -->
   <link rel="stylesheet" href="${resource(dir: 'css', file: 'ZK.css')}"/>
   ${head}
+
+  <!-- вертикальный скроллинг -->
+  <script type="text/javascript">
+    window.onscroll = updateScrollButtons;
+    window.onload = updateScrollButtons;
+
+    function updateScrollButtons() {
+      document.getElementsByClassName('scrollUp')[0].style.display = window.pageYOffset == 0 ? 'none' : 'block'
+      document.getElementsByClassName('scrollDown')[0].style.display = window.pageYOffset + window.innerHeight == Math.max(
+          Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+          Math.max(document.body.offsetHeight, document.documentElement.offsetHeight),
+          Math.max(document.body.clientHeight, document.documentElement.clientHeight)) ? 'none' : 'block'
+      document.getElementsByClassName('scrollDown')[0].style.top = (window.innerHeight - 90) + 'px';
+    }
+  </script>
+
 </head>
 
 <body>
@@ -57,8 +73,16 @@
     ${menu}
   </div>
 
-  <div id="navigate">
-    ${navigate}
+  <!-- вертикальный скроллинг -->
+  <div class="scrollUp" onclick="window.scrollTo(0, 0); ">
+    <g:img dir="images" file="moveUp.png"/>
+  </div>
+
+  <div class="scrollDown" onclick="window.scrollTo(0, Math.max(
+      Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      Math.max(document.body.offsetHeight, document.documentElement.offsetHeight),
+      Math.max(document.body.clientHeight, document.documentElement.clientHeight))); ">
+    <g:img dir="images" file="moveDown.png"/>
   </div>
 
   <div id="wrap_content">
