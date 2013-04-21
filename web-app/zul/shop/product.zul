@@ -77,16 +77,24 @@
           </rows>
         </grid>
         <tabbox>
-          <tabs width="550px">
+          <tabs>
             <tab label="Применение"/>
             <tab label="Описание"/>
           </tabs>
           <tabpanels style="background: #ffffff;">
-            <tabpanel width="550px">
-              <label value="@load(vm.usage)"/>
+            <tabpanel width="550px" height="195px">
+              <vlayout>
+                <div style="overflow: auto;" width="550px" height="195px">
+                  <label value="@load(vm.usage)"/>
+                </div>
+              </vlayout>
             </tabpanel>
-            <tabpanel width="550px">
-              <label value="@load(vm.description)"/>
+            <tabpanel width="550px" height="195px">
+              <vlayout>
+                <div style="overflow: auto;" width="550px" height="195px">
+                  <label value="@load(vm.description)"/>
+                </div>
+              </vlayout>
             </tabpanel>
           </tabpanels>
         </tabbox>

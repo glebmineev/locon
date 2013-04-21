@@ -110,7 +110,7 @@ body {
 
 .productBox {
   width: 200px;
-  height: 300px;
+  height: 310px;
   background: #ffffff;
   background: #FFFFFF;
   -webkit-border-radius: 10px;
@@ -118,6 +118,14 @@ body {
   border-radius: 10px;
   display:table-cell;
   vertical-align:top;
+}
+
+.productImageCatalog {
+  width: 200px;
+  vertical-align:middle;
+  display:table-cell;
+  height: 160px;
+  text-align:center
 }
 
 .productImage {
