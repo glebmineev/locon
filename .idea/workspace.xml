@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="Рефакторинг логина, регистрации.">
+    <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="">
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\Indola.jpg" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\OLLIN.jpg" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\Periche.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\Screen.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locon-grailsPlugins.iml" afterPath="$PROJECT_DIR$/locon-grailsPlugins.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/zul/auth/login.zul" afterPath="$PROJECT_DIR$/web-app/zul/auth/login.zul" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -14,7 +13,7 @@
     <ignored path="locon.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$USER_HOME$/.grails/" />
-    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1367079510215" ignored="false" />
+    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1367079601257" ignored="false" />
     <file path="/ProductsRenderer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365252977775" ignored="false" />
     <file path="/products.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365962597166" ignored="false" />
     <file path="/ProductsComposer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355861096735" ignored="false" />
@@ -125,7 +124,7 @@
     <SUITE FILE_PATH="coverage/locon$Grails_locon.ic" NAME="Grails:locon Coverage Results" MODIFIED="1351348269502" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="" />
+    <option name="PATCH_PATH" value="C:\Users\gleb\Projects\locon" />
   </component>
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
@@ -435,46 +434,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manufacturers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1002,7 +961,11 @@
       <created>1367079370254</created>
       <updated>1367079370254</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Рефакторинг логина, регистрации.">
+      <created>1367079555477</created>
+      <updated>1367079555477</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
