@@ -1,6 +1,8 @@
-package ru.spb.locon.catalog
+package ru.spb.locon.shop
 
 import com.google.common.collect.Lists
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
@@ -27,6 +29,9 @@ import ru.spb.locon.tree.node.CategoryTreeNode
  */
 class CatalogViewModel {
 
+  //Логгер
+  static Logger log = LoggerFactory.getLogger(ImportService.class)
+
   DefaultTreeModel categoryTreeModel
   ListModelList<List<ProductEntity>> productsModel
   ListModelList<ManufacturerEntity> manufsFilterModel
@@ -41,29 +46,31 @@ class CatalogViewModel {
 
   @Init
   public void init() {
+    try {
+      categoryID = Long.parseLong(Executions.getCurrent().getParameter("category"))
 
-    categoryID = Long.parseLong(Executions.getCurrent().getParameter("category"))
+      List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
+      CategoryTreeNode root = new CategoryTreeNode(null, "ROOT")
+      createTreeModel(root, categories)
 
-    List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
-    CategoryTreeNode root = new CategoryTreeNode(null, "ROOT")
-    createTreeModel(root, categories)
+      categoryTreeModel = new DefaultTreeModel(root)
 
-    categoryTreeModel = new DefaultTreeModel(root)
+      CategoryEntity category = CategoryEntity.get(categoryID)
+      products = collectAllProducts(category, Lists.newArrayList())
+      List<FilterEntity> filters = products.filter.unique() as List<FilterEntity>
+      manufsFilterModel = new BindingListModelList<ManufacturerEntity>(
+          products.manufacturer.unique() as List<ManufacturerEntity>,
+          true
+      )
+      manufsFilterModel.setMultiple(true)
+      usageFilterModel = new BindingListModelList<FilterEntity>(filters, true)
+      usageFilterModel.setMultiple(true)
+      productsModel = new BindingListModelList<List<ProductEntity>>(split(products, 3), true)
 
-    CategoryEntity category = CategoryEntity.get(categoryID)
-    products = collectAllProducts(category, Lists.newArrayList())
-    List<FilterEntity> filters = products.filter.unique() as List<FilterEntity>
-    manufsFilterModel = new BindingListModelList<ManufacturerEntity>(
-        products.manufacturer.unique() as List<ManufacturerEntity>,
-        true
-    )
-    manufsFilterModel.setMultiple(true)
-    usageFilterModel = new BindingListModelList<FilterEntity>(filters, true)
-    usageFilterModel.setMultiple(true)
-    productsModel = new BindingListModelList<List<ProductEntity>>(split(products, 3), true)
-
-    rebuildPath()
-
+      rebuildPath()
+    } catch (Exception e) {
+      log.debug("Ошибка при инициализаци: ${e.getMessage()}")
+    }
   }
 
   /*

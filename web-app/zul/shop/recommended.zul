@@ -8,38 +8,55 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.RecommendedComposer">
+  <window apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.shop.RecommendedViewModel')" width="100%">
+
+    <style src="/css/ZK.css"/>
+
     <style>
-      table.z-vbox {
-        -webkit-border-radius: 10px 10px 0px 0px;
-        -moz-border-radius: 10px 10px 0px 0px;
-        border-radius: 10px 10px 0px 0px;
-        background: #f6f6f6;border-bottom: 1px solid #346F97;
+      .header {
+      -webkit-border-radius: 10px 10px 0px 0px;
+      -moz-border-radius: 10px 10px 0px 0px;
+      border-radius: 10px 10px 0px 0px;
+      background: #f6f6f6;border-bottom: 1px solid #346F97;
       }
-
-      .recommendedItem {
-        word-wrap: break-word;
-        vertical-align: top;
-        margin-top: 5px;
-        cursor: pointer;
-        width: 25%;
-      }
-
-      .recommendedItem:hover {
-        background: #fbd850;
-      }
-
-      .recommendedName {
-        height: 20px;
-      }
-
     </style>
-    <vbox width="100%" align="center">
-      <label style="font-size: 20px;">
-        Популярные
-      </label>
-    </vbox>
-    <h:table id="products" align="center"/>
+
+    <vlayout width="100%">
+      <div sclass="header" width="100%">
+        <label style="font-size: 20px;" value="Популярные"/>
+      </div>
+      <hbox width="100%" children="@bind(vm.products)">
+        <template name="children">
+          <vbox>
+          <div align="center" sclass="productImageCatalog">
+            <image sclass="productImage" onClick="@command('redirectToProductItem', product=each)">
+              <zscript><![CDATA[
+                import ru.spb.locon.*
+                import org.codehaus.groovy.grails.commons.*
+                import org.zkoss.image.*
+
+                ImageService imageService =
+                                ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                AImage img = imageService.getImageFile(each, "${150}")
+                self.setContent(img)
+                ]]>
+              </zscript>
+            </image>
+          </div>
+          <vbox width="220px" align="center">
+            <label height="20px" value="@load(each.manufacturer.name)"/>
+            <div height="60px">
+              <label value="@load(each.name)"/>
+            </div>
+            <div>Цена: <label value="@load(each.price)"/> руб.</div>
+            <button style="margin: 5px;" label="В корзину" onClick="@command('addToCart', product=each)"/>
+          </vbox>
+          </vbox>
+        </template>
+      </hbox>
+    </vlayout>
   </window>
 
 </zk>

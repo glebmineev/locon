@@ -4,11 +4,11 @@
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
-    xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.BindComposer" viewModel="@id('vm') @init('ru.spb.locon.catalog.CartViewModel')">
+  <window apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.shop.CartViewModel')" width="100%">
 
     <style src="/css/ZK.css"/>
 
@@ -62,6 +62,9 @@
         </row>
       </template>
     </grid>
+
+    <button label="Оформить заказ" onClick="@command('checkout')"/>
+
   </window>
 
 </zk>

@@ -1,20 +1,20 @@
-package ru.spb.locon.catalog
+package ru.spb.locon.shop
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.zkoss.bind.BindUtils
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
-import org.zkoss.zhtml.Messagebox
-import org.zkoss.zk.ui.Component
+import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.InputEvent
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Spinner
 import ru.spb.locon.CartService
-import ru.spb.locon.ProductEntity
-import ru.spb.locon.cart.CartItem
-import ru.spb.locon.tree.node.CategoryTreeNode
+import ru.spb.locon.ImportService
+import ru.spb.locon.catalog.ProductModel
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,6 +24,9 @@ import ru.spb.locon.tree.node.CategoryTreeNode
  * To change this template use File | Settings | File Templates.
  */
 class CartViewModel {
+
+  //Логгер
+  static Logger log = LoggerFactory.getLogger(ImportService.class)
 
   ListModelList<ProductModel> cartProduct
 
@@ -41,18 +44,35 @@ class CartViewModel {
   @Command
   @NotifyChange(["cartProduct"])
   public void removeItem(@BindingParam("productModel") ProductModel productModel){
-    cartService.removeFromCart(productModel.productEntity)
-    cartProduct.remove(productModel)
+    try {
+      cartService.removeFromCart(productModel.productEntity)
+      cartProduct.remove(productModel)
+    } catch (Exception e) {
+      log.debug(e.getMessage())
+    }
   }
 
   @Command
   public void processCount(@BindingParam("productModel") ProductModel productModel,
                            @BindingParam("inputEvent") InputEvent event){
-    boolean direct = (event.value as Long) > (event.previousValue as Long)
-    long mark = direct ? 1L : -1L
-    cartService.incrementCount(productModel, mark)
-    (event.getTarget() as Spinner).setValue(cartService.getProductCount(productModel.getProductEntity().id) as Integer)
-    BindUtils.postNotifyChange(null, null, productModel, "totalPrice");
+    try {
+      Long currentValue = event.value as Long
+      Long previousValue = event.previousValue as Long
+      if (previousValue != currentValue) {
+        boolean direct = currentValue > previousValue
+        long mark = direct ? 1L : -1L
+        cartService.incrementCount(productModel, mark)
+        (event.getTarget() as Spinner).setValue(cartService.getProductCount(productModel.getProductEntity().id) as Integer)
+        BindUtils.postNotifyChange(null, null, productModel, "totalPrice");
+      }
+    } catch (Exception e) {
+      log.debug(e.getMessage())
+    }
+  }
+
+  @Command
+  public void checkout(){
+    Executions.sendRedirect("/shop/checkout");
   }
 
 }

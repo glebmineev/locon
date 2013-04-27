@@ -8,55 +8,45 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.LoginComposer" width="100%">
+  <window apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.auth.LoginViewModel')" width="100%" onOK="@command('logging')">
 
     <style>
 
       span.z-label {
-        font-size: 14pt;
+      font-size: 14pt;
       }
 
       .z-textbox {
-        font-size: 14pt;
-        background-color: #fff3f3;
+      font-size: 14pt;
+      background-color: #fff3f3;
       }
 
       .z-textbox:hover {
-        background-color: #ffffff;
+      background-color: #ffffff;
       }
 
     </style>
+    <vbox width="100%" align="center">
 
-    <label id="errors" visible="false"/>
-    <h:table width="100%" cellspacing="10" cellpadding="0" align="center">
-      <h:tr>
-        <h:td width="100%" colspan="2" align="center">
-          <h:h2>Введите email и пароль</h:h2>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td width="40%" align="right">
+      <h:h2>Введите email и пароль</h:h2>
+      <hbox widths="100px,300px">
+        <div align="right">
           <label value="email: "/>
-        </h:td>
-        <h:td width="60%" align="left">
-          <textbox id="login" type="text" width="50%"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td width="40%" align="right">
+        </div>
+        <textbox value="@bind(vm.email)" width="100%"/>
+      </hbox>
+      <hbox widths="100px,300px">
+        <div align="right">
           <label value="Пароль: "/>
-        </h:td>
-        <h:td width="60%" align="left">
-          <textbox id="password" type="password" width="50%"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td colspan="2" align="center">
-          <button id="loginButton" type="submit" label="Войти"/>
-          <button id="cancelButton" label="Отмена"/>
-        </h:td>
-      </h:tr>
-    </h:table>
+        </div>
+        <textbox value="@bind(vm.password)" type="password" width="100%"/>
+      </hbox>
+      <div>
+        <a href="" label="Забыли пароль?"/>
+        <button type="submit" label="Войти" style="margin: 5px;" onClick="@command('logging')"/>
+      </div>
+    </vbox>
   </window>
 
 </zk>

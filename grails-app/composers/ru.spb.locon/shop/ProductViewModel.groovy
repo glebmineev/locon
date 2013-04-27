@@ -1,4 +1,4 @@
-package ru.spb.locon.catalog
+package ru.spb.locon.shop
 
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
