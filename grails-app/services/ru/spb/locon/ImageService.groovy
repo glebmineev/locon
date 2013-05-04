@@ -30,11 +30,13 @@ class ImageService {
   StringUtils stringUtils = new StringUtils()
   String store
   String images
+  String userPictures
   String temp
 
   ImageService() {
     String root = ApplicationHolder.application.mainContext.servletContext.getRealPath("/")
     images = "${root}\\images"
+    userPictures = "${stringUtils.buildPath(2, root)}\\userPics"
     store = "${stringUtils.buildPath(2, root)}\\productImages"
     temp = "${root}\\images\\temp"
   }
@@ -214,6 +216,18 @@ class ImageService {
       store.delete()
     }
 
+  }
+
+  AImage getUserPicture(UserEntity user) {
+    File picture = new File("${userPictures}\\${user.imagePath}")
+
+    AImage aImage
+    if (picture.exists())
+      aImage = new AImage(picture.path)
+    else
+      aImage = new AImage("${images}/help.png")
+
+    return aImage
   }
 
 }

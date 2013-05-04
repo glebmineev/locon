@@ -10,8 +10,8 @@
         <g:img dir="images" file="truck.png"/>
       </td>
       <td width="110px">
-        <g:link controller="user" action="orders">
-          Мои Заказы
+        <g:link controller="cabinet" action="cabinet">
+          Личный кабинет
         </g:link>
       </td>
       <td>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer" align="left"
+       viewModel="@id('vm') @init('ru.spb.locon.cabinet.CabinetViewModel')" width="100%">
+
+    <style src="/css/ZK.css"/>
+
+    <hlayout>
+      <div sclass="rounded">
+        <div align="center" width="100%">
+          <label value="@load(vm.fio)" style="font-size: 16pt"/>
+        </div>
+        <vbox width="20%" align="left" style="margin: 15px;">
+          <image id="picture" width="180px"/>
+          <zscript><![CDATA[
+          import ru.spb.locon.*
+          import org.codehaus.groovy.grails.commons.ApplicationHolder
+          import org.zkoss.image.*
+          import org.zkoss.zk.ui.*
+
+          def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+          def loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService")
+
+          AImage img = imageService.getUserPicture(loginService.getCurrentUser())
+          picture.setContent(img)
+
+          ]]>
+          </zscript>
+          <button label="Сменить аватар"/>
+          <a onClick="@command('orders')" label="Заказы"/>
+          <a href="/cabinet/payments" label="Платежы"/>
+          <a href="/cabinet/profile" label="Профиль"/>
+          <a href="/cabinet/settings" label="Настройки"/>
+          <a href="/cabinet/map" label="Карта профиля"/>
+        </vbox>
+      </div>
+      <space/>
+      <!-- данные -->
+      <div id="container" sclass="rounded" onCreate="@command('index')"/>
+    </hlayout>
+  </div>
+
+</zk>

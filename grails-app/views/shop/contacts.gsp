@@ -34,6 +34,7 @@
       Юридический адрес:
       197110, СПБ, Улица Пионерская, д. 22, пом. 45-Н
       <br>
+      <tpl:zkBody zul="/zul/contacts/gmap.zul"/>
       </div>
     </tpl:block>
 

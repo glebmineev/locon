@@ -9,6 +9,8 @@ class UserEntity {
   @XmlTransient
   Errors errors = new ValidationErrors(this)
 
+  String imagePath
+
   String login
   String password
 
@@ -21,6 +23,7 @@ class UserEntity {
     table: 'user'
     columns {
       id column: 'user_id'
+      imagePath column: 'user_imagepath'
       login column: 'user_login'
       password column: 'user_password'
       fio column: 'user_fio'
@@ -44,6 +47,7 @@ class UserEntity {
   ]
 
   static constraints = {
+    imagePath nullable: true
     login nullable: false
     password nullable: false
     fio nullable: false

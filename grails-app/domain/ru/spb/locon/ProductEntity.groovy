@@ -12,22 +12,22 @@ class ProductEntity implements Comparable {
   String engImagePath
   String imagePath
 
-  @FieldInfo(isFilter=true, type=FilterTypes.TEXT_FIELD)
+  @FieldInfo(isFilter = true, type = FilterTypes.TEXT_FIELD)
   String article
-  @FieldInfo(isFilter=true, type=FilterTypes.TEXT_FIELD)
+  @FieldInfo(isFilter = true, type = FilterTypes.TEXT_FIELD)
   String name
   String description
   String usage
   String volume
-  @FieldInfo(isFilter=true, type=FilterTypes.MEASURE_FIELD)
+  @FieldInfo(isFilter = true, type = FilterTypes.MEASURE_FIELD)
   Long price
-  @FieldInfo(isFilter=true, type=FilterTypes.NUMBER_FIELD)
+  @FieldInfo(isFilter = true, type = FilterTypes.NUMBER_FIELD)
   Long countToStock
 
   FilterEntity filter
 
   ProductPropertyEntity productProperty
-  @FieldInfo(isFilter=true, type=FilterTypes.COMBO_FIELD)
+  @FieldInfo(isFilter = true, type = FilterTypes.COMBO_FIELD)
   ManufacturerEntity manufacturer
 
   static mapping = {
@@ -48,23 +48,21 @@ class ProductEntity implements Comparable {
       countToStock column: 'product_counttostock'
       categories joinTable: [name: 'category_product', key: 'product_id']
       filter column: 'product_filter'
-      //filters joinTable: [name: 'product_filter', key: 'product_id']
     }
 
     version false
 
     //categories cascade: 'all-delete-orphan'
     //listCategoryProduct lazy: false,  cascade: 'all-delete-orphan'
-    listOrderProduct  cascade: 'all-delete-orphan'
+    listOrderProduct cascade: 'all-delete-orphan'
+    reviews cascade: 'all-delete-orphan'
     //filters cascade: 'all-delete-orphan'
   }
 
-  //static belongsTo = FilterEntity
-
   static hasMany = [
       categories: CategoryEntity,
-      listOrderProduct: OrderProductEntity//,
-      //filters: FilterEntity
+      listOrderProduct: OrderProductEntity,
+      reviews: ReviewsEntity
   ]
 
   static constraints = {
@@ -81,7 +79,6 @@ class ProductEntity implements Comparable {
     countToStock nullable: true
     filter nullable: true
   }
-
 
   public String toString() {
     return name

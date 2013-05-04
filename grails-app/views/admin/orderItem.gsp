@@ -11,7 +11,7 @@
 
     <tpl:block name="wrap_content">
       <div class="info">
-        <tpl:zkBody zul="/zul/orders/admin/orderItem.zul"/>
+        <tpl:zkBody zul="/zul/admin/orderItem.zul"/>
       </div>
     </tpl:block>
 

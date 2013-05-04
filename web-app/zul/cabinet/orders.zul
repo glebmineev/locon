@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.cabinet.OrdersViewModel')" width="100%">
+
+    <style src="/css/ZK.css"/>
+
+    <listbox id="orders" mold="paging" width="100%"
+             model="@load(vm.ordersModel)" pageSize="10" emptyMessage="Заказов нет.">
+      <listhead>
+        <listheader label="Номер"/>
+        <listheader label="ФИО"/>
+        <listheader label="Телефон"/>
+        <listheader label="E-mail"/>
+        <listheader label="Статус"/>
+      </listhead>
+      <template name="model">
+        <listitem onClick="@command('openOrder', order=each)">
+          <listcell>
+            <label value="${each.number}"/>
+          </listcell>
+          <listcell>
+            <label value="${each.fio}"/>
+          </listcell>
+          <listcell>
+            <label value="${each.phone}"/>
+          </listcell>
+          <listcell>
+            <label value="${each.email}"/>
+          </listcell>
+          <listcell>
+            <label if="${each.isProcessed}" value="В процессе"/>
+            <label if="${each.isComplete}" value="Завершен"/>
+            <label if="${each.isCancel}" value="Отменен"/>
+          </listcell>
+        </listitem>
+      </template>
+    </listbox>
+
+  </div>
+
+</zk>

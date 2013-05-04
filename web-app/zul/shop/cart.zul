@@ -7,10 +7,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.BindComposer"
+  <div apply="ru.spb.locon.BindComposer"
           viewModel="@id('vm') @init('ru.spb.locon.shop.CartViewModel')" width="100%">
 
-    <style src="/css/ZK.css"/>
+    <!--<style src="/css/ZK.css"/>-->
 
     <grid model="@bind(vm.cartProduct)" width="100%">
       <columns>
@@ -65,6 +65,6 @@
 
     <button label="Оформить заказ" onClick="@command('checkout')"/>
 
-  </window>
+  </div>
 
 </zk>

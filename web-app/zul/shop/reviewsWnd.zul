@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.shop.ReviewsViewModel')"
+       width="100%" align="center">
+
+    <vlayout width="100%">
+      <div>
+        <label value="Добавить отзыв"/>
+      </div>
+      <hbox widths="50px,400px">
+        <label value="ФИО: "/>
+        <textbox value="@bind(vm.fio)" width="100%"/>
+      </hbox>
+      <hbox widths="50px,400px">
+        <label value="Отзыв: "/>
+        <textbox value="@bind(vm.review)" cols="15" rows="10" width="100%"/>
+      </hbox>
+      <hbox>
+        <label value="Введите код с картинки: "/>
+        <textbox value="@bind(vm.captchaInput)" width="150px"/>
+        <captcha value="@load(vm.captcha)" length="5" width="200px" height="50px"/>
+      </hbox>
+      <hbox>
+        <button label="Добавить" onClick="@command('addReview')"/>
+        <button label="Закрыть" onClick="@command('closeWnd')"/>
+      </hbox>
+    </vlayout>
+
+  </div>
+
+</zk>

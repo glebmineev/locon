@@ -8,10 +8,81 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.search.ResultsComposer" width="100%">
+  <div apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.search.SearchResultViewModel')" width="100%">
+
+    <!--<style src="/css/ZK.css"/>-->
 
 
-    <style>
+    <grid width="100%" mold="paging" model="@load(vm.model)"
+             pageSize="10" emptyMessage="По запросу не найдено">
+      <columns>
+        <column/>
+        <column label="Наименование"/>
+        <column label="Описание"/>
+        <column label="Применение"/>
+        <column label="Цена"/>
+      </columns>
+      <template name="model">
+        <row onClick="@command('redirectToProductItem', product=each)">
+          <cell>
+            <div align="center" width="160px" sclass="imageBox">
+              <image>
+                <zscript><![CDATA[
+                      import ru.spb.locon.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import org.zkoss.image.*
+
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                      AImage img = imageService.getImageFile(each, "${150}")
+                      self.setContent(img)
+                      ]]>
+                </zscript>
+              </image>
+            </div>
+          </cell>
+          <cell>
+            <label value="${each.name}"/>
+          </cell>
+          <cell>
+            <label>
+              <zscript><![CDATA[
+
+                def source = each.description
+
+                if (source != null && source.length() > 100)
+                  self.value = "${source.substring(0, 100)} ..."
+                else
+                  self.value = source
+
+                ]]>
+              </zscript>
+            </label>
+          </cell>
+          <cell>
+            <label>
+              <zscript><![CDATA[
+
+                def source = each.usage
+
+                if (source != null && source.length() > 100)
+                  self.value = "${source.substring(0, 100)} ..."
+                else
+                  self.value = source
+
+                ]]>
+              </zscript>
+            </label>
+          </cell>
+          <cell>
+            <label value="${each.price}"/>
+          </cell>
+        </row>
+      </template>
+    </grid>
+    <!--<style>
 
       .imageBox{
         height: 150px;
@@ -39,7 +110,7 @@
           </listbox>
         </h:td>
       </h:tr>
-    </h:table>
-  </window>
+    </h:table>-->
+  </div>
 
 </zk>

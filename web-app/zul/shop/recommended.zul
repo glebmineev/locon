@@ -8,27 +8,25 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.shop.RecommendedViewModel')" width="100%">
+  <!--    <style src="/css/ZK.css"/>
 
-    <style src="/css/ZK.css"/>
-
-    <style>
-      .header {
-      -webkit-border-radius: 10px 10px 0px 0px;
-      -moz-border-radius: 10px 10px 0px 0px;
-      border-radius: 10px 10px 0px 0px;
-      background: #f6f6f6;border-bottom: 1px solid #346F97;
-      }
-    </style>
-
-    <vlayout width="100%">
-      <div sclass="header" width="100%">
-        <label style="font-size: 20px;" value="Популярные"/>
-      </div>
-      <hbox width="100%" children="@bind(vm.products)">
-        <template name="children">
-          <vbox>
+      <style>
+        .header {
+        -webkit-border-radius: 10px 10px 0px 0px;
+        -moz-border-radius: 10px 10px 0px 0px;
+        border-radius: 10px 10px 0px 0px;
+        background: #f6f6f6;border-bottom: 1px solid #346F97;
+        }
+      </style>-->
+  <div apply="ru.spb.locon.BindComposer"
+    viewModel="@id('vm') @init('ru.spb.locon.shop.RecommendedViewModel')" width="100%">
+  <vlayout>
+    <div sclass="header" width="100%">
+      <label style="font-size: 20px;" value="Популярные"/>
+    </div>
+    <hbox width="100%" children="@bind(vm.products)">
+      <template name="children">
+        <vbox>
           <div align="center" sclass="productImageCatalog">
             <image sclass="productImage" onClick="@command('redirectToProductItem', product=each)">
               <zscript><![CDATA[
@@ -50,13 +48,15 @@
             <div height="60px">
               <label value="@load(each.name)"/>
             </div>
-            <div>Цена: <label value="@load(each.price)"/> руб.</div>
+            <div>Цена:
+              <label value="@load(each.price)"/>
+              руб.
+            </div>
             <button style="margin: 5px;" label="В корзину" onClick="@command('addToCart', product=each)"/>
           </vbox>
-          </vbox>
-        </template>
-      </hbox>
-    </vlayout>
-  </window>
-
+        </vbox>
+      </template>
+    </hbox>
+  </vlayout>
+  </div>
 </zk>

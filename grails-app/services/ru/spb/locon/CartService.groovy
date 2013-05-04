@@ -1,9 +1,6 @@
 package ru.spb.locon
 
-import ru.spb.locon.cart.CartItem
-import ru.spb.locon.catalog.ProductModel
-
-import java.math.RoundingMode
+import ru.spb.locon.wrappers.ProductModel
 import org.zkoss.zk.ui.util.Clients
 
 class CartService {
@@ -72,17 +69,6 @@ class CartService {
     renderTotalCount()
     renderTotalPrice()
     cart.remove(product.id)
-  }
-
-  public void decrementProduct(CartItem cartItem) {
-    ProductEntity product = cartItem.getProduct()
-    if (cart.containsKey(product.id)) {
-      cart.put(product.id, cartItem.count - 1L)
-      Long count = 1L
-      updateSessionAttributes(-product.price, -count)
-      renderTotalCount()
-      renderTotalPrice()
-    }
   }
 
   public void cleanCart() {

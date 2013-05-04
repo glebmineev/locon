@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <window apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.cabinet.OrderItemViewModel')" width="100%">
+
+    <style src="/css/ZK.css"/>
+
+    <vbox align="center" width="100%">
+      <label value="@load(vm.status)"/>
+      <hbox widths="100px,400px">
+        <label value="Номер заказа: "/>
+        <label value="@load(vm.number)"/>
+      </hbox>
+      <hbox widths="100px,400px">
+      <label value="Способ доставки: "/>
+        <radiogroup>
+          <radio disabled="true" checked="@bind(vm.courier)" label="Оплата курьером"/>
+          <radio disabled="true" checked="@bind(vm.emoney)" label="Оплата электронными деньгами"/>
+        </radiogroup>
+      </hbox>
+
+      <grid model="@load(vm.ordersModel)" width="100%">
+        <columns>
+          <column/>
+          <column label="Товар"/>
+          <column label="Цена"/>
+          <column label="Количество"/>
+          <column label="Стоимость"/>
+        </columns>
+        <template name="model">
+          <row>
+            <cell>
+              <div align="center" width="160px" sclass="imageBox">
+                <image>
+                  <zscript><![CDATA[
+                      import ru.spb.locon.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import org.zkoss.image.*
+
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                      AImage img = imageService.getImageFile(each.product, "${150}")
+                      self.setContent(img)
+                      ]]>
+                  </zscript>
+                </image>
+              </div>
+            </cell>
+            <cell>
+              <label value="${each.product.name}"/>
+            </cell>
+            <cell>
+              <label value="${each.product.price}"/>
+            </cell>
+            <cell>
+              <label value="${each.countProduct}"/>
+            </cell>
+            <cell>
+              <label value="${each.product.price * each.countProduct}"/>
+            </cell>
+          </row>
+        </template>
+      </grid>
+      <div align="center" width="100%">
+        <button onClick="@command('closeWnd')" label="Закрыть"/>
+      </div>
+    </vbox>
+
+  </window>
+
+</zk>

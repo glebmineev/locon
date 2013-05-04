@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer" width="100%">
+
+    <style src="/css/ZK.css"/>
+    <vlayout>
+      <div sclass="header" align="center" width="100%">
+        <label style="font-size: 20px;" value="Карта профиля"/>
+      </div>
+    <hlayout width="100%">
+      <!-- левая колонка -->
+      <vbox>
+        <hbox style="margin: 15px">
+          <vbox width="200px">
+            <label value="Заказы"/>
+            <a href="/shop/cart" label="Корзина"/>
+            <a href="/cabinet/orders" label="История заказов"/>
+          </vbox>
+          <space/>
+          <vbox>
+            <label value="Сообщения"/>
+            <a href="#" label="Входящие"/>
+          </vbox>
+        </hbox>
+        <hbox style="margin: 15px">
+          <vbox width="200px">
+            <label value="Платежы"/>
+            <a href="#" label="Все платежы"/>
+            <a href="#" label="Пополнить счет"/>
+          </vbox>
+          <space/>
+          <vbox>
+            <label value="Настройки"/>
+            <a href="#" label="Персональные данные"/>
+            <a href="#" label="Приватность, удаление аккаунта"/>
+          </vbox>
+        </hbox>
+        <hbox style="margin: 15px">
+          <vbox width="200px">
+            <label value="Адреса доставки"/>
+            <a href="#" label="Список адресов доставки"/>
+            <a href="#" label="Добавить адрес доставки"/>
+          </vbox>
+          <space/>
+          <vbox>
+            <a href="/auth/logout" label="Выход"/>
+          </vbox>
+        </hbox>
+      </vbox>
+    </hlayout>
+    </vlayout>
+
+  </div>
+
+</zk>
