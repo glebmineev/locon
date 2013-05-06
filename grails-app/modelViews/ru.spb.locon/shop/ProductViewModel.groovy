@@ -1,5 +1,6 @@
 package ru.spb.locon.shop
 
+import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
@@ -15,9 +16,11 @@ import org.zkoss.zul.Window
 import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ImageService
 import ru.spb.locon.ProductEntity
+import ru.spb.locon.ReviewsEntity
 import ru.spb.locon.common.PathHandler
 import ru.spb.locon.windows.ImageWindow
 import ru.spb.locon.wrappers.HrefObject
+import ru.spb.locon.wrappers.ProductModel
 
 class ProductViewModel {
 
@@ -25,6 +28,7 @@ class ProductViewModel {
   Long categoryId
   ImageService imageService = (ImageService) SpringUtil.getApplicationContext().getBean("imageService")
   List<HrefObject> hrefs
+  List<ReviewsEntity> reviews
 
   String usage
   String description
@@ -39,6 +43,7 @@ class ProductViewModel {
     categoryId = Long.parseLong(Executions.getCurrent().getParameter("category"))
     buildNavPath()
     initGrid()
+    initReviews()
   }
 
   public void initGrid(){
@@ -61,6 +66,11 @@ class ProductViewModel {
     hrefs.add(new HrefObject(product.name, "/shop/product?category=${categoryId}&product=${product.id}"))
   }
 
+  public void initReviews(){
+    ProductEntity product = ProductEntity.get(productId)
+    reviews = product.reviews as List<ReviewsEntity>
+  }
+
   @Command
   public void zoomImage(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     ProductEntity productEntity = ProductEntity.get(productId)
@@ -71,18 +81,16 @@ class ProductViewModel {
   }
 
   @Command
-  public void tryShowReviews(){
-    //TODO: show reviews/
-  }
-
-  @Command
   public void addReviews(){
     Window wnd = new Window()
     wnd.setWidth("50%")
     wnd.setHeight("400px")
     wnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
 
-    Executions.createComponents("/zul/shop/reviewsWnd.zul", wnd, new HashMap<Object, Object>())
+    Map<Object, Object> params = new HashMap<Object, Object>()
+    params.put("productID", productId)
+
+    Executions.createComponents("/zul/shop/reviewsWnd.zul", wnd, params)
     wnd.doModal()
     wnd.setVisible(true)
   }

@@ -8,6 +8,10 @@
 
   <div apply="ru.spb.locon.BindComposer"
        viewModel="@id('vm') @init('ru.spb.locon.shop.ReviewsViewModel')"
+       validationMessages="@id('vmsgs')"
+       form="@id('fx') @load(vm.productID) @save(vm.productID, before='addReview')
+       @validator('ru.spb.locon.validators.ReviewValidator',
+       fio=vm.fio, captcha=vm.captcha, captchaInput=vm.captchaInput, review=vm.review)"
        width="100%" align="center">
 
     <vlayout width="100%">
@@ -16,16 +20,37 @@
       </div>
       <hbox widths="50px,400px">
         <label value="ФИО: "/>
-        <textbox value="@bind(vm.fio)" width="100%"/>
+        <hbox width="100%">
+          <textbox value="@bind(vm.fio)" width="100%"/>
+          <label sclass="error"
+                 value="@load(vmsgs['fio'])" />
+        </hbox>
+      </hbox>
+      <hbox widths="50px,400px">
+        <label value="Email: "/>
+        <textbox value="@bind(vm.email)" width="100%"/>
       </hbox>
       <hbox widths="50px,400px">
         <label value="Отзыв: "/>
-        <textbox value="@bind(vm.review)" cols="15" rows="10" width="100%"/>
+        <hbox width="100%">
+          <textbox value="@bind(vm.review)"
+                   cols="15" rows="10" width="100%"/>
+          <label sclass="error"
+                 value="@load(vmsgs['review'])" />
+        </hbox>
       </hbox>
       <hbox>
         <label value="Введите код с картинки: "/>
         <textbox value="@bind(vm.captchaInput)" width="150px"/>
-        <captcha value="@load(vm.captcha)" length="5" width="200px" height="50px"/>
+        <vbox>
+          <hbox>
+            <button label="Regenerate"
+                  onClick="@command('regenerate')" width="100px" />
+            <label sclass="error"
+                   value="@load(vmsgs['captcha'])" />
+          </hbox>
+          <captcha value="@bind(vm.captcha)" length="5" width="200px" height="50px"/>
+        </vbox>
       </hbox>
       <hbox>
         <button label="Добавить" onClick="@command('addReview')"/>

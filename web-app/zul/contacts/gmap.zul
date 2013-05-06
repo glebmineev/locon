@@ -13,7 +13,7 @@
 
     <gmaps id="mymap" width="520px" height="400px" showSmallCtrl="true">
 
-      <gmarker id="mymark" lat="37.4410" lng="-122.1490">
+      <gmarker id="mymark" lat="58.5700" lng="30.1900">
         <attribute name="content"><![CDATA[
                 Hello, <a href="http://www.zkoss.org">ZK</a> on top of Gmarker.
             ]]></attribute>

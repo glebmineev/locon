@@ -8,8 +8,8 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <div apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.shop.ProductViewModel')" width="100%">
-    <style src="/css/ZK.css"/>
+       viewModel="@id('vm') @init('ru.spb.locon.shop.ProductViewModel')" width="100%">
+    <!--<style src="/css/ZK.css"/>-->
     <!-- Навигация -->
     <hbox align="start">
       <div children="@bind(vm.hrefs)">
@@ -99,10 +99,28 @@
         </tabbox>
       </vbox>
     </hlayout>
-    <hlayout>
-      <div onCreate="@command('tryShowReviews')"/>
-      <button label="Добавить отзыв" onClick="@command('addReviews')"/>
-    </hlayout>
+
+    <div children="@bind(vm.reviews)" align="center" sclass="info">
+      <template name="children">
+        <vbox align="center">
+          <hbox align="center" widths="100px,200px">
+            <label value="@load(each.fio)"/>
+            <label value="@load(each.date)">
+              <zscript><![CDATA[
+                  import java.text.*
+
+                  DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                  String date = dateFormat.format(each.date);
+                  self.setValue(date)
+                ]]>
+              </zscript>
+            </label>
+          </hbox>
+          <label value="@load(each.content)" height="100px" width="100%"/>
+        </vbox>
+      </template>
+    </div>
+    <button label="Добавить отзыв" onClick="@command('addReviews')"/>
 
   </div>
 
