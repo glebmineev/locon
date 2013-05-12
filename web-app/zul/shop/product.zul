@@ -8,21 +8,21 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <div apply="ru.spb.locon.BindComposer"
-       viewModel="@id('vm') @init('ru.spb.locon.shop.ProductViewModel')" width="100%">
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.ProductViewModel')" width="100%">
     <!--<style src="/css/ZK.css"/>-->
     <!-- Навигация -->
     <hbox align="start">
       <div children="@bind(vm.hrefs)">
         <template name="children">
           <a sclass="navigationLink" href="@load(each.href)"
-             label="@load(each.name)" style="font-size: 16pt;"/>
+             label="@load(each.name)" style="font-size: 14pt;"/>
           <label if="${forEachStatus.index != vm.hrefs.size()-1}"
-                 value="/" style="font-size: 16pt;"/>
+                 value="/" style="font-size: 14pt;"/>
         </template>
       </div>
 
     </hbox>
-    <hlayout>
+    <hlayout width="100%">
       <div id="imageDiv" width="320px" align="center" sclass="imageBoxAdmin">
         <image id="productImage" style="margin: 10px" onClick="@command('zoomImage')"/>
         <zscript><![CDATA[
@@ -43,84 +43,66 @@
         </zscript>
       </div>
       <vbox>
-        <grid width="100%">
-          <columns>
-            <column align="right" width="20%"/>
-            <column align="left" width="45%"/>
-          </columns>
-          <rows>
-            <row>
-              <cell>
-                <label value="Наименование: "/>
-              </cell>
-              <cell>
-                <label value="@load(vm.name)"/>
-              </cell>
-            </row>
-            <row>
-              <cell>
-                <label value="Цена(р.): "/>
-              </cell>
-              <cell>
-                <label value="@load(vm.price)"/>
-              </cell>
-            </row>
-            <row>
-              <cell>
-                <label value="Объем: "/>
-              </cell>
-              <cell>
-                <label value="@load(vm.volume)"/>
-              </cell>
-            </row>
-          </rows>
-        </grid>
-        <tabbox>
+        <label value="@load(vm.model.name)" style="font-size: 16pt"/>
+        <tabbox width="562px">
           <tabs>
             <tab label="Применение"/>
             <tab label="Описание"/>
           </tabs>
           <tabpanels style="background: #ffffff;">
-            <tabpanel width="550px" height="192px">
+            <tabpanel height="192px">
               <vlayout>
-                <div style="overflow: auto;" width="550px" height="195px">
-                  <label value="@load(vm.usage)"/>
+                <div style="overflow: auto;" height="195px">
+                  <label value="@load(vm.model.usage)"/>
                 </div>
               </vlayout>
             </tabpanel>
-            <tabpanel width="550px" height="192px">
+            <tabpanel height="192px">
               <vlayout>
-                <div style="overflow: auto;" width="550px" height="195px">
-                  <label value="@load(vm.description)"/>
+                <div style="overflow: auto;" height="195px">
+                  <label value="@load(vm.model.description)"/>
                 </div>
               </vlayout>
             </tabpanel>
           </tabpanels>
         </tabbox>
+        <hbox>
+          <label style="font-size: 16pt;" value="Цена:"/>
+          <label style="font-size: 16pt;" value="@load(vm.model.price)"/>
+          <label style="font-size: 16pt;" value="руб."/>
+        </hbox>
+        <button visible="@load(not vm.model.inCart)"
+                label="В корзину" onClick="@command('addToCart')"/>
+        <label visible="@bind(vm.model.inCart)" value="Уже в корзине"/>
       </vbox>
     </hlayout>
 
-    <div children="@bind(vm.reviews)" align="center" sclass="info">
+    <!-- Отзывы -->
+    <div sclass="info" align="center">
+      <label value="Отзывы" style="font-size: 16pt;"/>
+    </div>
+
+    <div if="${vm.reviews.size() > 0}" children="@bind(vm.reviews)" align="center" sclass="info">
       <template name="children">
         <vbox align="center">
-          <hbox align="center" widths="100px,200px">
+          <div align="center" style="background: #8A98A9;">
             <label value="@load(each.fio)"/>
-            <label value="@load(each.date)">
+            <label>
               <zscript><![CDATA[
                   import java.text.*
 
                   DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                  String date = dateFormat.format(each.date);
+                  def date = "${each.date.getDay()}.${each.date.getMonth()}.${each.date.getYear()}"
                   self.setValue(date)
                 ]]>
               </zscript>
             </label>
-          </hbox>
+          </div>
           <label value="@load(each.content)" height="100px" width="100%"/>
         </vbox>
       </template>
     </div>
-    <button label="Добавить отзыв" onClick="@command('addReviews')"/>
+    <button label="Добавить отзыв" autodisable="true" onClick="@command('addReviews')"/>
 
   </div>
 

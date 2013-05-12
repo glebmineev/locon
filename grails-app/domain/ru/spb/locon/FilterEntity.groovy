@@ -1,10 +1,14 @@
 package ru.spb.locon
 
+import ru.spb.locon.annotation.FieldInfo
+import ru.spb.locon.zulModels.admin.filters.data.FilterTypes
+
 class FilterEntity implements Comparable {
 
   String name
   FilterGroupEntity filterGroup
-  
+  Set<CategoryEntity> categories
+
   static mapping = {
 
     datasource 'ALL'
@@ -15,7 +19,7 @@ class FilterEntity implements Comparable {
       name column: 'filter_name'
       filterGroup column: 'filter_filtergroup'
       //categories joinTable: [name: 'category_filter', key: 'filter_id']
-      //products joinTable: [name: 'product_filter', key: 'filter_id']
+      //selectedProducts joinTable: [name: 'product_filter', key: 'filter_id']
     }
 
     version false
@@ -29,8 +33,8 @@ class FilterEntity implements Comparable {
   }
 
   static hasMany = [
-      products: ProductEntity//,
-      //categories: CategoryEntity
+      products: ProductEntity,
+      categories: CategoryEntity
   ]
 
   public String toString(){

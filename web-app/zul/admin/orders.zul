@@ -8,7 +8,7 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.admin.OrdersViewModel')" width="100%">
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.OrdersViewModel')" width="100%">
 
     <style src="/css/ZK.css"/>
 

@@ -1,5 +1,6 @@
 package ru.spb.locon
 
+import com.google.common.base.Strings
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import ru.spb.locon.excel.CellHandler
@@ -8,9 +9,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import ru.spb.locon.excel.ImportException
-import ru.spb.locon.importer.*
+import ru.spb.locon.importer.ConverterRU_EN
+import ru.spb.locon.importer.IImporterService
+import ru.spb.locon.importer.SaveUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import org.apache.poi.hssf.usermodel.*
+import ru.spb.locon.zulModels.importer.ImportEvent
 
 class ImportService extends IImporterService implements ApplicationContextAware {
 
@@ -21,7 +24,6 @@ class ImportService extends IImporterService implements ApplicationContextAware 
   //Логгер
   static Logger log = LoggerFactory.getLogger(ImportService.class)
 
-  HSSFWorkbook workbook
   ManufacturerEntity manufacturer
   CategoryEntity menuCategory
 
@@ -147,6 +149,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
   void processCategories(ExcelObject excelObject) {
     String sheetName = ""
     int rowNumber = 0
+
     try {
 
       excelObject.each { String sheet, List<CellHandler> handlers ->
@@ -154,20 +157,21 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         sheetName = sheet
 
         //получаем корневую категорию из названия листа excel файла.
-        CategoryEntity submenuCategory = saveUtils.getCategory(sheet, menuCategory, filtersCache.get(sheet))
+        CategoryEntity submenuCategory = saveUtils.saveCategory(sheet, menuCategory)
         log.debug("сохранена категория: ${sheet}")
 
         Set<CategoryEntity> categories = new HashSet<CategoryEntity>()
         handlers.each { it ->
           rowNumber = it.rowNumber
           String categoryName = it.data.get("I") as String
+          String filterName = it.data.get("C") as String
           if (categoryName != null) {
             try {
-              if (!categories.name.contains(categoryName)) {
-                CategoryEntity category = saveUtils.getCategory(categoryName, submenuCategory, filtersCache.get(sheet))
+              //if (!categories.name.contains(categoryName)) {
+                CategoryEntity category = saveUtils.saveCategory(categoryName, submenuCategory, FilterEntity.findByName(filterName))
                 categories.add(CategoryEntity.get(category.id))
                 log.debug("сохранена категория: ${categoryName}")
-              }
+              //}
             } catch (Throwable tr) {
               log.debug("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
               throw new ImportException("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
@@ -200,12 +204,11 @@ class ImportService extends IImporterService implements ApplicationContextAware 
     int rowNumber = 0
 
     //FilterGroupEntity manufacturerGroup = saveUtils.manufacturerGroup
-    //FilterEntity manufacturerFilter = saveUtils.getFilter(manufacturer.name, manufacturerGroup)
+    //FilterEntity manufacturerFilter = saveUtils.saveFilter(manufacturer.name, manufacturerGroup)
     FilterGroupEntity usageGroup = saveUtils.usageGroup
 
     try {
 
-      //saveUtils.getFilter(manufacturer.name, manufacturerGroup)
 
       excelObject.each { String sheet, List<CellHandler> handlers ->
 
@@ -218,7 +221,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           if (filterName != null) {
             try{
               if (!filters.name.contains(filterName)) {
-                FilterEntity filter = saveUtils.getFilter(filterName, usageGroup)
+                FilterEntity filter = saveUtils.saveFilter(filterName, usageGroup)
                 filters.add(FilterEntity.get(filter.id))
                 log.debug("сохранен фильтр: ${filterName}")
               }
@@ -269,10 +272,13 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         String translited = ConverterRU_EN.translit(to)
         product.setEngImagePath(translited)
 
-        categoryCache.get(sheetName).each { CategoryEntity category ->
+        /*categoryCache.get(sheetName).each { CategoryEntity category ->
           if (category.name.equals(categoryName))
             product.addToCategories(CategoryEntity.get(category.id))
-        }
+        }*/
+        if (!Strings.isNullOrEmpty(categoryName))
+          product.setCategory(CategoryEntity.findByName(categoryName))
+
 
         String filterName = it.data.get("C") as String
         filtersCache.get(sheetName).each { FilterEntity filter ->

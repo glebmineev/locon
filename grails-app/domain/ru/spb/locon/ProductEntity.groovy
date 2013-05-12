@@ -1,7 +1,8 @@
 package ru.spb.locon
 
-import ru.spb.locon.admin.filters.data.FilterTypes
 import ru.spb.locon.annotation.FieldInfo
+import ru.spb.locon.zulModels.admin.filters.data.FilterTypes
+
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
 
@@ -30,6 +31,8 @@ class ProductEntity implements Comparable {
   @FieldInfo(isFilter = true, type = FilterTypes.COMBO_FIELD)
   ManufacturerEntity manufacturer
 
+  CategoryEntity category
+
   static mapping = {
 
     table: 'product'
@@ -46,7 +49,8 @@ class ProductEntity implements Comparable {
       price column: 'product_price'
       manufacturer fetch: "join", column: 'product_manufacturer_id'
       countToStock column: 'product_counttostock'
-      categories joinTable: [name: 'category_product', key: 'product_id']
+      //categories joinTable: [name: 'category_product', key: 'product_id']
+      category column: 'product_categor_id'
       filter column: 'product_filter'
     }
 
@@ -60,7 +64,6 @@ class ProductEntity implements Comparable {
   }
 
   static hasMany = [
-      categories: CategoryEntity,
       listOrderProduct: OrderProductEntity,
       reviews: ReviewsEntity
   ]
@@ -77,6 +80,7 @@ class ProductEntity implements Comparable {
     productProperty nullable: true
     manufacturer nullable: false
     countToStock nullable: true
+    category nullable: true
     filter nullable: true
   }
 

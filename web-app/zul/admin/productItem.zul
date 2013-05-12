@@ -13,7 +13,7 @@
     ]]></zscript>-->
 
   <window id="productItem" apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.admin.ProductItemViewModel')" width="100%">
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.ProductItemViewModel')" width="100%">
 
     <style src="/css/ZK.css"/>
 
@@ -117,7 +117,7 @@
             <label value="Фильтр: "/>
           </cell>
           <cell>
-            <combobox selectedItem="@bind(vm.selectedFilter)" model="@load(vm.filterModel)" width="100%"/>
+            <combobox selectedItem="@bind(vm.selectedFilter)" model="@bind(vm.filterModel)" width="100%"/>
           </cell>
         </row>
         <row>

@@ -8,7 +8,7 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <div apply="ru.spb.locon.BindComposer" align="left"
-       viewModel="@id('vm') @init('ru.spb.locon.cabinet.CabinetViewModel')" width="100%">
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.cabinet.CabinetViewModel')" width="100%">
 
     <style src="/css/ZK.css"/>
 
@@ -18,27 +18,26 @@
           <label value="@load(vm.fio)" style="font-size: 16pt"/>
         </div>
         <vbox width="20%" align="left" style="margin: 15px;">
-          <image id="picture" width="180px"/>
+          <image id="targetImage" width="180px"/>
           <zscript><![CDATA[
-          import ru.spb.locon.*
-          import org.codehaus.groovy.grails.commons.ApplicationHolder
-          import org.zkoss.image.*
-          import org.zkoss.zk.ui.*
+            import ru.spb.locon.*
+            import org.codehaus.groovy.grails.commons.ApplicationHolder
+            import org.zkoss.image.*
+            import org.zkoss.zk.ui.*
 
-          def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
-          def loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService")
+            def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+            def loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService")
 
-          AImage img = imageService.getUserPicture(loginService.getCurrentUser())
-          picture.setContent(img)
+            AImage img = imageService.getUserPicture(loginService.getCurrentUser())
+            targetImage.setContent(img)
 
           ]]>
           </zscript>
-          <button label="Сменить аватар"/>
+          <button label="Сменить аватар" upload="true" onUpload="@command('uploadImage')"/>
           <a onClick="@command('orders')" label="Заказы"/>
-          <a href="/cabinet/payments" label="Платежы"/>
           <a href="/cabinet/profile" label="Профиль"/>
           <a href="/cabinet/settings" label="Настройки"/>
-          <a href="/cabinet/map" label="Карта профиля"/>
+          <a href="/cabinet/cabinet" label="Карта профиля"/>
         </vbox>
       </div>
       <space/>

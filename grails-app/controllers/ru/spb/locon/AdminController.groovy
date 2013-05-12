@@ -23,6 +23,8 @@ class AdminController {
 
   def manufacturers() {}
 
+  def filters() { }
+
   def info() { }
 
   def saveInfo(){ }

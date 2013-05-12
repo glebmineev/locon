@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm')
+                  @init('ru.spb.locon.zulModels.shop.CatalogRowViewModel')">
+    <div align="center" sclass="productImageCatalog">
+      <image sclass="productImage" onClick="@command('redirectToProductItem')">
+        <zscript><![CDATA[
+          import ru.spb.locon.*
+          import org.codehaus.groovy.grails.commons.*
+          import org.zkoss.image.*
+
+          def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+
+          ProductEntity product = ProductEntity.get(productID)
+          AImage img = imageService.getImageFile(product, "${150}")
+          self.setContent(img)
+        ]]>
+        </zscript>
+      </image>
+    </div>
+    <vbox>
+      <div height="20px">
+        <label style="color: green;" value="@load(vm.manufacturer)"/>
+      </div>
+      <div align="left" height="80px">
+        <label style="font-weight: bold" value="@load(vm.name)"/>
+      </div>
+      <div align="left" height="20px">
+        <label style="font-weight: bold; font-size: 16pt" value="Цена: "/>
+        <label style="font-weight: bold; font-size: 16pt" value="@load(vm.price)"/>
+        <label style="font-weight: bold; font-size: 16pt" value=" руб."/>
+      </div>
+      <div align="center" width="100%" style="margin-bottom: 5px;">
+        <button visible="@load(not vm.inCart)" label="В корзину" onClick="@command('toCart')"/>
+        <label visible="@bind(vm.inCart)" value="Уже в корзине"/>
+      </div>
+    </vbox>
+  </div>
+
+</zk>

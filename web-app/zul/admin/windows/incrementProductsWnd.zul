@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <window id="productItem" apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.windows.IncrementProductsWnd')"
+          width="220px"
+          height="120px"
+          position="center">
+    <vbox align="center">
+      <label value="Увеличить цену товаров." style="font-size: 14pt;"/>
+      <hbox align="center">
+        <label value="Увеличить на: "/>
+        <spinner value="@bind(vm.percent)"
+            mold="rounded" readonly="true" step="1" cols="3" constraint="min 0"/>
+      </hbox>
+      <hbox>
+        <button label="Выбранные" onClick="@command('incrementSelected')"/>
+        <button label="Все" onClick="@command('incrementAll')"/>
+        <button label="Отмена" onClick="@command('closeWnd')"/>
+      </hbox>
+    </vbox>
+  </window>
+</zk>

@@ -19,7 +19,7 @@
         }
       </style>-->
   <div apply="ru.spb.locon.BindComposer"
-    viewModel="@id('vm') @init('ru.spb.locon.shop.RecommendedViewModel')" width="100%">
+    viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.RecommendedViewModel')" width="100%">
   <vlayout>
     <div sclass="header" width="100%">
       <label style="font-size: 20px;" value="Популярные"/>
@@ -28,7 +28,7 @@
       <template name="children">
         <vbox>
           <div align="center" sclass="productImageCatalog">
-            <image sclass="productImage" onClick="@command('redirectToProductItem', product=each)">
+            <image sclass="productImage" onClick="@command('redirectToProductItem', productModel=each)">
               <zscript><![CDATA[
                 import ru.spb.locon.*
                 import org.codehaus.groovy.grails.commons.*
@@ -37,7 +37,7 @@
                 ImageService imageService =
                                 ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-                AImage img = imageService.getImageFile(each, "${150}")
+                AImage img = imageService.getImageFile(ProductEntity.get(each.productID), "${150}")
                 self.setContent(img)
                 ]]>
               </zscript>
@@ -52,7 +52,11 @@
               <label value="@load(each.price)"/>
               руб.
             </div>
-            <button style="margin: 5px;" label="В корзину" onClick="@command('addToCart', product=each)"/>
+            <button visible="@bind(not each.inCart)"
+                style="margin: 5px;"
+                label="В корзину"
+                onClick="@command('addToCart', productModel=each)"/>
+            <label visible="@bind(each.inCart)" value="Уже в корзине"/>
           </vbox>
         </vbox>
       </template>

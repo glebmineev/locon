@@ -1,6 +1,7 @@
 package ru.spb.locon
 
-import ru.spb.locon.importer.ImportEvent
+import ru.spb.locon.zulModels.importer.ImportEvent
+
 
 /**
  * User: Gleb

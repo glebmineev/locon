@@ -2,14 +2,11 @@ package ru.spb.locon
 
 import org.apache.commons.io.FileUtils
 import org.zkoss.image.AImage
-import ru.spb.locon.image.ImageExtensionFinder
-import ru.spb.locon.importer.ConverterRU_EN
+
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
-import ru.spb.locon.importer.ImageHandler
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.zkoss.zul.Image
+
+import org.slf4j.*
 import ru.spb.locon.common.StringUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import com.mortennobel.imagescaling.ResampleOp
@@ -30,30 +27,27 @@ class ImageService {
   StringUtils stringUtils = new StringUtils()
   String store
   String images
+  String manufacturers
   String userPictures
   String temp
 
   ImageService() {
     String root = ApplicationHolder.application.mainContext.servletContext.getRealPath("/")
+    String twoLevelUp = stringUtils.buildPath(2, root)
     images = "${root}\\images"
-    userPictures = "${stringUtils.buildPath(2, root)}\\userPics"
-    store = "${stringUtils.buildPath(2, root)}\\productImages"
+    userPictures = "${twoLevelUp}\\userPics"
+    store = "${twoLevelUp}\\productImages"
+    manufacturers = "${twoLevelUp}\\manufacturers"
     temp = "${root}\\images\\temp"
   }
 
-  void resizeImage(String path, String fileName, String ext) {
-    try {
-      BufferedImage source = ImageIO.read(new File("${path}/${fileName}${ext}"))
-
-      writeImage(source, new File("${path}\\${fileName}-150${ext}"), 150, ext)
-      writeImage(source, new File("${path}\\${fileName}-300${ext}"), 300, ext)
-      writeImage(source, new File("${path}\\${fileName}-500${ext}"), 500, ext)
-
-    } catch (IOException ex) {
-      log.error("Ошибка обработки картинки ${path}/${fileName}${ext}")
-    }
-  }
-
+  /**
+   * Запись картинки в темповую директорию.
+   * @param is - входной поток.
+   * @param fileName - имя файла.
+   * @param ext - расширение.
+   * @return уникальный идентификатор папки в темповой директории.
+   */
   String saveImageInTemp(InputStream is, String fileName, String ext) {
     String UUID = UUID.randomUUID()
     new File("${temp}\\${UUID}").mkdirs()
@@ -73,8 +67,16 @@ class ImageService {
 
   }
 
-  void overwriteImage(InputStream is, ProductEntity product, String ext) {
-    File newFile = new File("${store}\\${product.engImagePath}\\1.${ext}");
+  /**
+   * Запись пользовательской картинки.
+   * @param is - поток с каритнкой.
+   * @param id - йд пользователя.
+   * @param fileName - имя файла.
+   * @param ext - расширение файла.
+   */
+  void saveUserPic(InputStream is, Long id,String fileName, String ext) {
+    new File("${userPictures}\\${id}").mkdirs()
+    File newFile = new File("${userPictures}\\${id}\\${fileName}.${ext}");
     boolean isCreate = newFile.createNewFile()
     if (isCreate) {
       OutputStream out = new FileOutputStream(newFile);
@@ -85,6 +87,44 @@ class ImageService {
       out.close();
       is.close();
     }
+
+  }
+
+  /**
+   * Запись логотипа производителя.
+   * @param is - поток с каритнкой.
+   * @param id - йд пользователя.
+   * @param fileName - имя файла.
+   * @param ext - расширение файла.
+   */
+  void saveManufPic(InputStream is, Long id, String fileName, String ext) {
+    new File("${manufacturers}\\${id}").mkdirs()
+    File newFile = new File("${manufacturers}\\${id}\\${fileName}.${ext}")
+    boolean isCreate = newFile.createNewFile()
+    if (isCreate) {
+      OutputStream out = new FileOutputStream(newFile);
+      byte[] buf = new byte[1024];
+      int len;
+      while ((len = is.read(buf)) > 0)
+        out.write(buf, 0, len);
+      out.close();
+      is.close();
+    }
+
+  }
+
+  AImage getManufIcon(ManufacturerEntity manufacturer) {
+    File picture = new File("${manufacturers}\\${manufacturer.id}")
+
+    String ext = getImageExtension("${manufacturers}\\${manufacturer.id}")
+
+    AImage aImage
+    if (picture.exists())
+      aImage = new AImage("${manufacturers}\\${manufacturer.id}\\1-80${ext}")
+    else
+      aImage = new AImage("${images}/help.png")
+
+    return aImage
   }
 
   void writeImage(BufferedImage source, File dest, int size, String ext) {
@@ -110,8 +150,31 @@ class ImageService {
 
   }
 
-  void writeJpeg(BufferedImage image, File destFile, float quality)
-  throws IOException {
+  void resizeImage(String path, String fileName, String ext, int size) {
+    try {
+      BufferedImage source = ImageIO.read(new File("${path}/${fileName}${ext}"))
+
+      writeImage(source, new File("${path}\\${fileName}-80${ext}"), size, ext)
+
+    } catch (IOException ex) {
+      log.error("Ошибка обработки картинки ${path}/${fileName}${ext}")
+    }
+  }
+
+  void batchResizeImage(String path, String fileName, String ext) {
+    try {
+      BufferedImage source = ImageIO.read(new File("${path}/${fileName}${ext}"))
+
+      writeImage(source, new File("${path}\\${fileName}-150${ext}"), 150, ext)
+      writeImage(source, new File("${path}\\${fileName}-300${ext}"), 300, ext)
+      writeImage(source, new File("${path}\\${fileName}-500${ext}"), 500, ext)
+
+    } catch (IOException ex) {
+      log.error("Ошибка обработки картинки ${path}/${fileName}${ext}")
+    }
+  }
+
+  void writeJpeg(BufferedImage image, File destFile, float quality) throws IOException {
     ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next()
     ImageWriteParam param = writer.getDefaultWriteParam()
     param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT)
@@ -121,20 +184,6 @@ class ImageService {
     IIOImage iioImage = new IIOImage(image, null, null)
     writer.write(null, iioImage, param)
     writer.dispose()
-  }
-
-  Image getProductImage(ProductEntity product, String size) {
-    Image image = new Image()
-    image.setHeight("${size}px")
-    String imagePath = ConverterRU_EN.translit(product.imagePath).replace(" ", "").replace("%", "")
-    String path = "${images}\\${imagePath}"
-    ImageHandler dirUtils = new ImageHandler()
-    List<String> images = dirUtils.findImages(path)
-    if (images.size() > 0)
-      image.setSrc("/images/catalog/${imagePath}/1-${size}.jpg")
-    else
-      image.setSrc("/images/empty.png")
-    return image
   }
 
   AImage getImageFile(ProductEntity product, String size) {
@@ -150,6 +199,20 @@ class ImageService {
     return aImage
   }
 
+  AImage getUserPicture(UserEntity user) {
+    File picture = new File("${userPictures}\\${user.id}")
+
+    String ext = getImageExtension("${userPictures}\\${user.id}")
+
+    AImage aImage
+    if (picture.exists())
+      aImage = new AImage("${userPictures}\\${user.id}\\1-150.${ext}")
+    else
+      aImage = new AImage("${images}/help.png")
+
+    return aImage
+  }
+
   public String getImageExtension(String dir) {
     String ext = ".jpg"
     File imageDir = new File(dir)
@@ -158,7 +221,7 @@ class ImageService {
 
         String[] arr = it.name.split("\\.")
         if ("1".equals(arr[0]))
-          ext = arr[1]
+          ext = ".${arr[1]}"
       }
     return ext
   }
@@ -174,7 +237,7 @@ class ImageService {
       String type = fileType(from)
       File image = new File("${dir}/1${type}")
       FileUtils.copyURLToFile(website, image)
-      resizeImage("${store}/${to}", "1", type)
+      batchResizeImage("${store}/${to}", "1", type)
 
       isDownloaded = true
 
@@ -205,29 +268,21 @@ class ImageService {
   }
 
   void cleanStore(File store) {
-
-    if (store.exists()) {
-      store.eachFile { it ->
-        it.delete()
+    try {
+      if (store.exists()) {
+        store.eachFile { it ->
+          it.delete()
+        }
+        store.eachDir { it ->
+          it.delete()
+        }
+        store.delete()
       }
-      store.eachDir { it ->
-        it.delete()
-      }
-      store.delete()
+    } catch (Exception ex) {
+      log.debug("Ошибка удаления из хранилища изображений: ${ex.getMessage()}")
     }
 
-  }
 
-  AImage getUserPicture(UserEntity user) {
-    File picture = new File("${userPictures}\\${user.imagePath}")
-
-    AImage aImage
-    if (picture.exists())
-      aImage = new AImage(picture.path)
-    else
-      aImage = new AImage("${images}/help.png")
-
-    return aImage
   }
 
 }

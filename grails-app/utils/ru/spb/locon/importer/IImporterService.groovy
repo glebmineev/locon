@@ -7,6 +7,7 @@ import org.zkoss.zk.ui.Executions
 import ru.spb.locon.IImporterComposer
 import ru.spb.locon.ImageService
 import ru.spb.locon.InitService
+import ru.spb.locon.zulModels.importer.ImportEvent
 
 /**
  * User: Gleb

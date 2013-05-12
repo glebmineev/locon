@@ -1,7 +1,6 @@
 package ru.spb.locon.importer
 
 import ru.spb.locon.CategoryEntity
-import ru.spb.locon.ProductEntity
 import ru.spb.locon.ManufacturerEntity
 
 import ru.spb.locon.FilterEntity
@@ -23,37 +22,46 @@ class SaveUtils {
     usageGroup = FilterGroupEntity.findByName("Применение")
   }
 
-  CategoryEntity getCategory(String name, CategoryEntity parent, Set<FilterEntity> filters) {
+  CategoryEntity saveCategory(String name, CategoryEntity parent, FilterEntity filter) {
     CategoryEntity category = CategoryEntity.findByName(name)
-    if (category == null) {
+    if (category == null)
       category = CategoryEntity.newInstance()
-      //получаем корневую категорию из названия листа excel файла.
-      category.setName(name)
-      category.setParentCategory(parent)
-    }
+    //получаем корневую категорию из названия листа excel файла.
+    category.setName(name)
+    category.setParentCategory(parent)
+    if (category.filters == null)
+      category.filters = new HashSet<FilterEntity>()
 
-/*    if (category.filters != null) {
-      filters.each { FilterEntity filter ->
-        if (!category.filters.name.contains(filter.name))
-          category.addToFilters(FilterEntity.get(filter.id))
-      }
-    } else {
-      filters.each { FilterEntity filter ->
-        category.addToFilters(FilterEntity.get(filter.id))
-      }
-    }*/
+    if (!category.filters.name.contains(filter.name))
+      category.addToFilters(filter)
 
     if (category.validate()) {
       category.save(flush: true)
     } else
-      throw new ImportException("Ошибка при сохранении категоии ${category.name}.")
-
+      throw new ImportException("Ошибка при сохранении категории ${category.name}.")
 
     return category
 
   }
 
-  FilterEntity getFilter(String name, FilterGroupEntity group) {
+  CategoryEntity saveCategory(String name, CategoryEntity parent) {
+    CategoryEntity category = CategoryEntity.findByName(name)
+    if (category == null)
+      category = CategoryEntity.newInstance()
+    //получаем корневую категорию из названия листа excel файла.
+    category.setName(name)
+    category.setParentCategory(parent)
+
+    if (category.validate()) {
+      category.save(flush: true)
+    } else
+      throw new ImportException("Ошибка при сохранении категории ${category.name}.")
+
+    return category
+
+  }
+
+  FilterEntity saveFilter(String name, FilterGroupEntity group) {
     FilterEntity filter = FilterEntity.findByName(name)
     if (filter == null) {
       //получаем корневую категорию из названия листа excel файла.

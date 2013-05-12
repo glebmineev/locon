@@ -44,7 +44,7 @@
       <g:link controller="admin" action="importCatalog">Импорт</g:link>
     </li>
     <li>
-      <g:link controller="admin" action="orders">Редакторы</g:link>
+      <g:link>Редакторы</g:link>
       <ul>
         <li>
           <g:link controller="admin" action="products">Товары</g:link>
@@ -55,6 +55,9 @@
         <li>
           <g:link controller="admin" action="manufacturers">Производители</g:link>
         </li>
+      <li>
+        <g:link controller="admin" action="filters">Фильтры</g:link>
+      </li>
         <li>
           <g:link controller="admin" action="editor">Редактор</g:link>
         </li>

@@ -8,7 +8,7 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <div apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.shop.CartViewModel')" width="100%">
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.CartViewModel')" width="100%">
 
     <!--<style src="/css/ZK.css"/>-->
 
@@ -31,10 +31,10 @@
                       import org.codehaus.groovy.grails.commons.*
                       import org.zkoss.image.*
 
-                      ImageService imageService =
+                      def imageService =
                                     ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-                      AImage img = imageService.getImageFile(productModel.productEntity, "${150}")
+                      AImage img = imageService.getImageFile(ProductEntity.get(productModel.productID), "${150}")
                       self.setContent(img)
                       ]]>
                 </zscript>
@@ -42,10 +42,10 @@
             </div>
           </cell>
           <cell>
-            <label value="${productModel.productEntity.name}"/>
+            <label value="${productModel.name}"/>
           </cell>
           <cell>
-            <label value="${productModel.productEntity.price}"/>
+            <label value="${productModel.price}"/>
           </cell>
           <cell>
             <spinner mold="rounded" readonly="true" step="1" value="@bind(productModel.count)"

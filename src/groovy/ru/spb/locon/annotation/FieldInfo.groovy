@@ -1,6 +1,6 @@
 package ru.spb.locon.annotation
 
-import ru.spb.locon.admin.filters.data.FilterTypes
+import ru.spb.locon.zulModels.admin.filters.data.FilterTypes
 
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention

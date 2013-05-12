@@ -7,6 +7,8 @@ class ReviewsEntity {
   String content
   Date date
 
+  Long rate
+
   static mapping = {
 
     datasource 'ALL'
@@ -18,6 +20,7 @@ class ReviewsEntity {
       email column: 'reviews_email'
       content column: 'reviews_content'
       date column: 'reviews_date'
+      rate column: 'reviews_rate'
     }
 
     version false
@@ -29,6 +32,7 @@ class ReviewsEntity {
     email nullable: true
     content nullable: false
     date nullable: false
+    rate nullable: true
   }
 
 }

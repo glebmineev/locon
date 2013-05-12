@@ -18,11 +18,13 @@ class ManufacturerEntity {
       description column: 'manufacturer_description'
     }
     version false
+
     productList cascade: 'all-delete-orphan'
   }
 
   static hasMany = [
-      productList: ProductEntity
+      productList: ProductEntity//,
+      //categories: CategoryEntity
   ]
 
   static constraints = {

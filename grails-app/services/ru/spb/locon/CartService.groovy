@@ -1,8 +1,10 @@
 package ru.spb.locon
 
-import ru.spb.locon.wrappers.ProductModel
 import org.zkoss.zk.ui.util.Clients
 
+/**
+ * Сервис для работы с корзиной покупателя.
+ */
 class CartService {
 
   static transactional = true
@@ -34,11 +36,28 @@ class CartService {
     }
   }
 
+  /**
+   * Создает корзину.
+   * @param product - товар.
+   */
   private void createCart(ProductEntity product) {
     cart.put(product.id, 1L)
     updateSessionAttributes(product.price, 1L)
   }
 
+  /**
+   * Есть ли товар в корзине.
+   * @param productID - ид товара.
+   * @return
+   */
+  public boolean findedInCart(Long productID) {
+    return cart.get(productID)
+  }
+
+  /**
+   * Возвращает все товары в корзине.
+   * @return
+   */
   public List<ProductEntity> getCartProducts() {
     List<ProductEntity> items = new ArrayList<ProductEntity>()
     cart.each { id, count ->
@@ -47,21 +66,33 @@ class CartService {
     return items
   }
 
-  public void incrementCount(ProductModel productModel, long mark) {
-    Long productID = productModel.productEntity.id
-    Long price = productModel.productEntity.price
+  /**
+   * Увеличивает или уменьшает количество товаров в корзине.
+   * @param productEntity
+   * @param mark
+   */
+  public void incrementCount(ProductEntity productEntity, long mark) {
+    Long productID = productEntity.id
+    Long price = productEntity.price
     cart.put(productID, cart.get(productID) + mark)
-    Long newPrice = productModel.totalPrice + (mark * price)
-    productModel.setTotalPrice(newPrice)
     updateSessionAttributes((mark * price), mark)
     renderTotalCount()
     renderTotalPrice()
   }
 
+  /**
+   * Возвращает количество товара в корзине.
+   * @param productID
+   * @return
+   */
   public Long getProductCount(Long productID) {
-    return cart.get(productID);
+    return cart.get(productID) != null ? cart.get(productID) : 0
   }
 
+  /**
+   * Удаление товара из корзины.
+   * @param product
+   */
   public void removeFromCart(ProductEntity product) {
     Long count = cart.get(product.id)
     Long price = (product.price * count)

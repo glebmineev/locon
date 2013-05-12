@@ -8,8 +8,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window id="editorWnd" apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.admin.ProductsViewModel')"
+  <div id="editorWnd" apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.ProductsViewModel')"
           width="100%">
 
     <listbox id="products" width="100%"
@@ -35,13 +35,13 @@
           <hbox width="100%">
             <image if="${each.filterType != 'mesureField'}" src="/images/funnel.png"/>
             <textbox if="${each.filterType == 'textField'}"
-                     use="ru.spb.locon.admin.filters.components.TextBoxFilter" filterBean="${each}"/>
+                     use="ru.spb.locon.zulModels.admin.filters.components.TextBoxFilter" filterBean="${each}"/>
             <intbox if="${each.filterType == 'numberField'}"
-                     use="ru.spb.locon.admin.filters.components.NumberBoxFilter" filterBean="${each}"/>
+                     use="ru.spb.locon.zulModels.admin.filters.components.NumberBoxFilter" filterBean="${each}"/>
             <vbox if="${each.filterType == 'mesureField'}"
-                     use="ru.spb.locon.admin.filters.components.MeasureFilter" filterBean="${each}"/>
+                     use="ru.spb.locon.zulModels.admin.filters.components.MeasureFilter" filterBean="${each}"/>
             <combobox if="${each.filterType == 'comboField'}" width="60%"
-                     use="ru.spb.locon.admin.filters.components.ComboBoxFilter" filterBean="${each}"/>
+                     use="ru.spb.locon.zulModels.admin.filters.components.ComboBoxFilter" filterBean="${each}"/>
           </hbox>
         </auxheader>
         <auxheader/>
@@ -86,6 +86,6 @@
         </listitem>
       </template>
     </listbox>
-  </window>
+  </div>
 
 </zk>

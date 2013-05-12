@@ -8,7 +8,90 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.ManufacturerComposer">
-  </window>
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.ManufacturersViewModel')" width="100%">
+
+    <listbox id="products" width="100%"
+             model="@bind(vm.manufacturersModel) @template((each.editingStatus) ? 'editable' : 'noneditable')"
+             mold="paging"
+             pageSize="10">
+      <listhead>
+        <listheader width="120px" align="center"/>
+        <listheader align="center" label="Наименование"/>
+        <listheader align="center" label="Краткое наименование"/>
+        <listheader align="center" label="Описание"/>
+        <listheader align="center" label="Действия"/>
+      </listhead>
+      <template name="noneditable">
+        <listitem>
+          <listcell>
+            <image width="80px">
+              <zscript><![CDATA[
+                import ru.spb.locon.*
+                import org.codehaus.groovy.grails.commons.ApplicationHolder
+                import org.zkoss.image.*
+                import org.zkoss.zk.ui.*
+
+                def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+
+                AImage img = imageService.getManufIcon(ManufacturerEntity.get(each.id))
+                self.setContent(img)
+
+              ]]>
+            </zscript>
+            </image>
+          </listcell>
+          <listcell label="${each.name}"/>
+          <listcell label="${each.shortName}"/>
+          <listcell label="${each.description}"/>
+          <listcell>
+            <image src="/images/pencil.png" onClick="@command('changeEditableStatus', model=each)"/>
+          </listcell>
+        </listitem>
+      </template>
+      <template name="editable">
+        <listitem>
+          <listcell>
+            <vbox align="center">
+            <image id="${each.id}" width="80px">
+              <zscript><![CDATA[
+                import ru.spb.locon.*
+                import org.codehaus.groovy.grails.commons.ApplicationHolder
+                import org.zkoss.image.*
+                import org.zkoss.zk.ui.*
+
+                def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+
+                AImage img = imageService.getManufIcon(ManufacturerEntity.get(each.id))
+                self.setContent(img)
+
+              ]]>
+              </zscript>
+            </image>
+              <button label="Сменить логотип" upload="true"
+                      onUpload="@command('uploadLogo', model=each, inputEvent=event)"/>
+            </vbox>
+          </listcell>
+          <listcell>
+            <textbox value="@bind(each.name)"/>
+          </listcell>
+          <listcell>
+            <textbox rows="5" cols="15" value="@bind(each.shortName)"/>
+          </listcell>
+          <listcell>
+            <textbox value="@bind(each.description)"/>
+          </listcell>
+          <listcell>
+            <image src="/images/success.gif" onClick="@command('updateProduct', model=each)"/>
+            <image src="/images/failed.png"
+                   onClick="@command('deleteProduct', model=each)"/>
+            <image src="/images/cancel.png" onClick="@command('cancelEditing', model=each)"/>
+          </listcell>
+        </listitem>
+      </template>
+    </listbox>
+    <button label="Создать" onClick="@command('createNew')"/>
+
+  </div>
 
 </zk>

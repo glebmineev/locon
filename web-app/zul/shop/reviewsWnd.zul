@@ -3,61 +3,101 @@
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <div apply="ru.spb.locon.BindComposer"
-       viewModel="@id('vm') @init('ru.spb.locon.shop.ReviewsViewModel')"
+  <window apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.ReviewsViewModel')"
        validationMessages="@id('vmsgs')"
        form="@id('fx') @load(vm.productID) @save(vm.productID, before='addReview')
-       @validator('ru.spb.locon.validators.ReviewValidator',
-       fio=vm.fio, captcha=vm.captcha, captchaInput=vm.captchaInput, review=vm.review)"
-       width="100%" align="center">
+             @validator('ru.spb.locon.validators.ReviewValidator', fio=vm.fio, captcha=vm.captcha, captchaInput=vm.captchaInput, review=vm.review)"
+       width="100%" onOK="@command('addReview')">
+
+    <style>
+
+      span.z-label {
+      font-size: 12pt;
+      }
+
+      .z-textbox {
+      font-size: 12pt;
+      background-color: #fff3f3;
+      }
+
+      .z-textbox:hover {
+      background-color: #ffffff;
+      }
+
+    </style>
 
     <vlayout width="100%">
       <div>
         <label value="Добавить отзыв"/>
       </div>
-      <hbox widths="50px,400px">
-        <label value="ФИО: "/>
-        <hbox width="100%">
-          <textbox value="@bind(vm.fio)" width="100%"/>
-          <label sclass="error"
-                 value="@load(vmsgs['fio'])" />
-        </hbox>
-      </hbox>
-      <hbox widths="50px,400px">
-        <label value="Email: "/>
-        <textbox value="@bind(vm.email)" width="100%"/>
-      </hbox>
-      <hbox widths="50px,400px">
-        <label value="Отзыв: "/>
-        <hbox width="100%">
-          <textbox value="@bind(vm.review)"
-                   cols="15" rows="10" width="100%"/>
-          <label sclass="error"
-                 value="@load(vmsgs['review'])" />
-        </hbox>
-      </hbox>
-      <hbox>
-        <label value="Введите код с картинки: "/>
-        <textbox value="@bind(vm.captchaInput)" width="150px"/>
-        <vbox>
-          <hbox>
-            <button label="Regenerate"
-                  onClick="@command('regenerate')" width="100px" />
+      <h:table width="100%" cellpadding="5" cellspacing="0" style="margin-top: 10px;">
+        <h:tr>
+          <h:td width="20%" align="right">
+            <label sclass="formLabel" value="Фамилия, имя:(*)"/>
+          </h:td>
+          <h:td width="50%" align="center">
+            <textbox value="@bind(vm.fio)" width="100%"/>
+          </h:td>
+          <h:td width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['fio'])"/>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td width="20%" align="right">
+            <label sclass="formLabel" value="Email: "/>
+          </h:td>
+          <h:td width="50%" align="center">
+            <textbox value="@bind(vm.email)" width="100%"/>
+          </h:td>
+          <h:td width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['email'])"/>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td width="20%" align="right">
+            <label sclass="formLabel" value="Отзыв: "/>
+          </h:td>
+          <h:td width="50%" align="center">
+            <textbox cols="15" rows="5" value="@bind(vm.review)" width="100%"/>
+          </h:td>
+          <h:td width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['review'])"/>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td width="20%" align="right">
+            <label value="Введите код с картинки: "/>
+          </h:td>
+          <h:td width="50%" align="center">
+            <vbox width="100%">
+              <textbox value="@bind(vm.captchaInput)" width="100%"/>
+              <hbox>
+                <captcha value="@bind(vm.captcha)" length="5" width="200px" height="50px"/>
+                <button label="Сформировать заново"
+                        onClick="@command('regenerate')" width="100px"/>
+              </hbox>
+            </vbox>
+          </h:td>
+          <h:td width="30%" align="left">
             <label sclass="error"
-                   value="@load(vmsgs['captcha'])" />
-          </hbox>
-          <captcha value="@bind(vm.captcha)" length="5" width="200px" height="50px"/>
-        </vbox>
-      </hbox>
-      <hbox>
-        <button label="Добавить" onClick="@command('addReview')"/>
-        <button label="Закрыть" onClick="@command('closeWnd')"/>
-      </hbox>
+                   value="@load(vmsgs['captcha'])"/>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td colspan="3" align="center" width="100%">
+            <button label="Добавить" onClick="@command('addReview')"/>
+            <button label="Закрыть" onClick="@command('closeWnd')"/>
+          </h:td>
+        </h:tr>
+      </h:table>
+
     </vlayout>
 
-  </div>
+  </window>
 
 </zk>

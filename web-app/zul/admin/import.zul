@@ -7,7 +7,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.importer.ImportComposer">
+  <window apply="ru.spb.locon.zulModels.importer.ImportComposer">
 
     <style src="/css/ZK.css"/>
 
@@ -24,6 +24,7 @@
     </div>
     <div id="process" visible="false">
       <vbox align="center" width="100%">
+        <label id="catalogName"/>
         <label id="info"/>
         <progressmeter id="progressmeter" width="100%"/>
         <grid id="importResult">

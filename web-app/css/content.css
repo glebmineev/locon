@@ -1,6 +1,6 @@
 body {
   text-align: center;
-  background: #8A98A9;
+  background: #4EC3F3;
   /*background: url("../images/fon2.jpg") repeat;*/
 }
 
@@ -121,7 +121,7 @@ body {
 
 .productBox {
   width: 200px;
-  height: 310px;
+  height: 320px;
   background: #ffffff;
   background: #FFFFFF;
   -webkit-border-radius: 10px;
@@ -155,5 +155,6 @@ body {
 
 .error {
   color: #ff0000;
+  font-size: 10pt;
+  margin: 5px;
 }
-

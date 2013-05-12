@@ -8,8 +8,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <window apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.auth.LoginViewModel')" width="100%" onOK="@command('logging')">
+  <div apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.auth.LoginViewModel')"
+          width="100%" onOK="@command('logging')">
 
     <style>
 
@@ -47,6 +48,7 @@
         <button type="submit" label="Войти" style="margin: 5px;" onClick="@command('logging')"/>
       </div>
     </vbox>
-  </window>
+
+  </div>
 
 </zk>
