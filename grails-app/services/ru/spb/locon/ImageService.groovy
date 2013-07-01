@@ -28,17 +28,21 @@ class ImageService {
   String store
   String images
   String manufacturers
+  String categories
   String userPictures
   String temp
 
+  String fileSeparator = System.getProperty("file.separator")
+
   ImageService() {
-    String root = ApplicationHolder.application.mainContext.servletContext.getRealPath("/")
+    String root = ApplicationHolder.application.mainContext.servletContext.getRealPath(fileSeparator)
     String twoLevelUp = stringUtils.buildPath(2, root)
-    images = "${root}\\images"
-    userPictures = "${twoLevelUp}\\userPics"
-    store = "${twoLevelUp}\\productImages"
-    manufacturers = "${twoLevelUp}\\manufacturers"
-    temp = "${root}\\images\\temp"
+    images = "${root}${fileSeparator}images"
+    userPictures = "${twoLevelUp}${fileSeparator}userPics"
+    store = "${twoLevelUp}${fileSeparator}productImages"
+    manufacturers = "${twoLevelUp}${fileSeparator}manufacturers"
+    categories = "${twoLevelUp}${fileSeparator}categories"
+    temp = "${root}${fileSeparator}images${fileSeparator}temp"
   }
 
   /**
@@ -50,8 +54,8 @@ class ImageService {
    */
   String saveImageInTemp(InputStream is, String fileName, String ext) {
     String UUID = UUID.randomUUID()
-    new File("${temp}\\${UUID}").mkdirs()
-    File newFile = new File("${temp}\\${UUID}\\${fileName}.${ext}");
+    new File("${temp}${fileSeparator}${UUID}").mkdirs()
+    File newFile = new File("${temp}${fileSeparator}${UUID}${fileSeparator}${fileName}.${ext}");
     boolean isCreate = newFile.createNewFile()
     if (isCreate) {
       OutputStream out = new FileOutputStream(newFile);
@@ -91,38 +95,34 @@ class ImageService {
   }
 
   /**
-   * Запись логотипа производителя.
-   * @param is - поток с каритнкой.
-   * @param id - йд пользователя.
-   * @param fileName - имя файла.
-   * @param ext - расширение файла.
+   * Получение картинки производителя из хранилища.
+   * @param manufacturer - производитель.
+   * @return - объект картинки.
    */
-  void saveManufPic(InputStream is, Long id, String fileName, String ext) {
-    new File("${manufacturers}\\${id}").mkdirs()
-    File newFile = new File("${manufacturers}\\${id}\\${fileName}.${ext}")
-    boolean isCreate = newFile.createNewFile()
-    if (isCreate) {
-      OutputStream out = new FileOutputStream(newFile);
-      byte[] buf = new byte[1024];
-      int len;
-      while ((len = is.read(buf)) > 0)
-        out.write(buf, 0, len);
-      out.close();
-      is.close();
-    }
-
-  }
-
   AImage getManufIcon(ManufacturerEntity manufacturer) {
-    File picture = new File("${manufacturers}\\${manufacturer.id}")
+    File picture = new File("${manufacturers}${fileSeparator}${manufacturer.id}")
 
-    String ext = getImageExtension("${manufacturers}\\${manufacturer.id}")
+    String ext = getImageExtension("${manufacturers}${fileSeparator}${manufacturer.id}")
 
     AImage aImage
     if (picture.exists())
-      aImage = new AImage("${manufacturers}\\${manufacturer.id}\\1-80${ext}")
+      aImage = new AImage("${manufacturers}${fileSeparator}${manufacturer.id}${fileSeparator}1-100${ext}")
     else
-      aImage = new AImage("${images}/help.png")
+      aImage = new AImage("${images}${fileSeparator}help.png")
+
+    return aImage
+  }
+
+  AImage getCategoryImage(CategoryEntity category) {
+    File picture = new File("${categories}${fileSeparator}${category.id}")
+
+    String ext = getImageExtension("${categories}${fileSeparator}${category.id}")
+
+    AImage aImage
+    if (picture.exists())
+      aImage = new AImage("${categories}${fileSeparator}${category.id}${fileSeparator}1-150${ext}")
+    else
+      aImage = new AImage("${images}${fileSeparator}help.png")
 
     return aImage
   }
@@ -152,25 +152,25 @@ class ImageService {
 
   void resizeImage(String path, String fileName, String ext, int size) {
     try {
-      BufferedImage source = ImageIO.read(new File("${path}/${fileName}${ext}"))
+      BufferedImage source = ImageIO.read(new File("${path}${fileSeparator}${fileName}${ext}"))
 
-      writeImage(source, new File("${path}\\${fileName}-80${ext}"), size, ext)
+      writeImage(source, new File("${path}${fileSeparator}${fileName}-${size}${ext}"), size, ext)
 
     } catch (IOException ex) {
-      log.error("Ошибка обработки картинки ${path}/${fileName}${ext}")
+      log.error("Ошибка обработки картинки ${path}${fileSeparator}${fileName}${ext}")
     }
   }
 
   void batchResizeImage(String path, String fileName, String ext) {
     try {
-      BufferedImage source = ImageIO.read(new File("${path}/${fileName}${ext}"))
+      BufferedImage source = ImageIO.read(new File("${path}${fileSeparator}${fileName}${ext}"))
 
-      writeImage(source, new File("${path}\\${fileName}-150${ext}"), 150, ext)
-      writeImage(source, new File("${path}\\${fileName}-300${ext}"), 300, ext)
-      writeImage(source, new File("${path}\\${fileName}-500${ext}"), 500, ext)
+      writeImage(source, new File("${path}${fileSeparator}${fileName}-150${ext}"), 150, ext)
+      writeImage(source, new File("${path}${fileSeparator}${fileName}-300${ext}"), 300, ext)
+      writeImage(source, new File("${path}${fileSeparator}${fileName}-500${ext}"), 500, ext)
 
     } catch (IOException ex) {
-      log.error("Ошибка обработки картинки ${path}/${fileName}${ext}")
+      log.error("Ошибка обработки картинки ${path}${fileSeparator}${fileName}${ext}")
     }
   }
 
@@ -189,26 +189,26 @@ class ImageService {
   AImage getImageFile(ProductEntity product, String size) {
     AImage aImage
     String imageDir = product.engImagePath;
-    String ext = getImageExtension("${store}/${imageDir}")
-    File image = new File("${store}/${imageDir}/1-${size}.${ext}")
+    String ext = getImageExtension("${store}${fileSeparator}${imageDir}")
+    File image = new File("${store}${fileSeparator}${imageDir}${fileSeparator}1-${size}${ext}")
     if (image.exists())
       aImage = new AImage(image.path)
     else
-      aImage = new AImage("${images}/empty.png")
+      aImage = new AImage("${images}${fileSeparator}empty.png")
 
     return aImage
   }
 
   AImage getUserPicture(UserEntity user) {
-    File picture = new File("${userPictures}\\${user.id}")
+    File picture = new File("${userPictures}${fileSeparator}${user.id}")
 
-    String ext = getImageExtension("${userPictures}\\${user.id}")
+    String ext = getImageExtension("${userPictures}${fileSeparator}${user.id}")
 
     AImage aImage
     if (picture.exists())
-      aImage = new AImage("${userPictures}\\${user.id}\\1-150.${ext}")
+      aImage = new AImage("${userPictures}${fileSeparator}${user.id}${fileSeparator}1-150.${ext}")
     else
-      aImage = new AImage("${images}/help.png")
+      aImage = new AImage("${images}${fileSeparator}help.png")
 
     return aImage
   }
@@ -219,7 +219,7 @@ class ImageService {
     if (imageDir.exists())
       imageDir.eachFile { it ->
 
-        String[] arr = it.name.split("\\.")
+        String[] arr = it.name.split("${fileSeparator}.")
         if ("1".equals(arr[0]))
           ext = ".${arr[1]}"
       }
@@ -229,15 +229,15 @@ class ImageService {
   boolean downloadImages(String from, String to) {
     boolean isDownloaded = false
     try {
-      File dir = new File("${store}\\${to}")
+      File dir = new File("${store}${fileSeparator}${to}")
       if (!dir.exists())
         dir.mkdirs()
 
       URL website = new URL(from)
       String type = fileType(from)
-      File image = new File("${dir}/1${type}")
+      File image = new File("${dir}${fileSeparator}1${type}")
       FileUtils.copyURLToFile(website, image)
-      batchResizeImage("${store}/${to}", "1", type)
+      batchResizeImage("${store}${fileSeparator}${to}", "1", type)
 
       isDownloaded = true
 
@@ -253,7 +253,7 @@ class ImageService {
   }
 
   void cleanStore(ProductEntity product) {
-    File store = new File("${store}\\${product.engImagePath}")
+    File store = new File("${store}${fileSeparator}${product.engImagePath}")
 
     if (store.exists()) {
       store.eachFile { it ->

@@ -33,7 +33,7 @@
           <vbox width="200px">
             <label value="Платежы"/>
             <a href="#" label="Все платежы"/>
-            <a href="#" label="Пополнить счет"/>
+            <!--<a href="#" label="Пополнить счет"/>-->
           </vbox>
           <space/>
           <vbox>

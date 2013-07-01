@@ -10,7 +10,7 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-      <tpl:zkBody zul="/zul/admin/filters.zul"/>
+      <tpl:zkBody zul="/zul/admin/categories.zul"/>
     </tpl:block>
 
     <tpl:block name="footer"/>

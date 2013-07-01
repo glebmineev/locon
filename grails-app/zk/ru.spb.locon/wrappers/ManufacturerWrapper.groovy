@@ -2,17 +2,17 @@ package ru.spb.locon.wrappers
 
 import ru.spb.locon.ManufacturerEntity
 
-class ManufacturerModel implements Cloneable {
+class ManufacturerWrapper implements Wrapper {
 
   Long id
   String name
   String shortName
   String description
 
-  ManufacturerModel memento
+  ManufacturerWrapper memento
   boolean editingStatus = false
 
-  ManufacturerModel(ManufacturerEntity manufacturer) {
+  ManufacturerWrapper(ManufacturerEntity manufacturer) {
     this.id = manufacturer.id
     this.name = manufacturer.name
     this.shortName = manufacturer.shortName

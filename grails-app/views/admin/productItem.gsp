@@ -10,9 +10,9 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-      <div class="info">
+      %{--<div class="info">--}%
         <tpl:zkBody zul="/zul/admin/productItem.zul"/>
-      </div>
+      %{--</div>--}%
     </tpl:block>
 
     <tpl:block name="footer"/>

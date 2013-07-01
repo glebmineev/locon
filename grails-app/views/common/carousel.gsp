@@ -1,13 +1,24 @@
+%{--<%
+  def imageService = grailsApplication.mainContext.getBean("imageService");
+%>
 <ul id="manufacturers" class="jcarousel-skin-tango">
   <g:each in="${manufacturers}" var="manufacturer">
-    <li><g:img dir="images/manufacturers" file="${manufacturer.shortName}.jpg"/></li>
+    <%
+      def dir = "${imageService.manufacturers}/${manufacturer.id}"
+      def image = "1-80${imageService.getImageExtension(dir)}"
+    %>
+    <li><img dir="" src="file:///${dir}/${image}"/></li>
   </g:each>
-</ul>
+</ul>--}%
+<div class="recommended">
+  <tpl:zkBody zul="/zul/shop/carousel.zul"/>
+</div>
 
-<script type="text/javascript">
+
+%{--<script type="text/javascript">
   jQuery(document).ready(function () {
     jQuery('#manufacturers').jcarousel({
 
     });
   });
-</script>
+</script>--}%

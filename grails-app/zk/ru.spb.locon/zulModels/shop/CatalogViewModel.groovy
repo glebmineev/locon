@@ -15,7 +15,7 @@ import org.zkoss.zul.*
 import ru.spb.locon.*
 import ru.spb.locon.common.PathHandler
 import ru.spb.locon.wrappers.CategoryTreeNode
-import ru.spb.locon.wrappers.HrefObject
+import ru.spb.locon.wrappers.HrefWrapper
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,7 +37,7 @@ class CatalogViewModel {
   Long categoryID
   List<ProductEntity> products
   //Навигация.
-  List<HrefObject> links = new LinkedList<HrefObject>()
+  List<HrefWrapper> links = new LinkedList<HrefWrapper>()
 
   @Init
   public void init() {
@@ -153,10 +153,10 @@ class CatalogViewModel {
   void rebuildPath(){
     List<CategoryEntity> categories = PathHandler.getCategoryPath(CategoryEntity.get(categoryID))
     links.clear()
-    links.add(new HrefObject("Главная", "/shop"))
-    links.add(new HrefObject("Каталог товаров", "/shop/catalog?category=${CategoryEntity.findByName("Для волос").id}"))
+    links.add(new HrefWrapper("Главная", "/shop"))
+    links.add(new HrefWrapper("Каталог товаров", "/shop/catalog?category=${CategoryEntity.findByName("Для волос").id}"))
     categories.each {it ->
-      links.add(new HrefObject(it.name, "/shop/catalog/category?category=${it.id}"))
+      links.add(new HrefWrapper(it.name, "/shop/catalog/category?category=${it.id}"))
     }
   }
 

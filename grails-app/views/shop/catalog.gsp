@@ -14,7 +14,7 @@
     </tpl:block>
 
     <tpl:block name="wrap_content">
-      <tpl:zkBody zul="/zul/shop/catalog.zul"/>
+      <tpl:zkBody zul="/zul/shop/catalogNew.zul"/>
     </tpl:block>
 
     <tpl:block name="footer">

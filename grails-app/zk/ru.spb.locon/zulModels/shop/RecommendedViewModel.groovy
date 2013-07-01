@@ -8,7 +8,7 @@ import org.zkoss.bind.annotation.Init
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zul.ListModelList
 import ru.spb.locon.*
-import ru.spb.locon.wrappers.ProductModel
+import ru.spb.locon.wrappers.ProductWrapper
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,28 +19,28 @@ import ru.spb.locon.wrappers.ProductModel
  */
 class RecommendedViewModel {
 
-  ListModelList<ProductModel> products;
+  ListModelList<ProductWrapper> products;
 
   InitService initService = ApplicationHolder.getApplication().getMainContext().getBean("initService") as InitService
   CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService
 
   @Init
   public void init(){
-    products = new ListModelList<ProductModel>()
+    products = new ListModelList<ProductWrapper>()
     initService.recommended.each {it ->
-      ProductModel model = new ProductModel(it)
+      ProductWrapper model = new ProductWrapper(it)
       model.initAsCartItem()
       products.add(model)
     }
   }
 
   @Command
-  public void redirectToProductItem(@BindingParam("productModel") ProductModel productModel){
+  public void redirectToProductItem(@BindingParam("productModel") ProductWrapper productModel){
     Executions.sendRedirect("/shop/product?product=${productModel.productID}")
   }
 
   @Command
-  public void addToCart(@BindingParam("productModel") ProductModel productModel){
+  public void addToCart(@BindingParam("productModel") ProductWrapper productModel){
     productModel.setInCart(true)
     cartService.addToCart(ProductEntity.get(productModel.productID))
     BindUtils.postNotifyChange(null, null, productModel, "inCart");

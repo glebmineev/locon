@@ -14,7 +14,7 @@ import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Spinner
 import ru.spb.locon.CartService
 import ru.spb.locon.ProductEntity
-import ru.spb.locon.wrappers.ProductModel
+import ru.spb.locon.wrappers.ProductWrapper
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,30 +28,30 @@ class CartViewModel {
   //Логгер
   static Logger log = LoggerFactory.getLogger(CartViewModel.class)
 
-  ListModelList<ProductModel> cartProduct
+  ListModelList<ProductWrapper> cartProduct
 
   CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService
 
   @Init
   public void init(){
-    List<ProductModel> models = new ArrayList<ProductModel>()
+    List<ProductWrapper> models = new ArrayList<ProductWrapper>()
     cartService.getCartProducts().each {it ->
-      ProductModel model = new ProductModel(it)
+      ProductWrapper model = new ProductWrapper(it)
       model.initAsCartItem()
       models.add(model)
     }
-    cartProduct = new ListModelList<ProductModel>(models)
+    cartProduct = new ListModelList<ProductWrapper>(models)
   }
 
   @Command
   @NotifyChange(["cartProduct"])
-  public void removeItem(@BindingParam("productModel") ProductModel productModel){
+  public void removeItem(@BindingParam("productModel") ProductWrapper productModel){
     try {
       cartService.removeFromCart(ProductEntity.get(productModel.productID))
 
-      List<ProductModel> models = new ArrayList<ProductModel>()
+      List<ProductWrapper> models = new ArrayList<ProductWrapper>()
       cartService.getCartProducts().each {it ->
-        ProductModel model = new ProductModel(it)
+        ProductWrapper model = new ProductWrapper(it)
         model.initAsCartItem()
         models.add(model)
       }
@@ -65,7 +65,7 @@ class CartViewModel {
   }
 
   @Command
-  public void processCount(@BindingParam("productModel") ProductModel productModel,
+  public void processCount(@BindingParam("productModel") ProductWrapper productModel,
                            @BindingParam("inputEvent") InputEvent event){
     try {
       Long currentValue = event.value as Long

@@ -6,9 +6,13 @@
 <zk xmlns="http://www.zkoss.org/2005/zul"
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd"
+>
 
-  <window apply="ru.spb.zulModels.admin.InfoComposer" width="100%">
+  <window apply="ru.spb.locon.BindComposer"
+              viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.InfoViewModel')"
+      width="100%">
+
     <h:table width="100%" cellpadding="0" cellspacing="0">
       <h:tr>
         <h:td width="100%">
@@ -21,39 +25,117 @@
             </tabs>
             <tabpanels>
               <tabpanel>
-                <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
-                <!--<h:button id="save" onClick="javascript:sendToServer()">Сохранить</h:button>-->
-                <html><![CDATA[
-                  <script type="text/javascript">
-                    function sendToServer() {
-                      var ckedata = CKEDITOR.instances['ckeditor'].getData();
-                      zAu.send(new zk.Event(zk.Widget.$(this), 'onSave', ckedata));
-                    }
-                  </script>
-                  ]]>
-                </html>
-                <!--<textbox id="contacts" multiline="true" width="100%" rows="5"/>-->
+                <h:textarea id="contacts" class="ckeditor" cols="10" rows="20"/>
+                <button id="saveContacts" label="Сохранить" onSaveContacts="@command('saveContacts')">
+                  <attribute name="onClick">
+                    import org.zkoss.zk.ui.util.*;
+
+                    Clients.evalJavaScript("saveContacts();");
+
+                  </attribute>
+                </button>
+                <script type="text/javascript">
+                  function saveContacts(){
+                  var value = CKEDITOR.instances.contacts.getData();
+                  zAu.send(new zk.Event(zk.Widget.$('$saveContacts'), 'onSaveContacts', value));
+                  }
+                </script>
               </tabpanel>
               <tabpanel>
-                <textbox id="about" multiline="true" width="100%" rows="5"/>
+                <h:textarea id="about" class="ckeditor" cols="10" rows="20"/>
+                <button id="saveAbout" label="Сохранить" onSaveAbout="@command('saveAbout')">
+                  <attribute name="onClick">
+                    import org.zkoss.zk.ui.util.*;
+
+                    Clients.evalJavaScript("saveAbout();");
+
+                  </attribute>
+                </button>
+                <script type="text/javascript">
+                  function saveAbout(){
+                  var value = CKEDITOR.instances.about.getData();
+                  zAu.send(new zk.Event(zk.Widget.$('$saveAbout'), 'onSaveAbout', value));
+                  }
+                </script>
               </tabpanel>
               <tabpanel>
-                <textbox id="delivery" multiline="true" width="100%" rows="5"/>
+                <h:textarea id="delivery" class="ckeditor" cols="10" rows="20"/>
+                <button id="saveDelivery" label="Сохранить" onSaveDelivery="@command('saveDelivery')">
+                  <attribute name="onClick">
+                    import org.zkoss.zk.ui.util.*;
+
+                    Clients.evalJavaScript("saveDelivery();");
+
+                  </attribute>
+                </button>
+                <script type="text/javascript">
+                  function saveDelivery(){
+                  var value = CKEDITOR.instances.delivery.getData();
+                  zAu.send(new zk.Event(zk.Widget.$('$saveDelivery'), 'onSaveDelivery', value));
+                  }
+                </script>
+<!--                <h:textarea id="delivery" class="ckeditor" cols="10" rows="20"/>
+                <button id="saveDelivery" label="Сохранить" onSaveDelivery="@command('saveDetails')">
+                  <attribute name="onClick">
+                    import org.zkoss.zk.ui.util.*;
+
+                    Clients.evalJavaScript("saveDelivery();");
+
+                  </attribute>
+                </button>
+                <script type="text/javascript">
+                  function saveDelivery(){
+                  var value = CKEDITOR.instances.delivery.getData();
+                  zAu.send(new zk.Event(zk.Widget.$('$saveDelivery'), 'onSaveDelivery', value));
+                  }
+                </script>-->
               </tabpanel>
               <tabpanel>
-                <textbox id="details" multiline="true" width="100%" rows="5"/>
+                <h:textarea id="details" class="ckeditor" cols="10" rows="20"/>
+                <button id="saveDetails" label="Сохранить" onSaveDetails="@command('saveDetails')">
+                  <attribute name="onClick">
+                    import org.zkoss.zk.ui.util.*;
+
+                    Clients.evalJavaScript("saveDetails();");
+
+                  </attribute>
+                </button>
+                <script type="text/javascript">
+                  function saveDetails(){
+                    var value = CKEDITOR.instances.details.getData();
+                    zAu.send(new zk.Event(zk.Widget.$('$saveDetails'), 'onSaveDetails', value));
+                  }
+                </script>
               </tabpanel>
             </tabpanels>
           </tabbox>
         </h:td>
       </h:tr>
-      <h:tr>
-        <h:td width="100%">
-          <button id="save" label="Сохранить"/>
-        </h:td>
-      </h:tr>
     </h:table>
 
+    <script>
+      function updateCKEDITORS(details, delivery, about, contacts){
+        alert('Загрузка содержания произведена!..')
+        CKEDITOR.instances.details.setData( details );
+        CKEDITOR.instances.delivery.setData( delivery );
+        CKEDITOR.instances.about.setData( about );
+        CKEDITOR.instances.contacts.setData( contacts )
+      }
+    </script>
+
+    <zscript><![CDATA[
+      import org.zkoss.zk.ui.util.*;
+
+      def about = vm.about
+      def contacts = vm.contacts
+      def delivery = vm.delivery
+      def details = vm.details
+
+      //Clients.evalJavaScript("var val = CKEDITOR.instances.about; alert(val)");
+      Clients.evalJavaScript("updateCKEDITORS('${about}', '${contacts}', '${delivery}', '${details}')");
+    ]]></zscript>
+
   </window>
+
 
 </zk>

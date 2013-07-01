@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.CategoriesViewModel')" width="100%">
+
+    <hbox widths="30%, 70%">
+      <tree id="categoryTree" onSelect="@command('updateSelectedItem')"
+            model="@bind(vm.categoryTreeModel) @template((each.editingStatus) ? 'editable' : 'noneditable')">
+        <treecols>
+          <treecol label="Категории"/>
+        </treecols>
+        <template name="noneditable" var="node">
+          <treeitem open="@bind(node.open)">
+            <treerow>
+              <treecell>
+                <label value="${node.name}"/>
+              </treecell>
+            </treerow>
+          </treeitem>
+        </template>
+        <template name="editable" var="node">
+          <treeitem open="@bind(node.open)" onClick="@command('refreshData')">
+            <treerow>
+              <treecell>
+                <textbox value="@bind(node.name)"/>
+              </treecell>
+            </treerow>
+          </treeitem>
+        </template>
+        <treefoot>
+          <treefooter width="60%" align="left">
+            <hbox>
+              <image src="/images/clear.png"
+                     onClick="@command('clearSelection')"/>
+              <image src="/images/add.png"
+                     onClick="@command('addCategory')"/>
+              <image src="/images/failed.png"
+                     onClick="@command('deleteCategory')"/>
+            </hbox>
+          </treefooter>
+        </treefoot>
+      </tree>
+
+      <h:table>
+        <h:tr>
+          <h:td width="30%" align="right">
+            <div width="150px">
+              <image id="targetImage" width="150px">
+                <zscript><![CDATA[
+
+                  import ru.spb.locon.*
+                  import org.codehaus.groovy.grails.commons.ApplicationHolder
+                  import org.zkoss.image.*
+                  import org.zkoss.zk.ui.*
+
+                  def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+
+                  if (vm.categoryID != null) {
+                    AImage img = imageService.getCategoryImage(ManufacturerEntity.get(vm.categoryID))
+                    self.setContent(img)
+                  }
+
+                ]]>
+                </zscript>
+              </image>
+            </div>
+          </h:td>
+          <h:td width="70%" align="center">
+            <button label="Загрузить изображение" upload="true" onUpload="@command('uploadImage')"/>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td>
+            <label value="Наименование:"/>
+          </h:td>
+          <h:td>
+            <textbox value="@bind(vm.name)" width="100%"/>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td>
+            <label value="Описание:"/>
+          </h:td>
+          <h:td>
+            <textbox value="@bind(vm.description)" width="100%"/>
+          </h:td>
+        </h:tr>
+        <h:tr>
+          <h:td colspan="2">
+            <button label="Сохранить" onClick="@command('save')"/>
+          </h:td>
+        </h:tr>
+      </h:table>
+
+    </hbox>
+
+  </div>
+
+</zk>

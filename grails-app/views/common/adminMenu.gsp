@@ -49,6 +49,9 @@
         <li>
           <g:link controller="admin" action="products">Товары</g:link>
         </li>
+      <li>
+        <g:link controller="admin" action="categories">Категории</g:link>
+      </li>
         <li>
           <g:link controller="admin" action="info">Информация</g:link>
         </li>

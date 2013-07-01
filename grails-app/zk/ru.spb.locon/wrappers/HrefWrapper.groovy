@@ -7,12 +7,12 @@ package ru.spb.locon.wrappers
  * Time: 12:29 AM
  * To change this template use File | Settings | File Templates.
  */
-class HrefObject {
+class HrefWrapper {
 
   String name
   String href
 
-  HrefObject(String name, String href) {
+  HrefWrapper(String name, String href) {
     this.name = name
     this.href = href
   }

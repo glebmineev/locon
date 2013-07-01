@@ -164,20 +164,20 @@ class EditorViewModel {
   /**
    * Иерархический сбор товаров.
    * @param category - категория с которой собираем продукты.
-   * @param products - список хранящий продукты.
+   * @param filters - список хранящий продукты.
    * @return список продуктов.
    */
-  List<ProductEntity> collectAllProducts(CategoryEntity category, List<ProductEntity> products) {
+  List<ProductEntity> collectAllProducts(CategoryEntity category, List<ProductEntity> filters) {
     List<CategoryEntity> categories = category.listCategory as List<CategoryEntity>
-    products.addAll(category.products as List<ProductEntity>)
+    filters.addAll(category.products as List<ProductEntity>)
     if (categories != null && categories.size() > 0)
       categories.each { CategoryEntity it ->
         if (it.listCategory != null && it.listCategory.size() > 0)
-          collectAllProducts(it, products)
+          collectAllProducts(it, filters)
         else
-          products.addAll(it.products as List<ProductEntity>)
+          filters.addAll(it.products as List<ProductEntity>)
       }
-    return products
+    return filters
   }
 
   @Command
@@ -213,7 +213,6 @@ class EditorViewModel {
     Tree tree = event.getTarget() as Tree
     selectedItem = tree.getSelectedItem()
     categoryID = ((CategoryTreeNode) selectedItem.getValue()).data.id
-    int r = 0
   }
 
   @Command

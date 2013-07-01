@@ -12,8 +12,8 @@ import org.zkoss.zul.Window
 import ru.spb.locon.*
 import ru.spb.locon.common.PathHandler
 import ru.spb.locon.windows.ImageWindow
-import ru.spb.locon.wrappers.HrefObject
-import ru.spb.locon.wrappers.ProductModel
+import ru.spb.locon.wrappers.HrefWrapper
+import ru.spb.locon.wrappers.ProductWrapper
 
 class ProductViewModel {
 
@@ -21,17 +21,17 @@ class ProductViewModel {
   static Logger log = LoggerFactory.getLogger(ProductViewModel.class)
 
   Long productId
-  List<HrefObject> hrefs
+  List<HrefWrapper> hrefs
   List<ReviewsEntity> reviews
 
-  ProductModel model
+  ProductWrapper model
 
   CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
 
   @Init
   public void init() {
-    hrefs = new LinkedList<HrefObject>()
+    hrefs = new LinkedList<HrefWrapper>()
     productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
     buildNavPath()
     initGrid()
@@ -39,7 +39,7 @@ class ProductViewModel {
   }
 
   public void initGrid() {
-    model = new ProductModel(ProductEntity.get(productId))
+    model = new ProductWrapper(ProductEntity.get(productId))
     model.initAsCartItem()
   }
 
@@ -47,12 +47,12 @@ class ProductViewModel {
     ProductEntity product = ProductEntity.get(productId)
     CategoryEntity category = CategoryEntity.get(product.getCategory().id)
     List<CategoryEntity> categories = PathHandler.getCategoryPath(category)
-    hrefs.add(new HrefObject("Главная", "/shop"))
-    hrefs.add(new HrefObject("Каталог товаров", "/shop/catalog?category=${CategoryEntity.findByName("Для волос").id}"))
+    hrefs.add(new HrefWrapper("Главная", "/shop"))
+    hrefs.add(new HrefWrapper("Каталог товаров", "/shop/catalog?category=${CategoryEntity.findByName("Для волос").id}"))
     categories.each { it ->
-      hrefs.add(new HrefObject(it.name, "/shop/catalog?category=${it.id}"))
+      hrefs.add(new HrefWrapper(it.name, "/shop/catalog?category=${it.id}"))
     }
-    hrefs.add(new HrefObject(product.name, "/shop/product?product=${product.id}"))
+    hrefs.add(new HrefWrapper(product.name, "/shop/product?product=${product.id}"))
   }
 
   public void initReviews() {

@@ -8,7 +8,7 @@ import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zul.Window
 import ru.spb.locon.ProductEntity
-import ru.spb.locon.wrappers.ProductModel
+import ru.spb.locon.wrappers.ProductWrapper
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,13 +19,13 @@ import ru.spb.locon.wrappers.ProductModel
  */
 class IncrementProductsWnd {
 
-  List<ProductModel> selectedProducts
+  List<ProductWrapper> selectedProducts
   Integer percent
 
   @Init
   public void init(){
     HashMap<String, Object> arg = Executions.getCurrent().getArg() as HashMap<String, Object>
-    selectedProducts = arg.get("selectedProducts") as List<ProductModel>
+    selectedProducts = arg.get("selectedProducts") as List<ProductWrapper>
   }
 
   @Command

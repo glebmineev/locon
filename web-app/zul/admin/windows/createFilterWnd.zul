@@ -8,38 +8,18 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window id="productItem" apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.CategoryWndViewModel')"
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.windows.FilterWndViewModel')"
           validationMessages="@id('vmsgs')"
-          form="@id('fx') @load(vm.name) @save(vm.name, before='addReview')
+          form="@id('fx') @load(vm.name) @save(vm.name, before='saveFilter')
              @validator('ru.spb.locon.validators.StdWndValidator', name=vm.name)"
           width="440px"
-          height="200px"
-          title="Создание новой категории"
-          closable="true"
+          height="100px"
           position="center">
 
     <h:table width="100%" cellpadding="0" cellspacing="5">
       <h:tr>
         <h:td width="20%" align="right">
-          <div width="80px">
-            <image id="targetImage" width="80px"/>
-          </div>
-        </h:td>
-        <h:td width="00%" align="center">
-          <button label="Загрузить изображение" upload="true" onUpload="@command('uploadImage')"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td width="20%" align="right">
-          <label sclass="formLabel" value="Родительская категория: "/>
-        </h:td>
-        <h:td colspan="2" width="80%" align="left">
-          <label sclass="formLabel" value="@bind(vm.parent)" width="100%"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td width="20%" align="right">
-          <label sclass="formLabel" value="Наименование категори:(*)"/>
+          <label sclass="formLabel" value="Наименование:(*)"/>
         </h:td>
         <h:td width="50%" align="center">
           <textbox value="@bind(vm.name)" width="100%"/>
@@ -50,7 +30,7 @@
       </h:tr>
       <h:tr>
         <h:td colspan="3" align="center">
-          <button label="Сохранить" onClick="@command('addCategory')"/>
+          <button label="Сохранить" onClick="@command('saveFilter')"/>
           <button label="Отмена" onClick="@command('closeWnd')"/>
         </h:td>
       </h:tr>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.CarouselViewModel')" width="100%" align="center">
+    <hbox align="center">
+      <div width="20px">
+        <image src="/images/less.png" onClick="@command('back')" visible="@bind(vm.currentPos > 0)"/>
+      </div>
+
+      <hbox align="center" style="margin-top: 5px" height="90px" children="@bind(vm.manufacturers)">
+        <template name="children">
+          <vbox align="center">
+            <image>
+              <zscript>
+                <![CDATA[
+              import ru.spb.locon.*
+              import org.codehaus.groovy.grails.commons.ApplicationHolder
+              import org.zkoss.image.*
+              import org.zkoss.zk.ui.util.*
+              import org.zkoss.zk.ui.*
+
+              def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+
+              AImage img = imageService.getManufIcon(ManufacturerEntity.get(each.id))
+              self.setContent(img)
+            ]]>
+              </zscript>
+            </image>
+          </vbox>
+        </template>
+      </hbox>
+      <div width="20px">
+        <image src="/images/better.png" onClick="@command('next')" visible="@bind(not vm.endList)"/>
+      </div>
+    </hbox>
+  </div>
+</zk>

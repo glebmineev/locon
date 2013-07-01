@@ -9,9 +9,11 @@ class InitService implements InitializingBean {
   List<ProductEntity> recommended
   List<CategoryEntity> categories
   List<ManufacturerEntity> manufacturers
+  InfoEntity info
 
   void afterPropertiesSet() {
     categories = CategoryEntity.findAllWhere(parentCategory: null)
+    info = InfoEntity.first()
     manufacturers = ManufacturerEntity.list()
     recommended = ProductEntity.list(max: 4)
   }

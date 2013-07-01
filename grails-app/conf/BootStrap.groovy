@@ -52,6 +52,15 @@ class BootStrap {
 
     }
 
+    InfoEntity.withTransaction {status ->
+      List<InfoEntity> list = InfoEntity.list()
+      if (list == null || list.size() == 0){
+        InfoEntity infoEntity = new InfoEntity()
+        infoEntity.save(flush: true)
+      }
+
+    }
+
     //imageService.syncAllImagesWithServer()
 
   }

@@ -5,14 +5,10 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.bind.BindUtils
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
-import org.zkoss.bind.annotation.ContextParam
-import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.image.AImage
 import org.zkoss.zk.ui.Executions
-import org.zkoss.zk.ui.event.Event
-import org.zkoss.zk.ui.event.InputEvent
 import org.zkoss.zk.ui.event.UploadEvent
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zul.Image
@@ -20,33 +16,31 @@ import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Window
 import ru.spb.locon.ImageService
 import ru.spb.locon.ManufacturerEntity
-import ru.spb.locon.ProductEntity
-import ru.spb.locon.wrappers.ManufacturerModel
-import ru.spb.locon.wrappers.ProductModel
+import ru.spb.locon.wrappers.ManufacturerWrapper
 
 class ManufacturersViewModel {
 
   String uuid
 
-  ListModelList<ManufacturerModel> manufacturersModel
+  ListModelList<ManufacturerWrapper> manufacturersModel
 
   ImageService imageService =
     ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
 
   @Init
   public void init() {
-    List<ManufacturerModel> models = new ArrayList<ManufacturerModel>()
+    List<ManufacturerWrapper> models = new ArrayList<ManufacturerWrapper>()
     ManufacturerEntity.list(sort: "name").each { it ->
-      ManufacturerModel model = new ManufacturerModel(it)
+      ManufacturerWrapper model = new ManufacturerWrapper(it)
       model.setMemento(model.clone())
       models.add(model)
     }
 
-    manufacturersModel = new ListModelList<ManufacturerModel>(models)
+    manufacturersModel = new ListModelList<ManufacturerWrapper>(models)
   }
 
   @Command
-  public void uploadLogo(@BindingParam("model") ManufacturerModel model,
+  public void uploadLogo(@BindingParam("model") ManufacturerWrapper model,
                          @BindingParam("inputEvent") UploadEvent event) {
     Image image = event.getTarget().getSpaceOwner().getFellow("${model.id}") as Image
     AImage media = event.getMedia() as AImage
@@ -56,23 +50,23 @@ class ManufacturersViewModel {
 
     imageService.cleanStore(new File("${imageService.manufacturers}\\${model.id}"))
     uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 80I)
-    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-80.${ext}"))
+    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 100I)
+    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-100.${ext}"))
   }
 
   @Command
-  public void changeEditableStatus(@BindingParam("model") ManufacturerModel wrapper) {
+  public void changeEditableStatus(@BindingParam("model") ManufacturerWrapper wrapper) {
     wrapper.setEditingStatus(!wrapper.getEditingStatus())
     refreshRowTemplate(wrapper)
   }
 
   @Command
-  public void refreshRowTemplate(ManufacturerModel wrapper) {
+  public void refreshRowTemplate(ManufacturerWrapper wrapper) {
     BindUtils.postNotifyChange(null, null, wrapper, "editingStatus");
   }
 
   @Command
-  public void updateProduct(@BindingParam("model") ManufacturerModel wrapper) {
+  public void updateProduct(@BindingParam("model") ManufacturerWrapper wrapper) {
 
     ManufacturerEntity.withTransaction {
       ManufacturerEntity toSave = ManufacturerEntity.get(wrapper.id)
@@ -99,7 +93,7 @@ class ManufacturersViewModel {
 
   @Command
   @NotifyChange(["manufacturersModel"])
-  public void deleteProduct(@BindingParam("model") ManufacturerModel wrapper) {
+  public void deleteProduct(@BindingParam("model") ManufacturerWrapper wrapper) {
 
     ManufacturerEntity.withTransaction {
       ManufacturerEntity toDelete = ManufacturerEntity.get(wrapper.id)
@@ -108,10 +102,10 @@ class ManufacturersViewModel {
 
     imageService.cleanStore(new File("${imageService.manufacturers}\\${wrapper.id}"))
 
-    List<ManufacturerModel> models = new ArrayList<ManufacturerModel>()
+    List<ManufacturerWrapper> models = new ArrayList<ManufacturerWrapper>()
     ManufacturerEntity.list(sort: "name").each { it ->
-      ManufacturerModel model = new ManufacturerModel(it)
-      model.setMemento(model.clone() as ManufacturerModel)
+      ManufacturerWrapper model = new ManufacturerWrapper(it)
+      model.setMemento(model.clone() as ManufacturerWrapper)
       models.add(model)
     }
 
@@ -121,7 +115,7 @@ class ManufacturersViewModel {
   }
 
   @Command
-  public void cancelEditing(@BindingParam("model") ManufacturerModel wrapper) {
+  public void cancelEditing(@BindingParam("model") ManufacturerWrapper wrapper) {
     wrapper.restore()
     changeEditableStatus(wrapper)
   }

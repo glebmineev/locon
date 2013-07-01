@@ -4,12 +4,8 @@ import com.google.common.base.Strings
 import org.zkoss.bind.BindUtils
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
-import org.zkoss.bind.annotation.ContextParam
-import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
 import org.zkoss.zk.ui.Executions
-import org.zkoss.zk.ui.event.Event
-import org.zkoss.zk.ui.event.Events
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zul.*
@@ -19,8 +15,7 @@ import ru.spb.locon.zulModels.admin.filters.data.FilterTypes
 import ru.spb.locon.zulModels.admin.filters.IFilterCallback
 import ru.spb.locon.zulModels.admin.filters.data.ObjectFilter
 import ru.spb.locon.annotation.FieldInfo
-import org.zkoss.zk.ui.event.EventListener
-import ru.spb.locon.wrappers.ProductModel
+import ru.spb.locon.wrappers.ProductWrapper
 
 import java.lang.reflect.Field
 
@@ -37,7 +32,7 @@ class ProductsViewModel {
   Map<Field, Object> filterMap = new HashMap<Field, Object>()
   List<FilterBean> filters = new ArrayList<FilterBean>()
   //Модель гриды.
-  ListModelList<ProductModel> products
+  ListModelList<ProductWrapper> products
 
   @Init
   public void init() {
@@ -81,18 +76,18 @@ class ProductsViewModel {
   }
 
   @Command
-  public void changeEditableStatus(@BindingParam("wrapper") ProductModel wrapper) {
+  public void changeEditableStatus(@BindingParam("wrapper") ProductWrapper wrapper) {
     wrapper.setEditingStatus(!wrapper.getEditingStatus())
     refreshRowTemplate(wrapper);
   }
 
   @Command
-  public void refreshRowTemplate(ProductModel wrapper) {
+  public void refreshRowTemplate(ProductWrapper wrapper) {
     BindUtils.postNotifyChange(null, null, wrapper, "editingStatus");
   }
 
   @Command
-  public void saveProduct(@BindingParam("wrapper") ProductModel wrapper) {
+  public void saveProduct(@BindingParam("wrapper") ProductWrapper wrapper) {
 
     ProductEntity.withTransaction {
       ProductEntity toSave = ProductEntity.get(wrapper.getProductID())
@@ -109,7 +104,7 @@ class ProductsViewModel {
   }
 
   @Command
-  public void deleteProduct(@BindingParam("wrapper") ProductModel wrapper) {
+  public void deleteProduct(@BindingParam("wrapper") ProductWrapper wrapper) {
     ProductEntity.withTransaction {
       ProductEntity toDelete = ProductEntity.get(wrapper.getProductID())
       toDelete.delete(flush: true)
@@ -118,7 +113,7 @@ class ProductsViewModel {
   }
 
   @Command
-  public void cancelEditing(@BindingParam("wrapper") ProductModel wrapper) {
+  public void cancelEditing(@BindingParam("wrapper") ProductWrapper wrapper) {
     wrapper.restore()
     changeEditableStatus(wrapper)
   }
@@ -128,7 +123,7 @@ class ProductsViewModel {
       products.clear()
       products.addAll(fillWrappers(getModelByFilters()))
     } else {
-      products = new BindingListModelList<ProductModel>(fillWrappers(ProductEntity.list(sort: "name")), true)
+      products = new BindingListModelList<ProductWrapper>(fillWrappers(ProductEntity.list(sort: "name")), true)
     }
   }
 
@@ -137,12 +132,12 @@ class ProductsViewModel {
    * @param list - список оригиналов.
    * @return список оберток.
    */
-  List<ProductModel> fillWrappers(def list) {
-    List<ProductModel> target = new ArrayList<ProductModel>()
+  List<ProductWrapper> fillWrappers(def list) {
+    List<ProductWrapper> target = new ArrayList<ProductWrapper>()
     list.each { ProductEntity it ->
-      ProductModel wrapper = new ProductModel(it)
+      ProductWrapper wrapper = new ProductWrapper(it)
       wrapper.setEditingStatus(false)
-      wrapper.setMemento(wrapper.clone() as ProductModel)
+      wrapper.setMemento(wrapper.clone() as ProductWrapper)
       target.add(wrapper)
     }
     return target

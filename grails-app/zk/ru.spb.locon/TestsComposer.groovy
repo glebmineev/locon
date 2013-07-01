@@ -1,8 +1,10 @@
 package ru.spb.locon
 
+import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
+import org.zkoss.bind.annotation.GlobalCommand
 import org.zkoss.bind.annotation.Init
 import org.zkoss.zhtml.Textarea
 import org.zkoss.zk.grails.composer.GrailsComposer
@@ -19,6 +21,7 @@ import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.Button
 import org.zkoss.zul.Textbox
 import org.zkoss.zul.Window
+import ru.spb.locon.wrappers.CategoryTreeNode
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,16 +30,18 @@ import org.zkoss.zul.Window
  * Time: 17:16
  * To change this template use File | Settings | File Templates.
  */
-class TestsComposer extends GrailsComposer  {
+class TestsComposer /*extends GrailsComposer*/  {
 
-  @Override
+/*  @Override
   public void doAfterCompose(Component comp) throws Exception {
     super.doAfterCompose(comp);
-  }
+  }*/
 
-  public void onUser$info(Event event){
-    ForwardEvent eventx = (ForwardEvent) event;
-    println(eventx.getOrigin().getData())
+  @Command
+  public void test(@BindingParam("value") String value){
+    int r = 0;
+/*    ForwardEvent eventx = (ForwardEvent) event;
+    println(eventx.getOrigin().getData())*/
   }
 
 }

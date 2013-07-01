@@ -8,43 +8,34 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <div apply="ru.spb.locon.BindComposer"
-       viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.FiltersViewModel')" width="100%">
+  <hbox apply="ru.spb.locon.BindComposer"
+        viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.FiltersViewModel')" width="100%">
 
-    <tree/>
+
+    <tree id="categoryTree" height="100%"
+          model="@load(vm.categoryTreeModel)" onSelect="@command('updateSelectedItem')">
+      <template name="model" var="node">
+        <treeitem open="@bind(node.open)" onClick="@command('refreshModels')">
+          <treerow>
+            <treecell>
+              <label value="${node.name}"/>
+            </treecell>
+          </treerow>
+        </treeitem>
+      </template>
+    </tree>
+
     <listbox id="products" width="100%"
-             model="@bind(vm.products) @template((each.editingStatus) ? 'editable' : 'noneditable')"
+             model="@bind(vm.filtersModel) @template((each.editingStatus) ? 'editable' : 'noneditable')"
              mold="paging"
-             checkmark="true"
              pageSize="10">
       <listhead>
-        <listheader width="40px" align="center"/>
         <listheader align="center" label="Наименование"/>
-        <listheader align="center" label="Категория"/>
         <listheader align="center" label="Действия"/>
       </listhead>
-      <auxhead>
-        <auxheader/>
-        <auxheader forEach="${vm.filters}">
-          <hbox width="100%">
-            <image if="${each.filterType != 'mesureField'}" src="/images/funnel.png"/>
-            <textbox if="${each.filterType == 'textField'}"
-                     use="ru.spb.locon.zulModels.admin.filters.components.TextBoxFilter" filterBean="${each}"/>
-            <intbox if="${each.filterType == 'numberField'}"
-                    use="ru.spb.locon.zulModels.admin.filters.components.NumberBoxFilter" filterBean="${each}"/>
-            <vbox if="${each.filterType == 'mesureField'}"
-                  use="ru.spb.locon.zulModels.admin.filters.components.MeasureFilter" filterBean="${each}"/>
-            <combobox if="${each.filterType == 'comboField'}" width="60%"
-                      use="ru.spb.locon.zulModels.admin.filters.components.ComboBoxFilter" filterBean="${each}"/>
-          </hbox>
-        </auxheader>
-        <auxheader/>
-      </auxhead>
       <template name="noneditable">
         <listitem>
-          <listcell/>
           <listcell label="${each.name}"/>
-          <listcell label="${each.category}"/>
           <listcell>
             <image src="/images/pencil.png" onClick="@command('changeEditableStatus', wrapper=each)"/>
           </listcell>
@@ -52,23 +43,24 @@
       </template>
       <template name="editable">
         <listitem>
-          <listcell/>
           <listcell>
             <textbox value="@bind(each.name)"/>
           </listcell>
           <listcell>
-            <combobox model="@bind(each.category)" width="80%"/>
-          </listcell>
-          <listcell>
-            <image src="/images/success.gif" onClick="@command('saveProduct', wrapper=each)"/>
+            <image src="/images/success.gif" onClick="@command('updateFilter', wrapper=each)"/>
             <image src="/images/failed.png"
-                   onClick="@command('deleteProduct', wrapper=each)"/>
+                   onClick="@command('deleteFilter', wrapper=each)"/>
             <image src="/images/cancel.png" onClick="@command('cancelEditing', wrapper=each)"/>
           </listcell>
         </listitem>
       </template>
+      <listfoot visible="@bind(vm.visibleCreateBtn)">
+        <listfooter/>
+        <listfooter>
+          <button label="Добавить" onClick="@command('createNew')"/>
+        </listfooter>
+      </listfoot>
     </listbox>
 
-  </div>
-
+  </hbox>
 </zk>

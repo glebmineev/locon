@@ -21,10 +21,10 @@ class InfoEntity {
   }
 
   static constraints = {
-    contacts nullable: true
-    about nullable: true
-    delivery nullable: true
-    details nullable: true
+    contacts nullable: true, maxSize: 65535
+    about nullable: true, maxSize: 65535
+    delivery nullable: true, maxSize: 65535
+    details nullable: true, maxSize: 65535
   }
 
 }

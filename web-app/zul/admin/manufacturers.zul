@@ -25,7 +25,7 @@
       <template name="noneditable">
         <listitem>
           <listcell>
-            <image width="80px">
+            <image width="100px">
               <zscript><![CDATA[
                 import ru.spb.locon.*
                 import org.codehaus.groovy.grails.commons.ApplicationHolder
@@ -53,7 +53,7 @@
         <listitem>
           <listcell>
             <vbox align="center">
-            <image id="${each.id}" width="80px">
+            <image id="${each.id}" width="100px">
               <zscript><![CDATA[
                 import ru.spb.locon.*
                 import org.codehaus.groovy.grails.commons.ApplicationHolder

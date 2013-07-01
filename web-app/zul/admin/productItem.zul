@@ -17,6 +17,10 @@
 
     <style src="/css/ZK.css"/>
 
+    <attribute name="onCreate">
+
+    </attribute>
+
     <!--   <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
        <button label="Сохранить" w:onClick="sendToServer();" id="save"/>
        &lt;!&ndash;<h:button id="save" onClick="javascript:sendToServer()">Сохранить</h:button>&ndash;&gt;
@@ -93,7 +97,8 @@
             <label value="Описание: "/>
           </cell>
           <cell>
-            <textbox rows="5" value="@bind(vm.description)" width="100%"/>
+            <!--<textbox rows="5" value="@bind(vm.description)" width="100%"/>-->
+            <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
           </cell>
         </row>
         <row>
@@ -134,7 +139,13 @@
     <h:table width="100%" cellpadding="0" cellspacing="5">
       <h:tr>
         <h:td>
-          <button label="Сохранить" onClick="@command('saveItem')"/>
+          <button id="save" label="Сохранить" onClick="@command('saveItem')">
+            <attribute name="onClick">
+              import org.zkoss.zk.ui.util.*;
+
+              Clients.evalJavaScript("doTest();");
+            </attribute>
+          </button>
           <button label="Закрыть" onClick="@command('closeWnd')" visible="@load(vm.isModal)"/>
         </h:td>
       </h:tr>

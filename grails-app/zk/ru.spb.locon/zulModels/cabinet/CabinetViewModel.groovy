@@ -60,7 +60,7 @@ class CabinetViewModel {
     imageService.cleanStore(new File("${imageService.userPictures}\\${user.id}"))
     imageService.saveUserPic(media.getStreamData(), user.id,"1", ext)
     imageService.batchResizeImage("${imageService.userPictures}\\${user.id}", "1", ".${ext}")
-    image.setContent(new AImage("${imageService.userPictures}\\${user.id}\\1-150.${ext}"))
+    image.setContent(new AImage("${imageService.userPictures}\\${user.id}\\1-150${ext}"))
 
   }
 

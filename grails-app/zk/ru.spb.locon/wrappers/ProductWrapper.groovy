@@ -13,7 +13,7 @@ import ru.spb.locon.ProductEntity
  * Time: 10:39 PM
  * To change this template use File | Settings | File Templates.
  */
-class ProductModel implements Cloneable {
+class ProductWrapper implements Wrapper {
 
   Long productID
   String name
@@ -25,7 +25,7 @@ class ProductModel implements Cloneable {
   Long countToStock
   ManufacturerEntity manufacturer
 
-  ProductModel memento
+  ProductWrapper memento
 
   ListModelList<ManufacturerEntity> manufacturers
 
@@ -39,7 +39,7 @@ class ProductModel implements Cloneable {
   CartService cartService =
     ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService;
 
-  public ProductModel(ProductEntity productEntity) {
+  public ProductWrapper(ProductEntity productEntity) {
 
     this.productID = productEntity.id
     this.name = productEntity.name

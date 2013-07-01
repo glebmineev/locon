@@ -77,17 +77,17 @@ class ProductItemViewModel {
     manufacturerModel = new ListModelList<ManufacturerEntity>(ManufacturerEntity.list(sort: "name"))
   }
 
-  void collectAllFilters(CategoryEntity category, List<FilterEntity> products) {
+  void collectAllFilters(CategoryEntity category, List<FilterEntity> filters) {
     List<CategoryEntity> categories = category.listCategory as List<CategoryEntity>
     if (categories != null && categories.size() > 0)
       categories.each { CategoryEntity it ->
         if (it.listCategory != null && it.listCategory.size() > 0)
-          collectAllFilters(it, products)
+          collectAllFilters(it, filters)
         else
-          products.addAll(it.filters as List<FilterEntity>)
+          filters.addAll(it.filters as List<FilterEntity>)
       }
     else
-      products.addAll(category.filters as List<FilterEntity>)
+      filters.addAll(category.filters as List<FilterEntity>)
   }
 
   public void initItem(ProductEntity product) {

@@ -8,6 +8,7 @@ import ru.spb.locon.excel.ExcelObject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import ru.spb.locon.zulModels.importer.ImportComposer
 import ru.spb.locon.excel.ImportException
 import ru.spb.locon.importer.ConverterRU_EN
 import ru.spb.locon.importer.IImporterService
@@ -28,8 +29,8 @@ class ImportService extends IImporterService implements ApplicationContextAware 
   CategoryEntity menuCategory
 
   SaveUtils saveUtils = new SaveUtils()
-  Map<String, Set<FilterEntity>> filtersCache = new HashMap<String, Set<FilterEntity>>()
-  Map<String, Set<CategoryEntity>> categoryCache = new HashMap<String, Set<CategoryEntity>>()
+  Map<String, Set<Long>> filtersCache = new HashMap<String, Set<Long>>()
+  Map<String, Set<Long>> categoryCache = new HashMap<String, Set<Long>>()
 
   List<String> imageErrors = new ArrayList<String>()
 
@@ -182,10 +183,13 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         }
 
         //TODO: если категорий нет прикрепляем товары к самой верхней.
-        //if (categories.size() == 0)
-        //  categories.add(submenuCategory)
+        if (categories.size() == 0)
+          filtersCache.get(sheet).each {Long filterID ->
+            submenuCategory.addToFilters(FilterEntity.get(filterID))
+            submenuCategory.save(flush: true)
+          }
 
-        categoryCache.put(sheetName, categories)
+        categoryCache.put(sheetName, categories.id as Set<Long>)
 
       }
     } catch (ImportException ex) {
@@ -233,7 +237,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
         }
         //filters.add(manufacturerFilter)
-        filtersCache.put(sheetName, filters)
+        filtersCache.put(sheetName, filters.id as Set<Long>)
 
       }
     } catch (ImportException ex) {
@@ -278,12 +282,15 @@ class ImportService extends IImporterService implements ApplicationContextAware 
         }*/
         if (!Strings.isNullOrEmpty(categoryName))
           product.setCategory(CategoryEntity.findByName(categoryName))
+        else
+          product.setCategory(CategoryEntity.findByName(sheet))
 
 
         String filterName = it.data.get("C") as String
-        filtersCache.get(sheetName).each { FilterEntity filter ->
+        filtersCache.get(sheetName).each { Long filterID ->
+          FilterEntity filter = FilterEntity.get(filterID)
           if (filter.name.equals(filterName))
-            product.setFilter(FilterEntity.get(filter.id))//addToFilters(FilterEntity.get(filter.id))
+            product.setFilter(filter)//addToFilters(FilterEntity.get(filter.id))
           //if (filter.name.equals(manufacturer.name))
           //  product.addToFilters(FilterEntity.get(filter.id))
         }
