@@ -78,8 +78,8 @@ class CategoriesViewModel {
     String ext = fullFileName.split("\\.")[1]
 
     uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 150I)
-    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-150.${ext}"))
+    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 250I)
+    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-250.${ext}"))
   }
 
   public CategoryTreeNode getRootNode() {

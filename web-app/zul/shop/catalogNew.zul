@@ -7,8 +7,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <vbox apply="ru.spb.locon.BindComposer"
-        viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.CatalogNewViewModel')" width="100%">
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.CatalogNewViewModel')" width="100%">
 
     <!-- Навигация -->
     <hbox align="start">
@@ -22,41 +22,18 @@
       </div>
     </hbox>
 
-    <hbox align="center" width="100%">
-
-      <!--      <div id="categories" visible="true">
-              <hbox children="@bind(vm.categories)">
-                <template name="children">
-                  <image id="targetImage" width="150px">
-                    <zscript>
-                      <![CDATA[
-
-                        import ru.spb.locon.*
-                        import org.codehaus.groovy.grails.commons.ApplicationHolder
-                        import org.zkoss.image.*
-                        import org.zkoss.zk.ui.*
-
-                        def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
-
-                        AImage img = imageService.getCategoryImage(CategoryEntity.get(each.id))
-                        self.setContent(img)
-
-                      ]]>
-                    </zscript>
-                  </image>
-
-                </template>
-              </hbox>
-            </div>-->
-
-      <h:ul class="categoryList">
-        <h:li forEach="${vm.categories}">
-          <div sclass="category" align="center" width="100%">
-            <label value="${each.name}"/>
-            <h:br/>
-            <image width="100px">
-              <zscript>
-                <![CDATA[
+    <vbox align="center" width="100%">
+      <!-- категории -->
+      <h:div class="categoryList" align="center">
+        <h:h2>Категории</h:h2>
+        <h:ul>
+          <h:li forEach="${vm.categories}">
+            <div sclass="category" align="center" width="100%">
+              <label value="${each.name}"/>
+              <h:br/>
+              <image width="150px">
+                <zscript>
+                  <![CDATA[
 
                   import ru.spb.locon.*
                   import org.codehaus.groovy.grails.commons.ApplicationHolder
@@ -80,22 +57,60 @@
                   })
 
                 ]]>
-              </zscript>
-            </image>
-            <div align="left" style="margin-left: 10px">
-              <vbox forEach="${each.children}" align="start">
-                <a label="${each.name}"/>
-              </vbox>
+                </zscript>
+              </image>
+              <div align="left" style="margin-left: 25px">
+                <vbox forEach="${each.children}" align="start">
+                  <a label="${each.name}" href="/shop/catalog?category=${each.id}"/>
+                </vbox>
+              </div>
             </div>
-          </div>
-        </h:li>
-      </h:ul>
+          </h:li>
+        </h:ul>
+      </h:div>
 
-      <!--      <div id="products" visible="false">
-              <button label="Еще..." onClick="@command('appendElse')"/>
-            </div>-->
+      <!-- список товаров в текущей категории -->
+      <div id="products" sclass="products-row-template">
+        <button label="rows" onClick="@command('applyRowTemplate')"/>
+        <button label="cells" onClick="@command('applyCellTemplate')"/>
+        <h:ul id="productParent">
+          <h:li forEach="${vm.products}">
+            <div>
+              <div align="center">
+                <image sclass="productImage">
+                  <zscript>
+                    <![CDATA[
 
-    </hbox>
+                  import ru.spb.locon.*
+                  import org.codehaus.groovy.grails.commons.ApplicationHolder
+                  import org.zkoss.image.*
+                  import org.zkoss.zk.ui.*
 
-  </vbox>
+                  def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+
+                  AImage img = imageService.getImageFile(ProductEntity.get(each.id), "150")
+                  self.setContent(img)
+
+                  def id = each.id
+
+                  self.addEventListener(Events.ON_CLICK, new EventListener(){
+                    @Override
+                    void onEvent(Event t) {
+                      Executions.sendRedirect("/shop/product?product=${id}")
+                    }
+                  })
+
+                ]]>
+                  </zscript>
+                </image>
+              </div>
+              <label value="${each.name}"/>
+            </div>
+          </h:li>
+        </h:ul>
+      </div>
+      <button label="Еще..." onClick="@command('appendElse')"/>
+    </vbox>
+
+  </div>
 </zk>
