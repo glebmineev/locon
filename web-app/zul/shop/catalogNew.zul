@@ -22,7 +22,7 @@
       </div>
     </hbox>
 
-    <vbox align="center" width="100%">
+    <vbox align="center" width="100%" style="border: 1px solid #000000;">
       <!-- категории -->
       <h:div class="categoryList" align="center">
         <h:h2>Категории</h:h2>
@@ -69,6 +69,11 @@
         </h:ul>
       </h:div>
 
+      <hbox>
+        <div width="220px">
+          <label value="фильтры"/>
+        </div>
+
       <!-- список товаров в текущей категории -->
       <div id="products" sclass="products-row-template">
         <button label="rows" onClick="@command('applyRowTemplate')"/>
@@ -109,6 +114,7 @@
           </h:li>
         </h:ul>
       </div>
+      </hbox>
       <button label="Еще..." onClick="@command('appendElse')"/>
     </vbox>
 

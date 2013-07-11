@@ -1,20 +1,24 @@
 package ru.spb.locon.zulModels.shop
 
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
+import org.zkoss.image.AImage
 import org.zkoss.zhtml.Li
 import org.zkoss.zhtml.Ul
 import org.zkoss.zk.ui.Component
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
 import org.zkoss.zul.Div
+import org.zkoss.zul.Image
 import org.zkoss.zul.Label
 import ru.spb.locon.CategoryEntity
 import org.zkoss.zk.ui.event.*
+import ru.spb.locon.ImageService
 import ru.spb.locon.ProductEntity
 import ru.spb.locon.common.PathHandler;
 import ru.spb.locon.wrappers.CategoryWrapper
@@ -30,6 +34,8 @@ class CatalogNewViewModel {
   //Все товары
   List<ProductEntity> allProducts = new ArrayList<ProductEntity>()
   List<ProductEntity> products = new ArrayList<ProductEntity>()
+
+  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
 
   Long categoryID
 
@@ -118,11 +124,25 @@ class CatalogNewViewModel {
       Li li = new Li()
       Div div = new Div()
       Div imageDiv = new Div()
+      imageDiv.setAlign("center")
 
+      Image img = new Image()
+      img.setSclass("productImage")
+
+      AImage aImg = imageService.getImageFile(ProductEntity.get(it.id), "150")
+      img.setContent(aImg)
+
+      img.addEventListener(Events.ON_CLICK, new EventListener(){
+        @Override
+        void onEvent(Event t) {
+          Executions.sendRedirect("/shop/product?product=${it.id}")
+        }
+      })
 
       Label label = new Label(it.getName())
 
-      div.appendChild(label)
+      imageDiv.appendChild(img)
+      imageDiv.appendChild(label)
 
       li.appendChild(div)
       div.appendChild(imageDiv)

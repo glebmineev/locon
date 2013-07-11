@@ -125,6 +125,11 @@ div.category{
   border: 1px solid #346F97;
 }
 
+div.products-row-template {
+  margin: 5px;
+  width: 640px;
+}
+
 div.products-row-template > ul {
   text-align: center;
   margin: 0;
@@ -146,6 +151,11 @@ div.products-row-template > ul > li > div {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
+}
+
+div.products-cell-template {
+  width: 650px;
+  margin-left: 25px;
 }
 
 div.products-cell-template > ul {

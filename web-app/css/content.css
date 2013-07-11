@@ -5,7 +5,7 @@ body {
 }
 
 #content {
-  width: 920px;
+  width: 900px;
   height: 100%;
   margin: 0 auto;
   font-family: Century Gothic
@@ -160,7 +160,8 @@ body {
 }
 
 .categoryList {
-  width: 920px;
+  width: 875px;
+  margin-left: 25px;
 }
 
 .categoryList > ul > li {
@@ -183,5 +184,5 @@ body {
 }
 
 .categoryList > ul > li img {
-  border:3px solid #DDDDDD;
+  border: 3px solid #DDDDDD;
 }
