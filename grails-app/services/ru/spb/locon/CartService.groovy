@@ -1,6 +1,7 @@
 package ru.spb.locon
 
 import org.zkoss.zk.ui.util.Clients
+import ru.spb.locon.wrappers.ProductWrapper
 
 /**
  * Сервис для работы с корзиной покупателя.
@@ -116,6 +117,16 @@ class CartService {
     this.totalCount = totalCount
   }
 
+  /**
+   * Инициализация полей обертки товара, если товар есть в корзине.
+   */
+  public initAsCartItem(ProductWrapper wrapper){
+    wrapper.count = getProductCount(wrapper.productID)
+    if (wrapper.count > 0){
+      wrapper.inCart = true
+      wrapper.totalPrice = (wrapper.count * wrapper.price)
+    }
+  }
 
   public renderTotalPrice() {
     Clients.evalJavaScript("\$('#totalPrice').html('${totalPrice as String}')")

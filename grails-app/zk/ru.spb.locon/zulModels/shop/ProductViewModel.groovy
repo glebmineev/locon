@@ -40,7 +40,7 @@ class ProductViewModel {
 
   public void initGrid() {
     model = new ProductWrapper(ProductEntity.get(productId))
-    model.initAsCartItem()
+    cartService.initAsCartItem(model)
   }
 
   public void buildNavPath() {

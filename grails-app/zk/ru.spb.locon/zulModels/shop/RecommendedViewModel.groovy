@@ -29,7 +29,7 @@ class RecommendedViewModel {
     products = new ListModelList<ProductWrapper>()
     initService.recommended.each {it ->
       ProductWrapper model = new ProductWrapper(it)
-      model.initAsCartItem()
+      cartService.initAsCartItem(model)
       products.add(model)
     }
   }

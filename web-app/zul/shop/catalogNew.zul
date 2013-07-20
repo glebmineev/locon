@@ -78,8 +78,10 @@
       <div id="products" sclass="products-row-template">
         <button label="rows" onClick="@command('applyRowTemplate')"/>
         <button label="cells" onClick="@command('applyCellTemplate')"/>
-        <h:ul id="productParent">
-          <h:li forEach="${vm.products}">
+        <h:ul id="productParent" children="@bind(vm.products)">
+          <template name="children">
+          <h:li >
+
             <div>
               <div align="center">
                 <image sclass="productImage">
@@ -93,10 +95,10 @@
 
                   def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
 
-                  AImage img = imageService.getImageFile(ProductEntity.get(each.id), "150")
+                  AImage img = imageService.getImageFile(ProductEntity.get(each.productID), "150")
                   self.setContent(img)
 
-                  def id = each.id
+                  def id = each.productID
 
                   self.addEventListener(Events.ON_CLICK, new EventListener(){
                     @Override
@@ -109,13 +111,31 @@
                   </zscript>
                 </image>
               </div>
-              <label value="${each.name}"/>
+              <vbox>
+                <div height="20px">
+                  <label style="color: green;" value="${each.manufacturer}"/>
+                </div>
+                <div align="left" height="80px">
+                  <label style="font-weight: bold" value="${each.name}"/>
+                </div>
+                <div align="left" height="20px">
+                  <label style="font-weight: bold; font-size: 16pt" value="Цена: "/>
+                  <label style="font-weight: bold; font-size: 16pt" value="${each.price}"/>
+                  <label style="font-weight: bold; font-size: 16pt" value=" руб."/>
+                </div>
+                <div align="center" width="100%" style="margin-bottom: 5px;">
+                  <button visible="@load(not each.inCart)" label="В корзину" onClick="@command('toCart', wrapper=each)"/>
+                  <label visible="@load(each.inCart)" value="Уже в корзине"/>
+                </div>
+              </vbox>
             </div>
+
           </h:li>
+          </template>
         </h:ul>
       </div>
       </hbox>
-      <button label="Еще..." onClick="@command('appendElse')"/>
+      <button label="Еще..." onClick="@command('appendElse')" autodisable="true"/>
     </vbox>
 
   </div>

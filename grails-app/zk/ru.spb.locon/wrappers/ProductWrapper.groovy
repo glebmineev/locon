@@ -36,9 +36,6 @@ class ProductWrapper implements Wrapper {
 
   boolean inCart = false
 
-  CartService cartService =
-    ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService;
-
   public ProductWrapper(ProductEntity productEntity) {
 
     this.productID = productEntity.id
@@ -54,14 +51,6 @@ class ProductWrapper implements Wrapper {
     manufacturers = new ListModelList<ManufacturerEntity>(ManufacturerEntity.list(sort: "name"))
     manufacturers.addToSelection(manufacturer)
 
-  }
-
-  public initAsCartItem(){
-    long count = cartService.getProductCount(productID)
-    this.totalPrice = (count * ProductEntity.get(productID).price)
-    this.count = count
-    if (count > 0)
-      this.inCart = true
   }
 
   public void restore(){

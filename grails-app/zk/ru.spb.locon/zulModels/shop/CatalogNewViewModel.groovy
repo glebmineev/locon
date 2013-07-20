@@ -1,12 +1,17 @@
 package ru.spb.locon.zulModels.shop
 
+import com.google.common.base.Function
+import com.google.common.collect.Collections2
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.zkoss.bind.BindUtils
+import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
+import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.image.AImage
 import org.zkoss.zhtml.Li
 import org.zkoss.zhtml.Ul
@@ -16,6 +21,7 @@ import org.zkoss.zk.ui.Page
 import org.zkoss.zul.Div
 import org.zkoss.zul.Image
 import org.zkoss.zul.Label
+import ru.spb.locon.CartService
 import ru.spb.locon.CategoryEntity
 import org.zkoss.zk.ui.event.*
 import ru.spb.locon.ImageService
@@ -23,6 +29,7 @@ import ru.spb.locon.ProductEntity
 import ru.spb.locon.common.PathHandler;
 import ru.spb.locon.wrappers.CategoryWrapper
 import ru.spb.locon.wrappers.HrefWrapper
+import ru.spb.locon.wrappers.ProductWrapper
 
 class CatalogNewViewModel {
 
@@ -33,9 +40,10 @@ class CatalogNewViewModel {
   List<HrefWrapper> links = new LinkedList<HrefWrapper>()
   //Все товары
   List<ProductEntity> allProducts = new ArrayList<ProductEntity>()
-  List<ProductEntity> products = new ArrayList<ProductEntity>()
+  List<ProductWrapper> products = new ArrayList<ProductWrapper>()
 
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
+  CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService
 
   Long categoryID
 
@@ -57,11 +65,17 @@ class CatalogNewViewModel {
     int allProductsSize = allProducts.size()
     if (allProductsSize > 0) {
       currentIndex += allProductsSize > 19 ? 20 : allProductsSize
-      products.addAll(allProducts.subList(0, currentIndex))
+      products.addAll(transform(allProducts.subList(0, currentIndex)))
     }
 
   }
 
+  /**
+   * Собирает все продукты из категорий.
+   * @param category - категория с товарами.
+   * @param products - итоговый список товаров.
+   * @return - все продукты категорий.
+   */
   List<ProductEntity> collectAllProducts(CategoryEntity category, List<ProductEntity> products) {
     List<CategoryEntity> categories = category.listCategory as List<CategoryEntity>
     if (categories != null && categories.size() > 0)
@@ -78,6 +92,10 @@ class CatalogNewViewModel {
     return products
   }
 
+  /**
+   * Формирует древовидную структуру категорий для навигации.
+   * @param entity - категорий.
+   */
   public void fillModel(CategoryEntity entity) {
     CategoryWrapper wrapper = new CategoryWrapper(entity)
     fillChildren(wrapper, entity.listCategory)
@@ -91,6 +109,10 @@ class CatalogNewViewModel {
     }
   }
 
+  /**
+   * Перестроение навигационного меню.
+   * @param categoryID - айде начальной категрии.
+   */
   void rebuildPath(Long categoryID) {
     List<CategoryEntity> categories = PathHandler.getCategoryPath(CategoryEntity.get(categoryID))
     links.clear()
@@ -100,6 +122,10 @@ class CatalogNewViewModel {
     }
   }
 
+  /**
+   * Добавление товаров на html страничку
+   * @param event
+   */
   @Command
   public void appendElse(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     Page page = event.getPage()
@@ -110,13 +136,13 @@ class CatalogNewViewModel {
   public void addRows(Ul parent) {
     int nextIndex = currentIndex + 20
     int allProductsSize = allProducts.size()
-    List<ProductEntity> subList
+    List<ProductWrapper> subList
     if (nextIndex < allProductsSize) {
-      subList = allProducts.subList(currentIndex, nextIndex)
+      subList = transform(allProducts.subList(currentIndex, nextIndex))
       currentIndex = currentIndex + 20
     }
     else if (nextIndex > allProductsSize){
-      subList = allProducts.subList(currentIndex, allProductsSize)
+      subList = transform(allProducts.subList(currentIndex, allProductsSize))
       currentIndex = allProductsSize
     }
 
@@ -142,15 +168,43 @@ class CatalogNewViewModel {
       Label label = new Label(it.getName())
 
       imageDiv.appendChild(img)
-      imageDiv.appendChild(label)
+      div.appendChild(label)
 
-      li.appendChild(div)
       div.appendChild(imageDiv)
+      li.appendChild(div)
+
 
       parent.appendChild(li)
 
     }
 
+  }
+
+  /**
+   * Трансформирует список товаров в список оберток товаров.
+   * @return
+   */
+  List<ProductWrapper> transform(List<ProductEntity> target){
+    return Collections2.transform(target, new Function<ProductEntity, ProductWrapper>() {
+      @Override
+      ProductWrapper apply(ProductEntity f) {
+        ProductWrapper wrapper = new ProductWrapper(f)
+        cartService.initAsCartItem(wrapper)
+        return wrapper;
+      }
+    }) as List<ProductWrapper>
+  }
+
+  @Command
+  public void toCart(@BindingParam("wrapper") ProductWrapper wrapper){
+    cartService.addToCart(ProductEntity.get(wrapper.getProductID()))
+    wrapper.setInCart(true)
+    refreshRowTemplate(wrapper)
+  }
+
+  @Command
+  public void refreshRowTemplate(ProductWrapper wrapper) {
+    BindUtils.postNotifyChange(null, null, wrapper, "inCart");
   }
 
   @Command

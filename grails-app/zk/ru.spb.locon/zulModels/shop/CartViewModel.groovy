@@ -37,7 +37,7 @@ class CartViewModel {
     List<ProductWrapper> models = new ArrayList<ProductWrapper>()
     cartService.getCartProducts().each {it ->
       ProductWrapper model = new ProductWrapper(it)
-      model.initAsCartItem()
+      cartService.initAsCartItem(model)
       models.add(model)
     }
     cartProduct = new ListModelList<ProductWrapper>(models)
@@ -52,7 +52,7 @@ class CartViewModel {
       List<ProductWrapper> models = new ArrayList<ProductWrapper>()
       cartService.getCartProducts().each {it ->
         ProductWrapper model = new ProductWrapper(it)
-        model.initAsCartItem()
+        cartService.initAsCartItem(model)
         models.add(model)
       }
 
