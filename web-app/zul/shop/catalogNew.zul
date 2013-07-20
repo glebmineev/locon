@@ -71,7 +71,36 @@
 
       <hbox>
         <div width="220px">
-          <label value="фильтры"/>
+          <groupbox closable="false">
+            <caption label="Фильтр"/>
+
+            <listbox id="manufListbox" model="@load(vm.manufsFilterModel)" multiple="true" checkmark="true"
+                     height="122px">
+              <listhead>
+                <listheader label="Производитель"/>
+              </listhead>
+              <template name="model" var="item">
+                <listitem onClick="@command('filtred')">
+                  <listcell>
+                    <label value="${item.name}"/>
+                  </listcell>
+                </listitem>
+              </template>
+            </listbox>
+            <h:br/>
+            <listbox id="usageListbox" model="@load(vm.usageFilterModel)" multiple="true" checkmark="true" height="300px">
+              <listhead>
+                <listheader label="Применение"/>
+              </listhead>
+              <template name="model" var="item">
+                <listitem onClick="@command('filtred')">
+                  <listcell>
+                    <label value="${item.name}"/>
+                  </listcell>
+                </listitem>
+              </template>
+            </listbox>
+          </groupbox>
         </div>
 
       <!-- список товаров в текущей категории -->

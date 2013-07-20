@@ -3,6 +3,7 @@ package ru.spb.locon.wrappers
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.zul.ListModelList
 import ru.spb.locon.CartService
+import ru.spb.locon.FilterEntity
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductEntity
 
@@ -24,6 +25,7 @@ class ProductWrapper implements Wrapper {
   String volume
   Long countToStock
   ManufacturerEntity manufacturer
+  FilterEntity filter
 
   ProductWrapper memento
 
@@ -47,6 +49,7 @@ class ProductWrapper implements Wrapper {
     this.description = productEntity.description
     this.countToStock = productEntity.countToStock
     this.manufacturer = productEntity.manufacturer
+    this.filter = productEntity.filter
 
     manufacturers = new ListModelList<ManufacturerEntity>(ManufacturerEntity.list(sort: "name"))
     manufacturers.addToSelection(manufacturer)

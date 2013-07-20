@@ -51,7 +51,7 @@ class ProductEntity implements Comparable {
       countToStock column: 'product_counttostock'
       //categories joinTable: [name: 'category_product', key: 'product_id']
       category column: 'product_categor_id'
-      filter column: 'product_filter'
+      filter fetch: "join", column: 'product_filter'
     }
 
     version false

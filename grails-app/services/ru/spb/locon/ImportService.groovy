@@ -169,9 +169,9 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           if (categoryName != null) {
             try {
               //if (!categories.name.contains(categoryName)) {
-                CategoryEntity category = saveUtils.saveCategory(categoryName, submenuCategory, FilterEntity.findByName(filterName))
-                categories.add(CategoryEntity.get(category.id))
-                log.debug("сохранена категория: ${categoryName}")
+              CategoryEntity category = saveUtils.saveCategory(categoryName, submenuCategory, FilterEntity.findByName(filterName))
+              categories.add(CategoryEntity.get(category.id))
+              log.debug("сохранена категория: ${categoryName}")
               //}
             } catch (Throwable tr) {
               log.debug("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
@@ -184,7 +184,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
 
         //TODO: если категорий нет прикрепляем товары к самой верхней.
         if (categories.size() == 0)
-          filtersCache.get(sheet).each {Long filterID ->
+          filtersCache.get(sheet).each { Long filterID ->
             submenuCategory.addToFilters(FilterEntity.get(filterID))
             submenuCategory.save(flush: true)
           }
@@ -223,7 +223,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           rowNumber = it.rowNumber
           String filterName = it.data.get("C") as String
           if (filterName != null) {
-            try{
+            try {
               if (!filters.name.contains(filterName)) {
                 FilterEntity filter = saveUtils.saveFilter(filterName, usageGroup)
                 filters.add(FilterEntity.get(filter.id))
@@ -263,67 +263,69 @@ class ImportService extends IImporterService implements ApplicationContextAware 
       sheetName = sheet
 
       handlers.each { it ->
+        try {
+          rowNumber = it.rowNumber
 
-        rowNumber = it.rowNumber
+          ProductEntity product = getProduct(it)
 
-        ProductEntity product = getProduct(it)
+          String categoryName = it.getData().get("I") as String
+          String imagePath = "${menuCategory}/${manufacturer}/${sheetName}${categoryName != null ? "/${categoryName}" : ""}"
 
-        String categoryName = it.getData().get("I") as String
-        String imagePath = "${menuCategory}/${manufacturer}/${sheetName}${categoryName != null ? "/${categoryName}" : ""}"
+          String to = "${imagePath}/${product?.article}_${product.name}"
+          //product.setImagePath(to)
+          String translited = ConverterRU_EN.translit(to)
+          product.setEngImagePath(translited)
 
-        String to = "${imagePath}/${product?.article}_${product.name}"
-        //product.setImagePath(to)
-        String translited = ConverterRU_EN.translit(to)
-        product.setEngImagePath(translited)
-
-        /*categoryCache.get(sheetName).each { CategoryEntity category ->
-          if (category.name.equals(categoryName))
-            product.addToCategories(CategoryEntity.get(category.id))
-        }*/
-        if (!Strings.isNullOrEmpty(categoryName))
-          product.setCategory(CategoryEntity.findByName(categoryName))
-        else
-          product.setCategory(CategoryEntity.findByName(sheet))
+          /*categoryCache.get(sheetName).each { CategoryEntity category ->
+            if (category.name.equals(categoryName))
+              product.addToCategories(CategoryEntity.get(category.id))
+          }*/
+          if (!Strings.isNullOrEmpty(categoryName))
+            product.setCategory(CategoryEntity.findByName(categoryName))
+          else
+            product.setCategory(CategoryEntity.findByName(sheet))
 
 
-        String filterName = it.data.get("C") as String
-        filtersCache.get(sheetName).each { Long filterID ->
-          FilterEntity filter = FilterEntity.get(filterID)
-          if (filter.name.equals(filterName))
-            product.setFilter(filter)//addToFilters(FilterEntity.get(filter.id))
-          //if (filter.name.equals(manufacturer.name))
-          //  product.addToFilters(FilterEntity.get(filter.id))
-        }
+          String filterName = it.data.get("C") as String
+          filtersCache.get(sheetName).each { Long filterID ->
+            FilterEntity filter = FilterEntity.get(filterID)
+            if (filter.name.equals(filterName))
+              product.setFilter(filter)//addToFilters(FilterEntity.get(filter.id))
+            //if (filter.name.equals(manufacturer.name))
+            //  product.addToFilters(FilterEntity.get(filter.id))
+          }
 
-        if (product.validate()) {
-          try {
-            product.save(flush: true)
-            log.debug("товара ${product.name} сохранен.")
-          } catch (Throwable tr) {
+          if (product.validate()) {
+            try {
+              product.save(flush: true)
+              log.debug("товара ${product.name} сохранен.")
+            } catch (Throwable tr) {
+              log.debug("ошибка сохраненения товара страница: ${sheetName} строка: ${rowNumber}")
+              throw new ImportException("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
+            }
+          } else {
             log.debug("ошибка сохраненения товара страница: ${sheetName} строка: ${rowNumber}")
             throw new ImportException("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
           }
-        } else {
-          log.debug("ошибка сохраненения товара страница: ${sheetName} строка: ${rowNumber}")
-          throw new ImportException("ошибка сохраненения категории страница: ${sheetName} строка: ${rowNumber}")
-        }
 
-        String from = it.getData().get("F") as String
+          String from = it.getData().get("F") as String
 
-        //загружем изображение товара.
-        boolean isDownloaded = imageService.downloadImages(from,
-            translited)
-        if (!isDownloaded) {
-          log.debug("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
-          imageErrors.add("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
-        }
+          //загружем изображение товара.
+          boolean isDownloaded = imageService.downloadImages(from,
+              translited)
+          if (!isDownloaded) {
+            log.debug("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
+            imageErrors.add("ошибка загрузке изображения товара страница: ${sheetName} строка: ${rowNumber}")
+          }
 
-        sessionCleaner++
-        if (sessionCleaner > 10) {
-          cleanUpGorm()
-          sessionCleaner = 0
+          sessionCleaner++
+          if (sessionCleaner > 10) {
+            cleanUpGorm()
+            sessionCleaner = 0
+          }
+        } catch (Exception e) {
+          new ImportException("Ошибка заполнения товара с листа: ${sheet} строки ${it.rowNumber}")
         }
-        int r = 0
       }
 
     }
@@ -336,16 +338,18 @@ class ImportService extends IImporterService implements ApplicationContextAware 
       product = ProductEntity.findByNameAndArticle(cellHandler.data.get("B") as String, cellHandler.data.get("A") as String)
       if (product == null)
         product = ProductEntity.newInstance()
-
-      product = new ProductEntity(
-          article: cellHandler.data.get("A") as String,
-          name: cellHandler.data.get("B") as String,
-          volume: cellHandler.data.get("D") as String,
-          price: Math.round(cellHandler.data.get("E") as Float),
-          description: cellHandler.data.get("G") as String,
-          usage: cellHandler.data.get("H") as String,
-          manufacturer: manufacturer
-      )
+      if (cellHandler.validate())
+        product = new ProductEntity(
+            article: cellHandler.data.get("A") as String,
+            name: cellHandler.data.get("B") as String,
+            volume: cellHandler.data.get("D") as String,
+            price: Math.round(cellHandler.data.get("E") as Float),
+            description: cellHandler.data.get("G") as String,
+            usage: cellHandler.data.get("H") as String,
+            manufacturer: manufacturer
+        )
+      else
+        throw new ImportException()
     } catch (Exception ex) {
       log.error(ex)
     }

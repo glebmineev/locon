@@ -32,6 +32,12 @@ class CellHandler {
     }
   }
 
+  public boolean validate(){
+    if (data.get("B") == null)
+      return false
+    return true
+  }
+
 
 
 }

@@ -2,6 +2,7 @@ package ru.spb.locon.zulModels.shop
 
 import com.google.common.base.Function
 import com.google.common.collect.Collections2
+import com.google.common.collect.Lists
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -15,16 +16,19 @@ import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.image.AImage
 import org.zkoss.zhtml.Li
 import org.zkoss.zhtml.Ul
-import org.zkoss.zk.ui.Component
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
+import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zul.Div
 import org.zkoss.zul.Image
 import org.zkoss.zul.Label
+import org.zkoss.zul.ListModelList
 import ru.spb.locon.CartService
 import ru.spb.locon.CategoryEntity
 import org.zkoss.zk.ui.event.*
+import ru.spb.locon.FilterEntity
 import ru.spb.locon.ImageService
+import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductEntity
 import ru.spb.locon.common.PathHandler;
 import ru.spb.locon.wrappers.CategoryWrapper
@@ -41,6 +45,9 @@ class CatalogNewViewModel {
   //Все товары
   List<ProductEntity> allProducts = new ArrayList<ProductEntity>()
   List<ProductWrapper> products = new ArrayList<ProductWrapper>()
+
+  ListModelList<ManufacturerEntity> manufsFilterModel
+  ListModelList<FilterEntity> usageFilterModel
 
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
   CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService
@@ -61,13 +68,29 @@ class CatalogNewViewModel {
     }
     rebuildPath(categoryID)
 
-    collectAllProducts(category, allProducts)
+    allProducts = collectAllProducts(category, Lists.newArrayList())
     int allProductsSize = allProducts.size()
     if (allProductsSize > 0) {
       currentIndex += allProductsSize > 19 ? 20 : allProductsSize
       products.addAll(transform(allProducts.subList(0, currentIndex)))
+      initFilters()
     }
 
+  }
+
+  /**
+   * Инициализируем фильтры.
+   */
+  void initFilters() {
+    List<FilterEntity> filters = products.filter.unique() as List<FilterEntity>
+    manufsFilterModel = new BindingListModelList<ManufacturerEntity>(
+        products.manufacturer.unique() as List<ManufacturerEntity>,
+        true
+    )
+
+    manufsFilterModel.setMultiple(true)
+    usageFilterModel = new BindingListModelList<FilterEntity>(filters, true)
+    usageFilterModel.setMultiple(true)
   }
 
   /**
@@ -110,6 +133,36 @@ class CatalogNewViewModel {
   }
 
   /**
+   * Фильтрация товаров.
+   */
+  @Command
+  @NotifyChange(["products"])
+  public void filtred() {
+
+    List<String> manufsSelection = manufsFilterModel.getSelection().collect { it.name } as List<String>
+    List<String> usageSelection = usageFilterModel.getSelection().collect { it.name } as List<String>
+
+    List<ProductEntity> result = allProducts
+    if (manufsSelection.size() > 0)
+      result = allProducts.findAll { it -> manufsSelection.contains(it.manufacturer.name) }
+
+    if (usageSelection.size() > 0)
+      result = result.findAll {
+        it ->
+          usageSelection.contains(it.filter.name)
+      }
+
+    products.clear()
+    currentIndex = 0
+
+    if (result.size() > 0) {
+      currentIndex += result.size() > 19 ? 20 : result.size()
+      products.addAll(transform(result.subList(0, currentIndex)))
+    }
+
+  }
+
+  /**
    * Перестроение навигационного меню.
    * @param categoryID - айде начальной категрии.
    */
@@ -140,13 +193,12 @@ class CatalogNewViewModel {
     if (nextIndex < allProductsSize) {
       subList = transform(allProducts.subList(currentIndex, nextIndex))
       currentIndex = currentIndex + 20
-    }
-    else if (nextIndex > allProductsSize){
+    } else if (nextIndex > allProductsSize) {
       subList = transform(allProducts.subList(currentIndex, allProductsSize))
       currentIndex = allProductsSize
     }
 
-    subList.each {it ->
+    subList.each { it ->
       Li li = new Li()
       Div div = new Div()
       Div imageDiv = new Div()
@@ -155,13 +207,13 @@ class CatalogNewViewModel {
       Image img = new Image()
       img.setSclass("productImage")
 
-      AImage aImg = imageService.getImageFile(ProductEntity.get(it.id), "150")
+      AImage aImg = imageService.getImageFile(ProductEntity.get(it.productID), "150")
       img.setContent(aImg)
 
-      img.addEventListener(Events.ON_CLICK, new EventListener(){
+      img.addEventListener(Events.ON_CLICK, new EventListener() {
         @Override
         void onEvent(Event t) {
-          Executions.sendRedirect("/shop/product?product=${it.id}")
+          Executions.sendRedirect("/shop/product?product=${it.productID}")
         }
       })
 
@@ -184,7 +236,7 @@ class CatalogNewViewModel {
    * Трансформирует список товаров в список оберток товаров.
    * @return
    */
-  List<ProductWrapper> transform(List<ProductEntity> target){
+  List<ProductWrapper> transform(List<ProductEntity> target) {
     return Collections2.transform(target, new Function<ProductEntity, ProductWrapper>() {
       @Override
       ProductWrapper apply(ProductEntity f) {
@@ -196,7 +248,7 @@ class CatalogNewViewModel {
   }
 
   @Command
-  public void toCart(@BindingParam("wrapper") ProductWrapper wrapper){
+  public void toCart(@BindingParam("wrapper") ProductWrapper wrapper) {
     cartService.addToCart(ProductEntity.get(wrapper.getProductID()))
     wrapper.setInCart(true)
     refreshRowTemplate(wrapper)

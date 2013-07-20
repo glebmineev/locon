@@ -23,7 +23,7 @@ class SaveUtils {
   }
 
   CategoryEntity saveCategory(String name, CategoryEntity parent, FilterEntity filter) {
-    CategoryEntity category = CategoryEntity.findByName(name)
+    CategoryEntity category = CategoryEntity.findByNameAndParentCategory(name, parent)
     if (category == null)
       category = CategoryEntity.newInstance()
     //получаем корневую категорию из названия листа excel файла.
@@ -45,7 +45,7 @@ class SaveUtils {
   }
 
   CategoryEntity saveCategory(String name, CategoryEntity parent) {
-    CategoryEntity category = CategoryEntity.findByName(name)
+    CategoryEntity category = CategoryEntity.findByNameAndParentCategory(name, parent)
     if (category == null)
       category = CategoryEntity.newInstance()
     //получаем корневую категорию из названия листа excel файла.
