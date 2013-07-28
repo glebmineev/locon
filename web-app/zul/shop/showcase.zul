@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.ShowcaseViewModel')">
+    <div sclass="products-cell-template">
+      <!-- панель изменения отображения витрины -->
+      <div visible="@load(vm.isChangeShow)">
+        <button label="rows" onClick="@command('applyRowTemplate')"/>
+        <button label="cells" onClick="@command('applyCellTemplate')"/>
+      </div>
+      <!-- витрина товаров -->
+      <h:ul children="@bind(vm.products)">
+        <template name="children">
+          <h:li>
+            <div>
+              <div align="center">
+                <image sclass="productImage">
+                  <zscript>
+                    <![CDATA[
+
+                      import ru.spb.locon.*
+                      import org.codehaus.groovy.grails.commons.ApplicationHolder
+                      import org.zkoss.image.*
+                      import org.zkoss.zk.ui.*
+
+                      def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+
+                      AImage img = imageService.getImageFile(ProductEntity.get(each.productID), "150")
+                      self.setContent(img)
+
+                      def id = each.productID
+
+                      self.addEventListener(Events.ON_CLICK, new EventListener(){
+                        @Override
+                        void onEvent(Event t) {
+                          Executions.sendRedirect("/shop/product?product=${id}")
+                        }
+                      })
+
+                    ]]>
+                  </zscript>
+                </image>
+              </div>
+              <vbox>
+                <div height="20px">
+                  <label style="color: green;" value="${each.manufacturer}"/>
+                </div>
+                <div align="left" height="80px">
+                  <label style="font-weight: bold" value="${each.name}"/>
+                </div>
+                <div align="left" height="20px">
+                  <label style="font-weight: bold; font-size: 16pt" value="Цена: "/>
+                  <label style="font-weight: bold; font-size: 16pt" value="${each.price}"/>
+                  <label style="font-weight: bold; font-size: 16pt" value=" руб."/>
+                </div>
+                <div align="center" width="100%" style="margin-bottom: 5px;">
+                  <button visible="@load(not each.inCart)" label="В корзину"
+                          onClick="@command('toCart', wrapper=each)"/>
+                  <label visible="@load(each.inCart)" value="Уже в корзине"/>
+                </div>
+              </vbox>
+            </div>
+          </h:li>
+        </template>
+      </h:ul>
+    </div>
+      <button label="Еще..." onClick="@command('appendElse')" autodisable="true" if="${vm.showAppendBtn}"/>
+  </div>
+</zk>

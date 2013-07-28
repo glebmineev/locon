@@ -107,7 +107,7 @@
           <listheader/>
         </listhead>
         <template name="model">
-          <listitem onClick="@command('redirectToProductItem', product=each)">
+          <listitem>
             <listcell>
               <div align="center" width="160px" sclass="imageBox">
                 <image>

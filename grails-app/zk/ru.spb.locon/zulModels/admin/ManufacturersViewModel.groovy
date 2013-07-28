@@ -21,7 +21,7 @@ import ru.spb.locon.wrappers.ManufacturerWrapper
 class ManufacturersViewModel {
 
   String uuid
-
+  String fileSeparator = System.getProperty("file.separator")
   ListModelList<ManufacturerWrapper> manufacturersModel
 
   ImageService imageService =
@@ -48,10 +48,10 @@ class ManufacturersViewModel {
     String fullFileName = media.getName()
     String ext = fullFileName.split("\\.")[1]
 
-    imageService.cleanStore(new File("${imageService.manufacturers}\\${model.id}"))
+    imageService.cleanStore(new File("${imageService.manufacturers}${fileSeparator}${model.id}"))
     uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 100I)
-    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-100.${ext}"))
+    imageService.resizeImage("${imageService.temp}${fileSeparator}${uuid}", "1", ".${ext}", 100I)
+    image.setContent(new AImage("${imageService.temp}${fileSeparator}${uuid}${fileSeparator}1-100.${ext}"))
   }
 
   @Command
@@ -77,8 +77,8 @@ class ManufacturersViewModel {
         toSave.save(flush: true)
 
         if (uuid != null) {
-          File temp = new File("${imageService.temp}\\${uuid}")
-          File store = new File("${imageService.manufacturers}\\${wrapper.id}")
+          File temp = new File("${imageService.temp}${fileSeparator}${uuid}")
+          File store = new File("${imageService.manufacturers}${fileSeparator}${wrapper.id}")
           if (!store.exists())
             store.mkdirs()
 
@@ -100,7 +100,7 @@ class ManufacturersViewModel {
       toDelete.delete(flush: true)
     }
 
-    imageService.cleanStore(new File("${imageService.manufacturers}\\${wrapper.id}"))
+    imageService.cleanStore(new File("${imageService.manufacturers}${fileSeparator}${wrapper.id}"))
 
     List<ManufacturerWrapper> models = new ArrayList<ManufacturerWrapper>()
     ManufacturerEntity.list(sort: "name").each { it ->
