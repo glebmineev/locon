@@ -11,6 +11,9 @@ import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Component
 import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.Page
+import org.zkoss.zkplus.databind.BindingListModelList
+import org.zkoss.zul.Include
 import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Textbox
 import ru.spb.locon.CategoryEntity
@@ -22,6 +25,7 @@ import ru.spb.locon.ProductEntity
 import ru.spb.locon.common.PathHandler;
 import ru.spb.locon.wrappers.CategoryWrapper
 import ru.spb.locon.wrappers.HrefWrapper
+import ru.spb.locon.wrappers.ProductWrapper
 
 class CatalogNewViewModel {
 
@@ -32,6 +36,9 @@ class CatalogNewViewModel {
   List<HrefWrapper> links = new LinkedList<HrefWrapper>()
   //Все товары
   List<ProductEntity> allProducts = new ArrayList<ProductEntity>()
+
+  //Отфильтрованные товары.
+  List<ProductEntity> filtredProducts = new ArrayList<ProductEntity>()
 
   ListModelList<ManufacturerEntity> manufsFilterModel
   ListModelList<FilterEntity> usageFilterModel
@@ -71,15 +78,12 @@ class CatalogNewViewModel {
    * Инициализируем фильтры.
    */
   void initFilters() {
-/*    List<FilterEntity> filters = products.filter.unique() as List<FilterEntity>
-    manufsFilterModel = new BindingListModelList<ManufacturerEntity>(
-        products.manufacturer.unique() as List<ManufacturerEntity>,
-        true
-    )
+    List<FilterEntity> filters = allProducts.filter.unique() as List<FilterEntity>
+    manufsFilterModel = new BindingListModelList<ManufacturerEntity>(allProducts.manufacturer.unique() as List<ManufacturerEntity>, true)
 
     manufsFilterModel.setMultiple(true)
     usageFilterModel = new BindingListModelList<FilterEntity>(filters, true)
-    usageFilterModel.setMultiple(true)*/
+    usageFilterModel.setMultiple(true)
   }
 
   /**
@@ -136,58 +140,60 @@ class CatalogNewViewModel {
    * Применение фильтров.
    */
   @Command
-  @NotifyChange(["products"])
-  public void filtred() {
+  public void filtred(@BindingParam("event") Event event) {
 
-/*    List<String> manufsSelection = manufsFilterModel.getSelection().collect { it.name } as List<String>
-    List<String> usageSelection = usageFilterModel.getSelection().collect { it.name } as List<String>
+    filtredProducts.clear()
+    applyManufacturers()
+    applyUsageFilter()
+    if (event instanceof InputEvent)
+      applyPriceFilter(event)
 
-    List<ProductEntity> result = allProducts
+    Page page = event.getPage() as Page
+    Include showcase = page.getFellow("showcase") as Include
+    showcase.setDynamicProperty("allProducts", filtredProducts)
+    showcase.invalidate()
+  }
+
+  /**
+   * Фильтрация по производителю
+   */
+  void applyManufacturers() {
+    List<String> manufsSelection = manufsFilterModel.getSelection().collect { it.name } as List<String>
     if (manufsSelection.size() > 0)
-      result = allProducts.findAll { it -> manufsSelection.contains(it.manufacturer.name) }
+      filtredProducts = allProducts.findAll { it -> manufsSelection.contains(it.manufacturer.name) }
+    else
+      filtredProducts.addAll(allProducts)
+  }
 
+  /**
+   * Фильтрация по применению.
+   */
+  void applyUsageFilter() {
+    List<String> usageSelection = usageFilterModel.getSelection().collect { it.name } as List<String>
     if (usageSelection.size() > 0)
-      result = result.findAll {
-        it ->
-          usageSelection.contains(it.filter.name)
-      }
-
-    products.clear()
-    currentIndex = 0
-
-    if (result.size() > 0) {
-      currentIndex += result.size() > 19 ? 20 : result.size()
-      products.addAll(transform(result.subList(0, currentIndex)))
-    }*/
-
+      filtredProducts = filtredProducts.findAll { it -> usageSelection.contains(it.filter.name) }
   }
 
   /**
    * Фильтрация по цене.
    */
-  @Command
-  @NotifyChange(["products"])
-  public void priceFilter(@BindingParam("inputEvent") InputEvent event) {
+  public void applyPriceFilter(InputEvent event) {
 
-/*    Long beforeValue = getBeforeValue(event)
+    Long beforeValue = getBeforeValue(event)
     Long afterValue = getAfterValue(event)
 
-    ArrayList<ProductWrapper> result = products.findAll { it ->
-      long price = it.price
-      price >= (beforeValue) && price <= (afterValue)
-    }
-    if (result != null && result.size() > 0) {
-      products.clear()
-      products.addAll(result)
-    }*/
-
+    if (beforeValue > Long.MIN_VALUE && afterValue < Long.MAX_VALUE)
+      filtredProducts = filtredProducts.findAll { it ->
+        long price = it.price
+        price >= (beforeValue) && price <= (afterValue)
+      }
   }
 
   Long getBeforeValue(InputEvent event) {
     Component target = event.getTarget()
     String id = target.getId()
     if ("beforeFilterPrice".equals(id))
-      return event.getValue() as Long
+      return !Strings.isNullOrEmpty(event.getValue()) ? event.getValue() as Long : Long.MIN_VALUE
     else
     {
       Textbox before = event.getPage().getFellow("beforeFilterPrice") as Textbox
@@ -199,11 +205,11 @@ class CatalogNewViewModel {
     Component target = event.getTarget()
     String id = target.getId()
     if ("afterFilterPrice".equals(id))
-      return event.getValue() as Long
+      return !Strings.isNullOrEmpty(event.getValue()) ? event.getValue() as Long : Long.MAX_VALUE
     else
     {
       Textbox after = event.getPage().getFellow("afterFilterPrice") as Textbox
-      return !Strings.isNullOrEmpty(after.getValue()) ? after.getValue() as Long : 0L
+      return !Strings.isNullOrEmpty(after.getValue()) ? after.getValue() as Long : Long.MAX_VALUE
     }
   }
 

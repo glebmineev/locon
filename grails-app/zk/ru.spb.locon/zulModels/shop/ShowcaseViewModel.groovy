@@ -10,6 +10,7 @@ import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
+import org.zkoss.bind.annotation.ExecutionArgParam
 import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.image.AImage
@@ -81,19 +82,32 @@ class ShowcaseViewModel {
   String uuidInclude
 
   @Init
-  public void init(){
+  public void init(@ExecutionArgParam("allProducts") List<ProductEntity> data,
+                   @ExecutionArgParam("isChangeShow") String isChangeShow,
+                   @ExecutionArgParam("showAppendBtn") String showAppendBtn) {
     uuidInclude = UUID.randomUUID()
-    def arg = Executions.getCurrent().getArg()
-    allProducts.addAll(arg.get("allProducts") as List<ProductEntity>)
-    isChangeShow = Boolean.parseBoolean(arg.get("isChangeShow") as String)
-    showAppendBtn = Boolean.parseBoolean(arg.get("showAppendBtn") as String)
+    this.isChangeShow = Boolean.parseBoolean(isChangeShow)
+    this.showAppendBtn = Boolean.parseBoolean(showAppendBtn)
 
+    rebuildModel(data)
+  }
+
+  /**
+   * Обновление модели данных вложения.
+   * @param data
+   */
+  @Command
+  @NotifyChange(["products"])
+  void rebuildModel(List<ProductEntity> data){
+    currentIndex = 0;
+    allProducts.clear()
+    products.clear()
+    allProducts.addAll(data)
     int allProductsSize = allProducts.size()
     if (allProductsSize > 0) {
       currentIndex += allProductsSize > 19 ? 20 : allProductsSize
       products.addAll(transform(allProducts.subList(0, currentIndex)))
     }
-
   }
 
   List<ProductWrapper> transform(List<ProductEntity> target) {
@@ -136,8 +150,6 @@ class ShowcaseViewModel {
     Div productsDiv = include.getFirstChild().getFirstChild() as Div
     productsDiv.setSclass("products-cell-template")
   }
-
-
 
   /**
    * Добавление

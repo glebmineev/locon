@@ -75,7 +75,7 @@
           <groupbox closable="false" if="${vm.categories.size() > 0}" >
             <caption label="Категории"/>
             <!-- Список категории -->
-            <listbox id="categories" model="@load(vm.categories)">
+            <listbox id="categories" model="@load(vm.categories)" height="250px">
               <listhead>
                 <listheader>
                   <zscript>
@@ -103,7 +103,7 @@
             </listbox>
           </groupbox>
           <!-- Фильтр по производителю -->
-          <div width="220px">
+          <div width="220px" if="${vm.showCatalog}">
             <groupbox closable="false">
               <caption label="Фильтр"/>
 
@@ -113,7 +113,7 @@
                   <listheader label="Производитель"/>
                 </listhead>
                 <template name="model" var="item">
-                  <listitem onClick="@command('filtred')">
+                  <listitem onClick="@command('filtred', event=event)">
                     <listcell>
                       <label value="${item.name}"/>
                     </listcell>
@@ -123,12 +123,12 @@
               <h:br/>
               <!-- Фильтр по применению -->
               <listbox id="usageListbox" model="@load(vm.usageFilterModel)" multiple="true" checkmark="true"
-                       height="300px">
+                       height="250px">
                 <listhead>
                   <listheader label="Применение"/>
                 </listhead>
                 <template name="model" var="item">
-                  <listitem onClick="@command('filtred')">
+                  <listitem onClick="@command('filtred', event=event)">
                     <listcell>
                       <label value="${item.name}"/>
                     </listcell>
@@ -139,11 +139,11 @@
               <label value="Цена"/>
               <div>
                 <label value="От"/>
-                <textbox id="beforeFilterPrice" onChanging="@command('priceFilter', inputEvent=event)"/>
+                <textbox id="beforeFilterPrice" onChanging="@command('filtred', event=event)"/>
               </div>
               <div>
                 <label value="До"/>
-                <textbox id="afterFilterPrice" onChanging="@command('priceFilter', inputEvent=event)"/>
+                <textbox id="afterFilterPrice" onChanging="@command('filtred', event=event)"/>
               </div>
             </groupbox>
           </div>
@@ -168,7 +168,7 @@
         </tabbox>
 
         <!-- список товаров в текущей категории, отображаеться если не корневая -->
-        <include if="${vm.showCatalog}"
+        <include id="showcase" if="${vm.showCatalog}"
                  src="/zul/shop/showcase.zul" allProducts="${vm.allProducts}" isChangeShow="true" showAppendBtn="true"/>
 
       </hbox>
