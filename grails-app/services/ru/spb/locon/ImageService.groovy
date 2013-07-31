@@ -79,8 +79,8 @@ class ImageService {
    * @param ext - расширение файла.
    */
   void saveUserPic(InputStream is, Long id,String fileName, String ext) {
-    new File("${userPictures}\\${id}").mkdirs()
-    File newFile = new File("${userPictures}\\${id}\\${fileName}.${ext}");
+    new File("${userPictures}${fileSeparator}${id}").mkdirs()
+    File newFile = new File("${userPictures}${fileSeparator}${id}\\${fileName}${ext}");
     boolean isCreate = newFile.createNewFile()
     if (isCreate) {
       OutputStream out = new FileOutputStream(newFile);
@@ -206,7 +206,7 @@ class ImageService {
 
     AImage aImage
     if (picture.exists())
-      aImage = new AImage("${userPictures}${fileSeparator}${user.id}${fileSeparator}1-150.${ext}")
+      aImage = new AImage("${userPictures}${fileSeparator}${user.id}${fileSeparator}1-150${ext}")
     else
       aImage = new AImage("${images}${fileSeparator}help.png")
 

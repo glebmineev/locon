@@ -1,5 +1,6 @@
 package ru.spb.locon.zulModels.cabinet
 
+import org.apache.commons.io.FileUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
@@ -11,6 +12,7 @@ import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.event.UploadEvent
 import org.zkoss.zul.Div
 import org.zkoss.zul.Image
+import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ImageService
 import ru.spb.locon.LoginService
 import ru.spb.locon.UserEntity
@@ -29,11 +31,15 @@ class CabinetViewModel {
   String email
   String address
 
+  String uuid
+
+  String fileSeparator = System.getProperty("file.separator")
+
   LoginService loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService") as LoginService
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
 
   @Init
-  public void init(){
+  public void init() {
     UserEntity user = loginService.getCurrentUser()
     fio = user.fio
     phone = user.phone
@@ -42,7 +48,7 @@ class CabinetViewModel {
   }
 
   @Command
-  public void index(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
+  public void index(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     Div container = event.getTarget() as Div
     Executions.createComponents("/zul/cabinet/map.zul", container, new HashMap<Object, Object>())
   }
@@ -55,13 +61,21 @@ class CabinetViewModel {
 
     String fullFileName = media.getName()
     String ext = fullFileName.split("\\.")[1]
-    UserEntity user = loginService.currentUser
 
-    imageService.cleanStore(new File("${imageService.userPictures}\\${user.id}"))
-    imageService.saveUserPic(media.getStreamData(), user.id,"1", ext)
-    imageService.batchResizeImage("${imageService.userPictures}\\${user.id}", "1", ".${ext}")
-    image.setContent(new AImage("${imageService.userPictures}\\${user.id}\\1-150${ext}"))
+    uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
+    imageService.resizeImage("${imageService.temp}${fileSeparator}${uuid}", "1", ".${ext}", 150I)
+    image.setContent(new AImage("${imageService.temp}${fileSeparator}${uuid}${fileSeparator}1-150.${ext}"))
+  }
 
+  @Command
+  public void save() {
+    if (uuid != null) {
+      File temp = new File("${imageService.temp}${fileSeparator}${uuid}")
+      File store = new File("${imageService.userPictures}${fileSeparator}${loginService.getCurrentUser().id}")
+      if (!store.exists())
+        store.mkdirs()
+      FileUtils.copyDirectory(temp, store)
+    }
   }
 
   @Command
@@ -70,12 +84,12 @@ class CabinetViewModel {
   }
 
   @Command
-  public void changeCredentials(){
+  public void changeCredentials() {
 
   }
 
   @Command
-  public void changePersonData(){
+  public void changePersonData() {
 
   }
 

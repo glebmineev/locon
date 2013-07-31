@@ -33,7 +33,9 @@
 
           ]]>
           </zscript>
-          <button label="Сменить аватар" upload="true" onUpload="@command('uploadImage')"/>
+          <vlayout height="min">
+            <button label="Сменить аватар" upload="true" onUpload="@command('uploadImage')"/>
+          </vlayout>
           <a onClick="@command('orders')" label="Заказы"/>
           <a href="/cabinet/profile" label="Профиль"/>
           <a href="/cabinet/settings" label="Настройки"/>
@@ -43,6 +45,7 @@
       <space/>
       <!-- данные -->
       <div id="container" sclass="rounded" onCreate="@command('index')"/>
+      <button label="Сохранить изменения" onClick="@command('save')"/>
     </hlayout>
   </div>
 
