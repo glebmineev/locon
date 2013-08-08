@@ -38,6 +38,7 @@ grails.project.dependency.resolution = {
     compile 'com.mortennobel:java-image-scaling:0.8.4'
     compile 'org.imgscalr:imgscalr-lib:4.2'
     compile 'com.jhlabs:filters:2.0.235-1'
+    //compile 'commons-codec:commons-codec:1.3'
     //runtime 'mysql:mysql-connector-java:5.1.16'
   }
 

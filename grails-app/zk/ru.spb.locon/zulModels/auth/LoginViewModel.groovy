@@ -41,7 +41,9 @@ class LoginViewModel {
     else
     {
       def params = loginService.params
-      String url = URLUtils.buildURL(params)
+      String url = "/"
+      if (params != null)
+        url = URLUtils.buildURL(params)
       Executions.sendRedirect(url)
     }
   }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+       validationMessages="@id('vmsgs')"
+       form="@id('fx') @load(vm.fio) @save(vm.fio, before='save')
+                @validator('ru.spb.locon.validators.ProfileValidator',
+                fio=vm.fio,
+                password=vm.password,
+                repassword=vm.repassword,
+                address=vm.address)"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.cabinet.ProfileViewModel')" width="100%">
+
+    <style src="/css/ZK.css"/>
+
+    <h:table width="100%" cellpadding="5" cellspacing="0" style="margin-top: 10px;">
+      <h:tr>
+        <h:td colspan="3">
+          <image id="targetImage" width="180px"/>
+          <zscript><![CDATA[
+            import ru.spb.locon.*
+            import org.codehaus.groovy.grails.commons.ApplicationHolder
+            import org.zkoss.image.*
+            import org.zkoss.zk.ui.*
+
+            def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+            def loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService")
+
+            AImage img = imageService.getUserPicture(loginService.getCurrentUser())
+            targetImage.setContent(img)
+
+          ]]>
+          </zscript>
+          <vlayout height="min">
+            <button label="Сменить аватар" upload="true" onUpload="@command('uploadImage')"/>
+          </vlayout>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label sclass="formLabel" value="Фамилия, имя:(*)"/>
+        </h:td>
+        <h:td width="50%" align="center">
+          <textbox value="@bind(vm.fio)" width="100%"/>
+        </h:td>
+        <h:td width="30%" align="left">
+          <label sclass="error" value="@load(vmsgs['fio'])" />
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label value="Контактный телефон:"/>
+        </h:td>
+        <h:td colspan="2" width="100%" align="left">
+          <textbox value="@bind(vm.phone)" width="62%"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label value="Адрес доставки:(*)"/>
+        </h:td>
+        <h:td width="50%" align="left">
+          <textbox value="@bind(vm.address)"
+                   width="100%" rows="3" cols="15"/>
+        </h:td>
+        <h:td width="30%">
+          <label sclass="error"
+                 value="@load(vmsgs['address'])" />
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label value="Пароль:(*)"/>
+        </h:td>
+        <h:td width="50%" align="left">
+          <textbox type="password" value="@bind(vm.password)"
+                   width="100%"/>
+        </h:td>
+        <h:td width="30%">
+          <label sclass="error"
+                 value="@load(vmsgs['password'])" />
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label value="Повторите пароль:(*)"/>
+        </h:td>
+        <h:td width="50%" align="left">
+          <textbox type="password" value="@bind(vm.repassword)"
+                   width="100%"/>
+        </h:td>
+        <h:td width="30%"/>
+      </h:tr>
+      <h:tr>
+        <h:td colspan="3" width="100%" align="center">
+          <button label="Сохранить" onClick="@command('save')"/>
+        </h:td>
+      </h:tr>
+    </h:table>
+
+  </div>
+
+</zk>

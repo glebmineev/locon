@@ -33,19 +33,16 @@
 
           ]]>
           </zscript>
-          <vlayout height="min">
-            <button label="Сменить аватар" upload="true" onUpload="@command('uploadImage')"/>
-          </vlayout>
-          <a onClick="@command('orders')" label="Заказы"/>
+          <a href="/cabinet/orders" label="Заказы"/>
           <a href="/cabinet/profile" label="Профиль"/>
-          <a href="/cabinet/settings" label="Настройки"/>
           <a href="/cabinet/cabinet" label="Карта профиля"/>
         </vbox>
       </div>
       <space/>
       <!-- данные -->
-      <div id="container" sclass="rounded" onCreate="@command('index')"/>
-      <button label="Сохранить изменения" onClick="@command('save')"/>
+      <div id="container" sclass="rounded" ><!--onCreate="@command('index')"-->
+        <include src="/zul/cabinet/map.zul"/>
+      </div>
     </hlayout>
   </div>
 

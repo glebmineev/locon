@@ -24,7 +24,7 @@ class OrderEntity {
   Boolean isComplete = false
   Boolean isCancel = false
 
-  //UserEntity user
+  UserEntity user
 
   Boolean courier = false
   Boolean emoney = false
@@ -41,7 +41,7 @@ class OrderEntity {
       email column: 'order_email'
       address column: 'order_address'
       notes column: 'order_notes'
-      //user fetch: "join", column: 'order_user_id'
+      user fetch: "join", column: 'order_user_id'
       courier column: 'order_courier'
       emoney column: 'order_emoney'
       openDate column: 'order_startdate'
@@ -68,7 +68,7 @@ class OrderEntity {
     fio nullable: false
     phone nullable: true
     notes nullable: true
-    //user nullable: true
+    user nullable: true
     courier nullable: true
     emoney nullable: true
     openDate nullable: false

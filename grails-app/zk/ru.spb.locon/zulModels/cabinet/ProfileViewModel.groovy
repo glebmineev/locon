@@ -1,7 +1,10 @@
 package ru.spb.locon.zulModels.cabinet
 
+import org.apache.commons.codec.binary.Base64
 import org.apache.commons.io.FileUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.codehaus.groovy.grails.plugins.codecs.SHA1BytesCodec
+import org.codehaus.groovy.grails.plugins.codecs.SHA1Codec
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
@@ -10,26 +13,29 @@ import org.zkoss.image.AImage
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.event.UploadEvent
-import org.zkoss.zul.Div
 import org.zkoss.zul.Image
-import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ImageService
 import ru.spb.locon.LoginService
 import ru.spb.locon.UserEntity
 
+import java.nio.charset.Charset
+import java.security.MessageDigest
+
 /**
  * Created with IntelliJ IDEA.
  * User: gleb
- * Date: 5/4/13
- * Time: 12:18 AM
+ * Date: 8/1/13
+ * Time: 9:52 PM
  * To change this template use File | Settings | File Templates.
  */
-class CabinetViewModel {
+class ProfileViewModel {
 
   String fio
   String phone
   String email
   String address
+  String password
+  String repassword
 
   String uuid
 
@@ -39,18 +45,24 @@ class CabinetViewModel {
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
 
   @Init
-  public void init() {
+  public void init(){
     UserEntity user = loginService.getCurrentUser()
     fio = user.fio
     phone = user.phone
     email = user.email
     address = user.address
-  }
 
-  @Command
-  public void index(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
-    Div container = event.getTarget() as Div
-    Executions.createComponents("/zul/cabinet/map.zul", container, new HashMap<Object, Object>())
+    String shaPassword = user.password
+
+    SHA1Codec sha1Codec = new SHA1Codec()
+    MessageDigest md = MessageDigest.getInstance("SHA1");
+    md.reset()
+    byte[] digest = md.digest(shaPassword.getBytes("UTF-8"))
+    String h = new String(digest, Charset.forName("UTF-8"))
+
+
+    password = user.password
+    repassword = user.password
   }
 
   @Command
@@ -68,17 +80,23 @@ class CabinetViewModel {
   }
 
   @Command
-  public void orders(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
-    Executions.sendRedirect("/cabinet/orders")
-  }
+  public void save() {
+    if (uuid != null) {
+      File temp = new File("${imageService.temp}${fileSeparator}${uuid}")
+      File store = new File("${imageService.userPictures}${fileSeparator}${loginService.getCurrentUser().id}")
+      if (!store.exists())
+        store.mkdirs()
+      FileUtils.copyDirectory(temp, store)
+    }
 
-  @Command
-  public void changeCredentials() {
+    UserEntity user = loginService.getCurrentUser()
+    user.fio = fio
+    user.phone = phone
+    user.email = email
+    user.address = address
+    user.password = password.encodeAsSHA1()
 
-  }
-
-  @Command
-  public void changePersonData() {
+    Executions.sendRedirect("/cabinet/index")
 
   }
 

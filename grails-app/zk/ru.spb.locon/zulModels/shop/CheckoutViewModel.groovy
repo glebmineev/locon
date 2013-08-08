@@ -76,9 +76,9 @@ class CheckoutViewModel {
 
     order.setIsProcessed(true)
 
-/*    UserEntity user = loginService.currentUser
+    UserEntity user = loginService.currentUser
     if (user != null)
-      order.setUser(user)*/
+      order.setUser(user)
 
     return order
   }

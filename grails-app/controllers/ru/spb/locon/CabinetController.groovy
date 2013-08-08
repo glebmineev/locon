@@ -7,7 +7,11 @@ class CabinetController {
   def initService
   def loginService
 
-  def cabinet(){
+  def index(){
+    return [mainCategoties: initService.categories]
+  }
+
+  def profile(){
     return [mainCategoties: initService.categories]
   }
 

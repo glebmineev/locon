@@ -186,3 +186,7 @@ div.products-cell-template > ul > li > div:hover {
   box-shadow: 1px 1px 3px #cd0a0a;
 }
 
+.z-button .z-button-tl {
+  font-size: 0;
+}
+

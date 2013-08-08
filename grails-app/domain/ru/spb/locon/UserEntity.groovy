@@ -30,7 +30,7 @@ class UserEntity {
       groups joinTable: [name: 'user_role', key: 'user_id']
     }
 
-    //orderList cascade: 'all-delete-orphan'
+    orderList cascade: 'all-delete-orphan'
 
     version false
 
@@ -39,7 +39,7 @@ class UserEntity {
   static belongsTo = RoleEntity
 
   static hasMany = [
-    //orderList: OrderEntity,
+    orderList: OrderEntity,
     groups: RoleEntity
   ]
 
