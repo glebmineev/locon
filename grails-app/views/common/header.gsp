@@ -10,7 +10,7 @@
         <g:img dir="images" file="truck.png"/>
       </td>
       <td width="110px">
-        <g:link controller="cabinet" action="cabinet">
+        <g:link controller="cabinet" action="index">
           Личный кабинет
         </g:link>
       </td>

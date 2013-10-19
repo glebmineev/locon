@@ -354,7 +354,6 @@ class ImportService extends IImporterService implements ApplicationContextAware 
       log.error(ex)
     }
 
-
     return product
 
   }

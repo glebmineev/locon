@@ -24,12 +24,21 @@ class CabinetController {
   }
 
   def beforeInterceptor = {
-    List<String> groups = loginService.getUserGroups()
-    if (!groups.contains("USER")) {
+    //List<String> groups = loginService.getUserGroups()
+    //if (!groups.contains("USER")) {
+    UserEntity user = loginService.getCurrentUser()
+    if (user == null) {
       loginService.setParams(params)
       redirect(url: URLUtils.getHostUrl(request) + createLink(controller: "auth", action: "login"))
       return
+    } else if (!user.isActive) {
+      loginService.setParams(params)
+      redirect(url: URLUtils.getHostUrl(request) + createLink(controller: "shop", action: "nonActivate"))
+      return
     }
+
+
+
   }
 
 }

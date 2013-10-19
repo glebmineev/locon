@@ -71,7 +71,7 @@
             <label value="Повторите пароль:(*)" style="font-size: 12pt;"/>
           </h:td>
           <h:td width="50%" align="left">
-            <textbox value="@bind(vm.repassword)" width="100%"/>
+            <textbox type="password" value="@bind(vm.repassword)" width="100%"/>
           </h:td>
           <h:td width="30%">
             <label sclass="error"

@@ -10,7 +10,7 @@ environments {
             pooled = true
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:postgresql://localhost:5432/locon"
-            /*url = "jdbc:postgresql://postgres-env-7570699.j.rsnx.ru:5432/locon"*/
+            /*url = "jdbc:postgresql://postgres-soisbelle.jelastic.regruhosting.ru:5432/locon"*/
             username = "locon"
             password = "Password1"
             driverClassName = "org.postgresql.Driver"
@@ -22,7 +22,7 @@ environments {
           pooled = true
           dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
           url = "jdbc:postgresql://localhost:5432/locon"
-          /*url = "jdbc:postgresql://postgres-env-7570699.j.rsnx.ru:5432/locon"*/
+          /*url = "jdbc:postgresql://postgres-soisbelle.jelastic.regruhosting.ru:5432/locon"*/
           username = "locon"
           password = "Password1"
           driverClassName = "org.postgresql.Driver"
@@ -34,7 +34,7 @@ environments {
           pooled = true
           dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
           url = "jdbc:postgresql://localhost:5432/locon"
-          /*url = "jdbc:postgresql://postgres-env-7570699.j.rsnx.ru:5432/locon"*/
+          /*url = "jdbc:postgresql://postgres-soisbelle.jelastic.regruhosting.ru:5432/locon"*/
           username = "locon"
           password = "Password1"
           driverClassName = "org.postgresql.Driver"

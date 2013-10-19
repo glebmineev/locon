@@ -19,7 +19,14 @@ class LoginService {
       currentUser = LoginUtils.getUser(email, password)
       userGroups = LoginUtils.userGroups(currentUser)
     }
+  }
 
+  public void login(UserEntity auth){
+    logged = LoginUtils.authenticate(auth)
+    if (logged) {
+      currentUser = auth
+      userGroups = auth.groups.name as List<String>
+    }
   }
 
   public void logout(){

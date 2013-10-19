@@ -16,7 +16,17 @@ class UserEntity {
   String phone
   String email
   String address
-  
+
+  /**
+   * Активирован ли пользователь.
+   */
+  boolean isActive = false
+
+  /**
+  * Код активации пользователя.
+   */
+  String activateCode = "admin"
+
   static mapping = {
     table: 'user'
     columns {
@@ -28,9 +38,12 @@ class UserEntity {
       email column: 'user_email'
       address column: 'user_address'
       groups joinTable: [name: 'user_role', key: 'user_id']
+      isActive column: 'user_is_active'
+      activateCode column: 'user_activate_code'
     }
 
     orderList cascade: 'all-delete-orphan'
+    messageList cascade: 'all-delete-orphan'
 
     version false
 
@@ -40,6 +53,7 @@ class UserEntity {
 
   static hasMany = [
     orderList: OrderEntity,
+    messageList: MessageEntity,
     groups: RoleEntity
   ]
 
@@ -50,6 +64,8 @@ class UserEntity {
     phone nullable: true
     email nullable: false
     address nullable: false
+    isActive nullable: false
+    activateCode nullable: false
   }
 
   static transients = ['errors']

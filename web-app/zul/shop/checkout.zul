@@ -100,7 +100,7 @@
       </h:tr>
       <h:tr>
         <h:td colspan="3" width="100%" align="center">
-          <button label="Добавить" onClick="@command('checkout')"/>
+          <button label="Подтвердить заказ" onClick="@command('checkout')"/>
         </h:td>
       </h:tr>
     </h:table>

@@ -1,5 +1,6 @@
 package ru.spb.locon.excel
 
+import com.google.common.base.Strings
 import org.apache.poi.hssf.util.CellReference
 import org.apache.poi.ss.usermodel.*
 
@@ -33,11 +34,15 @@ class CellHandler {
   }
 
   public boolean validate(){
+    String article = data.get("A") as String
+    if (!Strings.isNullOrEmpty(article)) {
+      String articleWithoutZero = article.replace(".0", "") as String
+      data.put("A", articleWithoutZero)
+    }
+
     if (data.get("B") == null)
       return false
     return true
   }
-
-
 
 }

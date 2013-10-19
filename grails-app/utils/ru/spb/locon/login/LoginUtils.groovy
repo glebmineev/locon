@@ -15,6 +15,18 @@ class LoginUtils {
       UserEntity user = UserEntity.findWhere(email: email, password: password.encodeAsSHA1())
       if (user != null)
         result = true
+
+    }
+    return result
+  }
+
+  public static boolean authenticate(UserEntity auth){
+    boolean result = false
+    UserEntity.withTransaction{
+      UserEntity user = UserEntity.findWhere(email: auth.email, password: auth.password)
+      if (user != null)
+        result = true
+
     }
     return result
   }

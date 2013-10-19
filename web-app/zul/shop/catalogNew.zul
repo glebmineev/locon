@@ -150,22 +150,11 @@
         </vbox>
 
         <!-- хиты и популярные, отображаеться если корневая -->
-        <tabbox if="${not vm.showCatalog}">
-          <tabs>
-            <tab label="Популярные"/>
-            <tab label="Хиты продаж"/>
-          </tabs>
-          <tabpanels>
-            <tabpanel height="750px" width="660px">
-              <include src="/zul/shop/showcase.zul" allProducts="${vm.initService.popular}" isChangeShow="false"
-                       showAppendBtn="false"/>
-            </tabpanel>
-            <tabpanel height="750px" width="660px">
-              <include src="/zul/shop/showcase.zul" allProducts="${vm.initService.hits}" isChangeShow="false"
-                       showAppendBtn="false"/>
-            </tabpanel>
-          </tabpanels>
-        </tabbox>
+        <div if="${not vm.showCatalog}">
+          <label value="Популярные"/>
+          <include src="/zul/shop/showcase.zul" allProducts="${vm.allProducts}" isChangeShow="false"
+                   showAppendBtn="false"/>
+        </div>
 
         <!-- список товаров в текущей категории, отображаеться если не корневая -->
         <include id="showcase" if="${vm.showCatalog}"

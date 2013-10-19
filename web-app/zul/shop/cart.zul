@@ -63,7 +63,7 @@
       </template>
     </grid>
 
-    <button label="Оформить заказ" onClick="@command('checkout')"/>
+    <button label="Оформление заказа" onClick="@command('checkout')"/>
 
   </div>
 

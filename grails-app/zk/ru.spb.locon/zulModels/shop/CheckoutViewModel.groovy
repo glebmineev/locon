@@ -63,7 +63,8 @@ class CheckoutViewModel {
    */
   private OrderEntity fillOrder() {
     OrderEntity order = new OrderEntity()
-    order.setNumber(UUID.randomUUID().toString().replaceAll("-", "_"))
+    OrderIdentEntity ident = new OrderIdentEntity(ident: OrderIdentEntity.last().ident + 1).save(flush: true)
+    order.setNumber(ident.ident as String)
 
     order.setFio(fio)
     order.setPhone(phone)

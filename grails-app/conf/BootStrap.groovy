@@ -22,6 +22,7 @@ class BootStrap {
       CategoryEntity.findOrSaveWhere(name: "Для рук")
       CategoryEntity.findOrSaveWhere(name: "Депиляция")
       CategoryEntity.findOrSaveWhere(name: "Для мужчин")
+      CategoryEntity.findOrSaveWhere(name: "Аксессуары")
     }
 
     ManufacturerEntity.withTransaction {
@@ -59,6 +60,10 @@ class BootStrap {
         infoEntity.save(flush: true)
       }
 
+    }
+
+    OrderIdentEntity.withTransaction {
+      OrderIdentEntity.findOrSaveWhere(ident: 100000000L)
     }
 
     //imageService.syncAllImagesWithServer()

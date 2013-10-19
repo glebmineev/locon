@@ -75,6 +75,8 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.imgscalr/imgscalr-lib/jars/imgscalr-lib-4.2.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.mortennobel/java-image-scaling/jars/java-image-scaling-0.8.4.jar!/" />
           <root url="file://$MODULE_DIR$/lib" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.activation/activation/jars/activation-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.mail/mail/jars/mail-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>

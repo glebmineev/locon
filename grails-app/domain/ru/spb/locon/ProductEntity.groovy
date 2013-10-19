@@ -33,6 +33,11 @@ class ProductEntity implements Comparable {
 
   CategoryEntity category
 
+  /*
+   * Рейтинг товара (сколько продано).
+   */
+  Long rate
+
   static mapping = {
 
     table: 'product'
@@ -52,6 +57,7 @@ class ProductEntity implements Comparable {
       //categories joinTable: [name: 'category_product', key: 'product_id']
       category column: 'product_categor_id'
       filter fetch: "join", column: 'product_filter'
+      rate column: 'product_rate'
     }
 
     version false
@@ -82,6 +88,7 @@ class ProductEntity implements Comparable {
     countToStock nullable: true
     category nullable: true
     filter nullable: true
+    rate nullable: true
   }
 
   public String toString() {

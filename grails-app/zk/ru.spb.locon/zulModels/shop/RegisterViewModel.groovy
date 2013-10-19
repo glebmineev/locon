@@ -1,23 +1,20 @@
 package ru.spb.locon.zulModels.shop
 
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Executions
+import ru.spb.locon.EmailService
 import ru.spb.locon.RoleEntity
 import ru.spb.locon.UserEntity
 import ru.spb.locon.captcha.RandomStringGenerator
 
-/**
- * Created with IntelliJ IDEA.
- * User: gleb
- * Date: 4/27/13
- * Time: 6:43 PM
- * To change this template use File | Settings | File Templates.
- */
 class RegisterViewModel {
+
+  EmailService emailService = ApplicationHolder.getApplication().getMainContext().getBean("emailService") as EmailService
 
   //Логгер
   static Logger log = LoggerFactory.getLogger(RegisterViewModel.class)
@@ -35,9 +32,7 @@ class RegisterViewModel {
   String captchaInput
 
   @Init
-  public void init() {
-
-  }
+  public void init() { }
 
   @Command
   public void register(){
@@ -58,12 +53,16 @@ class RegisterViewModel {
       user.setEmail(email)
       user.setAddress(address)
 
+      String hash = UUID.randomUUID().toString().replaceAll("-", "")
+      user.setActivateCode(hash)
+
       RoleEntity group = RoleEntity.findByName("USER")
       user.addToGroups(group)
 
       if (user.validate()) {
         user.save(flush: true)
-        Executions.sendRedirect("/shop")
+        emailService.sendEmail(user.getEmail(), hash)
+        Executions.sendRedirect("/shop/seeYouEmail")
       }
     }
   }

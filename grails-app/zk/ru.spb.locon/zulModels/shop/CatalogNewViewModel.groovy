@@ -68,6 +68,8 @@ class CatalogNewViewModel {
 
     if (showCatalog)
       allProducts = collectAllProducts(category, Lists.newArrayList())
+    else
+      allProducts = initService.getHits(category.name)
 
     int allProductsSize = allProducts.size()
     if (allProductsSize > 0)

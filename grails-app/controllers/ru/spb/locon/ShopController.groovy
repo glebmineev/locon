@@ -62,8 +62,19 @@ class ShopController {
     return [mainCategoties: initService.categories]
   }
 
-  def test() {
+  def seeYouEmail() {
+    loginService.setParams(params)
+    return [mainCategoties: initService.categories]
+  }
 
+  def activate() {
+    loginService.setParams(params)
+    return [mainCategoties: initService.categories]
+  }
+
+  def nonActivate () {
+    loginService.setParams(params)
+    return [mainCategoties: initService.categories]
   }
 
 }
