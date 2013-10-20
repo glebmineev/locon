@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="">
+      <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\grails-app\utils\ru\spb\locon\importer\ImageHandler.groovy" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\Indola.jpg" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\OLLIN.jpg" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\gleb\Projects\locon\web-app\images\manufacturers\Periche.jpg" afterPath="" />
@@ -10,19 +11,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="8343079c-7661-485b-b0a5-3ceba9f9e794" name="Failed commit: Default" comment="вынес корзину в сервис. Сделал рекомендуемые товары&#10;" />
-    <list id="def95994-daac-4259-97d2-1cd8c2076e41" name="Failed commit: Default (2)" comment="Регистрация по почте">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConvertUtils.groovy" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConvertUtils.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/IImporterService.groovy" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/IImporterService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ImageHandler.groovy" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ImageHandler.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/SaveUtils.groovy" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/SaveUtils.groovy" />
-    </list>
-    <list id="8db73f09-430b-481d-be1e-d3113d72b466" name="Failed commit: Failed commit: Default (2)" comment="Регистрация по почте">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConverterRU_EN.java" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConverterRU_EN.java" />
-    </list>
     <ignored path="locon.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$USER_HOME$/.grails/" />
-    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1382291455995" ignored="false" />
+    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1382291686321" ignored="false" />
     <file path="/ProductsRenderer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365252977775" ignored="false" />
     <file path="/products.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1368298017821" ignored="false" />
     <file path="/ProductsComposer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355861096735" ignored="false" />
@@ -303,10 +295,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConverterRU_EN.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ConverterRU_EN.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConverterRU_EN.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="19" selection-start="51" selection-end="51" vertical-scroll-proportion="0.030303031">
+            <state line="101" column="0" selection-start="2724" selection-end="2724" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConvertUtils.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConvertUtils.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="0" selection-start="377" selection-end="377" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IImporterService.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/IImporterService.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="68" column="0" selection-start="1939" selection-end="1939" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SaveUtils.groovy" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/SaveUtils.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="102" column="0" selection-start="2842" selection-end="2842" vertical-scroll-proportion="0.8111111">
               <folding />
             </state>
           </provider>
@@ -348,11 +369,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/CabinetController.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/login/LoginUtils.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/ru/spb/locon/LoginService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/shop/ActivateViewModel.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
         <option value="$PROJECT_DIR$/web-app/zul/shop/catalogNew.zul" />
         <option value="$PROJECT_DIR$/grails-app/services/ru/spb/locon/CategoryService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/ru/spb/locon/ShopService.groovy" />
@@ -364,6 +380,11 @@
         <option value="$PROJECT_DIR$/grails-app/domain/ru/spb/locon/OrderIdentEntity.groovy" />
         <option value="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
         <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/shop/CheckoutViewModel.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConverterRU_EN.java" />
+        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConvertUtils.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/IImporterService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ImageHandler.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/SaveUtils.groovy" />
       </list>
     </option>
   </component>
@@ -1224,7 +1245,11 @@
       <created>1382291445768</created>
       <updated>1382291445768</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Регистрация по почте">
+      <created>1382291585360</created>
+      <updated>1382291585360</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1243,7 +1268,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2780303" sideWeight="0.16354345" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22121212" sideWeight="0.68881685" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.7050243" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.59284496" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2725724" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4701874" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.71282053" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21136364" sideWeight="0.20713073" order="5" side_tool="true" content_ui="tabs" />
@@ -1390,38 +1415,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/InitService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="25" selection-start="1547" selection-end="1547" vertical-scroll-proportion="0.8490231">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/importer/ResultCell.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="6" selection-start="208" selection-end="208" vertical-scroll-proportion="0.33245382" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/importer/ResultItem.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="32" selection-start="76" selection-end="76" vertical-scroll-proportion="0.17941953" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/importer/ImportResultRenderer.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="6" selection-start="213" selection-end="213" vertical-scroll-proportion="-0.8044693" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/ru/spb/locon/MessageEntity.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="45" selection-end="622" vertical-scroll-proportion="0.13765182">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/ru/spb/locon/FilterGroupEntity.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="6" selection-start="28" selection-end="28" vertical-scroll-proportion="0.06882591">
@@ -1444,7 +1437,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/importer/ImportComposer.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="6" selection-start="470" selection-end="470" vertical-scroll-proportion="-4.3849206" />
+        <state line="16" column="6" selection-start="470" selection-end="470" vertical-scroll-proportion="-4.3849206">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/ImportService.groovy">
@@ -1496,7 +1491,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConverterRU_EN.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="19" selection-start="51" selection-end="51" vertical-scroll-proportion="0.030303031">
+        <state line="101" column="0" selection-start="2724" selection-end="2724" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/IImporterComposer.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="17" selection-start="147" selection-end="147" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/ConvertUtils.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="377" selection-end="377" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/IImporterService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="0" selection-start="1939" selection-end="1939" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/importer/SaveUtils.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="0" selection-start="2842" selection-end="2842" vertical-scroll-proportion="0.8111111">
           <folding />
         </state>
       </provider>
