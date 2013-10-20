@@ -18,7 +18,7 @@
     <ignored path="locon.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$USER_HOME$/.grails/" />
-    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1382290642250" ignored="false" />
+    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1382290711597" ignored="false" />
     <file path="/ProductsRenderer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365252977775" ignored="false" />
     <file path="/products.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1368298017821" ignored="false" />
     <file path="/ProductsComposer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355861096735" ignored="false" />
@@ -1328,7 +1328,11 @@
       <created>1382290559833</created>
       <updated>1382290559833</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Регистрация по почте">
+      <created>1382290680236</created>
+      <updated>1382290680236</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="ToolWindowManager">
