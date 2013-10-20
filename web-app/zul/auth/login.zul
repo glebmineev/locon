@@ -9,8 +9,8 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <div apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.zulModels.auth.LoginViewModel')"
-          width="100%" onOK="@command('logging')">
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.auth.LoginViewModel')"
+       width="100%" onOK="@command('logging')">
 
     <style>
 
