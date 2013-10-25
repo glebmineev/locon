@@ -12,9 +12,12 @@
 
     <style src="/css/ZK.css"/>
 
-    <listbox id="orders" width="100%" mold="paging" model="@load(vm.ordersModel)"
+    <listbox id="orders" width="100%"
+             mold="paging" model="@load(vm.ordersModel)"
+             checkmark="true"
              pageSize="10" emptyMessage="Заказов нет.">
       <listhead>
+        <listheader width="40px" align="center"/>
         <listheader label="Номер"/>
         <listheader label="ФИО"/>
         <listheader label="Телефон"/>
@@ -23,6 +26,7 @@
       </listhead>
       <template name="model">
         <listitem onClick="@command('openOrder', order=each)">
+          <listcell/>
           <listcell>
             <label value="${each.number}"/>
           </listcell>
@@ -43,6 +47,8 @@
         </listitem>
       </template>
     </listbox>
+
+    <button label="Выгрузить в Excel" onClick="@command('unloadInExcel')"/>
 
   </window>
 

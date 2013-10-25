@@ -7,19 +7,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <div apply="ru.spb.locon.BindComposer" align="left"
+  <div apply="ru.spb.locon.BindComposer" align="center"
        viewModel="@id('vm') @init('ru.spb.locon.zulModels.cabinet.CabinetViewModel')" width="100%">
 
-    <style src="/css/ZK.css"/>
+    <!--<style src="/css/ZK.css"/>-->
 
     <hlayout>
-      <div sclass="rounded">
-        <div align="center" width="100%">
-          <label value="@load(vm.fio)" style="font-size: 16pt"/>
-        </div>
-        <vbox width="20%" align="left" style="margin: 15px;">
-          <image id="targetImage" width="180px"/>
-          <zscript><![CDATA[
+        <div sclass="rounded">
+          <div align="center" width="100%">
+            <label value="@load(vm.fio)" style="font-size: 16pt"/>
+          </div>
+          <vbox width="20%" align="left" style="margin: 15px;">
+            <image id="targetImage" width="180px"/>
+            <zscript><![CDATA[
             import ru.spb.locon.*
             import org.codehaus.groovy.grails.commons.ApplicationHolder
             import org.zkoss.image.*
@@ -32,17 +32,20 @@
             targetImage.setContent(img)
 
           ]]>
-          </zscript>
-          <a href="/cabinet/orders" label="Заказы"/>
-          <a href="/cabinet/profile" label="Профиль"/>
-          <a href="/cabinet/cabinet" label="Карта профиля"/>
-        </vbox>
-      </div>
-      <space/>
+            </zscript>
+            <a href="/cabinet/orders" label="Заказы"/>
+            <a href="/cabinet/profile" label="Редактировать профиль"/>
+            <!--<a href="/cabinet/cabinet" label="????? ???????"/>-->
+          </vbox>
+        </div>
+        <include src="/zul/cabinet/orders.zul" width="70%"/>
+
+
       <!-- данные -->
-      <div id="container" sclass="rounded" ><!--onCreate="@command('index')"-->
-        <include src="/zul/cabinet/map.zul"/>
-      </div>
+      <!--onCreate="@command('index')"-->
+
+        <!--<include src="/zul/cabinet/map.zul"/>-->
+
     </hlayout>
   </div>
 

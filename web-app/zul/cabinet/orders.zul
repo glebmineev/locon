@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
 <?page zscriptLanguage="GroovyGrails"?>
 
@@ -10,39 +9,39 @@
   <div apply="ru.spb.locon.BindComposer"
           viewModel="@id('vm') @init('ru.spb.locon.zulModels.cabinet.OrdersViewModel')" width="100%">
 
-    <style src="/css/ZK.css"/>
+    <!--<style src="/css/ZK.css"/>-->
 
-    <listbox id="orders" mold="paging" width="100%"
+    <grid id="orders" mold="paging" width="100%"
              model="@load(vm.ordersModel)" pageSize="10" emptyMessage="Заказов нет.">
-      <listhead>
-        <listheader label="Номер"/>
-        <listheader label="ФИО"/>
-        <listheader label="Телефон"/>
-        <listheader label="E-mail"/>
-        <listheader label="Статус"/>
-      </listhead>
+      <columns>
+        <column label="Номер"/>
+        <column label="ФИО"/>
+        <column label="Телефон"/>
+        <column label="E-mail"/>
+        <column label="Статус"/>
+      </columns>
       <template name="model">
-        <listitem onClick="@command('openOrder', order=each)">
-          <listcell>
+        <row onClick="@command('openOrder', order=each)">
+          <cell>
             <label value="${each.number}"/>
-          </listcell>
-          <listcell>
+          </cell>
+          <cell>
             <label value="${each.fio}"/>
-          </listcell>
-          <listcell>
+          </cell>
+          <cell>
             <label value="${each.phone}"/>
-          </listcell>
-          <listcell>
+          </cell>
+          <cell>
             <label value="${each.email}"/>
-          </listcell>
-          <listcell>
+          </cell>
+          <cell>
             <label if="${each.isProcessed}" value="В процессе"/>
             <label if="${each.isComplete}" value="Завершен"/>
             <label if="${each.isCancel}" value="Отменен"/>
-          </listcell>
-        </listitem>
+          </cell>
+        </row>
       </template>
-    </listbox>
+    </grid>
 
   </div>
 

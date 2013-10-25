@@ -1,5 +1,6 @@
 package ru.spb.locon.zulModels.admin
 
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.Init
@@ -7,11 +8,15 @@ import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zkplus.spring.SpringUtil
 import org.zkoss.zul.Div
+import org.zkoss.zul.Filedownload
 import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Vlayout
 import org.zkoss.zul.Window
 import ru.spb.locon.LoginService
 import ru.spb.locon.OrderEntity
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.StringUtils
+import ru.spb.locon.excel.UploadExcelHandler
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,6 +33,7 @@ class OrdersViewModel {
   @Init
   public void init() {
     ordersModel = new ListModelList<OrderEntity>(OrderEntity.list(sort: "fio"))
+    ordersModel.setMultiple(true)
   }
 
   @Command
@@ -49,6 +55,31 @@ class OrdersViewModel {
     Executions.createComponents("/zul/admin/orderItem.zul", panel, params)
     wnd.doModal()
     wnd.setVisible(true)
+  }
+
+  @Command
+  public void unloadInExcel(){
+      Set<OrderEntity> selection = ordersModel.getSelection()
+
+      UploadExcelHandler excelHandler = new UploadExcelHandler()
+      selection.each {it ->
+
+        excelHandler.createExcelFromOrderEntity(it)
+      }
+
+    StringUtils stringUtils = new StringUtils()
+    String twoLevelUp = stringUtils.buildPath(2, ApplicationHolder.application.mainContext.servletContext.getRealPath(System.getProperty("file.separator")))
+
+    String to = new PathBuilder()
+        .appendPath(twoLevelUp)
+        .appendPath("admin")
+        .appendPath("orders")
+        .appendString(excelHandler.uuid.toString())
+        .appendExt("zip")
+        .build()
+
+    InputStream is = new FileInputStream(new File(to))
+    Filedownload.save(is, "application", "${excelHandler.uuid.toString()}.zip");
   }
 
 }
