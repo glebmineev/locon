@@ -186,7 +186,7 @@ class CategoriesViewModel extends DownloadImageViewModel {
     Map<Object, Object> params = new HashMap<Object, Object>()
     params.put("parentID", categoryID)
 
-    Window wnd = Executions.createComponents("/zul/admin/categoryWnd.zul", null, params) as Window
+    Window wnd = Executions.createComponents("/zul/admin/windows/categoryWnd.zul", null, params) as Window
     wnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
     wnd.doModal()
     wnd.setVisible(true)

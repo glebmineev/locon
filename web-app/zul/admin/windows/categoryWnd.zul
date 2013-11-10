@@ -23,6 +23,29 @@
         <h:td width="20%" align="right">
           <div width="80px">
             <image id="targetImage" width="80px"/>
+            <zscript><![CDATA[
+
+               import ru.spb.locon.*
+               import org.zkoss.image.*
+               import org.codehaus.groovy.grails.commons.*
+               import ru.spb.locon.common.*
+
+               ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+               ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
+
+               String path = new PathBuilder()
+                            .appendPath(serverFoldersService.images)
+                            .build()
+               String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+               int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+               AImage img = imageService.getImageFile(path, std_name, std_size)
+               targetImage.setContent(img)
+
+             ]]>
+            </zscript>
           </div>
         </h:td>
         <h:td width="00%" align="center">

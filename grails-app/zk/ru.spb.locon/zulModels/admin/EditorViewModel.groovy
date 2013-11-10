@@ -254,7 +254,7 @@ class EditorViewModel {
     Map<Object, Object> params = new HashMap<Object, Object>()
     params.put("parentID", categoryID)
 
-    Window wnd = Executions.createComponents("/zul/admin/categoryWnd.zul", null, params) as Window
+    Window wnd = Executions.createComponents("/zul/admin/windows/categoryWnd.zul", null, params) as Window
     wnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
     wnd.doModal()
     wnd.setVisible(true)
@@ -301,7 +301,7 @@ class EditorViewModel {
     params.put("category", categoryID)
     if (product != null)
       params.put("product", product.id)
-    Executions.createComponents("/zul/admin/productItem.zul", panel, params)
+    Executions.createComponents("/zul/admin/windows/productItemWnd.zul", panel, params)
     wnd.doModal()
     wnd.setVisible(true)
   }

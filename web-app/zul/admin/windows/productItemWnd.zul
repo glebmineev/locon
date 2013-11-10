@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <!--  <zscript><![CDATA[
+      import org.zkoss.zk.ui.util.Clients;
+
+      Clients.evalJavaScript("var field = \$('.info'); zAu.send(new zk.Event(zk.Widget.\$(field), 'onSaveFile', editor.getCode()));");
+    ]]></zscript>-->
+
+  <window id="productItem" apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.ProductItemViewModel')" width="100%">
+
+    <style src="/css/ZK.css"/>
+
+    <attribute name="onCreate">
+
+    </attribute>
+
+    <!--   <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
+       <button label="Сохранить" w:onClick="sendToServer();" id="save"/>
+       &lt;!&ndash;<h:button id="save" onClick="javascript:sendToServer()">Сохранить</h:button>&ndash;&gt;
+       <html><![CDATA[
+         <script type="text/javascript">
+           function sendToServer(){
+             var ckedata = CKEDITOR.instances['ckeditor'].getData();
+             zAu.send(new zk.Event(zk.Widget.$(this), 'onSave', ckedata));
+           }
+         </script>
+         ]]>
+         </html>-->
+    <h:table width="100%" cellpadding="0" cellspacing="15">
+      <h:tr>
+        <h:td align="right" width="50%">
+          <div id="imageDiv" width="320px" align="center" sclass="imageBoxAdmin">
+            <image id="targetImage" style="margin: 10px"/>
+            <zscript><![CDATA[
+
+               import ru.spb.locon.*
+               import org.zkoss.image.*
+               import org.codehaus.groovy.grails.commons.*
+               import ru.spb.locon.common.*
+
+               ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+               ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
+
+               if (arg.size() > 0) {
+                   def productID = arg.get("product")
+                   ProductEntity product = ProductEntity.get(productID)
+                   if (product != null) {
+
+                       String path = new PathBuilder()
+                            .appendPath(serverFoldersService.productImages)
+                            .appendString(product.engImagePath)
+                            .build()
+                       String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+                       int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+                       AImage img = imageService.getImageFile(path, std_name, std_size)
+                       targetImage.setContent(img)
+                       }
+                   }
+
+             ]]>
+            </zscript>
+          </div>
+        </h:td>
+        <h:td align="left" width="50%">
+          <div align="left">
+            <button label="Загрузить изображение" upload="true" onUpload="@command('uploadImage')"/>
+          </div>
+        </h:td>
+      </h:tr>
+    </h:table>
+
+    <grid id="producItemGrid" height="100%">
+      <columns>
+        <column align="right"/>
+        <column align="left"/>
+      </columns>
+      <rows>
+        <row>
+          <cell>
+            <label value="Артикул: "/>
+          </cell>
+          <cell>
+            <textbox value="@bind(vm.article)" width="100%"/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <label value="Наименование: "/>
+          </cell>
+          <cell>
+            <textbox value="@bind(vm.name)" width="100%"/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <label value="Описание: "/>
+          </cell>
+          <cell>
+            <!--<textbox rows="5" value="@bind(vm.description)" width="100%"/>-->
+            <h:textarea id="ckeditor" class="ckeditor" cols="10" rows="20"/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <label value="Цена: "/>
+          </cell>
+          <cell>
+            <textbox value="@bind(vm.price)" width="100%"/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <label value="Объем: "/>
+          </cell>
+          <cell>
+            <textbox value="@bind(vm.volume)" width="100%"/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <label value="Фильтр: "/>
+          </cell>
+          <cell>
+            <combobox selectedItem="@bind(vm.selectedFilter)" model="@bind(vm.filterModel)" width="100%"/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <label value="Производитель: "/>
+          </cell>
+          <cell>
+            <combobox selectedItem="@bind(vm.selectedManufacturer)" model="@load(vm.manufacturerModel)" width="100%"/>
+          </cell>
+        </row>
+      </rows>
+    </grid>
+
+    <h:table width="100%" cellpadding="0" cellspacing="5">
+      <h:tr>
+        <h:td>
+          <button id="save" label="Сохранить" onClick="@command('saveItem')">
+            <attribute name="onClick">
+              import org.zkoss.zk.ui.util.*;
+
+              //Clients.evalJavaScript("doTest();");
+            </attribute>
+          </button>
+          <button label="Закрыть" onClick="@command('closeWnd')" visible="@load(vm.isModal)"/>
+        </h:td>
+      </h:tr>
+    </h:table>
+
+  </window>
+</zk>

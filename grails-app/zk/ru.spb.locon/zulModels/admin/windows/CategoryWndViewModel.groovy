@@ -16,6 +16,11 @@ import org.zkoss.zul.Image
 import org.zkoss.zul.Window
 import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ImageService
+import ru.spb.locon.common.CategoryPathHandler
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.STD_FILE_NAMES
+import ru.spb.locon.common.STD_IMAGE_SIZES
+import ru.spb.locon.zulModels.common.DownloadImageViewModel
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +29,7 @@ import ru.spb.locon.ImageService
  * Time: 4:26 PM
  * To change this template use File | Settings | File Templates.
  */
-class CategoryWndViewModel {
+class CategoryWndViewModel extends DownloadImageViewModel {
 
   //Логгер
   static Logger log = LoggerFactory.getLogger(CategoryWndViewModel.class)
@@ -33,33 +38,19 @@ class CategoryWndViewModel {
   String parent
   Long parentID
 
-  String uuid
-
-  ImageService imageService =
-    ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
-
   @Init
   public void init() {
+
+    std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+    std_image_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+    targetImage = "targetImage"
+
     HashMap<String, Object> arg = Executions.getCurrent().getArg() as HashMap<String, Object>
     parentID = arg.get("parentID") as Long
     if (parentID != null)
       this.parent = CategoryEntity.get(parentID).name
     else
       this.parent = "Корневая категория"
-  }
-
-  @Command
-  public void uploadImage(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
-    UploadEvent uploadEvent = event as UploadEvent
-    Image image = event.getTarget().getSpaceOwner().getFellow("targetImage") as Image
-    AImage media = uploadEvent.getMedia() as AImage
-
-    String fullFileName = media.getName()
-    String ext = fullFileName.split("\\.")[1]
-
-    uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 80I)
-    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-80.${ext}"))
   }
 
   @Command
@@ -71,11 +62,21 @@ class CategoryWndViewModel {
         categoryEntity.setParentCategory(CategoryEntity.get(parentID))
 
       if (categoryEntity.validate()) {
-        categoryEntity.save(flush: true)
+        CategoryEntity saved = categoryEntity.save(flush: true)
 
         if (uuid != null) {
-          File temp = new File("${imageService.temp}\\${uuid}")
-          File store = new File("${imageService.manufacturers}\\${categoryEntity.id}")
+
+          String categoryPath = CategoryPathHandler.generatePathAsString(CategoryPathHandler.getCategoryPath(saved))
+
+          File temp = new File(new PathBuilder()
+              .appendPath(serverFoldersService.temp)
+              .appendString(uuid)
+              .build())
+
+          File store = new File(new PathBuilder()
+              .appendPath(serverFoldersService.categoriesPics)
+              .appendString(categoryPath)
+              .build())
           if (!store.exists())
             store.mkdirs()
 
