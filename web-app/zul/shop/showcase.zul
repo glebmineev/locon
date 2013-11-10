@@ -28,6 +28,7 @@
                       import org.codehaus.groovy.grails.commons.ApplicationHolder
                       import org.zkoss.image.*
                       import org.zkoss.zk.ui.*
+                      import org.zkoss.zk.ui.util.Clients
 
                       def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
 
@@ -35,7 +36,7 @@
                       self.setContent(img)
 
                       def id = each.productID
-
+                      final def item = self
                       self.addEventListener(Events.ON_CLICK, new EventListener(){
                         @Override
                         void onEvent(Event t) {

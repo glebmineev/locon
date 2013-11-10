@@ -12,21 +12,21 @@ import org.zkoss.zk.ui.event.*
 import org.zkoss.zul.*
 import ru.spb.locon.*
 import ru.spb.locon.ImageService
-import ru.spb.locon.common.PathHandler
+import ru.spb.locon.common.CategoryPathHandler
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.STD_FILE_NAMES
+import ru.spb.locon.common.STD_IMAGE_SIZES
+import ru.spb.locon.image.ImageUtils
 import ru.spb.locon.importer.ConverterRU_EN
+import ru.spb.locon.zulModels.common.DownloadImageViewModel
 
 /**
- * Created with IntelliJ IDEA.
- * User: gleb
- * Date: 3/18/13
- * Time: 12:25 AM
- * To change this template use File | Settings | File Templates.
+ * Модель формы редактирования товара.
  */
-class ProductItemViewModel {
+class ProductItemViewModel extends DownloadImageViewModel {
 
   Long categoryID
   Long productID
-  String uuid
 
   //Комбобоксы
   ListModelList<FilterEntity> filterModel
@@ -45,10 +45,10 @@ class ProductItemViewModel {
   //Отображение компонентов в случае если диалоговое окно
   boolean isModal
 
-  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
-
   @Init
   public void init() {
+
+    std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
 
     HashMap<String, Object> arg = Executions.getCurrent().getArg() as HashMap<String, Object>
 
@@ -101,6 +101,10 @@ class ProductItemViewModel {
     selectedFilter = product.filter
   }
 
+/*  *//**
+   * Загрузка изображения товара в темповую дерикторию сервера.
+   * @param event
+   *//*
   @Command
   public void uploadImage(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     UploadEvent uploadEvent = event as UploadEvent
@@ -110,14 +114,18 @@ class ProductItemViewModel {
     String fullFileName = media.getName()
     String ext = fullFileName.split("\\.")[1]
 
-    uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.batchResizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}")
-    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-300.${ext}"))
+    uuid = imageService.saveImageInTemp(media.getStreamData(), STD_FILE_NAMES.PRODUCT_NAME.getName(), ext)
+    ImageUtils.tripleResizeImage(uuid, STD_FILE_NAMES.PRODUCT_NAME.getName(), ext)
+    image.setContent(new AImage(new PathBuilder()
+        .appendPath(serverFoldersService.temp)
+        .appendPath(uuid)
+        .appendString("${STD_FILE_NAMES.PRODUCT_NAME.getName()}-${STD_IMAGE_SIZES.MIDDLE.getSize()}")
+        .appendExt(ext).build()))
 
-  }
+  }*/
 
   @Command
-  public void saveItem(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
+  public void saveItem() {
     ProductEntity product = ProductEntity.get(productID)
     if (product == null)
       saveProduct(new ProductEntity())
@@ -127,6 +135,10 @@ class ProductItemViewModel {
     Executions.sendRedirect("/admin/editor")
   }
 
+  /**
+   * Сохранение продукта.
+   * @param product
+   */
   public void saveProduct(ProductEntity product) {
     ProductEntity.withTransaction {
       product.setCategory(CategoryEntity.get(categoryID))
@@ -137,10 +149,15 @@ class ProductItemViewModel {
       product.setFilter(selectedFilter)
       //если валидно копируемфайл картинки из темповой дериктории.
       if (product.validate()) {
-        File src = new File("${imageService.temp}\\${uuid}")
+        File src = new File(new PathBuilder()
+            .appendPath(serverFoldersService.temp)
+            .appendString(uuid).build())
 
-        String dirPath = getProductImagePath()
-        String filePath = "${dirPath}/${article}_${name}"
+        String dirPath = generateProductImagePath()
+        String filePath = new PathBuilder()
+                              .appendPath(dirPath)
+                              .appendString("${article}_${name}")
+                              .build()
         String translit = ConverterRU_EN.translit("${filePath}")
 
         product.setImagePath(filePath)
@@ -148,19 +165,22 @@ class ProductItemViewModel {
 
         product.save(flush: true)
 
-        if (uuid != null) {
-          File store = new File("${imageService.store}\\${translit}")
-          if (!store.exists())
-            store.mkdirs()
-
-          FileUtils.copyDirectory(src, store)
-        }
+        if (uuid != null)
+          FileUtils.copyDirectory(src, new File(new PathBuilder()
+                                                      .appendPath(serverFoldersService.productImages)
+                                                      .appendString(translit)
+                                                      .checkDir()
+                                                      .build()))
 
       }
 
     }
   }
 
+  /**
+   * Апдейт продукта.
+   * @param product
+   */
   public void updateProduct(ProductEntity product) {
 
     ProductEntity.withTransaction {
@@ -174,21 +194,30 @@ class ProductItemViewModel {
       if (product.validate()) {
 
         String oldPath = product.engImagePath
-        File src = new File("${imageService.store}\\${oldPath}")
-        if (uuid != null)
-          src = new File("${imageService.temp}\\${uuid}")
+        File src = new File(new PathBuilder()
+            .appendPath(serverFoldersService.productImages)
+            .appendString(oldPath).build())
 
-        String dirPath = getProductImagePath()
-        String filePath = "${dirPath}/${article}_${name}"
+        if (uuid != null)
+          src = new File(new PathBuilder()
+              .appendPath(serverFoldersService.temp)
+              .appendString(uuid).build())
+
+        String dirPath = generateProductImagePath()
+        String filePath = new PathBuilder()
+            .appendPath(dirPath)
+            .appendString("${article}_${name}").build()
         String translit = ConverterRU_EN.translit("${filePath}")
 
         product.setImagePath(filePath)
         product.setEngImagePath(translit)
         product.save(flush: true)
 
-        File store = new File("${imageService.store}\\${translit}")
-        if (!store.exists())
-          store.mkdirs()
+        File store = new File(new PathBuilder()
+            .appendPath(serverFoldersService.productImages)
+            .appendString(translit)
+            .checkDir()
+            .build())
 
         FileUtils.copyDirectory(src, store)
         imageService.cleanStore(src)
@@ -196,19 +225,24 @@ class ProductItemViewModel {
     }
   }
 
-
-
-  String getProductImagePath() {
+  /**
+   * Формируем путь до файла с изображением.
+   * @return - путь в файловой системе.
+   */
+  public String generateProductImagePath() {
 
     CategoryEntity category = CategoryEntity.get(categoryID)
-    List<CategoryEntity> categories = PathHandler.getCategoryPath(category)
+    List<CategoryEntity> categories = CategoryPathHandler.getCategoryPath(category)
 
-    String imagePath = "${categories.first()}/${selectedManufacturer.name}"
+    String imagePath = new PathBuilder()
+      .appendPath(categories.first().name)
+      .appendString(selectedManufacturer.name).build()
 
     CategoryEntity[] array = categories.toArray()
-    for (int i = 1; i < array.length; i++) {
-      imagePath = "${imagePath}/${array[i].name}"
-    }
+    for (int i = 1; i < array.length; i++)
+      imagePath = new PathBuilder()
+                  .appendPath(imagePath)
+                  .appendString(array[i].name)
 
     return imagePath
 

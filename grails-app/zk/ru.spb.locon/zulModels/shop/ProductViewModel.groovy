@@ -10,7 +10,7 @@ import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zul.Window
 import ru.spb.locon.*
-import ru.spb.locon.common.PathHandler
+import ru.spb.locon.common.CategoryPathHandler
 import ru.spb.locon.windows.ImageWindow
 import ru.spb.locon.wrappers.HrefWrapper
 import ru.spb.locon.wrappers.ProductWrapper
@@ -46,9 +46,7 @@ class ProductViewModel {
   public void buildNavPath() {
     ProductEntity product = ProductEntity.get(productId)
     CategoryEntity category = CategoryEntity.get(product.getCategory().id)
-    List<CategoryEntity> categories = PathHandler.getCategoryPath(category)
-    hrefs.add(new HrefWrapper("Главная", "/shop"))
-    hrefs.add(new HrefWrapper("Каталог товаров", "/shop/catalog?category=${CategoryEntity.findByName("Для волос").id}"))
+    List<CategoryEntity> categories = CategoryPathHandler.getCategoryPath(category)
     categories.each { it ->
       hrefs.add(new HrefWrapper(it.name, "/shop/catalog?category=${it.id}"))
     }

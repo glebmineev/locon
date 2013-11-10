@@ -115,11 +115,23 @@
                       import ru.spb.locon.*
                       import org.zkoss.image.*
                       import org.codehaus.groovy.grails.commons.*
+                      import ru.spb.locon.common.*
 
                       ImageService imageService =
                                     ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-                      AImage img = imageService.getImageFile(each, "${150}")
+                      ServerFoldersService serverFoldersService =
+                                    ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
+
+                      String path = new PathBuilder()
+                            .appendPath(serverFoldersService.productImages)
+                            .appendString(each.engImagePath)
+                            .build()
+                      String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+                      int std_size = STD_IMAGE_SIZES.SMALL.getSize()
+
+                      AImage img = imageService.getImageFile(path, std_name, std_size)
                       self.setContent(img)
 
                   ]]>

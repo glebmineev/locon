@@ -9,10 +9,8 @@ import ru.spb.locon.OrderEntity
 import ru.spb.locon.OrderProductEntity
 import ru.spb.locon.ProductEntity
 import ru.spb.locon.common.PathBuilder
-import ru.spb.locon.common.StringUtils
-
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
+import ru.spb.locon.common.PathUtils
+import ru.spb.locon.zip.ZipUtils
 
 public class UploadExcelHandler {
 
@@ -20,7 +18,7 @@ public class UploadExcelHandler {
   String root = ApplicationHolder.application.mainContext.servletContext.getRealPath(System.getProperty("file.separator"))
 
   public void createExcelFromOrderEntity(OrderEntity entity) {
-    StringUtils stringUtils = new StringUtils()
+    PathUtils stringUtils = new PathUtils()
     String twoLevelUp = stringUtils.buildPath(2, root)
 
     try {
@@ -60,7 +58,7 @@ public class UploadExcelHandler {
           .appendExt("zip")
           .build()
 
-      pack(new File(from), to)
+      ZipUtils.pack(new File(from), to)
 
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -130,54 +128,5 @@ public class UploadExcelHandler {
     createCell(row, count, 2)
     createCell(row, (price * count), 3)
   }
-
-  /**
-   * Метод упаковки в архив excel файлов.
-   * @param directory - директория с файлами.
-   * @param to - директория куда сохранять архив.
-   * @throws IOException
-   */
-  public static void pack(File directory, String to) throws IOException {
-    URI base = directory.toURI();
-    Deque<File> queue = new LinkedList<File>();
-    queue.push(directory);
-    OutputStream out = new FileOutputStream(new File(to));
-    Closeable res = out;
-
-    try {
-      ZipOutputStream zout = new ZipOutputStream(out);
-      res = zout;
-      while (!queue.isEmpty()) {
-        directory = queue.pop();
-        for (File child : directory.listFiles()) {
-          String name = base.relativize(child.toURI()).getPath();
-          if (child.isDirectory()) {
-            queue.push(child);
-            name = name.endsWith("/") ? name : name + "/";
-            zout.putNextEntry(new ZipEntry(name));
-          } else {
-            zout.putNextEntry(new ZipEntry(name));
-            InputStream is = new FileInputStream(child);
-            try {
-              byte[] buffer = new byte[1024];
-              while (true) {
-                int readCount = is.read(buffer);
-                if (readCount < 0) {
-                  break;
-                }
-                zout.write(buffer, 0, readCount);
-              }
-            } finally {
-              is.close();
-            }
-            zout.closeEntry();
-          }
-        }
-      }
-    } finally {
-      res.close();
-    }
-  }
-
 
 }

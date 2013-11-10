@@ -1,21 +1,14 @@
 package ru.spb.locon
 
 import org.apache.commons.io.FileUtils
+import org.apache.commons.io.IOUtils
 import org.zkoss.image.AImage
-
-import java.awt.image.BufferedImage
-import javax.imageio.ImageIO
-
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.STD_FILE_NAMES
+import ru.spb.locon.image.ImageUtils
 import org.slf4j.*
-import ru.spb.locon.common.StringUtils
+import ru.spb.locon.common.PathUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import com.mortennobel.imagescaling.ResampleOp
-import com.mortennobel.imagescaling.ResampleFilters
-import com.mortennobel.imagescaling.AdvancedResizeOp
-import javax.imageio.ImageWriter
-import javax.imageio.ImageWriteParam
-import javax.imageio.stream.FileImageOutputStream
-import javax.imageio.IIOImage
 
 class ImageService {
 
@@ -24,7 +17,7 @@ class ImageService {
   //Логгер
   static Logger log = LoggerFactory.getLogger(ImageService.class)
 
-  StringUtils stringUtils = new StringUtils()
+  PathUtils stringUtils = new PathUtils()
   String store
   String images
   String manufacturers
@@ -34,15 +27,16 @@ class ImageService {
 
   String fileSeparator = System.getProperty("file.separator")
 
+  ServerFoldersService serverFoldersService =
+    ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService") as ServerFoldersService
+
   ImageService() {
-    String root = ApplicationHolder.application.mainContext.servletContext.getRealPath(fileSeparator)
-    String twoLevelUp = stringUtils.buildPath(2, root)
-    images = "${root}${fileSeparator}images"
-    userPictures = "${twoLevelUp}${fileSeparator}userPics"
-    store = "${twoLevelUp}${fileSeparator}productImages"
-    manufacturers = "${twoLevelUp}${fileSeparator}manufacturers"
-    categories = "${twoLevelUp}${fileSeparator}categories"
-    temp = "${root}${fileSeparator}images${fileSeparator}temp"
+    images = serverFoldersService.images
+    userPictures = serverFoldersService.userPics
+    store = serverFoldersService.productImages
+    manufacturers = serverFoldersService.manufacturersPics
+    categories = serverFoldersService.categoriesPics
+    temp = serverFoldersService.temp
   }
 
   /**
@@ -54,21 +48,56 @@ class ImageService {
    */
   String saveImageInTemp(InputStream is, String fileName, String ext) {
     String UUID = UUID.randomUUID()
-    new File("${temp}${fileSeparator}${UUID}").mkdirs()
-    File newFile = new File("${temp}${fileSeparator}${UUID}${fileSeparator}${fileName}.${ext}");
+
+    String fileDir = new PathBuilder()
+        .appendPath(serverFoldersService.temp)
+        .appendString(UUID)
+        .checkDir()
+        .build()
+
+    File newFile = new File(new PathBuilder()
+        .appendPath(fileDir)
+        .appendString(fileName)
+        .appendExt(ext)
+        .build());
+
     boolean isCreate = newFile.createNewFile()
-    if (isCreate) {
-      OutputStream out = new FileOutputStream(newFile);
-      byte[] buf = new byte[1024];
-      int len;
-      while ((len = is.read(buf)) > 0)
-        out.write(buf, 0, len);
-      out.close();
-      is.close();
-    }
+    if (isCreate)
+      try {
+        IOUtils.write(is.getBytes(), new FileOutputStream(newFile))
+      } catch (IOException e) {
+        log.error(e.getMessage())
+      }
 
     return UUID
 
+  }
+
+  /**
+   * Получаем картинку из хранилища.
+   * @param path - путь до каталога в хранилище.
+   * @param std_name - стандартное имя.
+   * @param size - размер.
+   * @return картинку.
+   */
+  AImage getImageFile(String path, String std_name, int size) {
+    AImage aImage
+
+    String ext = PathUtils.getImageExtension(path, std_name)
+    File image = new File(new PathBuilder()
+        .appendPath(path)
+        .appendString("${std_name}-${size}")
+        .appendExt(ext)
+        .build())
+    if (image.exists())
+      aImage = new AImage(image.path)
+    else
+      aImage = new AImage(new PathBuilder()
+                            .appendPath(serverFoldersService.images)
+                            .appendString(STD_FILE_NAMES.EMPTY_IMAGE.getName())
+                            .build())
+
+    return aImage
   }
 
   /**
@@ -78,6 +107,7 @@ class ImageService {
    * @param fileName - имя файла.
    * @param ext - расширение файла.
    */
+  @Deprecated
   void saveUserPic(InputStream is, Long id,String fileName, String ext) {
     new File("${userPictures}${fileSeparator}${id}").mkdirs()
     File newFile = new File("${userPictures}${fileSeparator}${id}\\${fileName}${ext}");
@@ -99,6 +129,7 @@ class ImageService {
    * @param manufacturer - производитель.
    * @return - объект картинки.
    */
+  @Deprecated
   AImage getManufIcon(ManufacturerEntity manufacturer) {
     File picture = new File("${manufacturers}${fileSeparator}${manufacturer.id}")
 
@@ -113,6 +144,7 @@ class ImageService {
     return aImage
   }
 
+  @Deprecated
   AImage getCategoryImage(CategoryEntity category) {
     File picture = new File("${categories}${fileSeparator}${category.id}")
 
@@ -127,65 +159,12 @@ class ImageService {
     return aImage
   }
 
-  void writeImage(BufferedImage source, File dest, int size, String ext) {
-
-    int width = source.width
-    int height = source.height
-
-    float scale
-
-    if (width > height)
-      scale = (size / width)
-    else
-      scale = (size / height)
-
-    int new_h = (height * scale)
-    int new_w = (width * scale)
-
-    ResampleOp resampleOp = new ResampleOp(new_w, new_h)
-    resampleOp.setFilter(ResampleFilters.getLanczos3Filter())
-    resampleOp.setUnsharpenMask(AdvancedResizeOp.UnsharpenMask.Normal)
-    BufferedImage destImage = resampleOp.filter(source, null)
-    writeJpeg(destImage, dest, 1)
-
-  }
-
+  @Deprecated
   void resizeImage(String path, String fileName, String ext, int size) {
-    try {
-      BufferedImage source = ImageIO.read(new File("${path}${fileSeparator}${fileName}${ext}"))
-
-      writeImage(source, new File("${path}${fileSeparator}${fileName}-${size}${ext}"), size, ext)
-
-    } catch (IOException ex) {
-      log.error("Ошибка обработки картинки ${path}${fileSeparator}${fileName}${ext}")
-    }
+    ImageUtils.resizeImage(path, fileName, ext, size)
   }
 
-  void batchResizeImage(String path, String fileName, String ext) {
-    try {
-      BufferedImage source = ImageIO.read(new File("${path}${fileSeparator}${fileName}${ext}"))
-
-      writeImage(source, new File("${path}${fileSeparator}${fileName}-150${ext}"), 150, ext)
-      writeImage(source, new File("${path}${fileSeparator}${fileName}-300${ext}"), 300, ext)
-      writeImage(source, new File("${path}${fileSeparator}${fileName}-500${ext}"), 500, ext)
-
-    } catch (IOException ex) {
-      log.error("Ошибка обработки картинки ${path}${fileSeparator}${fileName}${ext}")
-    }
-  }
-
-  void writeJpeg(BufferedImage image, File destFile, float quality) throws IOException {
-    ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next()
-    ImageWriteParam param = writer.getDefaultWriteParam()
-    param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT)
-    param.setCompressionQuality(quality)
-    FileImageOutputStream output = new FileImageOutputStream(destFile)
-    writer.setOutput(output)
-    IIOImage iioImage = new IIOImage(image, null, null)
-    writer.write(null, iioImage, param)
-    writer.dispose()
-  }
-
+  @Deprecated
   AImage getImageFile(ProductEntity product, String size) {
     AImage aImage
     String imageDir = product.engImagePath;
@@ -199,6 +178,7 @@ class ImageService {
     return aImage
   }
 
+  @Deprecated
   AImage getUserPicture(UserEntity user) {
     File picture = new File("${userPictures}${fileSeparator}${user.id}")
 
@@ -213,6 +193,7 @@ class ImageService {
     return aImage
   }
 
+  @Deprecated
   public String getImageExtension(String dir) {
     String ext = ".jpg"
     File imageDir = new File(dir)
@@ -226,18 +207,31 @@ class ImageService {
     return ext
   }
 
+  /**
+   * Загрузка изображения с сайта.
+   * @param from - откуда загружать(путь до изображения на сайте).
+   * @param to - куда ложить на сервере.
+   * @return - //TODO:: заменить код ошибки на выбрасывание ошибки.
+   */
   boolean downloadImages(String from, String to) {
     boolean isDownloaded = false
     try {
-      File dir = new File("${store}${fileSeparator}${to}")
-      if (!dir.exists())
-        dir.mkdirs()
+
+      String downloadDir = new PathBuilder()
+          .appendPath(serverFoldersService.productImages)
+          .appendString(to)
+          .checkDir()
+          .build()
 
       URL website = new URL(from)
-      String type = fileType(from)
-      File image = new File("${dir}${fileSeparator}1${type}")
+      String ext = PathUtils.fileExt(from)
+      File image = new File(new PathBuilder()
+          .appendPath(downloadDir)
+          .appendString(STD_FILE_NAMES.PRODUCT_NAME.getName())
+          .appendExt(ext).build())
+
       FileUtils.copyURLToFile(website, image)
-      batchResizeImage("${store}${fileSeparator}${to}", "1", type)
+      ImageUtils.tripleResizeImage(downloadDir, STD_FILE_NAMES.PRODUCT_NAME.getName(), ext)
 
       isDownloaded = true
 
@@ -247,11 +241,10 @@ class ImageService {
     return isDownloaded
   }
 
-  String fileType(String url) {
-    int lastPoint = url.lastIndexOf(".")
-    return url.substring(lastPoint)
-  }
-
+  /**
+   * Удаление из каталога productImages картинок с товаром.
+   * @param product - товар картинки которого необходимоудалить.
+   */
   void cleanStore(ProductEntity product) {
     File store = new File("${store}${fileSeparator}${product.engImagePath}")
 
@@ -267,6 +260,10 @@ class ImageService {
 
   }
 
+  /**
+   * Удаление из каталога productImages картинок с товаром.
+   * @param store - каталог товара.
+   */
   void cleanStore(File store) {
     try {
       if (store.exists()) {
@@ -281,7 +278,6 @@ class ImageService {
     } catch (Exception ex) {
       log.debug("Ошибка удаления из хранилища изображений: ${ex.getMessage()}")
     }
-
 
   }
 

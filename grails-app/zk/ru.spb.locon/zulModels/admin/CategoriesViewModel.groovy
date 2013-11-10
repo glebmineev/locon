@@ -24,9 +24,15 @@ import org.zkoss.zul.Window
 import ru.spb.locon.CategoryEntity
 import ru.spb.locon.ImageService
 import ru.spb.locon.InitService
+import ru.spb.locon.common.CategoryPathHandler
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.STD_FILE_NAMES
+import ru.spb.locon.common.STD_IMAGE_SIZES
+import ru.spb.locon.image.ImageUtils
 import ru.spb.locon.wrappers.CategoryTreeNode
 import ru.spb.locon.zulModels.admin.models.AdvancedTreeModel
 import ru.spb.locon.zulModels.admin.windows.EditCallback
+import ru.spb.locon.zulModels.common.DownloadImageViewModel
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,40 +41,52 @@ import ru.spb.locon.zulModels.admin.windows.EditCallback
  * Time: 9:46 PM
  * To change this template use File | Settings | File Templates.
  */
-class CategoriesViewModel {
-
+class CategoriesViewModel extends DownloadImageViewModel {
 
   AdvancedTreeModel categoryTreeModel
 
   Treeitem selectedItem
   CategoryTreeNode root
   Long categoryID
-  String uuid
 
   String name
   String description
 
   InitService initService = ApplicationHolder.getApplication().getMainContext().getBean("initService") as InitService
-  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
 
   @Init
   public void init() {
+    std_name = STD_FILE_NAMES.CATEGORY_NAME.getName()
     categoryID = Executions.getCurrent().getParameter("categoryID") as Long
     categoryTreeModel = new AdvancedTreeModel(getRootNode())
   }
 
-  void refreshData(Event event) {
+  @Command
+  void refreshData(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     CategoryEntity retrived = CategoryEntity.get(categoryID)
 
     Page page = event.getTarget().getPage();
-    Image targetImage = page.getFellow("targetImage") as Image
-    targetImage.setContent(imageService.getCategoryImage(retrived))
+    Image targetImage = page.getFellow(targetImage) as Image
+
+    String categoryPath = CategoryPathHandler.generatePathAsString(
+        CategoryPathHandler.getCategoryPath(CategoryEntity.get(categoryID)))
+
+    String path = new PathBuilder()
+        .appendPath(serverFoldersService.categoriesPics)
+        .appendString(categoryPath)
+        .build()
+    String std_name = STD_FILE_NAMES.CATEGORY_NAME.getName()
+    int std_size = STD_IMAGE_SIZES.SMALL.getSize()
+
+    AImage img = imageService.getImageFile(path, std_name, std_size)
+
+    targetImage.setContent(img)
 
     name = retrived.getName()
     description = retrived.getDescription()
   }
 
-  @Command
+/*  @Command
   public void uploadImage(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
     UploadEvent uploadEvent = event as UploadEvent
     Image image = event.getTarget().getSpaceOwner().getFellow("targetImage") as Image
@@ -77,10 +95,10 @@ class CategoriesViewModel {
     String fullFileName = media.getName()
     String ext = fullFileName.split("\\.")[1]
 
-    uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 150I)
+    uuid = imageService.saveImageInTemp(media.getStreamData(), STD_FILE_NAMES.CATEGORY_NAME.getName(), ext)
+    ImageUtils.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 150I)
     image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-150.${ext}"))
-  }
+  }*/
 
   public CategoryTreeNode getRootNode() {
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)
@@ -132,10 +150,15 @@ class CategoriesViewModel {
           toSave.save(flush: true)
 
           if (uuid != null) {
-            File temp = new File("${imageService.temp}\\${uuid}")
-            File store = new File("${imageService.categories}\\${toSave.id}")
-            if (!store.exists())
-              store.mkdirs()
+            File temp = new File(new PathBuilder()
+                                  .appendPath(serverFoldersService.temp)
+                                  .appendString(uuid).build())
+
+            File store = new File(new PathBuilder()
+                .appendPath(serverFoldersService.categoriesPics)
+                .appendString(CategoryPathHandler.generatePathAsString(CategoryPathHandler.getCategoryPath(toSave)))
+                .checkDir()
+                .build())
 
             FileUtils.copyDirectory(temp, store)
             initService.refreshShop()

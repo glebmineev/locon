@@ -56,17 +56,33 @@
               <image id="targetImage" width="150px">
                 <zscript><![CDATA[
 
-                  import ru.spb.locon.*
-                  import org.codehaus.groovy.grails.commons.ApplicationHolder
-                  import org.zkoss.image.*
-                  import org.zkoss.zk.ui.*
+                      import ru.spb.locon.*
+                      import org.zkoss.image.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import ru.spb.locon.common.*
 
-                  def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-                  if (vm.categoryID != null) {
-                    AImage img = imageService.getCategoryImage(ManufacturerEntity.get(vm.categoryID))
-                    self.setContent(img)
-                  }
+                      ServerFoldersService serverFoldersService =
+                                    ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
+
+                      if (vm.categoryID != null) {
+                        String categoryPath = CategoryPathHandler.generatePathAsString(
+                          CategoryPathHandler.getCategoryPath(CategoryEntity.get(vm.categoryID)))
+
+                        String path = new PathBuilder()
+                            .appendPath(serverFoldersService.categoriesPics)
+                            .appendString(categoryPath)
+                            .build()
+                        String std_name = STD_FILE_NAMES.CATEGORY_NAME.getName()
+                        int std_size = STD_IMAGE_SIZES.SMALL.getSize()
+
+
+                        AImage img = imageService.getImageFile(path, std_name, std_size)
+                        self.setContent(img)
+                      }
 
                 ]]>
                 </zscript>

@@ -166,7 +166,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
           rowNumber = it.rowNumber
           String categoryName = it.data.get("I") as String
           String filterName = it.data.get("C") as String
-          if (categoryName != null) {
+          if (!Strings.isNullOrEmpty(categoryName) && !categoryName.equals(sheetName)) {
             try {
               //if (!categories.name.contains(categoryName)) {
               CategoryEntity category = saveUtils.saveCategory(categoryName, submenuCategory, FilterEntity.findByName(filterName))
@@ -280,7 +280,7 @@ class ImportService extends IImporterService implements ApplicationContextAware 
             if (category.name.equals(categoryName))
               product.addToCategories(CategoryEntity.get(category.id))
           }*/
-          if (!Strings.isNullOrEmpty(categoryName))
+          if (!Strings.isNullOrEmpty(categoryName) && !categoryName.equals(sheetName))
             product.setCategory(CategoryEntity.findByName(categoryName))
           else
             product.setCategory(CategoryEntity.findByName(sheet))

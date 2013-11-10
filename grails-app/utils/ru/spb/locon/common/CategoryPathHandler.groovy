@@ -2,13 +2,21 @@ package ru.spb.locon.common
 
 import ru.spb.locon.CategoryEntity
 
-class PathHandler {
+class CategoryPathHandler {
 
-  static List<CategoryEntity> getCategoryPath(CategoryEntity category) {
+  public static List<CategoryEntity> getCategoryPath(CategoryEntity category) {
     List<CategoryEntity> categories = new LinkedList<CategoryEntity>()
     fillCategories(category, categories)
     List<CategoryEntity> reverse = categories.reverse()
     return reverse
+  }
+
+  public static String generatePathAsString(List<CategoryEntity> categories) {
+    PathBuilder builder = new PathBuilder()
+    categories.each{it ->
+      builder.appendPath(it.name)
+    }
+    return builder.build()
   }
 
   /**

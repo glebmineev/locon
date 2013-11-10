@@ -13,7 +13,7 @@ import org.zkoss.zk.ui.event.Event
 import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zul.*
 import ru.spb.locon.*
-import ru.spb.locon.common.PathHandler
+import ru.spb.locon.common.CategoryPathHandler
 import ru.spb.locon.wrappers.CategoryTreeNode
 import ru.spb.locon.wrappers.HrefWrapper
 
@@ -151,7 +151,7 @@ class CatalogViewModel {
   }
 
   void rebuildPath(){
-    List<CategoryEntity> categories = PathHandler.getCategoryPath(CategoryEntity.get(categoryID))
+    List<CategoryEntity> categories = CategoryPathHandler.getCategoryPath(CategoryEntity.get(categoryID))
     links.clear()
     links.add(new HrefWrapper("Главная", "/shop"))
     links.add(new HrefWrapper("Каталог товаров", "/shop/catalog?category=${CategoryEntity.findByName("Для волос").id}"))

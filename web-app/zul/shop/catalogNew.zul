@@ -71,7 +71,7 @@
 
       <!-- Категории -->
       <hbox>
-        <vbox width="220px">
+        <vbox id="showProgress" width="220px">
           <groupbox closable="false" if="${vm.categories.size() > 0}" >
             <caption label="Категории"/>
             <!-- Список категории -->

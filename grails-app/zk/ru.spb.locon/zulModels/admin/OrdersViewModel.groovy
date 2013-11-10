@@ -15,7 +15,7 @@ import org.zkoss.zul.Window
 import ru.spb.locon.LoginService
 import ru.spb.locon.OrderEntity
 import ru.spb.locon.common.PathBuilder
-import ru.spb.locon.common.StringUtils
+import ru.spb.locon.common.PathUtils
 import ru.spb.locon.excel.UploadExcelHandler
 
 /**
@@ -67,7 +67,7 @@ class OrdersViewModel {
         excelHandler.createExcelFromOrderEntity(it)
       }
 
-    StringUtils stringUtils = new StringUtils()
+    PathUtils stringUtils = new PathUtils()
     String twoLevelUp = stringUtils.buildPath(2, ApplicationHolder.application.mainContext.servletContext.getRealPath(System.getProperty("file.separator")))
 
     String to = new PathBuilder()

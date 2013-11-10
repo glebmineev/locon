@@ -1,7 +1,6 @@
 package ru.spb.locon
 
 import ru.spb.locon.login.URLUtils
-import ru.spb.locon.common.StringUtils
 
 class AdminController {
 

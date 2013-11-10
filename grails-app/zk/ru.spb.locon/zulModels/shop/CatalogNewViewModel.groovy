@@ -22,10 +22,9 @@ import ru.spb.locon.FilterEntity
 import ru.spb.locon.InitService
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductEntity
-import ru.spb.locon.common.PathHandler;
+import ru.spb.locon.common.CategoryPathHandler;
 import ru.spb.locon.wrappers.CategoryWrapper
 import ru.spb.locon.wrappers.HrefWrapper
-import ru.spb.locon.wrappers.ProductWrapper
 
 class CatalogNewViewModel {
 
@@ -220,7 +219,7 @@ class CatalogNewViewModel {
    * @param categoryID - текущщая категория.
    */
   void rebuildNaviPath(Long categoryID) {
-    List<CategoryEntity> categories = PathHandler.getCategoryPath(CategoryEntity.get(categoryID))
+    List<CategoryEntity> categories = CategoryPathHandler.getCategoryPath(CategoryEntity.get(categoryID))
     links.clear()
     categories.each { it ->
       links.add(new HrefWrapper(it.name, "/shop/catalog/category?category=${it.id}"))

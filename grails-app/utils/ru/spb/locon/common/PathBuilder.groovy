@@ -10,8 +10,8 @@ class PathBuilder {
   String fileSeparator = System.getProperty("file.separator")
 
   /**
-   * Добавляет частицу пити.
-   * @param path - строка с частицей пути.
+   * Добавляет строку с разделителем.
+   * @param path - строка.
    * @return строитель
    */
   public PathBuilder appendPath(String path) {
@@ -19,6 +19,11 @@ class PathBuilder {
     return this
   }
 
+  /**
+   * Добавляет строку
+   * @param value - строка
+   * @return - строитель
+   */
   public PathBuilder appendString(String value) {
     result = result.concat(value)
     return this
@@ -34,10 +39,14 @@ class PathBuilder {
     return this
   }
 
-  public void checkDir(){
+  /**
+   * Проверяет есть ли такая директория на диске, если нет, то создает ее.
+   */
+  public PathBuilder checkDir(){
     File dir = new File(result)
     if (!dir.exists())
       dir.mkdirs()
+    return this
   }
 
   /**
