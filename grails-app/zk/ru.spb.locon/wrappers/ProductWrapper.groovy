@@ -1,8 +1,6 @@
 package ru.spb.locon.wrappers
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.zul.ListModelList
-import ru.spb.locon.CartService
 import ru.spb.locon.FilterEntity
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductEntity
@@ -14,10 +12,8 @@ import ru.spb.locon.ProductEntity
  * Time: 10:39 PM
  * To change this template use File | Settings | File Templates.
  */
-class ProductWrapper implements Wrapper {
+class ProductWrapper extends IdentWrapper implements Wrapper {
 
-  Long productID
-  String name
   String article
   Long price
   String usage
@@ -40,7 +36,7 @@ class ProductWrapper implements Wrapper {
 
   public ProductWrapper(ProductEntity productEntity) {
 
-    this.productID = productEntity.id
+    this.id = productEntity.id
     this.name = productEntity.name
     this.article = productEntity.article
     this.price = productEntity.price
@@ -57,7 +53,7 @@ class ProductWrapper implements Wrapper {
   }
 
   public void restore(){
-    this.productID = memento.productID
+    this.id = memento.id
     this.name = memento.name
     this.article = memento.article
     this.price = memento.price

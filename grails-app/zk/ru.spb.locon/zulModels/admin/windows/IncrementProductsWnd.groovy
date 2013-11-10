@@ -30,7 +30,7 @@ class IncrementProductsWnd {
 
   @Command
   public void incrementSelected(){
-    increment(selectedProducts.productID)
+    increment(selectedProducts.id)
     Executions.sendRedirect("/admin/products")
   }
 

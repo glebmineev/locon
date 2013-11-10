@@ -12,15 +12,26 @@
     <div align="center" sclass="productImageCatalog">
       <image sclass="productImage" onClick="@command('redirectToProductItem')">
         <zscript><![CDATA[
-          import ru.spb.locon.*
-          import org.codehaus.groovy.grails.commons.*
-          import org.zkoss.image.*
+           import ru.spb.locon.*
+           import org.zkoss.image.*
+           import org.codehaus.groovy.grails.commons.*
+           import ru.spb.locon.common.*
 
-          def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+           ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-          ProductEntity product = ProductEntity.get(productID)
-          AImage img = imageService.getImageFile(product, "${150}")
-          self.setContent(img)
+           ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService") as ServerFoldersService
+           ProductEntity product = ProductEntity.get(product.id)
+
+           String path = new PathBuilder()
+                            .appendPath(serverFoldersService.productImages)
+                            .appendString(product.engImagePath)
+                            .build()
+           String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+           int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+           AImage img = imageService.getImageFile(path, std_name, std_size)
+           productImage.setContent(img)
+
         ]]>
         </zscript>
       </image>

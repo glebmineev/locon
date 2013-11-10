@@ -90,7 +90,7 @@ class ProductsViewModel {
   public void saveProduct(@BindingParam("wrapper") ProductWrapper wrapper) {
 
     ProductEntity.withTransaction {
-      ProductEntity toSave = ProductEntity.get(wrapper.getProductID())
+      ProductEntity toSave = ProductEntity.get(wrapper.getId())
       toSave.setName(wrapper.getName())
       toSave.setArticle(wrapper.getArticle())
       toSave.setManufacturer(wrapper.getManufacturers().getSelection().first())
@@ -106,7 +106,7 @@ class ProductsViewModel {
   @Command
   public void deleteProduct(@BindingParam("wrapper") ProductWrapper wrapper) {
     ProductEntity.withTransaction {
-      ProductEntity toDelete = ProductEntity.get(wrapper.getProductID())
+      ProductEntity toDelete = ProductEntity.get(wrapper.getId())
       toDelete.delete(flush: true)
     }
     rebuildModel()

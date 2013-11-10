@@ -47,7 +47,7 @@ class CartViewModel {
   @NotifyChange(["cartProduct"])
   public void removeItem(@BindingParam("productModel") ProductWrapper productModel){
     try {
-      cartService.removeFromCart(ProductEntity.get(productModel.productID))
+      cartService.removeFromCart(ProductEntity.get(productModel.id))
 
       List<ProductWrapper> models = new ArrayList<ProductWrapper>()
       cartService.getCartProducts().each {it ->
@@ -73,12 +73,12 @@ class CartViewModel {
       if (previousValue != currentValue) {
         boolean direct = currentValue > previousValue
         long mark = direct ? 1L : -1L
-        cartService.incrementCount(ProductEntity.get(productModel.productID), mark)
+        cartService.incrementCount(ProductEntity.get(productModel.id), mark)
 
         Long newPrice = productModel.totalPrice + (mark * productModel.price)
         productModel.setTotalPrice(newPrice)
 
-        (event.getTarget() as Spinner).setValue(cartService.getProductCount(productModel.productID) as Integer)
+        (event.getTarget() as Spinner).setValue(cartService.getProductCount(productModel.id) as Integer)
         BindUtils.postNotifyChange(null, null, productModel, "totalPrice");
       }
     } catch (Exception e) {

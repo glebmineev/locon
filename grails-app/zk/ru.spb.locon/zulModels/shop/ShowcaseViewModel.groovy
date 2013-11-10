@@ -17,7 +17,6 @@ import org.zkoss.image.AImage
 import org.zkoss.zhtml.Li
 import org.zkoss.zhtml.Ul
 import org.zkoss.zk.ui.Executions
-import org.zkoss.zk.ui.Page
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.event.Events
 import org.zkoss.zul.Div
@@ -127,7 +126,7 @@ class ShowcaseViewModel {
    */
   @Command
   public void toCart(@BindingParam("wrapper") ProductWrapper wrapper) {
-    cartService.addToCart(ProductEntity.get(wrapper.getProductID()))
+    cartService.addToCart(ProductEntity.get(wrapper.getId()))
     wrapper.setInCart(true)
     refreshRowTemplate(wrapper)
   }
@@ -185,13 +184,13 @@ class ShowcaseViewModel {
       Image img = new Image()
       img.setSclass("productImage")
 
-      AImage aImg = imageService.getImageFile(ProductEntity.get(it.productID), "150")
+      AImage aImg = imageService.getImageFile(ProductEntity.get(it.id), "150")
       img.setContent(aImg)
 
       img.addEventListener(Events.ON_CLICK, new org.zkoss.zk.ui.event.EventListener() {
         @Override
         void onEvent(Event t) {
-          Executions.sendRedirect("/shop/product?product=${it.productID}")
+          Executions.sendRedirect("/shop/product?product=${it.id}")
         }
       })
 

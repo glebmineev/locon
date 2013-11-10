@@ -2,10 +2,8 @@ package ru.spb.locon.wrappers
 
 import ru.spb.locon.ManufacturerEntity
 
-class ManufacturerWrapper implements Wrapper {
+class ManufacturerWrapper extends IdentWrapper implements Wrapper{
 
-  Long id
-  String name
   String shortName
   String description
 

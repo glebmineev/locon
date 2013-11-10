@@ -18,16 +18,30 @@
             <image>
               <zscript>
                 <![CDATA[
-              import ru.spb.locon.*
-              import org.codehaus.groovy.grails.commons.ApplicationHolder
-              import org.zkoss.image.*
-              import org.zkoss.zk.ui.util.*
-              import org.zkoss.zk.ui.*
 
-              def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+                      import ru.spb.locon.*
+                      import org.zkoss.image.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import ru.spb.locon.common.*
 
-              AImage img = imageService.getManufIcon(ManufacturerEntity.get(each.id))
-              self.setContent(img)
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+                      ServerFoldersService serverFoldersService =
+                                    ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
+
+                        ManufacturerEntity entity = ManufacturerEntity.get(each.id)
+
+                        String path = new PathBuilder()
+                            .appendPath(serverFoldersService.manufacturersPics)
+                            .appendString(entity.name)
+                            .build()
+                        String std_name = STD_FILE_NAMES.MANUFACTURER_NAME.getName()
+                        int std_size = STD_IMAGE_SIZES.SMALLEST.getSize()
+
+                        AImage img = imageService.getImageFile(path, std_name, std_size)
+                        self.setContent(img)
             ]]>
               </zscript>
             </image>

@@ -21,7 +21,7 @@ class CatalogRowViewModel {
   @Init
   public void init() {
     def arg = Executions.getCurrent().getArg()
-    productID = arg.get("productID") as Long
+    productID = arg.get("id") as Long
 
     ProductEntity product = ProductEntity.get(productID)
     this.name = product.name

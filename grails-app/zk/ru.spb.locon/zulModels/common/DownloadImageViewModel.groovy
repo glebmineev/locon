@@ -1,6 +1,7 @@
 package ru.spb.locon.zulModels.common
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
@@ -14,6 +15,7 @@ import ru.spb.locon.common.PathBuilder
 import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.image.ImageUtils
+import ru.spb.locon.wrappers.IdentWrapper
 
 /**
  * Класс для работы с загрузкой изображений.
@@ -23,7 +25,7 @@ class DownloadImageViewModel {
   protected String uuid
   protected String std_name
   protected static int std_image_size = STD_IMAGE_SIZES.SMALL.getSize()
-  protected static final String targetImage = "targetImage"
+  protected static String targetImage = "targetImage"
 
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
   ServerFoldersService serverFoldersService =
@@ -43,6 +45,7 @@ class DownloadImageViewModel {
     String ext = fullFileName.split("\\.")[1]
 
     uuid = imageService.saveImageInTemp(media.getStreamData(), std_name, ext)
+    ImageUtils.resizeImage(new PathBuilder().appendPath(serverFoldersService.temp).appendString(uuid).build(), std_name, ext, std_image_size)
     ImageUtils.tripleResizeImage(new PathBuilder().appendPath(serverFoldersService.temp).appendString(uuid).build(), std_name, ext)
     image.setContent(new AImage(new PathBuilder()
         .appendPath(serverFoldersService.temp)

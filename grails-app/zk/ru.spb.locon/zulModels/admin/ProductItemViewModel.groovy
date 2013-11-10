@@ -49,6 +49,8 @@ class ProductItemViewModel extends DownloadImageViewModel {
   public void init() {
 
     std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+    targetImage = "targetImage"
+    std_image_size = STD_IMAGE_SIZES.MIDDLE.getSize()
 
     HashMap<String, Object> arg = Executions.getCurrent().getArg() as HashMap<String, Object>
 

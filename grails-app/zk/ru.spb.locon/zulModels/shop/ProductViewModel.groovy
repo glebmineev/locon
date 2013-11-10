@@ -11,6 +11,9 @@ import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zul.Window
 import ru.spb.locon.*
 import ru.spb.locon.common.CategoryPathHandler
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.STD_FILE_NAMES
+import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.windows.ImageWindow
 import ru.spb.locon.wrappers.HrefWrapper
 import ru.spb.locon.wrappers.ProductWrapper
@@ -28,6 +31,8 @@ class ProductViewModel {
 
   CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
+  ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().
+      getBean("serverFoldersService") as ServerFoldersService
 
   @Init
   public void init() {
@@ -61,7 +66,14 @@ class ProductViewModel {
   @Command
   public void zoomImage() {
     ProductEntity productEntity = ProductEntity.get(productId)
-    AImage aImage = imageService.getImageFile(productEntity, "500")
+    String path = new PathBuilder()
+        .appendPath(serverFoldersService.productImages)
+        .appendString(productEntity.engImagePath)
+        .build()
+    String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+    int std_size = STD_IMAGE_SIZES.LARGE.getSize()
+
+    AImage aImage = imageService.getImageFile(path, std_name, std_size)
     ImageWindow imageWindow = new ImageWindow(aImage, productEntity.name)
     imageWindow.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
     imageWindow.doModal()
@@ -70,7 +82,7 @@ class ProductViewModel {
   @Command
   public void addReviews() {
     Map<Object, Object> params = new HashMap<Object, Object>()
-    params.put("productID", productId)
+    params.put("id", productId)
 
     Window wnd = Executions.createComponents("/zul/shop/reviewsWnd.zul", null, params) as Window
     wnd.setWidth("50%")
@@ -91,7 +103,7 @@ class ProductViewModel {
     wnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
 
     Map<Object, Object> params = new HashMap<Object, Object>()
-    params.put("productID", productId)
+    params.put("id", productId)
 
     Executions.createComponents("/zul/shop/successWnd.zul", wnd, params)
     wnd.doModal()

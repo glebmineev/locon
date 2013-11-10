@@ -121,7 +121,7 @@ class CartService {
    * Инициализация полей обертки товара, если товар есть в корзине.
    */
   public initAsCartItem(ProductWrapper wrapper){
-    wrapper.count = getProductCount(wrapper.productID)
+    wrapper.count = getProductCount(wrapper.id)
     if (wrapper.count > 0){
       wrapper.inCart = true
       wrapper.totalPrice = (wrapper.count * wrapper.price)

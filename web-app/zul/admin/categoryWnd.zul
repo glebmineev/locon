@@ -8,7 +8,7 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <window id="productItem" apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.CategoryWndViewModel')"
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.windows.CategoryWndViewModel')"
           validationMessages="@id('vmsgs')"
           form="@id('fx') @load(vm.name) @save(vm.name, before='addReview')
              @validator('ru.spb.locon.validators.StdWndValidator', name=vm.name)"

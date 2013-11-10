@@ -36,13 +36,13 @@ class RecommendedViewModel {
 
   @Command
   public void redirectToProductItem(@BindingParam("productModel") ProductWrapper productModel){
-    Executions.sendRedirect("/shop/product?product=${productModel.productID}")
+    Executions.sendRedirect("/shop/product?product=${productModel.id}")
   }
 
   @Command
   public void addToCart(@BindingParam("productModel") ProductWrapper productModel){
     productModel.setInCart(true)
-    cartService.addToCart(ProductEntity.get(productModel.productID))
+    cartService.addToCart(ProductEntity.get(productModel.id))
     BindUtils.postNotifyChange(null, null, productModel, "inCart");
   }
 

@@ -40,25 +40,34 @@
             <image id="targetImage" style="margin: 10px"/>
             <zscript><![CDATA[
 
-                      import ru.spb.locon.*
-                      import org.codehaus.groovy.grails.commons.ApplicationHolder
-                      import org.zkoss.image.*
-                      import org.zkoss.zk.ui.*
+               import ru.spb.locon.*
+               import org.zkoss.image.*
+               import org.codehaus.groovy.grails.commons.*
+               import ru.spb.locon.common.*
 
-                      ImageService imageService =
-                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
-                      def arg = Executions.getCurrent().getArg()
-                      if (arg.size() > 0) {
-                        def productID = arg.get("product")
-                        ProductEntity product = ProductEntity.get(productID)
-                        if (product != null) {
+               ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-                          AImage img = imageService.getImageFile(product, "${300}")
-                          targetImage.setContent(img)
+               ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
 
-                        }
-                      }
-                  ]]>
+               if (arg.size() > 0) {
+                   def productID = arg.get("product")
+                   ProductEntity product = ProductEntity.get(productID)
+                   if (product != null) {
+
+                       String path = new PathBuilder()
+                            .appendPath(serverFoldersService.productImages)
+                            .appendString(product.engImagePath)
+                            .build()
+                       String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+                       int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+                       AImage img = imageService.getImageFile(path, std_name, std_size)
+                       targetImage.setContent(img)
+                       }
+                   }
+
+             ]]>
             </zscript>
           </div>
         </h:td>

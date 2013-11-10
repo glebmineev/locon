@@ -27,15 +27,29 @@
           <listcell>
             <image width="100px">
               <zscript><![CDATA[
-                import ru.spb.locon.*
-                import org.codehaus.groovy.grails.commons.ApplicationHolder
-                import org.zkoss.image.*
-                import org.zkoss.zk.ui.*
+                      import ru.spb.locon.*
+                      import org.zkoss.image.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import ru.spb.locon.common.*
 
-                def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-                AImage img = imageService.getManufIcon(ManufacturerEntity.get(each.id))
-                self.setContent(img)
+                      ServerFoldersService serverFoldersService =
+                                    ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
+
+                        ManufacturerEntity entity = ManufacturerEntity.get(each.id)
+
+                        String path = new PathBuilder()
+                            .appendPath(serverFoldersService.manufacturersPics)
+                            .appendString(entity.name)
+                            .build()
+                        String std_name = STD_FILE_NAMES.MANUFACTURER_NAME.getName()
+                        int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+                        AImage img = imageService.getImageFile(path, std_name, std_size)
+                        self.setContent(img)
 
               ]]>
             </zscript>
@@ -55,21 +69,35 @@
             <vbox align="center">
             <image id="${each.id}" width="100px">
               <zscript><![CDATA[
-                import ru.spb.locon.*
-                import org.codehaus.groovy.grails.commons.ApplicationHolder
-                import org.zkoss.image.*
-                import org.zkoss.zk.ui.*
+                      import ru.spb.locon.*
+                      import org.zkoss.image.*
+                      import org.codehaus.groovy.grails.commons.*
+                      import ru.spb.locon.common.*
 
-                def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
+                      ImageService imageService =
+                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
 
-                AImage img = imageService.getManufIcon(ManufacturerEntity.get(each.id))
-                self.setContent(img)
+                      ServerFoldersService serverFoldersService =
+                                    ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
+
+                        ManufacturerEntity entity = ManufacturerEntity.get(each.id)
+
+                        String path = new PathBuilder()
+                            .appendPath(serverFoldersService.manufacturersPics)
+                            .appendString(entity.name)
+                            .build()
+                        String std_name = STD_FILE_NAMES.MANUFACTURER_NAME.getName()
+                        int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+                        AImage img = imageService.getImageFile(path, std_name, std_size)
+                        self.setContent(img)
 
               ]]>
               </zscript>
             </image>
               <button label="Сменить логотип" upload="true"
-                      onUpload="@command('uploadLogo', model=each, inputEvent=event)"/>
+                      onUpload="@command('uploadImage', inputEvent=event)"/>
             </vbox>
           </listcell>
           <listcell>
@@ -82,9 +110,9 @@
             <textbox value="@bind(each.description)"/>
           </listcell>
           <listcell>
-            <image src="/images/success.gif" onClick="@command('updateProduct', model=each)"/>
+            <image src="/images/success.gif" onClick="@command('updateManufacturer', model=each)"/>
             <image src="/images/failed.png"
-                   onClick="@command('deleteProduct', model=each)"/>
+                   onClick="@command('deleteManufacturer', model=each)"/>
             <image src="/images/cancel.png" onClick="@command('cancelEditing', model=each)"/>
           </listcell>
         </listitem>

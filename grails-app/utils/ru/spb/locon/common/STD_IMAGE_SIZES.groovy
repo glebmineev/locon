@@ -5,7 +5,7 @@ package ru.spb.locon.common
  */
 public enum STD_IMAGE_SIZES {
 
-  SMALL(150), MIDDLE(300), LARGE(500)
+  SMALLEST(100), SMALL(150), MIDDLE(300), LARGE(500)
 
   private int size
 

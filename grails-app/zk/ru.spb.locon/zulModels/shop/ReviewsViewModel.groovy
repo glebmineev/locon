@@ -40,7 +40,7 @@ class ReviewsViewModel {
   @Init
   public void init(){
     HashMap<String, Object> arg = Executions.getCurrent().getArg() as HashMap<String, Object>
-    productID = arg.get("productID") as Long
+    productID = arg.get("id") as Long
 
     if (loginService.isLogged()) {
       UserEntity user = loginService.currentUser

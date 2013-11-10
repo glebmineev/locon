@@ -1,4 +1,4 @@
-package ru.spb.locon.zulModels.admin
+package ru.spb.locon.zulModels.admin.windows
 
 import org.apache.commons.io.FileUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder

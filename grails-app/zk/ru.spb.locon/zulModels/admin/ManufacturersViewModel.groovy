@@ -16,19 +16,22 @@ import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Window
 import ru.spb.locon.ImageService
 import ru.spb.locon.ManufacturerEntity
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.STD_FILE_NAMES
+import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.wrappers.ManufacturerWrapper
+import ru.spb.locon.zulModels.common.DownloadImageViewModel
 
-class ManufacturersViewModel {
+class ManufacturersViewModel extends DownloadImageViewModel {
 
-  String uuid
   String fileSeparator = System.getProperty("file.separator")
   ListModelList<ManufacturerWrapper> manufacturersModel
 
-  ImageService imageService =
-    ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
-
   @Init
   public void init() {
+    std_name = STD_FILE_NAMES.MANUFACTURER_NAME.getName()
+    std_image_size = STD_IMAGE_SIZES.SMALLEST.getSize()
+    targetImage = ""
     List<ManufacturerWrapper> models = new ArrayList<ManufacturerWrapper>()
     ManufacturerEntity.list(sort: "name").each { it ->
       ManufacturerWrapper model = new ManufacturerWrapper(it)
@@ -40,22 +43,8 @@ class ManufacturersViewModel {
   }
 
   @Command
-  public void uploadLogo(@BindingParam("model") ManufacturerWrapper model,
-                         @BindingParam("inputEvent") UploadEvent event) {
-    Image image = event.getTarget().getSpaceOwner().getFellow("${model.id}") as Image
-    AImage media = event.getMedia() as AImage
-
-    String fullFileName = media.getName()
-    String ext = fullFileName.split("\\.")[1]
-
-    imageService.cleanStore(new File("${imageService.manufacturers}${fileSeparator}${model.id}"))
-    uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.resizeImage("${imageService.temp}${fileSeparator}${uuid}", "1", ".${ext}", 100I)
-    image.setContent(new AImage("${imageService.temp}${fileSeparator}${uuid}${fileSeparator}1-100.${ext}"))
-  }
-
-  @Command
   public void changeEditableStatus(@BindingParam("model") ManufacturerWrapper wrapper) {
+    targetImage = wrapper.id
     wrapper.setEditingStatus(!wrapper.getEditingStatus())
     refreshRowTemplate(wrapper)
   }
@@ -66,7 +55,7 @@ class ManufacturersViewModel {
   }
 
   @Command
-  public void updateProduct(@BindingParam("model") ManufacturerWrapper wrapper) {
+  public void updateManufacturer(@BindingParam("model") ManufacturerWrapper wrapper) {
 
     ManufacturerEntity.withTransaction {
       ManufacturerEntity toSave = ManufacturerEntity.get(wrapper.id)
@@ -77,8 +66,15 @@ class ManufacturersViewModel {
         toSave.save(flush: true)
 
         if (uuid != null) {
-          File temp = new File("${imageService.temp}${fileSeparator}${uuid}")
-          File store = new File("${imageService.manufacturers}${fileSeparator}${wrapper.id}")
+          File temp = new File(new PathBuilder()
+              .appendPath(serverFoldersService.temp)
+              .appendString(uuid)
+              .build())
+
+          File store = new File(new PathBuilder()
+              .appendPath(serverFoldersService.manufacturersPics)
+              .appendString(wrapper.name)
+              .build())
           if (!store.exists())
             store.mkdirs()
 
@@ -93,7 +89,7 @@ class ManufacturersViewModel {
 
   @Command
   @NotifyChange(["manufacturersModel"])
-  public void deleteProduct(@BindingParam("model") ManufacturerWrapper wrapper) {
+  public void deleteManufacturer(@BindingParam("model") ManufacturerWrapper wrapper) {
 
     ManufacturerEntity.withTransaction {
       ManufacturerEntity toDelete = ManufacturerEntity.get(wrapper.id)
