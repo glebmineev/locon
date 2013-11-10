@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="">
-      <change type="MOVED" beforePath="C:\Users\gleb\Projects\locon\web-app\zul\admin\categoryWnd.zul" afterPath="$PROJECT_DIR$/web-app/zul/admin/windows/categoryWnd.zul" />
-      <change type="MOVED" beforePath="C:\Users\gleb\Projects\locon\web-app\zul\admin\productItem.zul" afterPath="$PROJECT_DIR$/web-app/zul/admin/windows/productItemWnd.zul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/CategoryWndViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/CategoryWndViewModel.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/EditorViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/EditorViewModel.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/ru/spb/locon/ImageService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/ru/spb/locon/ImageService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locon-grailsPlugins.iml" afterPath="$PROJECT_DIR$/locon-grailsPlugins.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -14,11 +10,11 @@
     <ignored path="locon.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$USER_HOME$/.grails/" />
-    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384106906987" ignored="false" />
+    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384107851522" ignored="false" />
     <file path="/ProductsRenderer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365252977775" ignored="false" />
     <file path="/products.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1368298017821" ignored="false" />
     <file path="/ProductsComposer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355861096735" ignored="false" />
-    <file path="/a.dummy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384107310742" ignored="false" />
+    <file path="/a.dummy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384107850482" ignored="false" />
     <file path="/AdminController.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1372271512849" ignored="false" />
     <file path="/productItem.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355860866790" ignored="false" />
     <file path="/productItem.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384105001769" ignored="false" />
@@ -57,7 +53,7 @@
     <file path="/IUpdaterGridsCallback.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364143048146" ignored="false" />
     <file path="/ProductRenderer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364149659787" ignored="false" />
     <file path="/catalog.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1375021863769" ignored="false" />
-    <file path="/ImageService.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384099317535" ignored="false" />
+    <file path="/ImageService.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384107805356" ignored="false" />
     <file path="/menu.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1367097206690" ignored="false" />
     <file path="/_template.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1367910581956" ignored="false" />
     <file path="/handleMenu.css" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364495716831" ignored="false" />
@@ -310,10 +306,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manufacturerWnd.zul" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="manufacturerWnd.zul" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-app/zul/admin/windows/manufacturerWnd.zul">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="77" selection-start="1800" selection-end="1800" vertical-scroll-proportion="0.094444446">
+            <state line="39" column="77" selection-start="1800" selection-end="1800" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -328,10 +324,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CategoriesViewModel.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy">
+      <file leaf-file-name="ImageService.groovy" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/ImageService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="188" column="64" selection-start="6134" selection-end="6134" vertical-scroll-proportion="0.0">
+            <state line="14" column="28" selection-start="413" selection-end="413" vertical-scroll-proportion="0.18888889">
               <folding />
             </state>
           </provider>
@@ -402,7 +398,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-app/zul/shop/showcase.zul" />
         <option value="$PROJECT_DIR$/web-app/zul/shop/product.zul" />
         <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/shop/ProductViewModel.groovy" />
         <option value="$PROJECT_DIR$/web-app/zul/shop/cart.zul" />
@@ -418,6 +413,7 @@
         <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy" />
         <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/EditorViewModel.groovy" />
         <option value="$PROJECT_DIR$/web-app/zul/admin/windows/categoryWnd.zul" />
+        <option value="$PROJECT_DIR$/grails-app/services/ru/spb/locon/ImageService.groovy" />
       </list>
     </option>
   </component>
@@ -1592,7 +1588,11 @@
       <created>1384106910601</created>
       <updated>1384106910601</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="рефакторинг ImageService">
+      <created>1384107674961</created>
+      <updated>1384107674961</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1606,12 +1606,12 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31175467" sideWeight="0.6719697" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.7050243" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33616298" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40545145" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2725724" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287879" sideWeight="0.71282053" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25378788" sideWeight="0.6712095" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25378788" sideWeight="0.5945485" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2156197" sideWeight="0.0" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1779,13 +1779,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/ImageService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="162" column="16" selection-start="4713" selection-end="4713" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/ManufacturerWndViewModel.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="0" selection-start="1063" selection-end="1201" vertical-scroll-proportion="0.0">
@@ -1867,7 +1860,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-app/zul/admin/windows/manufacturerWnd.zul">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="77" selection-start="1800" selection-end="1800" vertical-scroll-proportion="0.094444446">
+        <state line="39" column="77" selection-start="1800" selection-end="1800" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/ImageService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="28" selection-start="413" selection-end="413" vertical-scroll-proportion="0.18888889">
           <folding />
         </state>
       </provider>

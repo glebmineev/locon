@@ -13,31 +13,11 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 class ImageService {
 
   static scope = "prototype"
-
   //Логгер
   static Logger log = LoggerFactory.getLogger(ImageService.class)
 
-  PathUtils stringUtils = new PathUtils()
-  String store
-  String images
-  String manufacturers
-  String categories
-  String userPictures
-  String temp
-
-  String fileSeparator = System.getProperty("file.separator")
-
   ServerFoldersService serverFoldersService =
     ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService") as ServerFoldersService
-
-  ImageService() {
-    images = serverFoldersService.images
-    userPictures = serverFoldersService.userPics
-    store = serverFoldersService.productImages
-    manufacturers = serverFoldersService.manufacturersPics
-    categories = serverFoldersService.categoriesPics
-    temp = serverFoldersService.temp
-  }
 
   /**
    * Запись картинки в темповую директорию.
@@ -101,113 +81,6 @@ class ImageService {
   }
 
   /**
-   * Запись пользовательской картинки.
-   * @param is - поток с каритнкой.
-   * @param id - йд пользователя.
-   * @param fileName - имя файла.
-   * @param ext - расширение файла.
-   */
-  @Deprecated
-  void saveUserPic(InputStream is, Long id,String fileName, String ext) {
-    new File("${userPictures}${fileSeparator}${id}").mkdirs()
-    File newFile = new File("${userPictures}${fileSeparator}${id}\\${fileName}${ext}");
-    boolean isCreate = newFile.createNewFile()
-    if (isCreate) {
-      OutputStream out = new FileOutputStream(newFile);
-      byte[] buf = new byte[1024];
-      int len;
-      while ((len = is.read(buf)) > 0)
-        out.write(buf, 0, len);
-      out.close();
-      is.close();
-    }
-
-  }
-
-  /**
-   * Получение картинки производителя из хранилища.
-   * @param manufacturer - производитель.
-   * @return - объект картинки.
-   */
-  @Deprecated
-  AImage getManufIcon(ManufacturerEntity manufacturer) {
-    File picture = new File("${manufacturers}${fileSeparator}${manufacturer.id}")
-
-    String ext = getImageExtension("${manufacturers}${fileSeparator}${manufacturer.id}")
-
-    AImage aImage
-    if (picture.exists())
-      aImage = new AImage("${manufacturers}${fileSeparator}${manufacturer.id}${fileSeparator}1-100${ext}")
-    else
-      aImage = new AImage("${images}${fileSeparator}help.png")
-
-    return aImage
-  }
-
-  @Deprecated
-  AImage getCategoryImage(CategoryEntity category) {
-    File picture = new File("${categories}${fileSeparator}${category.id}")
-
-    String ext = getImageExtension("${categories}${fileSeparator}${category.id}")
-
-    AImage aImage
-    if (picture.exists())
-      aImage = new AImage("${categories}${fileSeparator}${category.id}${fileSeparator}1-150${ext}")
-    else
-      aImage = new AImage("${images}${fileSeparator}help.png")
-
-    return aImage
-  }
-
-  @Deprecated
-  void resizeImage(String path, String fileName, String ext, int size) {
-    ImageUtils.resizeImage(path, fileName, ext, size)
-  }
-
-  @Deprecated
-  AImage getImageFile(ProductEntity product, String size) {
-    AImage aImage
-    String imageDir = product.engImagePath;
-    String ext = getImageExtension("${store}${fileSeparator}${imageDir}")
-    File image = new File("${store}${fileSeparator}${imageDir}${fileSeparator}1-${size}${ext}")
-    if (image.exists())
-      aImage = new AImage(image.path)
-    else
-      aImage = new AImage("${images}${fileSeparator}empty.png")
-
-    return aImage
-  }
-
-  @Deprecated
-  AImage getUserPicture(UserEntity user) {
-    File picture = new File("${userPictures}${fileSeparator}${user.id}")
-
-    String ext = getImageExtension("${userPictures}${fileSeparator}${user.id}")
-
-    AImage aImage
-    if (picture.exists())
-      aImage = new AImage("${userPictures}${fileSeparator}${user.id}${fileSeparator}1-150${ext}")
-    else
-      aImage = new AImage("${images}${fileSeparator}help.png")
-
-    return aImage
-  }
-
-  @Deprecated
-  public String getImageExtension(String dir) {
-    String ext = ".jpg"
-    File imageDir = new File(dir)
-    if (imageDir.exists())
-      imageDir.eachFile { it ->
-
-        String[] arr = it.name.split("${fileSeparator}.")
-        if ("1".equals(arr[0]))
-          ext = ".${arr[1]}"
-      }
-    return ext
-  }
-
-  /**
    * Загрузка изображения с сайта.
    * @param from - откуда загружать(путь до изображения на сайте).
    * @param to - куда ложить на сервере.
@@ -246,7 +119,10 @@ class ImageService {
    * @param product - товар картинки которого необходимоудалить.
    */
   void cleanStore(ProductEntity product) {
-    File store = new File("${store}${fileSeparator}${product.engImagePath}")
+    File store = new File(new PathBuilder()
+        .appendPath(serverFoldersService.productImages)
+        .appendString(product.engImagePath)
+        .build())
 
     if (store.exists()) {
       store.eachFile { it ->
