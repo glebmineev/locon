@@ -1,7 +1,6 @@
 package ru.spb.locon.zulModels.common
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
@@ -12,15 +11,13 @@ import org.zkoss.zul.Image
 import ru.spb.locon.ImageService
 import ru.spb.locon.ServerFoldersService
 import ru.spb.locon.common.PathBuilder
-import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.image.ImageUtils
-import ru.spb.locon.wrappers.IdentWrapper
 
 /**
  * Класс для работы с загрузкой изображений.
  */
-class DownloadImageViewModel {
+public abstract class DownloadImageViewModel {
 
   protected String uuid
   protected String std_name
@@ -30,6 +27,17 @@ class DownloadImageViewModel {
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
   ServerFoldersService serverFoldersService =
     ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService") as ServerFoldersService
+
+
+  public void configureInit() {
+    downloadParams()
+    initialize()
+  }
+
+  public abstract void downloadParams()
+
+  public abstract void initialize()
+
 
   /**
    * Загрузка изображения в темповую дерикторию сервера.

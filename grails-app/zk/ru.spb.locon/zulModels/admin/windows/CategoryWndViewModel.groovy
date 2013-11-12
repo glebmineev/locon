@@ -1,34 +1,23 @@
 package ru.spb.locon.zulModels.admin.windows
 
 import org.apache.commons.io.FileUtils
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
-import org.zkoss.image.AImage
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.Event
-import org.zkoss.zk.ui.event.UploadEvent
-import org.zkoss.zul.Image
 import org.zkoss.zul.Window
 import ru.spb.locon.CategoryEntity
-import ru.spb.locon.ImageService
 import ru.spb.locon.common.CategoryPathHandler
 import ru.spb.locon.common.PathBuilder
 import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.zulModels.common.DownloadImageViewModel
 
-/**
- * Created with IntelliJ IDEA.
- * User: gleb
- * Date: 5/11/13
- * Time: 4:26 PM
- * To change this template use File | Settings | File Templates.
- */
+
 class CategoryWndViewModel extends DownloadImageViewModel {
 
   //Логгер
@@ -39,12 +28,19 @@ class CategoryWndViewModel extends DownloadImageViewModel {
   Long parentID
 
   @Init
-  public void init() {
+  public void init(){
+    configureInit()
+  }
 
+  @Override
+  void downloadParams() {
     std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
     std_image_size = STD_IMAGE_SIZES.MIDDLE.getSize()
     targetImage = "targetImage"
+  }
 
+  @Override
+  void initialize() {
     HashMap<String, Object> arg = Executions.getCurrent().getArg() as HashMap<String, Object>
     parentID = arg.get("parentID") as Long
     if (parentID != null)

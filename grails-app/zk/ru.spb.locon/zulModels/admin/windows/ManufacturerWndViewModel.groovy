@@ -1,20 +1,15 @@
 package ru.spb.locon.zulModels.admin.windows
 
 import org.apache.commons.io.FileUtils
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
-import org.zkoss.image.AImage
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.Event
-import org.zkoss.zk.ui.event.UploadEvent
-import org.zkoss.zul.Image
 import org.zkoss.zul.Window
-import ru.spb.locon.ImageService
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.common.PathBuilder
 import ru.spb.locon.common.STD_FILE_NAMES
@@ -31,25 +26,20 @@ class ManufacturerWndViewModel extends DownloadImageViewModel {
   String description
 
   @Init
-  public void init() {
+  public void init(){
+    configureInit()
+  }
+  @Override
+  void downloadParams() {
     std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
     std_image_size = STD_IMAGE_SIZES.MIDDLE.getSize()
     targetImage = "targetImage"
   }
 
-/*  @Command
-  public void uploadImage(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
-    UploadEvent uploadEvent = event as UploadEvent
-    Image image = event.getTarget().getSpaceOwner().getFellow("targetImage") as Image
-    AImage media = uploadEvent.getMedia() as AImage
-
-    String fullFileName = media.getName()
-    String ext = fullFileName.split("\\.")[1]
-
-    uuid = imageService.saveImageInTemp(media.getStreamData(), "1", ext)
-    imageService.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 80I)
-    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-80.${ext}"))
-  }*/
+  @Override
+  void initialize() {
+    //To change body of implemented methods use File | Settings | File Templates.
+  }
 
   @Command
   public void saveManufacturer(){

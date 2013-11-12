@@ -1,22 +1,18 @@
 package ru.spb.locon.zulModels.admin
 
 import org.apache.commons.io.FileUtils
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
-import org.zkoss.image.AImage
 import org.zkoss.zk.ui.*
 import org.zkoss.zk.ui.event.*
 import org.zkoss.zul.*
 import ru.spb.locon.*
-import ru.spb.locon.ImageService
 import ru.spb.locon.common.CategoryPathHandler
 import ru.spb.locon.common.PathBuilder
 import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
-import ru.spb.locon.image.ImageUtils
 import ru.spb.locon.importer.ConverterRU_EN
 import ru.spb.locon.zulModels.common.DownloadImageViewModel
 
@@ -47,11 +43,18 @@ class ProductItemViewModel extends DownloadImageViewModel {
 
   @Init
   public void init() {
+    configureInit()
+  }
 
+  @Override
+  void downloadParams() {
     std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
     targetImage = "targetImage"
     std_image_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+  }
 
+  @Override
+  void initialize() {
     HashMap<String, Object> arg = Executions.getCurrent().getArg() as HashMap<String, Object>
 
     if (arg.size() > 0) {
@@ -69,7 +72,6 @@ class ProductItemViewModel extends DownloadImageViewModel {
       initItem(ProductEntity.get(productID))
 
     initComboboxes()
-
   }
 
   public void initComboboxes() {

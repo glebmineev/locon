@@ -2,19 +2,15 @@ package ru.spb.locon.zulModels.admin
 
 import org.apache.commons.io.FileUtils
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import org.zkoss.bind.BindUtils
-import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
 import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.image.AImage
-import org.zkoss.zk.ui.Component
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
 import org.zkoss.zk.ui.event.Event
-import org.zkoss.zk.ui.event.UploadEvent
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zul.Image
 import org.zkoss.zul.Messagebox
@@ -22,25 +18,15 @@ import org.zkoss.zul.Tree
 import org.zkoss.zul.Treeitem
 import org.zkoss.zul.Window
 import ru.spb.locon.CategoryEntity
-import ru.spb.locon.ImageService
 import ru.spb.locon.InitService
 import ru.spb.locon.common.CategoryPathHandler
 import ru.spb.locon.common.PathBuilder
 import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
-import ru.spb.locon.image.ImageUtils
 import ru.spb.locon.wrappers.CategoryTreeNode
 import ru.spb.locon.zulModels.admin.models.AdvancedTreeModel
-import ru.spb.locon.zulModels.admin.windows.EditCallback
 import ru.spb.locon.zulModels.common.DownloadImageViewModel
 
-/**
- * Created with IntelliJ IDEA.
- * User: gleb
- * Date: 6/26/13
- * Time: 9:46 PM
- * To change this template use File | Settings | File Templates.
- */
 class CategoriesViewModel extends DownloadImageViewModel {
 
   AdvancedTreeModel categoryTreeModel
@@ -55,10 +41,20 @@ class CategoriesViewModel extends DownloadImageViewModel {
   InitService initService = ApplicationHolder.getApplication().getMainContext().getBean("initService") as InitService
 
   @Init
-  public void init() {
+  public void init(){
+    configureInit()
+  }
+
+  @Override
+  void downloadParams() {
     std_name = STD_FILE_NAMES.CATEGORY_NAME.getName()
     categoryID = Executions.getCurrent().getParameter("categoryID") as Long
     categoryTreeModel = new AdvancedTreeModel(getRootNode())
+  }
+
+  @Override
+  void initialize() {
+    //To change body of implemented methods use File | Settings | File Templates.
   }
 
   @Command

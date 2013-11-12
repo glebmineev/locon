@@ -15,9 +15,9 @@
              model="@load(vm.ordersModel)" pageSize="10" emptyMessage="Заказов нет.">
       <columns>
         <column label="Номер"/>
-        <column label="ФИО"/>
+<!--        <column label="ФИО"/>
         <column label="Телефон"/>
-        <column label="E-mail"/>
+        <column label="E-mail"/>-->
         <column label="Статус"/>
       </columns>
       <template name="model">
@@ -25,7 +25,7 @@
           <cell>
             <label value="${each.number}"/>
           </cell>
-          <cell>
+<!--          <cell>
             <label value="${each.fio}"/>
           </cell>
           <cell>
@@ -33,7 +33,7 @@
           </cell>
           <cell>
             <label value="${each.email}"/>
-          </cell>
+          </cell>-->
           <cell>
             <label if="${each.isProcessed}" value="В процессе"/>
             <label if="${each.isComplete}" value="Завершен"/>

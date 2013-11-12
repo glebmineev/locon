@@ -10,9 +10,9 @@
   <div apply="ru.spb.locon.BindComposer" align="center"
        viewModel="@id('vm') @init('ru.spb.locon.zulModels.cabinet.CabinetViewModel')" width="100%">
 
-    <!--<style src="/css/ZK.css"/>-->
+    <style src="/css/ZK.css"/>
 
-    <hlayout>
+      <hlayout>
         <div sclass="rounded">
           <div align="center" width="100%">
             <label value="@load(vm.fio)" style="font-size: 16pt"/>
@@ -20,16 +20,24 @@
           <vbox width="20%" align="left" style="margin: 15px;">
             <image id="targetImage" width="180px"/>
             <zscript><![CDATA[
-            import ru.spb.locon.*
-            import org.codehaus.groovy.grails.commons.ApplicationHolder
-            import org.zkoss.image.*
-            import org.zkoss.zk.ui.*
+              import ru.spb.locon.*
+              import org.zkoss.image.*
+              import org.codehaus.groovy.grails.commons.*
+              import ru.spb.locon.common.*
 
-            def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
-            def loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService")
+              def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+              def serverFoldersService = ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService")
+              def loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService")
 
-            AImage img = imageService.getUserPicture(loginService.getCurrentUser())
-            targetImage.setContent(img)
+              String path = new PathBuilder()
+                            .appendPath(serverFoldersService.userPics)
+                            .appendString(loginService.getCurrentUser().email)
+                            .build()
+              String std_name = STD_FILE_NAMES.CATEGORY_NAME.getName()
+              int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+              AImage img = imageService.getImageFile(path, std_name, std_size)
+              targetImage.setContent(img)
 
           ]]>
             </zscript>
@@ -38,15 +46,14 @@
             <!--<a href="/cabinet/cabinet" label="????? ???????"/>-->
           </vbox>
         </div>
-        <include src="/zul/cabinet/orders.zul" width="70%"/>
+        <include src="/zul/cabinet/orders.zul" width="100%"/>
 
 
       <!-- данные -->
       <!--onCreate="@command('index')"-->
 
         <!--<include src="/zul/cabinet/map.zul"/>-->
-
-    </hlayout>
+      </hlayout>
   </div>
 
 </zk>

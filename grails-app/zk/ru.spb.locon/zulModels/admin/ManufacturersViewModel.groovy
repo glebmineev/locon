@@ -1,20 +1,15 @@
 package ru.spb.locon.zulModels.admin
 
 import org.apache.commons.io.FileUtils
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.bind.BindUtils
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
-import org.zkoss.image.AImage
 import org.zkoss.zk.ui.Executions
-import org.zkoss.zk.ui.event.UploadEvent
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
-import org.zkoss.zul.Image
 import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Window
-import ru.spb.locon.ImageService
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.common.PathBuilder
 import ru.spb.locon.common.STD_FILE_NAMES
@@ -28,10 +23,19 @@ class ManufacturersViewModel extends DownloadImageViewModel {
   ListModelList<ManufacturerWrapper> manufacturersModel
 
   @Init
-  public void init() {
+  public void init(){
+    configureInit()
+  }
+
+  @Override
+  void downloadParams() {
     std_name = STD_FILE_NAMES.MANUFACTURER_NAME.getName()
     std_image_size = STD_IMAGE_SIZES.SMALLEST.getSize()
     targetImage = ""
+  }
+
+  @Override
+  void initialize() {
     List<ManufacturerWrapper> models = new ArrayList<ManufacturerWrapper>()
     ManufacturerEntity.list(sort: "name").each { it ->
       ManufacturerWrapper model = new ManufacturerWrapper(it)

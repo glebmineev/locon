@@ -18,8 +18,6 @@ class ProfileValidator extends AbstractValidator {
   void validate(ValidationContext ctx) {
     validateFio(ctx, ctx.getValidatorArg("fio") as String)
     validateAddress(ctx, ctx.getValidatorArg("address") as String)
-    validatePassword(ctx, ctx.getValidatorArg("password") as String,
-        ctx.getValidatorArg("repassword") as String)
   }
 
   public void validateFio(ValidationContext ctx, String value){
@@ -33,8 +31,4 @@ class ProfileValidator extends AbstractValidator {
       this.addInvalidMessage(ctx, "address", "Поле не может быть пустым");
   }
 
-  public void validatePassword(ValidationContext ctx, String password, String repassword){
-    if(repassword == null || password == null || !password.equals(repassword))
-      this.addInvalidMessage(ctx, "password", "Пароли не совпадают");
-  }
 }
