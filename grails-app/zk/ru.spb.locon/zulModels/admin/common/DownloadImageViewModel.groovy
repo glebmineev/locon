@@ -1,4 +1,4 @@
-package ru.spb.locon.zulModels.common
+package ru.spb.locon.zulModels.admin.common
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.bind.annotation.Command

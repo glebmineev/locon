@@ -39,38 +39,13 @@ class EmailService {
    * @param to - кому шлем.
    * @param hash - хеш.
    */
-  void sendEmail(String to, String hash) {
+  void sendConfirmationEmail(String to, String hash) {
 
     try {
 
-      /**
-       * Собираем нужные свойства для отсыла почты.
-       */
-      Properties props = new Properties();
-      props.put("mail.smtp.host", HOST);
-      props.put("mail.smtp.auth", AUTH);
-      props.put("mail.smtp.port", PORT);
-      props.put("mail.smtp.starttls.enable", STARTTLS);
+      Session session = getSession()
 
-      /**
-       * Устанавливаем сессию.
-       */
-      Session session = Session.getInstance(props,
-          new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-              return new PasswordAuthentication(LOGIN, PASSWORD);
-            }
-          });
-
-      /**
-       * Формируем сообщение.
-       */
-      Message message = new MimeMessage(session);
-      message.setFrom(new InternetAddress("glebsis"));
-      message.setRecipients(Message.RecipientType.TO,
-          InternetAddress.parse(to));
-      message.setSubject("test", "UTF-8");
+      MimeMessage message = getMessage(session, to)
 
       Multipart mp = new MimeMultipart();
 
@@ -89,6 +64,64 @@ class EmailService {
     } catch (MessagingException e) {
       logger.error(e.getMessage())
     }
+  }
+
+  /**
+   * Сброс пароля пользователя.
+   * @param to - почта пользователя, куда слать новый пароль
+   */
+  void sendPassEmail(String to, String new_pass){
+    Session session = getSession()
+    MimeMessage message = getMessage(session, to)
+
+    Multipart mp = new MimeMultipart();
+
+    String htmlBody =
+      new Scanner(grailsApplication.mainContext.getResource("email/newPass_template.html").file, "UTF-8").useDelimiter("\\A").next();
+
+    String replaced = htmlBody.replace("NEW_PASS", new_pass)
+
+    MimeBodyPart htmlPart = new MimeBodyPart();
+    htmlPart.setContent(replaced, "text/html; charset=utf-8");
+    mp.addBodyPart(htmlPart);
+    message.setContent(mp)
+
+    Transport.send(message);
+  }
+
+  /**
+   * Создание сессии для отправки эл. почты.
+   * @return сессия.
+   */
+  private Session getSession() {
+    Properties props = new Properties();
+    props.put("mail.smtp.host", HOST);
+    props.put("mail.smtp.auth", AUTH);
+    props.put("mail.smtp.port", PORT);
+    props.put("mail.smtp.starttls.enable", STARTTLS);
+
+    return Session.getInstance(props,
+        new Authenticator() {
+          @Override
+          protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(LOGIN, PASSWORD);
+          }
+        });
+  }
+
+  /**
+   * Формирвание сообщения по email.
+   * @param session - сессия
+   * @param to - кому слать(эл. ящик)
+   * @return сообщение.
+   */
+  private MimeMessage getMessage(Session session, String to) {
+    Message message = new MimeMessage(session);
+    message.setFrom(new InternetAddress("glebsis"));
+    message.setRecipients(Message.RecipientType.TO,
+        InternetAddress.parse(to));
+    message.setSubject("test", "UTF-8");
+    message
   }
 
 }

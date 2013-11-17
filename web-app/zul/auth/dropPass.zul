@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.auth.DropPassViewModel')"
+       width="100%" onOK="@command('dropPass')">
+
+    <style>
+
+      span.z-label {
+      font-size: 14pt;
+      }
+
+      .z-textbox {
+      font-size: 14pt;
+      background-color: #fff3f3;
+      }
+
+      .z-textbox:hover {
+      background-color: #ffffff;
+      }
+
+    </style>
+    <vbox width="100%" align="center">
+
+      <h:h2>Введите email</h:h2>
+      <hbox widths="100px,300px">
+        <div align="right">
+          <label value="email: "/>
+        </div>
+        <textbox value="@bind(vm.email)" width="100%"/>
+      </hbox>
+      <div>
+        <button type="submit" label="Воотановить пароль" style="margin: 5px;" onClick="@command('dropPass')"/>
+      </div>
+    </vbox>
+
+  </div>
+
+</zk>

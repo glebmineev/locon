@@ -61,7 +61,7 @@ class RegisterViewModel {
 
       if (user.validate()) {
         user.save(flush: true)
-        emailService.sendEmail(user.getEmail(), hash)
+        emailService.sendConfirmationEmail(user.getEmail(), hash)
         Executions.sendRedirect("/shop/seeYouEmail")
       }
     }

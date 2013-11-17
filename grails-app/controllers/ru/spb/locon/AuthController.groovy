@@ -20,4 +20,9 @@ class AuthController {
         action: loginService.params.action,
         params: loginService.params))
   }
+
+  def dropPass() {
+    return [mainCategoties: initService.categories]
+  }
+
 }

@@ -19,14 +19,6 @@ import ru.spb.locon.zulModels.admin.models.AdvancedTreeModel
 import ru.spb.locon.zulModels.admin.windows.EditCallback
 import ru.spb.locon.wrappers.CategoryTreeNode
 
-
-/**
- * Created with IntelliJ IDEA.
- * User: Gleb-PC
- * Date: 12.02.13
- * Time: 20:07
- * To change this template use File | Settings | File Templates.
- */
 class EditorViewModel {
 
   AdvancedTreeModel categoryTreeModel

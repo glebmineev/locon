@@ -15,7 +15,7 @@ import ru.spb.locon.common.PathBuilder
 import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.wrappers.ManufacturerWrapper
-import ru.spb.locon.zulModels.common.DownloadImageViewModel
+import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
 class ManufacturersViewModel extends DownloadImageViewModel {
 

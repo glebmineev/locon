@@ -2,32 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/money/CURRENCY.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/money/Money.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/money/Roubles.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/auth/DropPassViewModel.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/common/PasswordGenerator.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/auth/dropPass.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/zul/auth/dropPass.zul" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/email/newPass_template.html" />
+      <change type="MOVED" beforePath="C:\Users\gleb\Projects\locon\grails-app\zk\ru.spb.locon\zulModels\common\DownloadImageViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/common/DownloadImageViewModel.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/AuthController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/AuthController.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/CategoryWndViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/CategoryWndViewModel.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/common/DownloadImageViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/common/DownloadImageViewModel.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/EditorViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/EditorViewModel.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/ru/spb/locon/EmailService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/ru/spb/locon/EmailService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/ManufacturerWndViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/ManufacturerWndViewModel.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ManufacturersViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ManufacturersViewModel.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ProductItemViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ProductItemViewModel.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/validators/ProfileValidator.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/validators/ProfileValidator.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/cabinet/ProfileViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/cabinet/ProfileViewModel.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/zul/cabinet/index.zul" afterPath="$PROJECT_DIR$/web-app/zul/cabinet/index.zul" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/captcha/RandomStringGenerator.groovy" afterPath="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/captcha/RandomStringGenerator.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/shop/RegisterViewModel.groovy" afterPath="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/shop/RegisterViewModel.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locon-grailsPlugins.iml" afterPath="$PROJECT_DIR$/locon-grailsPlugins.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/zul/cabinet/orders.zul" afterPath="$PROJECT_DIR$/web-app/zul/cabinet/orders.zul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/zul/cabinet/profile.zul" afterPath="$PROJECT_DIR$/web-app/zul/cabinet/profile.zul" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/zul/auth/login.zul" afterPath="$PROJECT_DIR$/web-app/zul/auth/login.zul" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="8343079c-7661-485b-b0a5-3ceba9f9e794" name="Failed commit: Default" comment="вынес корзину в сервис. Сделал рекомендуемые товары&#10;" />
     <ignored path="locon.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$USER_HOME$/.grails/" />
-    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384283004851" ignored="false" />
+    <file path="/Dummy.txt" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384716945314" ignored="false" />
     <file path="/ProductsRenderer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1365252977775" ignored="false" />
     <file path="/products.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1368298017821" ignored="false" />
     <file path="/ProductsComposer.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355861096735" ignored="false" />
-    <file path="/a.dummy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384283003461" ignored="false" />
+    <file path="/a.dummy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384717749727" ignored="false" />
     <file path="/AdminController.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1372271512849" ignored="false" />
     <file path="/productItem.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1355860866790" ignored="false" />
     <file path="/productItem.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384105001769" ignored="false" />
@@ -73,7 +77,7 @@
     <file path="/black.css" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364623878600" ignored="false" />
     <file path="/green.css" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364583881742" ignored="false" />
     <file path="/adminMenu.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1372271605538" ignored="false" />
-    <file path="/login.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1367957772901" ignored="false" />
+    <file path="/login.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384717774967" ignored="false" />
     <file path="/IAddProductCallback.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364752092029" ignored="false" />
     <file path="/IBackgroundTask.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1364840458913" ignored="false" />
     <file path="/BootStrap.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1382209981254" ignored="false" />
@@ -199,7 +203,7 @@
     <file path="/profile.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384283501910" ignored="false" />
     <file path="/ProfileViewModel.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384282757369" ignored="false" />
     <file path="/MessageEntity.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1381051723205" ignored="false" />
-    <file path="/EmailService.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1381691562711" ignored="false" />
+    <file path="/EmailService.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384717476328" ignored="false" />
     <file path="/seeYouEmail.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1381255447616" ignored="false" />
     <file path="/activate.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1381256382767" ignored="false" />
     <file path="/ActivateViewModel.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1381692982116" ignored="false" />
@@ -229,6 +233,11 @@
     <file path="/ManufacturerWrapper.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384101022019" ignored="false" />
     <file path="/Roubles.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384281851290" ignored="false" />
     <file path="/CURRENCY.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384281827247" ignored="false" />
+    <file path="/AuthController.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384715910343" ignored="false" />
+    <file path="/dropPass.gsp" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384715986584" ignored="false" />
+    <file path="/dropPass.zul" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384716066293" ignored="false" />
+    <file path="/DropPassViewModel.groovy" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384717923223" ignored="false" />
+    <file path="/pass.html" changelist="2ab553ed-d9f0-4a5d-a1bd-5a9372ecea31" time="1384716810639" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -303,53 +312,76 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.zul" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web-app/zul/cabinet/index.zul">
+      <file leaf-file-name="AuthController.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/AuthController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="58" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.5187166">
+            <state line="23" column="14" selection-start="459" selection-end="467" vertical-scroll-proportion="-14.434783">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orders.zul" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app/zul/cabinet/orders.zul">
+      <file leaf-file-name="DropPassViewModel.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/auth/DropPassViewModel.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="4" selection-start="536" selection-end="536" vertical-scroll-proportion="0.0">
+            <state line="37" column="42" selection-start="1046" selection-end="1046" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#37#96#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShopController.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/ShopController.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="13" selection-start="579" selection-end="586" vertical-scroll-proportion="-7.3913045">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.zul" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app/zul/cabinet/profile.zul">
+      <file leaf-file-name="EmailService.groovy" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/EmailService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="13" selection-start="987" selection-end="987" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1384283552650" expanded="true" signature="941:958" placeholder="{...}" />
-              </folding>
+            <state line="73" column="0" selection-start="2059" selection-end="2059" vertical-scroll-proportion="0.67741936">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProfileViewModel.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/cabinet/ProfileViewModel.groovy">
+      <file leaf-file-name="login.zul" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-app/zul/auth/login.zul">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="500" selection-end="500" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#40#78#0" expanded="true" />
-              </folding>
+            <state line="46" column="31" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProductItemViewModel.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ProductItemViewModel.groovy">
+      <file leaf-file-name="RandomStringGenerator.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/captcha/RandomStringGenerator.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="0" selection-start="2357" selection-end="2357" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#38#76#0" expanded="true" />
-              </folding>
+            <state line="2" column="27" selection-start="36" selection-end="57" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegisterViewModel.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/shop/RegisterViewModel.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="72" column="14" selection-start="1855" selection-end="1855" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dropPass.zul" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-app/zul/auth/dropPass.zul">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="44" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -372,22 +404,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-app/zul/admin/windows/categoryWnd.zul" />
-        <option value="$PROJECT_DIR$/grails-app/services/ru/spb/locon/ImageService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/validators/ProfileValidator.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/money/Money.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/money/CURRENCY.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/money/Roubles.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ProductItemViewModel.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/ManufacturerWndViewModel.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ManufacturersViewModel.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/cabinet/ProfileViewModel.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/common/DownloadImageViewModel.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/CategoryWndViewModel.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy" />
         <option value="$PROJECT_DIR$/web-app/zul/cabinet/profile.zul" />
         <option value="$PROJECT_DIR$/web-app/zul/cabinet/orders.zul" />
         <option value="$PROJECT_DIR$/web-app/zul/cabinet/index.zul" />
+        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/EditorViewModel.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/common/CategoryTreeViewModel.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/AuthController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/auth/dropPass.gsp" />
+        <option value="$PROJECT_DIR$/web-app/email/pass.html" />
+        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/captcha/RandomStringGenerator.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/utils/ru/spb/locon/common/PasswordGenerator.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/ru/spb/locon/EmailService.groovy" />
+        <option value="$PROJECT_DIR$/web-app/zul/auth/login.zul" />
+        <option value="$PROJECT_DIR$/web-app/zul/auth/dropPass.zul" />
+        <option value="$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/auth/DropPassViewModel.groovy" />
       </list>
     </option>
   </component>
@@ -523,6 +555,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -599,29 +632,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cabinet" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zul" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
+              <option name="myItemId" value="auth" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -649,7 +660,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="grails-app" />
+              <option name="myItemId" value="web-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="email" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -664,134 +679,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="grails-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ru.spb.locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grails-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ru.spb.locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zulModels" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grails-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ru.spb.locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zulModels" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cabinet" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grails-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ru.spb.locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zulModels" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grails-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ru.spb.locon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zulModels" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="windows" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -857,7 +744,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="services" />
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="captcha" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -865,9 +778,26 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conf" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -1492,7 +1422,11 @@
       <created>1384108448834</created>
       <updated>1384108448834</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="рефакторинг ImageService">
+      <created>1384284796645</created>
+      <updated>1384284796645</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1503,13 +1437,13 @@
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.65704584" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24796748" sideWeight="0.24473257" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4533107" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27843803" sideWeight="0.3280303" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3786078" sideWeight="0.3280303" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31175467" sideWeight="0.6719697" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2780303" sideWeight="0.16354345" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4040747" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22121212" sideWeight="0.68881685" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.7050243" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2725724" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -1520,8 +1454,9 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39984825" sideWeight="0.5349233" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.6717949" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15378788" sideWeight="0.72156197" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22727273" sideWeight="0.6213922" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2156197" sideWeight="0.0" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.79796267" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.7189097" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
@@ -1529,7 +1464,6 @@
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23151909" sideWeight="0.7374392" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45500848" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4701874" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1658,122 +1592,114 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/money/Roubles.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/views/auth/login.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="6" selection-start="35" selection-end="35" vertical-scroll-proportion="0.09409594">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/money/Money.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="25" selection-start="52" selection-end="52" vertical-scroll-proportion="0.062730625">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/FilterWndViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="6" selection-start="443" selection-end="443" vertical-scroll-proportion="0.12546125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/ManufacturerWndViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="34" selection-start="378" selection-end="378" vertical-scroll-proportion="0.31365314">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ManufacturersViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="27" selection-start="418" selection-end="418" vertical-scroll-proportion="0.34317344">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/common/DownloadImageViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="36" selection-start="556" selection-end="556" vertical-scroll-proportion="0.44990548">
-          <folding>
-            <element signature="e#39#98#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/windows/CategoryWndViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="34" selection-start="378" selection-end="378" vertical-scroll-proportion="0.3090909">
-          <folding />
-        </state>
+        <state line="2" column="55" selection-start="69" selection-end="69" vertical-scroll-proportion="0.06614786" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/CategoriesViewModel.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="59" selection-start="136" selection-end="136" vertical-scroll-proportion="0.09272727">
+        <state line="82" column="3" selection-start="2648" selection-end="2648" vertical-scroll-proportion="0.030909091">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/EmailService.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/EditorViewModel.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="6" selection-start="507" selection-end="507" vertical-scroll-proportion="-1.7196531">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/cabinet/ProfileViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="500" selection-end="500" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#40#78#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/admin/ProductItemViewModel.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="0" selection-start="2357" selection-end="2357" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#38#76#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/zul/admin/products.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.2556391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/zul/shop/cart.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.5112782">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/zul/cabinet/profile.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="987" selection-end="987" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1384283552650" expanded="true" signature="941:958" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/zul/cabinet/orders.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="4" selection-start="536" selection-end="536" vertical-scroll-proportion="0.0">
+        <state line="21" column="6" selection-start="812" selection-end="812" vertical-scroll-proportion="0.030909091">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-app/zul/cabinet/index.zul">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="58" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.5187166">
+        <state line="10" column="27" selection-start="499" selection-end="499" vertical-scroll-proportion="0.3090909">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/captcha/RandomStringGenerator.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="27" selection-start="36" selection-end="57" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/shop/RegisterViewModel.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="14" selection-start="1855" selection-end="1855" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/utils/ru/spb/locon/common/PasswordGenerator.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="26" selection-start="240" selection-end="240" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/conf/BootStrap.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="27" selection-start="1604" selection-end="1619" vertical-scroll-proportion="0.031365313">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/email/newPass_template.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="24" selection-start="261" selection-end="261" vertical-scroll-proportion="0.2635659">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/email/template.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="36" selection-start="398" selection-end="398" vertical-scroll-proportion="0.3624031">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/AuthController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="14" selection-start="459" selection-end="467" vertical-scroll-proportion="-14.434783">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/zul/auth/login.zul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="31" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/zul/auth/dropPass.zul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="44" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/ru/spb/locon/ShopController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="579" selection-end="586" vertical-scroll-proportion="-7.3913045">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/zk/ru.spb.locon/zulModels/auth/DropPassViewModel.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="42" selection-start="1046" selection-end="1046" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#37#96#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/ru/spb/locon/EmailService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="0" selection-start="2059" selection-end="2059" vertical-scroll-proportion="0.67741936">
           <folding />
         </state>
       </provider>

@@ -44,7 +44,7 @@
         <textbox value="@bind(vm.password)" type="password" width="100%"/>
       </hbox>
       <div>
-        <a href="" label="Забыли пароль?"/>
+        <a href="/auth/dropPass" label="Забыли пароль?"/>
         <button type="submit" label="Войти" style="margin: 5px;" onClick="@command('logging')"/>
       </div>
     </vbox>

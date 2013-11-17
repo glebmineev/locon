@@ -25,7 +25,7 @@ import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.wrappers.CategoryTreeNode
 import ru.spb.locon.zulModels.admin.models.AdvancedTreeModel
-import ru.spb.locon.zulModels.common.DownloadImageViewModel
+import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
 class CategoriesViewModel extends DownloadImageViewModel {
 
@@ -81,20 +81,6 @@ class CategoriesViewModel extends DownloadImageViewModel {
     name = retrived.getName()
     description = retrived.getDescription()
   }
-
-/*  @Command
-  public void uploadImage(@ContextParam(ContextType.TRIGGER_EVENT) Event event){
-    UploadEvent uploadEvent = event as UploadEvent
-    Image image = event.getTarget().getSpaceOwner().getFellow("targetImage") as Image
-    AImage media = uploadEvent.getMedia() as AImage
-
-    String fullFileName = media.getName()
-    String ext = fullFileName.split("\\.")[1]
-
-    uuid = imageService.saveImageInTemp(media.getStreamData(), STD_FILE_NAMES.CATEGORY_NAME.getName(), ext)
-    ImageUtils.resizeImage("${imageService.temp}\\${uuid}", "1", ".${ext}", 150I)
-    image.setContent(new AImage("${imageService.temp}\\${uuid}\\1-150.${ext}"))
-  }*/
 
   public CategoryTreeNode getRootNode() {
     List<CategoryEntity> categories = CategoryEntity.findAllWhere(parentCategory: null)

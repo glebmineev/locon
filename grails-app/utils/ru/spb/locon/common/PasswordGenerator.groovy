@@ -1,11 +1,12 @@
-package ru.spb.locon.captcha
+package ru.spb.locon.common
 
-class RandomStringGenerator {
+class PasswordGenerator {
+
   private int length;
-  private String alphabet = "abcdefghijklmnopqrstuvwxyz";
+  private String alphabet = "abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   private final Random rn = new Random();
 
-  public RandomStringGenerator(int length) {
+  public PasswordGenerator(int length) {
     if(length <= 0)
       throw new IllegalArgumentException("Length cannot be less than or equal to 0");
 
@@ -29,4 +30,5 @@ class RandomStringGenerator {
 
     return sb.toString();
   }
+
 }
