@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer" align="center"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.cabinet.ChangePassViewModel')"
+       validationMessages="@id('vmsgs')"
+       form="@id('fx') @load(vm.oldPass) @save(vm.oldPass, before='changePass')
+                @validator('ru.spb.locon.validators.ChangePassValidator',
+                oldPass=vm.oldPass,
+                newPass=vm.newPass,
+                retypeNewPass=vm.retypeNewPass)"
+       width="100%">
+
+    <style>
+
+      span.z-label {
+      font-size: 14pt;
+      }
+
+      .z-textbox {
+      font-size: 14pt;
+      background-color: #fff3f3;
+      }
+
+      .z-textbox:hover {
+      background-color: #ffffff;
+      }
+
+    </style>
+
+    <div align="center" width="100%">
+      <label style="font-size: 20px;" value="Смена пароля"/>
+    </div>
+
+    <h:table width="100%" cellspacing="5" cellpadding="0">
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label value="Введите старый пароль:"/>
+        </h:td>
+        <h:td width="50%" align="left">
+          <textbox value="@bind(vm.oldPass)" type="password" width="100%"/>
+        </h:td>
+        <h:td width="30%">
+          <label sclass="error"
+                 value="@load(vmsgs['oldPass'])"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label value="Введите новый пароль:"/>
+        </h:td>
+        <h:td width="50%" align="left">
+          <textbox value="@bind(vm.newPass)" type="password" width="100%"/>
+        </h:td>
+        <h:td width="30%">
+          <label sclass="error"
+                 value="@load(vmsgs['newPass'])"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label value="Введите новый пароль:"/>
+        </h:td>
+        <h:td width="50%" align="left">
+          <textbox value="@bind(vm.retypeNewPass)" type="password" width="100%"/>
+        </h:td>
+        <h:td width="30%">
+          <label sclass="error"
+                 value="@load(vmsgs['retypeNewPass'])"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td colspan="3" width="100%" align="center">
+          <button label="Сменить пароль" onClick="@command('changePass')"/>
+        </h:td>
+      </h:tr>
+    </h:table>
+
+  </div>
+
+</zk>

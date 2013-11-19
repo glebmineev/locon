@@ -15,7 +15,7 @@ class DropPassViewModel {
   String email
   //Генератор пароля
   PasswordGenerator pg = new PasswordGenerator(9)
-  //Сервисотсыла письма с паролем
+  //Сервис отсыла письма с паролем
   EmailService emailService =
     ApplicationHolder.getApplication().getMainContext().getBean("emailService") as EmailService
 

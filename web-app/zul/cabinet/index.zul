@@ -43,6 +43,7 @@
             </zscript>
             <a href="/cabinet/orders" label="Заказы"/>
             <a href="/cabinet/profile" label="Редактировать профиль"/>
+            <a href="/cabinet/changePass" label="Сменить пароль"/>
             <!--<a href="/cabinet/cabinet" label="????? ???????"/>-->
           </vbox>
         </div>

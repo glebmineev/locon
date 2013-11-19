@@ -23,6 +23,14 @@ class CabinetController {
     return [mainCategoties: initService.categories]
   }
 
+  def changePass() {
+    return [mainCategoties: initService.categories]
+  }
+
+  def successOperation() {
+    return [mainCategoties: initService.categories, message: "Ваш пароль успешно изменен!"]
+  }
+
   def beforeInterceptor = {
     //List<String> groups = loginService.getUserGroups()
     //if (!groups.contains("USER")) {
