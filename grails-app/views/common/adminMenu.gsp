@@ -49,21 +49,24 @@
         <li>
           <g:link controller="admin" action="products">Товары</g:link>
         </li>
-      <li>
-        <g:link controller="admin" action="categories">Категории</g:link>
-      </li>
+        <li>
+          <g:link controller="admin" action="categories">Категории</g:link>
+        </li>
         <li>
           <g:link controller="admin" action="info">Информация</g:link>
         </li>
         <li>
           <g:link controller="admin" action="manufacturers">Производители</g:link>
         </li>
-      <li>
-        <g:link controller="admin" action="filters">Фильтры</g:link>
-      </li>
+        <li>
+          <g:link controller="admin" action="filters">Фильтры</g:link>
+        </li>
         <li>
           <g:link controller="admin" action="editor">Редактор</g:link>
         </li>
+      <li>
+        <g:link controller="admin" action="users">Пользователи</g:link>
+      </li>
       </ul>
     </li>
     <li>

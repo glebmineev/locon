@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.UsersViewModel')" width="100%">
+
+
+
+    <listbox id="products" width="100%"
+          model="@bind(vm.usersModel) @template((each.editingStatus) ? 'editable' : 'noneditable')"
+          mold="paging"
+          sizedByContent="false"
+          pageSize="10">
+      <listhead>
+        <listheader width="110px" align="center"/>
+        <listheader align="center" label="Логин"/>
+        <listheader align="center" label="Пароль"/>
+        <listheader align="center" label="ФИО"/>
+        <listheader align="center" label="Телефон"/>
+        <listheader align="center" label="E-mail"/>
+        <listheader align="center" label="Адрес"/>
+        <listheader align="center" label="Роли"/>
+        <listheader align="center"/>
+      </listhead>
+      <template name="noneditable" var="item">
+        <listitem>
+          <listcell>
+            <image width="100px">
+              <zscript><![CDATA[
+
+                import ru.spb.locon.*
+                import org.zkoss.image.*
+                import org.codehaus.groovy.grails.commons.*
+                import ru.spb.locon.common.*
+
+                def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+                def serverFoldersService = ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService")
+                def loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService")
+
+                String path = new PathBuilder()
+                            .appendPath(serverFoldersService.userPics)
+                            .appendString(item.email)
+                            .build()
+                String std_name = STD_FILE_NAMES.USER_NAME.getName()
+                int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+                AImage img = imageService.getImageFile(path, std_name, std_size)
+                self.setContent(img)
+
+              ]]>
+              </zscript>
+            </image>
+          </listcell>
+          <listcell>
+            <label value="${item.login}"/>
+          </listcell>
+          <listcell>
+            <label value="${item.password}"/>
+          </listcell>
+          <listcell>
+            <label value="${item.fio}"/>
+          </listcell>
+          <listcell>
+            <label value="${item.phone}"/>
+          </listcell>
+          <listcell>
+            <label value="${item.email}"/>
+          </listcell>
+          <listcell>
+            <label value="${item.address}"/>
+          </listcell>
+          <listcell>
+            <listbox checkmark="true" width="90%" model="@bind(item.roles)" disabled="false">
+              <template name="model">
+                <listitem>
+                  <listcell/>
+                  <listcell label="${each.name}"/>
+                </listitem>
+              </template>
+            </listbox>
+          </listcell>
+          <listcell>
+            <image src="/images/pencil.png" onClick="@command('changeEditableStatus', model=item)"/>
+          </listcell>
+        </listitem>
+      </template>
+      <template name="editable" var="item">
+        <listitem>
+          <listcell>
+            <vbox align="center">
+              <image id="${item.id}" width="100px">
+                <zscript><![CDATA[
+
+                  import ru.spb.locon.*
+                  import org.zkoss.image.*
+                  import org.codehaus.groovy.grails.commons.*
+                  import ru.spb.locon.common.*
+
+                  def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+                  def serverFoldersService = ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService")
+                  def loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService")
+
+                  String path = new PathBuilder()
+                            .appendPath(serverFoldersService.userPics)
+                            .appendString(item.email)
+                            .build()
+                  String std_name = STD_FILE_NAMES.USER_NAME.getName()
+                  int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+                  AImage img = imageService.getImageFile(path, std_name, std_size)
+                  self.setContent(img)
+
+                  ]]>
+                </zscript>
+              </image>
+              <button label="Загрузить аватар" upload="true"
+                      onUpload="@command('uploadImage', inputEvent=event)"/>
+            </vbox>
+          </listcell>
+          <listcell>
+            <textbox value="@bind(item.login)"/>
+          </listcell>
+          <listcell>
+            <textbox rows="5" cols="15" value="@bind(item.password)"/>
+          </listcell>
+          <listcell>
+            <textbox value="@bind(item.fio)"/>
+          </listcell>
+          <listcell>
+            <textbox value="@bind(item.phone)"/>
+          </listcell>
+          <listcell>
+            <textbox value="@bind(item.email)"/>
+          </listcell>
+          <listcell>
+            <textbox value="@bind(item.address)" rows="4" cols="10"/>
+          </listcell>
+          <listcell>
+            <listbox checkmark="true" model="@bind(item.roles)">
+              <template name="model">
+                <listitem>
+                  <listcell/>
+                  <listcell label="${each.name}"/>
+                </listitem>
+              </template>
+            </listbox>
+          </listcell>
+          <listcell>
+            <image src="/images/success.gif" onClick="@command('updateUser', model=item)"/>
+            <image src="/images/failed.png"
+                   onClick="@command('deleteUser', model=item)"/>
+            <image src="/images/cancel.png" onClick="@command('cancelEditing', model=item)"/>
+          </listcell>
+        </listitem>
+      </template>
+    </listbox>
+    <button label="Создать нового пользователя" onClick="@command('createNew')"/>
+
+  </div>
+
+</zk>

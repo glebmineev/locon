@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <window id="productItem" apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.windows.NewUserWndViewModel')"
+          validationMessages="@id('vmsgs')"
+          form="@id('fx') @load(vm.name) @save(vm.name, before='saveManufacturer')
+             @validator('ru.spb.locon.validators.StdWndValidator', name=vm.name)"
+          width="440px"
+          height="250px"
+          position="center">
+
+    <h:table width="100%" cellpadding="0" cellspacing="5">
+      <h:tr>
+        <h:td width="20%" align="right">
+          <div width="80px">
+            <image id="targetImage" width="80px"/>
+            <zscript><![CDATA[
+
+               import ru.spb.locon.*
+               import org.zkoss.image.*
+               import org.codehaus.groovy.grails.commons.*
+               import ru.spb.locon.common.*
+
+               ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+               ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().
+                                    getBean("serverFoldersService") as ServerFoldersService
+
+
+               String path = new PathBuilder()
+                            .appendPath(serverFoldersService.images)
+                            .build()
+               String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+               int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
+
+               AImage img = imageService.getImageFile(path, std_name, std_size)
+               targetImage.setContent(img)
+
+             ]]>
+            </zscript>
+          </div>
+        </h:td>
+        <h:td width="00%" align="center">
+          <button label="Загрузить изображение" upload="true" onUpload="@command('uploadImage')"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label sclass="formLabel" value="Наименование:(*)"/>
+        </h:td>
+        <h:td width="50%" align="center">
+          <textbox value="@bind(vm.name)" width="100%"/>
+        </h:td>
+        <h:td width="30%" align="left">
+          <label sclass="error" value="@load(vmsgs['name'])"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label sclass="formLabel" value="Краткое наименование:"/>
+        </h:td>
+        <h:td colspan="2" width="80%" align="center">
+          <textbox value="@bind(vm.shortName)" width="100%"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td width="20%" align="right">
+          <label sclass="formLabel" value="Описание:"/>
+        </h:td>
+        <h:td colspan="2" width="80%" align="center">
+          <textbox value="@bind(vm.description)" width="100%"/>
+        </h:td>
+      </h:tr>
+      <h:tr>
+        <h:td colspan="3" align="center">
+          <button label="Сохранить" onClick="@command('saveManufacturer')"/>
+          <button label="Отмена" onClick="@command('closeWnd')"/>
+        </h:td>
+      </h:tr>
+    </h:table>
+
+  </window>
+</zk>

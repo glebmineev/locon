@@ -3,21 +3,41 @@
 <?page zscriptLanguage="GroovyGrails"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-
-  <div apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.zulModels.cabinet.OrdersViewModel')" width="100%">
-
     <!--<style src="/css/ZK.css"/>-->
 
-    <grid id="orders" mold="paging" width="100%"
+    <h:table apply="ru.spb.locon.BindComposer"
+             viewModel="@id('vm') @init('ru.spb.locon.zulModels.cabinet.OrdersViewModel')" width="100%">
+      <h:tr>
+          <h:td width="50%">
+            <label value="Номер заказа"/>
+          </h:td>
+          <h:td width="50%">
+            <label value="Статус"/>
+          </h:td>
+      </h:tr>
+      <h:tr children="@bind(vm.ordersModel)">
+        <template name="children">
+        <h:td width="50%">
+          <label value="${each.number}"/>
+        </h:td>
+        <h:td width="50%">
+          <label if="${each.isProcessed}" value="В процессе"/>
+          <label if="${each.isComplete}" value="Завершен"/>
+          <label if="${each.isCancel}" value="Отменен"/>
+        </h:td>
+        </template>
+      </h:tr>
+    </h:table>
+
+<!--    <grid id="orders" mold="paging" width="100%"
              model="@load(vm.ordersModel)" pageSize="10" emptyMessage="Заказов нет.">
       <columns>
         <column label="Номер"/>
-<!--        <column label="ФИО"/>
+&lt;!&ndash;        <column label="ФИО"/>
         <column label="Телефон"/>
-        <column label="E-mail"/>-->
+        <column label="E-mail"/>&ndash;&gt;
         <column label="Статус"/>
       </columns>
       <template name="model">
@@ -25,7 +45,7 @@
           <cell>
             <label value="${each.number}"/>
           </cell>
-<!--          <cell>
+&lt;!&ndash;          <cell>
             <label value="${each.fio}"/>
           </cell>
           <cell>
@@ -33,7 +53,7 @@
           </cell>
           <cell>
             <label value="${each.email}"/>
-          </cell>-->
+          </cell>&ndash;&gt;
           <cell>
             <label if="${each.isProcessed}" value="В процессе"/>
             <label if="${each.isComplete}" value="Завершен"/>
@@ -41,8 +61,6 @@
           </cell>
         </row>
       </template>
-    </grid>
-
-  </div>
+    </grid>-->
 
 </zk>

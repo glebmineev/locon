@@ -7,7 +7,7 @@ package ru.spb.locon.wrappers
  * Time: 3:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface Wrapper extends Cloneable {
+public interface Wrapper extends Cloneable, Serializable {
 
   void restore()
 

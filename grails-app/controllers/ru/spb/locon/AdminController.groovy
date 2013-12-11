@@ -24,6 +24,8 @@ class AdminController {
 
   def filters() { }
 
+  def users() { }
+
   def info() { }
 
   def categories() { }

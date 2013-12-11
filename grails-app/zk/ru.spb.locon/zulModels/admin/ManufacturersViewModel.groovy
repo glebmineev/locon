@@ -19,7 +19,6 @@ import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
 class ManufacturersViewModel extends DownloadImageViewModel {
 
-  String fileSeparator = System.getProperty("file.separator")
   ListModelList<ManufacturerWrapper> manufacturersModel
 
   @Init
@@ -92,7 +91,7 @@ class ManufacturersViewModel extends DownloadImageViewModel {
   }
 
   @Command
-  @NotifyChange(["manufacturersModel"])
+  @NotifyChange(["usersModel"])
   public void deleteManufacturer(@BindingParam("model") ManufacturerWrapper wrapper) {
 
     ManufacturerEntity.withTransaction {
@@ -100,7 +99,10 @@ class ManufacturersViewModel extends DownloadImageViewModel {
       toDelete.delete(flush: true)
     }
 
-    imageService.cleanStore(new File("${imageService.manufacturers}${fileSeparator}${wrapper.id}"))
+    imageService.cleanStore(new File(new PathBuilder()
+        .appendPath(serverFoldersService.manufacturersPics)
+        .appendString(wrapper.name)
+        .build()))
 
     List<ManufacturerWrapper> models = new ArrayList<ManufacturerWrapper>()
     ManufacturerEntity.list(sort: "name").each { it ->
