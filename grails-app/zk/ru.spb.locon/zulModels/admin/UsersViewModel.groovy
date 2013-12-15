@@ -24,14 +24,10 @@ import ru.spb.locon.wrappers.RoleWrapper
 import ru.spb.locon.wrappers.UserWrapper
 import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
+@Init(superclass=true)
 class UsersViewModel extends DownloadImageViewModel {
 
   ListModelList<UserWrapper> usersModel
-
-  @Init
-  public void init(){
-    configureInit()
-  }
 
   @Override
   void downloadParams() {

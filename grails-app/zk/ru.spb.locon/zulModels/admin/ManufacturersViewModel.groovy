@@ -17,14 +17,10 @@ import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.wrappers.ManufacturerWrapper
 import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
+@Init(superclass=true)
 class ManufacturersViewModel extends DownloadImageViewModel {
 
   ListModelList<ManufacturerWrapper> manufacturersModel
-
-  @Init
-  public void init(){
-    configureInit()
-  }
 
   @Override
   void downloadParams() {

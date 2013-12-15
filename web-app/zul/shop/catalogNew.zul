@@ -7,7 +7,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <div apply="ru.spb.locon.BindComposer"
+  <div id="catalog" apply="ru.spb.locon.BindComposer"
        viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.CatalogNewViewModel')" width="100%">
 
     <!-- Навигация -->

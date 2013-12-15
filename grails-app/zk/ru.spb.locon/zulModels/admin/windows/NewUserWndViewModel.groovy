@@ -23,6 +23,7 @@ import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.wrappers.RoleWrapper
 import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
+@Init(superclass=true)
 class NewUserWndViewModel extends DownloadImageViewModel {
 
   //Логгер
@@ -42,11 +43,6 @@ class NewUserWndViewModel extends DownloadImageViewModel {
 
   LoginService loginService =
     ApplicationHolder.getApplication().getMainContext().getBean("loginService") as LoginService
-
-  @Init
-  public void init() {
-    configureInit()
-  }
 
   @Override
   void downloadParams() {

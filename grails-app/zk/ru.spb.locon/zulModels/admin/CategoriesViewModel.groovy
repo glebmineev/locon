@@ -27,6 +27,7 @@ import ru.spb.locon.wrappers.CategoryTreeNode
 import ru.spb.locon.zulModels.admin.models.AdvancedTreeModel
 import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
+@Init(superclass=true)
 class CategoriesViewModel extends DownloadImageViewModel {
 
   AdvancedTreeModel categoryTreeModel
@@ -39,11 +40,6 @@ class CategoriesViewModel extends DownloadImageViewModel {
   String description
 
   InitService initService = ApplicationHolder.getApplication().getMainContext().getBean("initService") as InitService
-
-  @Init
-  public void init(){
-    configureInit()
-  }
 
   @Override
   void downloadParams() {

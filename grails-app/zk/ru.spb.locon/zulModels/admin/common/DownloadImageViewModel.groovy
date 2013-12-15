@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
+import org.zkoss.bind.annotation.Init
 import org.zkoss.image.AImage
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.event.UploadEvent
@@ -28,8 +29,8 @@ public abstract class DownloadImageViewModel {
   ServerFoldersService serverFoldersService =
     ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService") as ServerFoldersService
 
-
-  public void configureInit() {
+  @Init
+  public void init() {
     downloadParams()
     initialize()
   }

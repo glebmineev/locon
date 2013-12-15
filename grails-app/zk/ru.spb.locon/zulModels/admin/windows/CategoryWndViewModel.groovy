@@ -17,7 +17,7 @@ import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
-
+@Init(superclass=true)
 class CategoryWndViewModel extends DownloadImageViewModel {
 
   //Логгер
@@ -26,11 +26,6 @@ class CategoryWndViewModel extends DownloadImageViewModel {
   String name
   String parent
   Long parentID
-
-  @Init
-  public void init(){
-    configureInit()
-  }
 
   @Override
   void downloadParams() {

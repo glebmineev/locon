@@ -25,10 +25,9 @@ class ManufacturerWndViewModel extends DownloadImageViewModel {
   String shortName
   String description
 
-  @Init
-  public void init(){
-    configureInit()
-  }
+  @Init(superclass=true)
+  public void initMWnd(){ }
+
   @Override
   void downloadParams() {
     std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()

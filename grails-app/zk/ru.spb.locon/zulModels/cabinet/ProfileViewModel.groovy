@@ -12,6 +12,7 @@ import ru.spb.locon.common.STD_FILE_NAMES
 import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 
+@Init(superclass=true)
 class ProfileViewModel extends DownloadImageViewModel {
 
   String fio
@@ -20,11 +21,6 @@ class ProfileViewModel extends DownloadImageViewModel {
   String address
 
   LoginService loginService = ApplicationHolder.getApplication().getMainContext().getBean("loginService") as LoginService
-
-  @Init
-  public void init(){
-    configureInit()
-  }
 
   @Override
   void downloadParams() {

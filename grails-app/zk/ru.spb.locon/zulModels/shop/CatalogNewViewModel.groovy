@@ -13,6 +13,7 @@ import org.zkoss.zk.ui.Component
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
 import org.zkoss.zkplus.databind.BindingListModelList
+import org.zkoss.zul.Div
 import org.zkoss.zul.Include
 import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Textbox
@@ -224,6 +225,11 @@ class CatalogNewViewModel {
     categories.each { it ->
       links.add(new HrefWrapper(it.name, "/shop/catalog/category?category=${it.id}"))
     }
+  }
+
+  @Command
+  public void longProcess(@BindingParam("catalog") Div catalog) {
+    int r = 0
   }
 
 }

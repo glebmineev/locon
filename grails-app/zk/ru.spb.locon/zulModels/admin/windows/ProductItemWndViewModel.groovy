@@ -19,6 +19,7 @@ import ru.spb.locon.zulModels.admin.common.DownloadImageViewModel
 /**
  * Модель формы редактирования товара.
  */
+@Init(superclass=true)
 class ProductItemWndViewModel extends DownloadImageViewModel {
 
   Long categoryID
@@ -40,11 +41,6 @@ class ProductItemWndViewModel extends DownloadImageViewModel {
 
   //Отображение компонентов в случае если диалоговое окно
   boolean isModal
-
-  @Init
-  public void init() {
-    configureInit()
-  }
 
   @Override
   void downloadParams() {
