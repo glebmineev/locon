@@ -10,17 +10,24 @@
   <window id="productItem" apply="ru.spb.locon.BindComposer"
           viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.windows.NewUserWndViewModel')"
           validationMessages="@id('vmsgs')"
-          form="@id('fx') @load(vm.name) @save(vm.name, before='saveManufacturer')
-             @validator('ru.spb.locon.validators.StdWndValidator', name=vm.name)"
-          width="440px"
-          height="250px"
+          form="@id('fx') @load(vm.login) @save(vm.login, before='saveUser')
+                @validator('ru.spb.locon.validators.UserValidator',
+                login=vm.login,
+                password=vm.password,
+                fio=vm.fio,
+                address=vm.address,
+                repassword=vm.repassword,
+                email=vm.email)"
+          width="100%"
           position="center">
+
+    <style src="/css/ZK.css"/>
 
     <h:table width="100%" cellpadding="0" cellspacing="5">
       <h:tr>
-        <h:td width="20%" align="right">
-          <div width="80px">
-            <image id="targetImage" width="80px"/>
+        <h:td width="50%" align="right">
+          <div width="320px" align="center" sclass="imageBoxAdmin">
+            <image id="targetImage" style="margin: 10px"/>
             <zscript><![CDATA[
 
                import ru.spb.locon.*
@@ -37,7 +44,7 @@
                String path = new PathBuilder()
                             .appendPath(serverFoldersService.images)
                             .build()
-               String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+               String std_name = STD_FILE_NAMES.USER_NAME.getName()
                int std_size = STD_IMAGE_SIZES.MIDDLE.getSize()
 
                AImage img = imageService.getImageFile(path, std_name, std_size)
@@ -47,44 +54,126 @@
             </zscript>
           </div>
         </h:td>
-        <h:td width="00%" align="center">
-          <button label="Загрузить изображение" upload="true" onUpload="@command('uploadImage')"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td width="20%" align="right">
-          <label sclass="formLabel" value="Наименование:(*)"/>
-        </h:td>
-        <h:td width="50%" align="center">
-          <textbox value="@bind(vm.name)" width="100%"/>
-        </h:td>
-        <h:td width="30%" align="left">
-          <label sclass="error" value="@load(vmsgs['name'])"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td width="20%" align="right">
-          <label sclass="formLabel" value="Краткое наименование:"/>
-        </h:td>
-        <h:td colspan="2" width="80%" align="center">
-          <textbox value="@bind(vm.shortName)" width="100%"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td width="20%" align="right">
-          <label sclass="formLabel" value="Описание:"/>
-        </h:td>
-        <h:td colspan="2" width="80%" align="center">
-          <textbox value="@bind(vm.description)" width="100%"/>
-        </h:td>
-      </h:tr>
-      <h:tr>
-        <h:td colspan="3" align="center">
-          <button label="Сохранить" onClick="@command('saveManufacturer')"/>
-          <button label="Отмена" onClick="@command('closeWnd')"/>
+        <h:td align="left" width="50%">
+          <div align="left">
+            <button label="Загрузить аватар" upload="true" onUpload="@command('uploadImage')"/>
+          </div>
         </h:td>
       </h:tr>
     </h:table>
+
+    <grid id="producItemGrid" height="100%" width="100%" style="margin: 5px">
+      <columns>
+        <column align="right"/>
+        <column align="left"/>
+        <column align="left"/>
+      </columns>
+      <rows>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="Логин:(*)"/>
+          </cell>
+          <cell width="50%" align="center">
+            <textbox value="@bind(vm.login)" width="100%"/>
+          </cell>
+          <cell width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['login'])"/>
+          </cell>
+        </row>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="Пароль:(*)"/>
+          </cell>
+          <cell width="50%" align="center">
+            <textbox type="password" value="@bind(vm.password)" width="100%"/>
+          </cell>
+          <cell width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['password'])"/>
+          </cell>
+        </row>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="Повторите пароль:(*)"/>
+          </cell>
+          <cell width="50%" align="center">
+            <textbox type="password" value="@bind(vm.repassword)" width="100%"/>
+          </cell>
+          <cell width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['repassword'])"/>
+          </cell>
+        </row>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="ФИО:(*)"/>
+          </cell>
+          <cell width="50%" align="center">
+            <textbox value="@bind(vm.fio)" width="100%"/>
+          </cell>
+          <cell width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['fio'])"/>
+          </cell>
+        </row>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="Телефон:"/>
+          </cell>
+          <cell colspan="2" width="80%" align="center">
+            <textbox value="@bind(vm.phone)" width="100%"/>
+          </cell>
+        </row>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="Эл. почта:(*)"/>
+          </cell>
+          <cell width="50%" align="center">
+            <textbox value="@bind(vm.email)" width="100%"/>
+          </cell>
+          <cell width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['email'])"/>
+          </cell>
+        </row>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="Адрес:(*)"/>
+          </cell>
+          <cell width="50%" align="center">
+            <textbox value="@bind(vm.address)" width="100%"/>
+          </cell>
+          <cell width="30%" align="left">
+            <label sclass="error" value="@load(vmsgs['address'])"/>
+          </cell>
+        </row>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="Активировать пользователя:"/>
+          </cell>
+          <cell colspan="2" width="80%" align="center">
+            <checkbox value="@bind(vm.isActive)" width="100%"/>
+          </cell>
+        </row>
+        <row>
+          <cell width="20%" align="right">
+            <label sclass="formLabel" value="Роли:"/>
+          </cell>
+          <cell colspan="2" width="80%" align="center">
+            <listbox checkmark="true" width="99%" model="@bind(vm.roles)">
+              <template name="model">
+                <listitem>
+                  <listcell/>
+                  <listcell label="${each.name}"/>
+                </listitem>
+              </template>
+            </listbox>
+          </cell>
+        </row>
+        <row>
+          <cell colspan="3" align="center">
+            <button label="Сохранить" onClick="@command('saveUser')"/>
+            <button label="Отмена" onClick="@command('closeWnd')"/>
+          </cell>
+        </row>
+      </rows>
+    </grid>
 
   </window>
 </zk>

@@ -13,7 +13,7 @@
     ]]></zscript>-->
 
   <window id="productItem" apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.ProductItemViewModel')" width="100%">
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.admin.windows.ProductItemWndViewModel')" width="100%">
 
     <style src="/css/ZK.css"/>
 

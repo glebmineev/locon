@@ -42,6 +42,11 @@ class UserEntity {
       activateCode column: 'user_activate_code'
     }
 
+    /**
+     * Если писать groups cascade: 'all-delete-orphan'
+     * удалиться группа.
+     */
+
     orderList cascade: 'all-delete-orphan'
     messageList cascade: 'all-delete-orphan'
 

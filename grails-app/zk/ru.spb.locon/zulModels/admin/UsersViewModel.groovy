@@ -11,7 +11,9 @@ import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
+import org.zkoss.zul.Div
 import org.zkoss.zul.ListModelList
+import org.zkoss.zul.Vlayout
 import org.zkoss.zul.Window
 import ru.spb.locon.RoleEntity
 import ru.spb.locon.UserEntity
@@ -65,13 +67,16 @@ class UsersViewModel extends DownloadImageViewModel {
   @Command
   public void updateUser(@BindingParam("model") UserWrapper wrapper) {
 
+    UserEntity toSave = UserEntity.get(wrapper.id)
+    String oldEmail = toSave.getEmail()
+
     UserEntity.withTransaction {
-      UserEntity toSave = UserEntity.get(wrapper.id)
       toSave.setLogin(wrapper.getLogin())
       if (!Strings.isNullOrEmpty(wrapper.getPassword()))
         toSave.setPassword(wrapper.getPassword().encodeAsSHA1())
       toSave.setAddress(wrapper.getAddress())
       toSave.setFio(wrapper.getFio())
+      toSave.setEmail(wrapper.getEmail())
       toSave.setAddress(wrapper.getAddress())
       RoleEntity.list().each {role ->
         toSave.removeFromGroups(role)
@@ -95,19 +100,26 @@ class UsersViewModel extends DownloadImageViewModel {
       if (toSave.validate()) {
         toSave.save(flush: true)
 
+        File store = new File(new PathBuilder()
+            .appendPath(serverFoldersService.userPics)
+            .appendString(toSave.email)
+            .build())
+
+        if (!store.exists())
+          store.mkdirs()
+
+        File oldPics = new File(new PathBuilder()
+            .appendPath(serverFoldersService.userPics)
+            .appendString(oldEmail)
+            .build())
+        FileUtils.copyDirectory(oldPics, store)
+        imageService.cleanStore(oldPics)
+
         if (uuid != null) {
           File temp = new File(new PathBuilder()
               .appendPath(serverFoldersService.temp)
               .appendString(uuid)
               .build())
-
-          File store = new File(new PathBuilder()
-              .appendPath(serverFoldersService.userPics)
-              .appendString(wrapper.email)
-              .build())
-          if (!store.exists())
-            store.mkdirs()
-
           FileUtils.copyDirectory(temp, store)
         }
 
@@ -123,16 +135,24 @@ class UsersViewModel extends DownloadImageViewModel {
 
     UserEntity.withTransaction {
       UserEntity toDelete = UserEntity.get(wrapper.id)
+
+      toDelete.groups.each {role ->
+        RoleEntity retrived = RoleEntity.get(role.id)
+        retrived.removeFromUsers(UserEntity.get(toDelete.id))
+        if (retrived.validate())
+          retrived.save(flush: true)
+      }
+
       toDelete.delete(flush: true)
     }
 
     imageService.cleanStore(new File(new PathBuilder()
         .appendPath(serverFoldersService.userPics)
-        .appendString(wrapper.name)
+        .appendString(wrapper.email)
         .build()))
 
     List<UserWrapper> models = new ArrayList<UserWrapper>()
-    UserEntity.list(sort: "name").each { it ->
+    UserEntity.list(sort: "email").each { it ->
       UserWrapper model = new UserWrapper(it)
       model.setMemento(model.clone() as UserWrapper)
       models.add(model)
@@ -151,8 +171,21 @@ class UsersViewModel extends DownloadImageViewModel {
 
   @Command
   public void createNew(){
+
+    Window wnd = new Window()
+    wnd.setWidth("80%")
+    wnd.setHeight("500px")
+    wnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
+    Div div = new Div()
+    div.setStyle("overflow: auto;")
+    div.setWidth("100%")
+    div.setHeight("500px")
+    wnd.appendChild(div)
+    Vlayout panel = new Vlayout()
+    div.appendChild(panel)
+
     Map<Object, Object> params = new HashMap<Object, Object>()
-    Window wnd = Executions.createComponents("/zul/admin/windows/createNewUserWnd.zul", null, params) as Window
+    Executions.createComponents("/zul/admin/windows/createNewUserWnd.zul", panel, params) as Window
     wnd.setPage(ExecutionsCtrl.getCurrentCtrl().getCurrentPage())
     wnd.doModal()
     wnd.setVisible(true)

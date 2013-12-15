@@ -77,7 +77,7 @@
             <label value="${item.address}"/>
           </listcell>
           <listcell>
-            <listbox checkmark="true" width="90%" model="@bind(item.roles)" disabled="false">
+            <listbox checkmark="true" width="90%" model="@bind(item.roles)" disabled="true">
               <template name="model">
                 <listitem>
                   <listcell/>
@@ -161,7 +161,7 @@
         </listitem>
       </template>
     </listbox>
-    <button label="Создать нового пользователя" onClick="@command('createNew')"/>
+    <button label="Создать нового пользователя" onClick="@command('createNew')" autodisable="true"/>
 
   </div>
 
