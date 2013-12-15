@@ -20,44 +20,7 @@
           <h:li>
             <div>
               <div align="center">
-                <image sclass="productImage">
-                  <zscript>
-                    <![CDATA[
-
-                        import ru.spb.locon.*
-                        import org.zkoss.image.*
-                        import org.codehaus.groovy.grails.commons.*
-                        import ru.spb.locon.common.*
-                        import org.zkoss.zk.ui.*
-                        import org.zkoss.zk.ui.util.Clients
-
-                        ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
-
-                        ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService") as ServerFoldersService
-                        ProductEntity product = ProductEntity.get(each.id)
-
-                        String path = new PathBuilder()
-                            .appendPath(serverFoldersService.productImages)
-                            .appendString(product.engImagePath)
-                            .build()
-                        String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
-                        int std_size = STD_IMAGE_SIZES.SMALL.getSize()
-
-                        AImage img = imageService.getImageFile(path, std_name, std_size)
-                        self.setContent(img)
-
-                        def id = each.id
-                        final def item = self
-                        self.addEventListener(Events.ON_CLICK, new EventListener(){
-                            @Override
-                            void onEvent(Event t) {
-                              Executions.sendRedirect("/shop/product?product=${id}")
-                            }
-                        })
-
-                    ]]>
-                  </zscript>
-                </image>
+                <image sclass="productImage" content="${each.image}" onClick="@command('goToProduct', item=each)"/>
               </div>
               <vbox>
                 <div height="20px">

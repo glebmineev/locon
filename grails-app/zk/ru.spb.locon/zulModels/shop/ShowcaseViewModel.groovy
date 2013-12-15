@@ -30,6 +30,10 @@ import ru.spb.locon.ImageService
 import ru.spb.locon.InitService
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductEntity
+import ru.spb.locon.ServerFoldersService
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.STD_FILE_NAMES
+import ru.spb.locon.common.STD_IMAGE_SIZES
 import ru.spb.locon.wrappers.CategoryWrapper
 import ru.spb.locon.wrappers.HrefWrapper
 import ru.spb.locon.wrappers.ProductWrapper
@@ -63,6 +67,8 @@ class ShowcaseViewModel {
   ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService") as ImageService
   CartService cartService = ApplicationHolder.getApplication().getMainContext().getBean("cartService") as CartService
   InitService initService = ApplicationHolder.getApplication().getMainContext().getBean("initService") as InitService
+  ServerFoldersService serverFoldersService =
+    ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService") as ServerFoldersService
 
   //Id выбранной пользователем категории.
   Long categoryID
@@ -165,7 +171,7 @@ class ShowcaseViewModel {
   public void addRows(Ul parent) {
     int nextIndex = currentIndex + 20
     int allProductsSize = allProducts.size()
-    List<ProductWrapper> subList
+    List<ProductWrapper> subList = new ArrayList<ProductWrapper>()
     if (nextIndex < allProductsSize) {
       subList = transform(allProducts.subList(currentIndex, nextIndex))
       currentIndex = currentIndex + 20
@@ -184,8 +190,15 @@ class ShowcaseViewModel {
       Image img = new Image()
       img.setSclass("productImage")
 
-      AImage aImg = imageService.getImageFile(ProductEntity.get(it.id), "150")
-      img.setContent(aImg)
+      String path = new PathBuilder()
+          .appendPath(serverFoldersService.productImages)
+          .appendString(ProductEntity.get(it.id).engImagePath)
+          .build()
+      String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+      int std_size = STD_IMAGE_SIZES.SMALL.getSize()
+
+      AImage aImage = imageService.getImageFile(path, std_name, std_size)
+      img.setContent(aImage)
 
       img.addEventListener(Events.ON_CLICK, new org.zkoss.zk.ui.event.EventListener() {
         @Override
@@ -207,6 +220,12 @@ class ShowcaseViewModel {
 
     }
 
+  }
+
+
+  @Command
+  public void goToProduct(@BindingParam("item") ProductWrapper wrapper){
+    Executions.sendRedirect("/shop/product?product=${wrapper.id}")
   }
 
 }

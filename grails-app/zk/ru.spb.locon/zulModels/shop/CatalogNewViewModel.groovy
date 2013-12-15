@@ -12,6 +12,7 @@ import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Component
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
+import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zkplus.databind.BindingListModelList
 import org.zkoss.zul.Div
 import org.zkoss.zul.Include
@@ -142,15 +143,15 @@ class CatalogNewViewModel {
    * Применение фильтров.
    */
   @Command
-  public void filtred(@BindingParam("event") Event event) {
-
+  public void filtred() {
+    Event event = ExecutionsCtrl.getCurrentCtrl().getExecutionInfo().getEvent()
     filtredProducts.clear()
     applyManufacturers()
     applyUsageFilter()
     if (event instanceof InputEvent)
       applyPriceFilter(event)
 
-    Page page = event.getPage() as Page
+    Page page = ExecutionsCtrl.getCurrentCtrl().getCurrentPage()
     Include showcase = page.getFellow("showcase") as Include
     showcase.setDynamicProperty("allProducts", filtredProducts)
     showcase.invalidate()

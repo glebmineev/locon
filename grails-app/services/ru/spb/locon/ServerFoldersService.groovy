@@ -15,6 +15,11 @@ class ServerFoldersService implements InitializingBean {
   String fileSeparator = System.getProperty("file.separator")
 
   /**
+   * Корневой каталог картинок.
+   */
+  private final static String pictures = "pictures";
+
+  /**
    * Путь до каталога выгрузки excel заказов.
    */
   String orders;
@@ -51,6 +56,7 @@ class ServerFoldersService implements InitializingBean {
 
     orders = new PathBuilder()
         .appendPath(twoLevelUp)
+        .appendPath(pictures)
         .appendPath("admin")
         .appendString("orders")
         .checkDir()
@@ -65,30 +71,35 @@ class ServerFoldersService implements InitializingBean {
 
     userPics = new PathBuilder()
         .appendPath(twoLevelUp)
+        .appendPath(pictures)
         .appendString("userPics")
         .checkDir()
         .build()
 
     productImages = new PathBuilder()
         .appendPath(twoLevelUp)
+        .appendPath(pictures)
         .appendString("productImages")
         .checkDir()
         .build()
 
     manufacturersPics  = new PathBuilder()
         .appendPath(twoLevelUp)
+        .appendPath(pictures)
         .appendString("manufacturersPics")
         .checkDir()
         .build()
 
     categoriesPics  = new PathBuilder()
         .appendPath(twoLevelUp)
+        .appendPath(pictures)
         .appendString("categoriesPics")
         .checkDir()
         .build()
 
-    temp  = new PathBuilder()
+    temp = new PathBuilder()
         .appendPath(twoLevelUp)
+        .appendPath(pictures)
         .appendString("temp")
         .checkDir()
         .build()

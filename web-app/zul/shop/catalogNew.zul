@@ -75,7 +75,7 @@
           <groupbox closable="false" if="${vm.categories.size() > 0}" >
             <caption label="Категории"/>
             <!-- Список категории -->
-            <listbox id="categories" model="@load(vm.categories)" height="250px">
+            <listbox id="categories" model="@bind(vm.categories)" height="250px">
               <listhead>
                 <listheader>
                   <zscript>
@@ -107,13 +107,13 @@
             <groupbox closable="false">
               <caption label="Фильтр"/>
 
-              <listbox id="manufListbox" model="@load(vm.manufsFilterModel)" multiple="true" checkmark="true"
+              <listbox id="manufListbox" model="@bind(vm.manufsFilterModel)" multiple="true" checkmark="true"
                        height="122px">
                 <listhead>
                   <listheader label="Производитель"/>
                 </listhead>
                 <template name="model" var="item">
-                  <listitem onClick="@command('filtred', event=event)">
+                  <listitem onClick="@command('filtred')">
                     <listcell>
                       <label value="${item.name}"/>
                     </listcell>
@@ -122,13 +122,13 @@
               </listbox>
               <h:br/>
               <!-- Фильтр по применению -->
-              <listbox id="usageListbox" model="@load(vm.usageFilterModel)" multiple="true" checkmark="true"
+              <listbox id="usageListbox" model="@bind(vm.usageFilterModel)" multiple="true" checkmark="true"
                        height="250px">
                 <listhead>
                   <listheader label="Применение"/>
                 </listhead>
                 <template name="model" var="item">
-                  <listitem onClick="@command('filtred', event=event)">
+                  <listitem onClick="@command('filtred')">
                     <listcell>
                       <label value="${item.name}"/>
                     </listcell>
@@ -139,11 +139,11 @@
               <label value="Цена"/>
               <div>
                 <label value="От"/>
-                <textbox id="beforeFilterPrice" onChanging="@command('filtred', event=event)"/>
+                <textbox id="beforeFilterPrice" onChanging="@command('filtred')"/>
               </div>
               <div>
                 <label value="До"/>
-                <textbox id="afterFilterPrice" onChanging="@command('filtred', event=event)"/>
+                <textbox id="afterFilterPrice" onChanging="@command('filtred')"/>
               </div>
             </groupbox>
           </div>

@@ -1,9 +1,16 @@
 package ru.spb.locon.wrappers
 
+import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.zkoss.image.AImage
 import org.zkoss.zul.ListModelList
 import ru.spb.locon.FilterEntity
+import ru.spb.locon.ImageService
 import ru.spb.locon.ManufacturerEntity
 import ru.spb.locon.ProductEntity
+import ru.spb.locon.ServerFoldersService
+import ru.spb.locon.common.PathBuilder
+import ru.spb.locon.common.STD_FILE_NAMES
+import ru.spb.locon.common.STD_IMAGE_SIZES
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,6 +39,12 @@ class ProductWrapper extends IdentWrapper implements Wrapper {
   Long totalPrice;
   Long count;
 
+  AImage image
+
+  ImageService imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService");
+
+  ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().getBean("serverFoldersService") as ServerFoldersService
+
   boolean inCart = false
 
   public ProductWrapper(ProductEntity productEntity) {
@@ -46,6 +59,15 @@ class ProductWrapper extends IdentWrapper implements Wrapper {
     this.countToStock = productEntity.countToStock
     this.manufacturer = productEntity.manufacturer
     this.filter = productEntity.filter
+
+    String path = new PathBuilder()
+        .appendPath(serverFoldersService.productImages)
+        .appendString(productEntity.engImagePath)
+        .build()
+    String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
+    int std_size = STD_IMAGE_SIZES.SMALL.getSize()
+
+    this.image = imageService.getImageFile(path, std_name, std_size)
 
     manufacturers = new ListModelList<ManufacturerEntity>(ManufacturerEntity.list(sort: "name"))
     manufacturers.addToSelection(manufacturer)
