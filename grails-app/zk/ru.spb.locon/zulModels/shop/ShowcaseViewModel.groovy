@@ -102,24 +102,16 @@ class ShowcaseViewModel {
     this.isChangeShow = Boolean.parseBoolean(isChangeShow)
     this.showAppendBtn = Boolean.parseBoolean(showAppendBtn)
     isBusy = true
-    rebuildModel(data)
-  }
-
-  /**
-   * Обновление модели данных вложения.
-   * @param data
-   */
-  @Command
-  @NotifyChange(["products"])
-  void rebuildModel(List<ProductEntity> data){
     currentIndex = 0;
-    allProducts.clear()
     allProducts.addAll(data)
   }
 
-
+  /**
+   * Первичная инициализация модели каталога.
+   * @param data
+   */
   @GlobalCommand
-  @NotifyChange(["products"])
+  @NotifyChange(["products", "isBusy"])
   public void refreshShowcase(@BindingParam("data") List<ProductWrapper> data){
     currentIndex = 0;
     products.clear()
@@ -128,8 +120,9 @@ class ShowcaseViewModel {
       currentIndex += allProductsSize > showToPage - 1 ? showToPage : allProductsSize
       products.addAll(data.subList(0, currentIndex))
     }
-    this.isBusy = isBusy
+    this.isBusy = false
   }
+
   @GlobalCommand
   @NotifyChange(["isBusy"])
   public void isBusy(@BindingParam("isBusy") List<ProductWrapper> data){

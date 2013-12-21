@@ -14,9 +14,6 @@
         <button label="rows" onClick="@command('applyRowTemplate')"/>
         <button label="cells" onClick="@command('applyCellTemplate')"/>
       </div>
-      <div visible="@load(vm.isBusy)">
-        <label value="Loadind..."/>
-      </div>
       <!-- витрина товаров -->
       <h:ul id="products" children="@bind(vm.products)">
         <template name="children">
@@ -47,6 +44,12 @@
           </h:li>
         </template>
       </h:ul>
+      <window mode="highlighted" position="center" closable="false" visible="@load(vm.isBusy)">
+        <vbox>
+          <label value="Здесь может быть ваша реклама..."/>
+          <image src="/images/longProgress.gif"/>
+        </vbox>
+      </window>
     </div>
       <button label="Еще..." onClick="@command('appendElse')" autodisable="true" if="${vm.showAppendBtn}"/>
   </div>
