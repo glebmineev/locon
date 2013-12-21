@@ -6,7 +6,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <div apply="ru.spb.locon.BindComposer"
+  <div apply="ru.spb.locon.BindComposer, ru.spb.locon.ShowcaseBindComposer" binder="@init(queueName='showcasequeue')"
        viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.ShowcaseViewModel')">
     <div sclass="products-cell-template">
       <!-- панель изменения отображения витрины -->
@@ -14,8 +14,11 @@
         <button label="rows" onClick="@command('applyRowTemplate')"/>
         <button label="cells" onClick="@command('applyCellTemplate')"/>
       </div>
+      <div visible="@load(vm.isBusy)">
+        <label value="Loadind..."/>
+      </div>
       <!-- витрина товаров -->
-      <h:ul children="@bind(vm.products)">
+      <h:ul id="products" children="@bind(vm.products)">
         <template name="children">
           <h:li>
             <div>

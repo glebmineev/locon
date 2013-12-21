@@ -6,11 +6,14 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zkoss.bind.BindUtils
+import org.zkoss.bind.annotation.AfterCompose
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
+import org.zkoss.bind.annotation.DefaultGlobalCommand
 import org.zkoss.bind.annotation.ExecutionArgParam
+import org.zkoss.bind.annotation.GlobalCommand
 import org.zkoss.bind.annotation.Init
 import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.image.AImage
@@ -18,6 +21,7 @@ import org.zkoss.zhtml.Li
 import org.zkoss.zhtml.Ul
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.Event
+import org.zkoss.zk.ui.event.EventQueues
 import org.zkoss.zk.ui.event.Events
 import org.zkoss.zul.Div
 import org.zkoss.zul.Image
@@ -61,6 +65,10 @@ class ShowcaseViewModel {
   //Модель данных для фильра по применению.
   ListModelList<FilterEntity> usageFilterModel
 
+  long showToPage = 9
+
+  boolean isBusy
+
   /**
    * Необходимые сервисы.
    */
@@ -93,7 +101,7 @@ class ShowcaseViewModel {
     uuidInclude = UUID.randomUUID()
     this.isChangeShow = Boolean.parseBoolean(isChangeShow)
     this.showAppendBtn = Boolean.parseBoolean(showAppendBtn)
-
+    isBusy = true
     rebuildModel(data)
   }
 
@@ -106,14 +114,28 @@ class ShowcaseViewModel {
   void rebuildModel(List<ProductEntity> data){
     currentIndex = 0;
     allProducts.clear()
-    products.clear()
     allProducts.addAll(data)
+  }
+
+
+  @GlobalCommand
+  @NotifyChange(["products"])
+  public void refreshShowcase(@BindingParam("data") List<ProductWrapper> data){
+    currentIndex = 0;
+    products.clear()
     int allProductsSize = allProducts.size()
     if (allProductsSize > 0) {
-      currentIndex += allProductsSize > 19 ? 20 : allProductsSize
-      products.addAll(transform(allProducts.subList(0, currentIndex)))
+      currentIndex += allProductsSize > showToPage - 1 ? showToPage : allProductsSize
+      products.addAll(data.subList(0, currentIndex))
     }
+    this.isBusy = isBusy
   }
+  @GlobalCommand
+  @NotifyChange(["isBusy"])
+  public void isBusy(@BindingParam("isBusy") List<ProductWrapper> data){
+    this.isBusy = isBusy
+  }
+
 
   List<ProductWrapper> transform(List<ProductEntity> target) {
     return Collections2.transform(target, new Function<ProductEntity, ProductWrapper>() {
@@ -139,7 +161,7 @@ class ShowcaseViewModel {
 
   @Command
   public void refreshRowTemplate(ProductWrapper wrapper) {
-    BindUtils.postNotifyChange(null, null, wrapper, "inCart");
+    BindUtils.postNotifyChange("showcasequeue", EventQueues.DESKTOP, wrapper, "inCart");
   }
 
   @Command
@@ -169,12 +191,12 @@ class ShowcaseViewModel {
   }
 
   public void addRows(Ul parent) {
-    int nextIndex = currentIndex + 20
+    int nextIndex = currentIndex + showToPage
     int allProductsSize = allProducts.size()
     List<ProductWrapper> subList = new ArrayList<ProductWrapper>()
     if (nextIndex < allProductsSize) {
       subList = transform(allProducts.subList(currentIndex, nextIndex))
-      currentIndex = currentIndex + 20
+      currentIndex = currentIndex + showToPage
     } else if (nextIndex > allProductsSize) {
       subList = transform(allProducts.subList(currentIndex, allProductsSize))
       currentIndex = allProductsSize
