@@ -103,6 +103,8 @@ class ShowcaseViewModel {
     this.showAppendBtn = Boolean.parseBoolean(showAppendBtn)
     isBusy = true
     currentIndex = 0;
+    products.clear()
+    allProducts.clear()
     allProducts.addAll(data)
   }
 
@@ -111,24 +113,17 @@ class ShowcaseViewModel {
    * @param data
    */
   @GlobalCommand
-  @NotifyChange(["products", "isBusy"])
+  @NotifyChange(["products", "isBusy", "showAppendBtn"])
   public void refreshShowcase(@BindingParam("data") List<ProductWrapper> data){
     currentIndex = 0;
     products.clear()
-    int allProductsSize = allProducts.size()
-    if (allProductsSize > 0) {
-      currentIndex += allProductsSize > showToPage - 1 ? showToPage : allProductsSize
+    int dateSize = data.size()
+    if (dateSize > 0) {
+      currentIndex += dateSize > showToPage - 1 ? showToPage : dateSize
       products.addAll(data.subList(0, currentIndex))
     }
     this.isBusy = false
   }
-
-  @GlobalCommand
-  @NotifyChange(["isBusy"])
-  public void isBusy(@BindingParam("isBusy") List<ProductWrapper> data){
-    this.isBusy = isBusy
-  }
-
 
   List<ProductWrapper> transform(List<ProductEntity> target) {
     return Collections2.transform(target, new Function<ProductEntity, ProductWrapper>() {
@@ -178,8 +173,9 @@ class ShowcaseViewModel {
   @Command
   @NotifyChange(["showAppendBtn"])
   public void appendElse(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
-    Include include = event.getTarget().getSpaceOwner() as Include
-    Ul root = include.getFirstChild().getFirstChild().getLastChild() as Ul
+    //Include include = event.getTarget().getSpaceOwner() as Include
+    Include showcaseDiv = event.getTarget().getSpaceOwner() as Include
+    Ul root = showcaseDiv.getFellow("products") as Ul//include.getFirstChild().getFirstChild().getLastChild() as Ul
     addRows(root)
   }
 

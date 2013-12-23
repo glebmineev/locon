@@ -51,6 +51,6 @@
         </vbox>
       </window>
     </div>
-      <button label="Еще..." onClick="@command('appendElse')" autodisable="true" if="${vm.showAppendBtn}"/>
+      <button label="Еще..." onClick="@command('appendElse')" autodisable="true" visible="@bind(vm.showAppendBtn)"/>
   </div>
 </zk>
