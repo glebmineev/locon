@@ -27,20 +27,7 @@
         <row onClick="@command('redirectToProductItem', product=each)">
           <cell>
             <div align="center" width="160px" sclass="imageBox">
-              <image>
-                <zscript><![CDATA[
-                      import ru.spb.locon.*
-                      import org.codehaus.groovy.grails.commons.*
-                      import org.zkoss.image.*
-
-                      ImageService imageService =
-                                    ApplicationHolder.getApplication().getMainContext().getBean("imageService");
-
-                      AImage img = imageService.getImageFile(each, "${150}")
-                      self.setContent(img)
-                      ]]>
-                </zscript>
-              </image>
+              <image content="${each.image}"/>
             </div>
           </cell>
           <cell>

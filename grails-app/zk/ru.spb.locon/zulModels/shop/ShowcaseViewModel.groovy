@@ -173,12 +173,12 @@ class ShowcaseViewModel {
   @Command
   @NotifyChange(["showAppendBtn"])
   public void appendElse(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
-    //Include include = event.getTarget().getSpaceOwner() as Include
     Include showcaseDiv = event.getTarget().getSpaceOwner() as Include
-    Ul root = showcaseDiv.getFellow("products") as Ul//include.getFirstChild().getFirstChild().getLastChild() as Ul
+    Ul root = showcaseDiv.getFellow("products") as Ul
     addRows(root)
   }
 
+  //TODO:: доделать верстку ячейки товара.
   public void addRows(Ul parent) {
     int nextIndex = currentIndex + showToPage
     int allProductsSize = allProducts.size()
@@ -233,10 +233,10 @@ class ShowcaseViewModel {
 
   }
 
-
   @Command
   public void goToProduct(@BindingParam("item") ProductWrapper wrapper){
-    Executions.sendRedirect("/shop/product?product=${wrapper.id}")
+    Executions.getCurrent().getDesktop().setBookmark("catalog")
+    Executions.sendRedirect("/shop/catalog?product=${wrapper.id}")
   }
 
 }

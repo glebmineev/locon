@@ -1,11 +1,14 @@
 package ru.spb.locon.zulModels.search
 
+import com.google.common.base.Function
+import com.google.common.collect.Collections2
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.Init
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zul.ListModelList
 import ru.spb.locon.ProductEntity
+import ru.spb.locon.wrappers.ProductWrapper
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,7 +19,7 @@ import ru.spb.locon.ProductEntity
  */
 class SearchResultViewModel {
 
-  ListModelList<ProductEntity> model
+  ListModelList<ProductWrapper> model
 
   @Init
   public void init(){
@@ -28,12 +31,20 @@ class SearchResultViewModel {
       //sqlRestriction("product_name like '%${keyword}%' or product_description like '%${keyword}%' or product_usage like '%${keyword}%'")
     }
 
-    model = new ListModelList<ProductEntity>(list);
+    Collection<ProductWrapper> transformed = Collections2.transform(list, new Function<ProductEntity, ProductWrapper>() {
+      @Override
+      ProductWrapper apply(ProductEntity f) {
+        ProductWrapper wrapper = new ProductWrapper(f)
+        return wrapper;
+      }
+    }) as List<ProductWrapper>
+
+    model = new ListModelList<ProductWrapper>(transformed);
 
   }
 
   @Command
-  public void redirectToProductItem(@BindingParam("product") ProductEntity product){
+  public void redirectToProductItem(@BindingParam("product") ProductWrapper product){
     Executions.sendRedirect("/shop/product?product=${product.id}")
   }
 

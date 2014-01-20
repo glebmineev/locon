@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
 <?page zscriptLanguage="GroovyGrails"?>
 
@@ -8,20 +7,11 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <div apply="ru.spb.locon.BindComposer"
-       viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.ProductViewModel')" width="100%">
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.ProductViewModel')"
+       onBookmarkChange="@command('refreshFromBookMark', event=event)" width="100%">
     <!--<style src="/css/ZK.css"/>-->
     <!-- Навигация -->
-    <hbox align="start">
-      <div children="@bind(vm.hrefs)">
-        <template name="children">
-          <a sclass="navigationLink" href="@load(each.href)"
-             label="@load(each.name)" style="font-size: 14pt;"/>
-          <label if="${forEachStatus.index != vm.hrefs.size()-1}"
-                 value="/" style="font-size: 14pt;"/>
-        </template>
-      </div>
 
-    </hbox>
     <hlayout width="100%">
       <div id="imageDiv" width="320px" align="center" sclass="imageBoxAdmin">
         <image id="productImage" style="margin: 10px" onClick="@command('zoomImage')"/>
@@ -38,7 +28,7 @@
           ServerFoldersService serverFoldersService = ApplicationHolder.getApplication().getMainContext().
                                     getBean("serverFoldersService") as ServerFoldersService
 
-          def productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
+          def productId = Executions.getCurrent().getParameter("product") as Long
           ProductEntity product = ProductEntity.get(productId)
           if (product != null) {
               String path = new PathBuilder()
@@ -117,5 +107,13 @@
     <button label="Добавить отзыв" autodisable="true" onClick="@command('addReviews')"/>
 
   </div>
+
+<!--  <script type="text/javascript">
+
+    window.onbeforeunload  = function(e) {
+      alert(window.location.hash)
+    };
+
+  </script>-->
 
 </zk>

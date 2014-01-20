@@ -104,12 +104,12 @@ class UsersViewModel extends DownloadImageViewModel {
         if (!store.exists())
           store.mkdirs()
 
-        File oldPics = new File(new PathBuilder()
-            .appendPath(serverFoldersService.userPics)
-            .appendString(oldEmail)
-            .build())
-        FileUtils.copyDirectory(oldPics, store)
-        imageService.cleanStore(oldPics)
+        //File oldPics = new File(new PathBuilder()
+        //    .appendPath(serverFoldersService.userPics)
+        //    .appendString(oldEmail)
+        //    .build())
+        //FileUtils.copyDirectory(oldPics, store)
+        //imageService.cleanStore(oldPics)
 
         if (uuid != null) {
           File temp = new File(new PathBuilder()

@@ -34,7 +34,6 @@ class ShowcaseBindComposer extends GrailsBindComposer implements IShowcaseCompos
       showcaseService.processEntities(showcaseViewModel.getAllProducts())
     }
     }
-    int r =0
   }
 
   @Override

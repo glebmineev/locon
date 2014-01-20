@@ -7,7 +7,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:h="http://www.w3.org/1999/xhtml"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <div id="catalog" apply="ru.spb.locon.BindComposer"
+  <div id="catalog" apply="ru.spb.locon.BindComposer" onBookmarkChange="@command('back')"
        viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.CatalogNewViewModel')" width="100%">
 
     <!-- Навигация -->
@@ -22,52 +22,9 @@
       </div>
     </hbox>
 
-    <vbox align="center" width="100%" style="border: 1px solid #000000;">
-      <!-- категории -->
-      <!--      <h:div class="categoryList" align="center">
-              <h:h2>Категории</h:h2>
-              <h:ul>
-                <h:li forEach="${vm.categories}">
-                  <div sclass="category" align="center" width="100%">
-                    <label value="${each.name}"/>
-                    <h:br/>
-                    <image width="150px">
-                      <zscript>
-                        <![CDATA[
+    <include if="${not vm.isShowcase}" src="/zul/shop/product.zul"/>
 
-                        import ru.spb.locon.*
-                        import org.codehaus.groovy.grails.commons.ApplicationHolder
-                        import org.zkoss.image.*
-                        import org.zkoss.zk.ui.*
-
-                        def imageService = ApplicationHolder.getApplication().getMainContext().getBean("imageService")
-
-                        AImage img = imageService.getCategoryImage(CategoryEntity.get(each.id))
-                        self.setContent(img)
-
-                        def id = each.id
-
-                        self.addEventListener(Events.ON_CLICK, new EventListener(){
-                          @Override
-                          void onEvent(Event t) {
-
-                            Executions.sendRedirect("/shop/catalog?category=${id}")
-
-                          }
-                        })
-
-                      ]]>
-                      </zscript>
-                    </image>
-                    <div align="left" style="margin-left: 25px">
-                      <vbox forEach="${each.children}" align="start">
-                        <a label="${each.name}" href="/shop/catalog?category=${each.id}"/>
-                      </vbox>
-                    </div>
-                  </div>
-                </h:li>
-              </h:ul>
-            </h:div>-->
+    <vbox align="center" width="100%" style="border: 1px solid #000000;" if="${vm.isShowcase}">
 
       <!-- Категории -->
       <hbox>

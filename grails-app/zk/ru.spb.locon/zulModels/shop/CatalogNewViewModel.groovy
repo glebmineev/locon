@@ -14,7 +14,6 @@ import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.Page
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zkplus.databind.BindingListModelList
-import org.zkoss.zul.Div
 import org.zkoss.zul.Include
 import org.zkoss.zul.ListModelList
 import org.zkoss.zul.Textbox
@@ -47,25 +46,31 @@ class CatalogNewViewModel {
   InitService initService = ApplicationHolder.getApplication().getMainContext().getBean("initService") as InitService
 
   Long categoryID
-  int currentIndex;
   //Показать товары и фильтры.
   boolean showCatalog;
+
+  boolean isShowcase = false
 
   @Init
   public void init() {
     categoryID = Executions.getCurrent().getParameter("category") as Long
-    initModels()
+    Long productId = Executions.getCurrent().getParameter("product") as Long
+    if (categoryID != null)
+      initModels()
+    if (productId != null)
+      buildProductNavPath(productId)
   }
 
   @NotifyChange(["showCatalog"])
   public void initModels(){
+    isShowcase = true
     categories.clear()
     CategoryEntity category = CategoryEntity.get(categoryID)
     showCatalog = category.getParentCategory() != null
     category.listCategory.each { it ->
       fillModel(it)
     }
-    rebuildNaviPath(categoryID)
+    rebuildCategoryNavPath(categoryID)
 
     if (showCatalog)
       allProducts = collectAllProducts(category, Lists.newArrayList())
@@ -220,7 +225,7 @@ class CatalogNewViewModel {
    * Формирование навигации.
    * @param categoryID - текущщая категория.
    */
-  void rebuildNaviPath(Long categoryID) {
+  void rebuildCategoryNavPath(Long categoryID) {
     List<CategoryEntity> categories = CategoryPathHandler.getCategoryPath(CategoryEntity.get(categoryID))
     links.clear()
     categories.each { it ->
@@ -228,9 +233,15 @@ class CatalogNewViewModel {
     }
   }
 
+  public void buildProductNavPath(Long productID) {
+    ProductEntity product = ProductEntity.get(productID)
+    rebuildCategoryNavPath(product.getCategory().id)
+    links.add(new HrefWrapper(product.name, "/shop/catalog?product=${product.id}"))
+  }
+
   @Command
-  public void longProcess(@BindingParam("catalog") Div catalog) {
-    int r = 0
+  public void back(){
+    Executions.sendRedirect("/shop/catalog/category?category=${categoryID}")
   }
 
 }

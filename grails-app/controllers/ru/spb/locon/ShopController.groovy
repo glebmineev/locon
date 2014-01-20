@@ -1,5 +1,7 @@
 package ru.spb.locon
 
+import org.zkoss.zk.ui.sys.Attributes
+
 class ShopController {
 
   def initService

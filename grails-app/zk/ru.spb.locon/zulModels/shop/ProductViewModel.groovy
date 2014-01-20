@@ -3,10 +3,12 @@ package ru.spb.locon.zulModels.shop
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.*
 import org.zkoss.bind.BindUtils
+import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.Init
 import org.zkoss.image.AImage
 import org.zkoss.zk.ui.Executions
+import org.zkoss.zk.ui.event.Event
 import org.zkoss.zk.ui.sys.ExecutionsCtrl
 import org.zkoss.zul.Window
 import ru.spb.locon.*
@@ -24,7 +26,6 @@ class ProductViewModel {
   static Logger log = LoggerFactory.getLogger(ProductViewModel.class)
 
   Long productId
-  List<HrefWrapper> hrefs
   List<ReviewsEntity> reviews
 
   ProductWrapper model
@@ -36,26 +37,17 @@ class ProductViewModel {
 
   @Init
   public void init() {
-    hrefs = new LinkedList<HrefWrapper>()
-    productId = Long.parseLong(Executions.getCurrent().getParameter("product"))
-    buildNavPath()
-    initGrid()
-    initReviews()
+    productId = Executions.getCurrent().getParameter("product") as Long
+    if (productId != null) {
+      initGrid()
+      initReviews()
+    }
+
   }
 
   public void initGrid() {
     model = new ProductWrapper(ProductEntity.get(productId))
     cartService.initAsCartItem(model)
-  }
-
-  public void buildNavPath() {
-    ProductEntity product = ProductEntity.get(productId)
-    CategoryEntity category = CategoryEntity.get(product.getCategory().id)
-    List<CategoryEntity> categories = CategoryPathHandler.getCategoryPath(category)
-    categories.each { it ->
-      hrefs.add(new HrefWrapper(it.name, "/shop/catalog?category=${it.id}"))
-    }
-    hrefs.add(new HrefWrapper(product.name, "/shop/product?product=${product.id}"))
   }
 
   public void initReviews() {
@@ -109,6 +101,11 @@ class ProductViewModel {
     wnd.doModal()
     wnd.setVisible(true)*/
 
+  }
+
+  @Command
+  public void refreshFromBookMark(@BindingParam("event") Event event){
+    int r = 0
   }
 
 }

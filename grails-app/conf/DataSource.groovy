@@ -9,9 +9,9 @@ environments {
         dataSource {
             pooled = true
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:postgresql://localhost:5432/locon"
-            /*url = "jdbc:postgresql://postgres-soisbelle.jelastic.regruhosting.ru:5432/locon"*/
-            username = "locon"
+            url = "jdbc:postgresql://localhost:5432/soisbelle"
+            /*url = "jdbc:postgresql://postgres-soisbelle.j.rsnx.ru:5432/soisbelle"*/
+            username = "soisbelle"
             password = "Password1"
             driverClassName = "org.postgresql.Driver"
             dialect = "org.hibernate.dialect.PostgreSQLDialect"
@@ -21,9 +21,9 @@ environments {
         dataSource {
           pooled = true
           dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-          url = "jdbc:postgresql://localhost:5432/locon"
-          /*url = "jdbc:postgresql://postgres-soisbelle.jelastic.regruhosting.ru:5432/locon"*/
-          username = "locon"
+          url = "jdbc:postgresql://localhost:5432/soisbelle"
+          /*url = "jdbc:postgresql://postgres-soisbelle.j.rsnx.ru:5432/soisbelle"*/
+          username = "soisbelle"
           password = "Password1"
           driverClassName = "org.postgresql.Driver"
           dialect = "org.hibernate.dialect.PostgreSQLDialect"
@@ -33,9 +33,9 @@ environments {
         dataSource {
           pooled = true
           dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-          url = "jdbc:postgresql://localhost:5432/locon"
-          /*url = "jdbc:postgresql://postgres-soisbelle.jelastic.regruhosting.ru:5432/locon"*/
-          username = "locon"
+          url = "jdbc:postgresql://localhost:5432/soisbelle"
+          /*url = "jdbc:postgresql://postgres-soisbelle.j.rsnx.ru:5432/soisbelle"*/
+          username = "soisbelle"
           password = "Password1"
           driverClassName = "org.postgresql.Driver"
           dialect = "org.hibernate.dialect.PostgreSQLDialect"
