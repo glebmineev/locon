@@ -1,4 +1,4 @@
-package ru.spb.locon.zulModels.shop
+package ru.spb.locon.zulModels.components
 
 import com.google.common.base.Function
 import com.google.common.collect.Collections2
@@ -6,12 +6,10 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zkoss.bind.BindUtils
-import org.zkoss.bind.annotation.AfterCompose
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
 import org.zkoss.bind.annotation.ContextParam
 import org.zkoss.bind.annotation.ContextType
-import org.zkoss.bind.annotation.DefaultGlobalCommand
 import org.zkoss.bind.annotation.ExecutionArgParam
 import org.zkoss.bind.annotation.GlobalCommand
 import org.zkoss.bind.annotation.Init
@@ -28,6 +26,7 @@ import org.zkoss.zul.Image
 import org.zkoss.zul.Include
 import org.zkoss.zul.Label
 import org.zkoss.zul.ListModelList
+import org.zkoss.zul.Vbox
 import ru.spb.locon.CartService
 import ru.spb.locon.FilterEntity
 import ru.spb.locon.ImageService
@@ -136,22 +135,6 @@ class ShowcaseViewModel {
     }) as List<ProductWrapper>
   }
 
-  /**
-   * Добавление в корзину.
-   * @param wrapper
-   */
-  @Command
-  public void toCart(@BindingParam("wrapper") ProductWrapper wrapper) {
-    cartService.addToCart(ProductEntity.get(wrapper.getId()))
-    wrapper.setInCart(true)
-    refreshRowTemplate(wrapper)
-  }
-
-  @Command
-  public void refreshRowTemplate(ProductWrapper wrapper) {
-    BindUtils.postNotifyChange("showcasequeue", EventQueues.DESKTOP, wrapper, "inCart");
-  }
-
   @Command
   public void applyRowTemplate(@ContextParam(ContextType.TRIGGER_EVENT) Event event) {
     Include include = event.getTarget().getSpaceOwner() as Include
@@ -178,7 +161,6 @@ class ShowcaseViewModel {
     addRows(root)
   }
 
-  //TODO:: доделать верстку ячейки товара.
   public void addRows(Ul parent) {
     int nextIndex = currentIndex + showToPage
     int allProductsSize = allProducts.size()
@@ -194,49 +176,19 @@ class ShowcaseViewModel {
 
     subList.each { it ->
       Li li = new Li()
-      Div div = new Div()
-      Div imageDiv = new Div()
-      imageDiv.setAlign("center")
-
-      Image img = new Image()
-      img.setSclass("productImage")
-
-      String path = new PathBuilder()
-          .appendPath(serverFoldersService.productImages)
-          .appendString(ProductEntity.get(it.id).engImagePath)
-          .build()
-      String std_name = STD_FILE_NAMES.PRODUCT_NAME.getName()
-      int std_size = STD_IMAGE_SIZES.SMALL.getSize()
-
-      AImage aImage = imageService.getImageFile(path, std_name, std_size)
-      img.setContent(aImage)
-
-      img.addEventListener(Events.ON_CLICK, new org.zkoss.zk.ui.event.EventListener() {
-        @Override
-        void onEvent(Event t) {
-          Executions.sendRedirect("/shop/product?product=${it.id}")
-        }
-      })
-
-      Label label = new Label(it.getName())
-
-      imageDiv.appendChild(img)
-      div.appendChild(label)
-
-      div.appendChild(imageDiv)
-      li.appendChild(div)
-
-
+      Map<Object, Object> params = new HashMap<Object, Object>()
+      params.put("productWrapper", it)
+      Include productCell = new Include()
+      productCell.setWidth("200px")
+      productCell.setHeight("350px")
+      productCell.setSrc("/zul/components/showcaseItem.zul")
+      productCell.setDynamicProperty("productWrapper", it)
+      li.appendChild(productCell)
       parent.appendChild(li)
-
     }
 
   }
 
-  @Command
-  public void goToProduct(@BindingParam("item") ProductWrapper wrapper){
-    Executions.getCurrent().getDesktop().setBookmark("catalog")
-    Executions.sendRedirect("/shop/catalog?product=${wrapper.id}")
-  }
+
 
 }

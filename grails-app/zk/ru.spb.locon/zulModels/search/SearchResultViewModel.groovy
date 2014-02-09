@@ -1,10 +1,13 @@
 package ru.spb.locon.zulModels.search
 
 import com.google.common.base.Function
+import com.google.common.base.Strings
 import com.google.common.collect.Collections2
 import org.zkoss.bind.annotation.BindingParam
 import org.zkoss.bind.annotation.Command
+import org.zkoss.bind.annotation.GlobalCommand
 import org.zkoss.bind.annotation.Init
+import org.zkoss.bind.annotation.NotifyChange
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zul.ListModelList
 import ru.spb.locon.ProductEntity
@@ -21,25 +24,34 @@ class SearchResultViewModel {
 
   ListModelList<ProductWrapper> model
 
+  List<ProductEntity> matchedProduct = new ArrayList<ProductEntity>()
+
   @Init
   public void init(){
     String keyword = Executions.getCurrent().getParameter("keyword")
-
+    if (Strings.isNullOrEmpty(keyword))
+      return
     List<ProductEntity> list = ProductEntity.createCriteria().list {
       ilike("name", "%${keyword}%")
       ilike("description", "%${keyword}%")
       //sqlRestriction("product_name like '%${keyword}%' or product_description like '%${keyword}%' or product_usage like '%${keyword}%'")
     }
-
-    Collection<ProductWrapper> transformed = Collections2.transform(list, new Function<ProductEntity, ProductWrapper>() {
+    matchedProduct.addAll(list)
+/*    Collection<ProductWrapper> transformed = Collections2.transform(list, new Function<ProductEntity, ProductWrapper>() {
       @Override
       ProductWrapper apply(ProductEntity f) {
         ProductWrapper wrapper = new ProductWrapper(f)
         return wrapper;
       }
-    }) as List<ProductWrapper>
+    }) as List<ProductWrapper>*/
 
-    model = new ListModelList<ProductWrapper>(transformed);
+    model = new ListModelList<ProductWrapper>();
+
+  }
+
+  @GlobalCommand
+  @NotifyChange(["products", "isBusy"])
+  public void refreshSearchResults(@BindingParam("data") List<ProductWrapper> data){
 
   }
 

@@ -7,18 +7,19 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
   <div apply="ru.spb.locon.BindComposer, ru.spb.locon.ShowcaseBindComposer" binder="@init(queueName='showcasequeue')"
-       viewModel="@id('vm') @init('ru.spb.locon.zulModels.shop.ShowcaseViewModel')">
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.components.ShowcaseViewModel')">
     <div sclass="products-cell-template">
       <!-- панель изменения отображения витрины -->
       <div visible="@load(vm.isChangeShow)">
-        <button label="rows" onClick="@command('applyRowTemplate')"/>
-        <button label="cells" onClick="@command('applyCellTemplate')"/>
+        <button image="/images/rows.png" onClick="@command('applyRowTemplate')"/>
+        <button image="/images/cells.png" onClick="@command('applyCellTemplate')"/>
       </div>
       <!-- витрина товаров -->
       <h:ul id="products" children="@bind(vm.products)">
         <template name="children">
           <h:li>
-            <div>
+            <include src="/zul/components/showcaseItem.zul" productWrapper="${each}" width="200px" height="350px"/>
+<!--            <div>
               <div align="center">
                 <image sclass="productImage" content="${each.image}" onClick="@command('goToProduct', item=each)"/>
               </div>
@@ -40,14 +41,13 @@
                   <label visible="@load(each.inCart)" value="Уже в корзине"/>
                 </div>
               </vbox>
-            </div>
+            </div>-->
           </h:li>
         </template>
       </h:ul>
       <window mode="highlighted" position="center" closable="false" visible="@load(vm.isBusy)">
         <vbox>
-          <label value="Здесь может быть ваша реклама..."/>
-          <image src="/images/longProgress.gif"/>
+          <image src="/images/ajax-loader.gif"/>
         </vbox>
       </window>
     </div>

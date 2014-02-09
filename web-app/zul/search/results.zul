@@ -8,13 +8,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 
-  <div apply="ru.spb.locon.BindComposer"
-          viewModel="@id('vm') @init('ru.spb.locon.zulModels.search.SearchResultViewModel')" width="100%">
+  <div id="searchResults" apply="ru.spb.locon.BindComposer"
+          viewModel="@id('vm') @init('ru.spb.locon.zulModels.search.SearchResultViewModel')" width="100%" height="400px">
 
     <!--<style src="/css/ZK.css"/>-->
 
-
-    <grid width="100%" mold="paging" model="@load(vm.model)"
+    <include id="showcase"
+             src="/zul/shop/showcase.zul" allProducts="${vm.matchedProduct}" isChangeShow="true" showAppendBtn="true"/>
+<!--    <grid width="100%" mold="paging" model="@load(vm.model)"
              pageSize="10" emptyMessage="По запросу не найдено">
       <columns>
         <column/>
@@ -68,7 +69,7 @@
           </cell>
         </row>
       </template>
-    </grid>
+    </grid>-->
     <!--<style>
 
       .imageBox{
@@ -98,6 +99,12 @@
         </h:td>
       </h:tr>
     </h:table>-->
+<!--    <window mode="highlighted" position="center" closable="false" visible="@load(vm.isBusy)">
+      <vbox>
+        <label value="Здесь может быть ваша реклама..."/>
+        <image src="/images/longProgress.gif"/>
+      </vbox>
+    </window>-->
   </div>
 
 </zk>

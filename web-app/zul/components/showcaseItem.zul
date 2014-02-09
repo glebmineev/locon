@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="ru.spb.locon.window.ProjectVariableResolver"?>
+<?page zscriptLanguage="GroovyGrails"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <div apply="ru.spb.locon.BindComposer"
+       viewModel="@id('vm') @init('ru.spb.locon.zulModels.components.ShowcaseItemModel')">
+    <div align="center">
+      <image sclass="productImage" content="@bind(vm.productWrapper.image)" onClick="@command('goToProduct')"/>
+    </div>
+    <vbox>
+      <div height="20px">
+        <label style="color: green;" value="@bind(vm.productWrapper.manufacturer)"/>
+      </div>
+      <div align="left" height="80px">
+        <label style="font-weight: bold" value="@bind(vm.productWrapper.name)"/>
+      </div>
+      <div align="left" height="20px">
+        <label style="font-weight: bold; font-size: 16pt" value="Цена: "/>
+        <label style="font-weight: bold; font-size: 16pt" value="@bind(vm.productWrapper.price)"/>
+        <label style="font-weight: bold; font-size: 16pt" value=" руб."/>
+      </div>
+      <div align="center" width="100%" style="margin-bottom: 5px;">
+        <button visible="@bind(not vm.inCart)" label="В корзину"
+                onClick="@command('toCart')"/>
+        <label visible="@bind(vm.inCart)" value="Уже в корзине"/>
+      </div>
+    </vbox>
+  </div>
+
+</zk>

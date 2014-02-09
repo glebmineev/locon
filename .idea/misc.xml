@@ -3,13 +3,9 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
-  <component name="IdProvider" IDEtalkID="B89FC901F98547430204E3D048C05291" />
-  <component name="ProjectResources">
-    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
-  </component>
+  <component name="IdProvider" IDEtalkID="CDD846822468FDFE4266F8CC579070D7" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
-  <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>
 

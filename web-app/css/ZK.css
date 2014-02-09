@@ -154,7 +154,7 @@ div.products-row-template > ul > li > div {
 }
 
 div.products-cell-template {
-  width: 650px;
+  /*width: 650px;*/
   margin-left: 25px;
 }
 

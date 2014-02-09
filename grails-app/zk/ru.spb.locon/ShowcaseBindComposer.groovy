@@ -10,7 +10,7 @@ import org.zkoss.zk.ui.Desktop
 import org.zkoss.zk.ui.Executions
 import org.zkoss.zk.ui.event.EventQueues
 import ru.spb.locon.wrappers.ProductWrapper
-import ru.spb.locon.zulModels.shop.ShowcaseViewModel
+import ru.spb.locon.zulModels.components.ShowcaseViewModel
 
 class ShowcaseBindComposer extends GrailsBindComposer implements IShowcaseComposer {
 
