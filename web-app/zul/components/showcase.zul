@@ -19,29 +19,6 @@
         <template name="children">
           <h:li>
             <include src="/zul/components/showcaseItem.zul" productWrapper="${each}" width="200px" height="350px"/>
-<!--            <div>
-              <div align="center">
-                <image sclass="productImage" content="${each.image}" onClick="@command('goToProduct', item=each)"/>
-              </div>
-              <vbox>
-                <div height="20px">
-                  <label style="color: green;" value="${each.manufacturer}"/>
-                </div>
-                <div align="left" height="80px">
-                  <label style="font-weight: bold" value="${each.name}"/>
-                </div>
-                <div align="left" height="20px">
-                  <label style="font-weight: bold; font-size: 16pt" value="Цена: "/>
-                  <label style="font-weight: bold; font-size: 16pt" value="${each.price}"/>
-                  <label style="font-weight: bold; font-size: 16pt" value=" руб."/>
-                </div>
-                <div align="center" width="100%" style="margin-bottom: 5px;">
-                  <button visible="@load(not each.inCart)" label="В корзину"
-                          onClick="@command('toCart', wrapper=each)"/>
-                  <label visible="@load(each.inCart)" value="Уже в корзине"/>
-                </div>
-              </vbox>
-            </div>-->
           </h:li>
         </template>
       </h:ul>
